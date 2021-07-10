@@ -15,6 +15,7 @@ describe('shallowEqual helper', () => {
       shallowEqual(fakeObject1, fakeObject2)
     ).toBeFalsy()
   })
+
   it('should return false if objects keys and values are different and same keys lenght', () => {
     const fakeObject1 = {
       name: 'john',
@@ -23,6 +24,20 @@ describe('shallowEqual helper', () => {
     const fakeObject2 = {
       name: 'john',
       lastName: 'notdoe'
+    }
+    expect(
+      shallowEqual(fakeObject1, fakeObject2)
+    ).toBeFalsy()
+  })
+
+  it('should return false if different keys and same values', () => {
+    const fakeObject1 = {
+      name: 'john',
+      lastName: 'doe'
+    }
+    const fakeObject2 = {
+      name: 'john',
+      last: 'doe'
     }
     expect(
       shallowEqual(fakeObject1, fakeObject2)
