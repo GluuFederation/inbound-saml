@@ -2,7 +2,7 @@
 interface comparableObject {
   [index: string]: any
 }
-export function shallowEqual (objectOne: comparableObject, objectTwo: comparableObject): boolean {
+export function deeplyEqual (objectOne: comparableObject, objectTwo: comparableObject): boolean {
   const objectOneKeys = Object.keys(objectOne)
   const objectTwoKeys = Object.keys(objectTwo)
 
@@ -14,7 +14,7 @@ export function shallowEqual (objectOne: comparableObject, objectTwo: comparable
     const valueTwo = objectTwo[key]
     const areObjects = isObject(valueOne) && isObject(valueTwo)
     if (
-      areObjects && !shallowEqual(valueOne, valueTwo) ||
+      areObjects && !deeplyEqual(valueOne, valueTwo) ||
       !areObjects && valueOne !== valueTwo
     ) {
       return false

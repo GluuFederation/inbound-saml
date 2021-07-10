@@ -1,6 +1,6 @@
-import { shallowEqual } from './shallowEqual'
+import { deeplyEqual } from './deeplyEqual'
 
-describe('shallowEqual helper', () => {
+describe('deeplyEqual helper', () => {
   it('should return false if objects keys lenght are different', () => {
     const fakeObject1 = {
       name: 'john',
@@ -12,7 +12,7 @@ describe('shallowEqual helper', () => {
       age: 25
     }
     expect(
-      shallowEqual(fakeObject1, fakeObject2)
+      deeplyEqual(fakeObject1, fakeObject2)
     ).toBeFalsy()
   })
 
@@ -26,7 +26,7 @@ describe('shallowEqual helper', () => {
       lastName: 'notdoe'
     }
     expect(
-      shallowEqual(fakeObject1, fakeObject2)
+      deeplyEqual(fakeObject1, fakeObject2)
     ).toBeFalsy()
   })
 
@@ -40,7 +40,7 @@ describe('shallowEqual helper', () => {
       last: 'doe'
     }
     expect(
-      shallowEqual(fakeObject1, fakeObject2)
+      deeplyEqual(fakeObject1, fakeObject2)
     ).toBeFalsy()
   })
 
@@ -54,7 +54,7 @@ describe('shallowEqual helper', () => {
       lastName: 'doe'
     }
     expect(
-      shallowEqual(fakeObject1, fakeObject2)
+      deeplyEqual(fakeObject1, fakeObject2)
     ).toBeTruthy()
   })
   it('should return true if same nested keys and values', () => {
@@ -69,7 +69,7 @@ describe('shallowEqual helper', () => {
       childs: ['hans', 'joao']
     }
     expect(
-      shallowEqual(fakeObject1, fakeObject2)
+      deeplyEqual(fakeObject1, fakeObject2)
     ).toBeTruthy()
   })
 })
