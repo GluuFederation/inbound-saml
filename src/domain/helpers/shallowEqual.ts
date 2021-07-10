@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-operators */
 interface comparableObject {
   [index: string]: any
 }
@@ -9,9 +10,19 @@ export function shallowEqual (objectOne: comparableObject, objectTwo: comparable
     return false
   }
   for (const key of objectOneKeys) {
-    if (objectOne[key] !== objectTwo[key]) {
+    const valueOne = objectOne[key]
+    const valueTwo = objectTwo[key]
+    const areObjects = isObject(valueOne) && isObject(valueTwo)
+    if (
+      areObjects && !shallowEqual(valueOne, valueTwo) ||
+      !areObjects && valueOne !== valueTwo
+    ) {
       return false
     }
   }
   return true
+}
+
+function isObject (object: object): boolean {
+  return object != null && typeof object === 'object'
 }

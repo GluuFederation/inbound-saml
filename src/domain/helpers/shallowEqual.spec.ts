@@ -57,4 +57,19 @@ describe('shallowEqual helper', () => {
       shallowEqual(fakeObject1, fakeObject2)
     ).toBeTruthy()
   })
+  it('should return true if same nested keys and values', () => {
+    const fakeObject1 = {
+      name: 'john',
+      lastName: 'doe',
+      childs: ['hans', 'joao']
+    }
+    const fakeObject2 = {
+      name: 'john',
+      lastName: 'doe',
+      childs: ['hans', 'joao']
+    }
+    expect(
+      shallowEqual(fakeObject1, fakeObject2)
+    ).toBeTruthy()
+  })
 })
