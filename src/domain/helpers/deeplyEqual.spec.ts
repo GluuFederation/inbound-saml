@@ -57,19 +57,59 @@ describe('deeplyEqual helper', () => {
       deeplyEqual(fakeObject1, fakeObject2)
     ).toBeTruthy()
   })
+
   it('should return true if same nested keys and values', () => {
     const fakeObject1 = {
       name: 'john',
       lastName: 'doe',
-      childs: ['hans', 'joao']
+      childs: [{
+        name: 'joseph',
+        lastName: 'doe'
+      }, {
+        name: 'johan',
+        lastName: 'doe'
+      }]
     }
     const fakeObject2 = {
       name: 'john',
       lastName: 'doe',
-      childs: ['hans', 'joao']
+      childs: [{
+        name: 'joseph',
+        lastName: 'doe'
+      }, {
+        name: 'johan',
+        lastName: 'doe'
+      }]
     }
     expect(
       deeplyEqual(fakeObject1, fakeObject2)
     ).toBeTruthy()
+  })
+  it('should return false if different nested keys and values', () => {
+    const fakeObject1 = {
+      name: 'john',
+      lastName: 'doe',
+      childs: [{
+        name: 'joseph',
+        lastName: 'doe'
+      }, {
+        name: 'johan',
+        lastName: 'doe'
+      }]
+    }
+    const fakeObject2 = {
+      name: 'john',
+      lastName: 'doe',
+      childs: [{
+        name: 'joseph',
+        lastName: 'doe'
+      }, {
+        name: 'notJohan',
+        lastName: 'doe'
+      }]
+    }
+    expect(
+      deeplyEqual(fakeObject1, fakeObject2)
+    ).toBeFalsy()
   })
 })
