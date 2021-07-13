@@ -1,4 +1,5 @@
 import { IProvider } from '../../entities/protocols/IProvider'
+import { IValidator } from '../../protocols/IValidator'
 import { ValueObject } from './ValueObject'
 
 export interface IIdpMetadata {
@@ -8,8 +9,16 @@ export interface IIdpMetadata {
 }
 
 export abstract class BaseIdpMetadata extends ValueObject<IIdpMetadata> {
-  constructor (props: IIdpMetadata) {
+  readonly urlOrPathValidator
+  constructor (
+    props: IIdpMetadata,
+    urlOrPathValidator: IValidator
+  ) {
     super(props)
+    this.urlOrPathValidator = urlOrPathValidator
+    if (!urlOrPathValidator.isValid(props.urlOrPath)) {
+      throw new Error()
+    }
     this.load()
   }
 
