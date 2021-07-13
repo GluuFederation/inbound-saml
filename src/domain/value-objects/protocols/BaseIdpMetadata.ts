@@ -1,4 +1,5 @@
 import { IProvider } from '../../entities/protocols/IProvider'
+import { InvalidPathOrUrlError } from '../../errors/InvalidPathOrUrlError'
 import { IValidator } from '../../protocols/IValidator'
 import { ValueObject } from './ValueObject'
 
@@ -17,7 +18,7 @@ export abstract class BaseIdpMetadata extends ValueObject<IIdpMetadata> {
     super(props)
     this.urlOrPathValidator = urlOrPathValidator
     if (!urlOrPathValidator.isValid(props.urlOrPath)) {
-      throw new Error()
+      throw new InvalidPathOrUrlError(props.urlOrPath)
     }
     this.load()
   }

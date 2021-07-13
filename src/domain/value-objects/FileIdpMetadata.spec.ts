@@ -1,5 +1,6 @@
 // import { readFileSync } from 'fs'
 // import { parseString } from 'xml2js'
+import { InvalidPathOrUrlError } from '../errors/InvalidPathOrUrlError'
 import { FileIdpMetadata } from './FileIdpMetadata'
 import { IIdpMetadata } from './protocols/BaseIdpMetadata'
 import { IFileValidator } from './protocols/IFileValidator'
@@ -41,9 +42,14 @@ describe('FileIdpMetadata', () => {
   })
 
   it('should throw if invalid file path', () => {
-    // jest.spyOn(IFileValidator.prototype, 'isValid').mockReturnValueOnce(false)
     expect(() => {
       makeSut(false)
     }).toThrow()
+  })
+
+  it('should throw InvalidPathOrUrlError if invalid file path', () => {
+    expect(() => {
+      makeSut(false)
+    }).toThrow(InvalidPathOrUrlError)
   })
 })
