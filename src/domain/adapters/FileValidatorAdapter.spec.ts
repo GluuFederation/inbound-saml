@@ -21,4 +21,12 @@ describe('FileValidatorAdapter', () => {
     const sut = new FileValidatorAdapter()
     expect(sut.isValid(validPath)).toBeFalsy()
   })
+  it('should throw if existsSync throws', () => {
+    const throwError = (): never => {
+      throw new Error()
+    }
+    jest.spyOn(fs, 'existsSync').mockImplementationOnce(throwError)
+    const sut = new FileValidatorAdapter()
+    expect(() => { sut.isValid(validPath) }).toThrow()
+  })
 })
