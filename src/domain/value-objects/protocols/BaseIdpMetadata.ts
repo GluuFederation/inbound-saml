@@ -1,6 +1,7 @@
 import { IProvider } from '../../entities/protocols/IProvider'
 import { InvalidPathOrUrlError } from '../../errors/InvalidPathOrUrlError'
 import { IValidator } from '../../protocols/IValidator'
+import { IMetadataLoadService } from '../../services/protocols/IMetadataLoadService'
 import { ValueObject } from './ValueObject'
 
 export interface IIdpMetadata {
@@ -10,13 +11,17 @@ export interface IIdpMetadata {
 }
 
 export abstract class BaseIdpMetadata extends ValueObject<IIdpMetadata> {
-  readonly urlOrPathValidator
+  private readonly urlOrPathValidator
+  private readonly loadService
   constructor (
     props: IIdpMetadata,
-    urlOrPathValidator: IValidator
+    urlOrPathValidator: IValidator,
+    loadService: IMetadataLoadService
   ) {
     super(props)
     this.urlOrPathValidator = urlOrPathValidator
+    this.loadService = loadService
+
     if (!urlOrPathValidator.isValid(props.urlOrPath)) {
       throw new InvalidPathOrUrlError(props.urlOrPath)
     }
@@ -27,5 +32,7 @@ export abstract class BaseIdpMetadata extends ValueObject<IIdpMetadata> {
      * load or fetch metadata
      * @abstract
      */
-  abstract load (): void
+  load (): void {
+    this.loadService.load()
+  }
 }

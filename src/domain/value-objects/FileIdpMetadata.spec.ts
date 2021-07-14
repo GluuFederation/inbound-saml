@@ -1,11 +1,16 @@
 // import { readFileSync } from 'fs'
 // import { parseString } from 'xml2js'
+import { readFileSync } from 'fs'
 import { InvalidPathOrUrlError } from '../errors/InvalidPathOrUrlError'
+import { makeFileLoaderAdapter } from '../factories/makeFileLoaderAdapter'
+import { IMetadataLoadService } from '../services/protocols/IMetadataLoadService'
 import { FileIdpMetadata } from './FileIdpMetadata'
 import { IIdpMetadata } from './protocols/BaseIdpMetadata'
 import { IFileValidator } from './protocols/IFileValidator'
+import { IMetadataLoader } from './protocols/IMetadataLoader'
 
 const validFilePath = process.cwd() + '/src/testdata/shibIdpMetadata.xml'
+const validMetadataString = readFileSync(validFilePath).toString()
 
 const makeFileValidator = (returnValue: boolean): IFileValidator => {
   class FileValidatorStub extends IFileValidator {
@@ -16,9 +21,33 @@ const makeFileValidator = (returnValue: boolean): IFileValidator => {
   return new FileValidatorStub()
 }
 
+const makeMetadataLoadService = (): IMetadataLoadService => {
+  const fileLoaderAdapter = makeFileLoaderAdapter()
+  class MetadataLoadServiceStub implements IMetadataLoadService {
+    readonly urlOrPath
+    readonly loader
+    constructor (
+      urlOrPath: string,
+      loader: IMetadataLoader
+    ) {
+      this.urlOrPath = urlOrPath
+      this.loader = loader
+    }
+
+    load (): string {
+      return validMetadataString
+    }
+  }
+  return new MetadataLoadServiceStub(
+    validFilePath,
+    fileLoaderAdapter
+  )
+}
+
 interface SutTypes {
   sut: FileIdpMetadata
   fileValidatorStub: IFileValidator
+  metadataLoadServiceStub: IMetadataLoadService
 }
 
 const makeSut = (validatorReturnValue: boolean): SutTypes => {
@@ -27,10 +56,13 @@ const makeSut = (validatorReturnValue: boolean): SutTypes => {
     urlOrPath: validFilePath
   }
   const fileValidatorStub = makeFileValidator(validatorReturnValue)
-  const sut = new FileIdpMetadata(fakeIIdpMetadataProps, fileValidatorStub)
+  const metadataLoadServiceStub = makeMetadataLoadService()
+  const sut = new FileIdpMetadata(
+    fakeIIdpMetadataProps, fileValidatorStub, metadataLoadServiceStub)
   return {
     sut,
-    fileValidatorStub
+    fileValidatorStub,
+    metadataLoadServiceStub
   }
 }
 
