@@ -11,4 +11,14 @@ describe('FileValidatorAdapter', () => {
     expect(existsSyncSpy).toBeCalledTimes(1)
     expect(existsSyncSpy).toBeCalledWith(validPath)
   })
+  it('should return true if existsSync returns true', () => {
+    jest.spyOn(fs, 'existsSync').mockReturnValueOnce(true)
+    const sut = new FileValidatorAdapter()
+    expect(sut.isValid(validPath)).toBeTruthy()
+  })
+  it('should return false if existsSync returns false', () => {
+    jest.spyOn(fs, 'existsSync').mockReturnValueOnce(false)
+    const sut = new FileValidatorAdapter()
+    expect(sut.isValid(validPath)).toBeFalsy()
+  })
 })
