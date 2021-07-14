@@ -6,14 +6,14 @@ import { makeFileLoaderAdapter } from '../factories/makeFileLoaderAdapter'
 import { IMetadataLoadService } from '../services/protocols/IMetadataLoadService'
 import { FileIdpMetadata } from './FileIdpMetadata'
 import { IIdpMetadata } from './protocols/BaseIdpMetadata'
-import { IFileValidator } from './protocols/IFileValidator'
+import { BaseFileValidator } from '../protocols/BaseFileValidator'
 import { IMetadataLoader } from './protocols/IMetadataLoader'
 
 const validFilePath = process.cwd() + '/src/testdata/shibIdpMetadata.xml'
 const validMetadataString = readFileSync(validFilePath).toString()
 
-const makeFileValidator = (returnValue: boolean): IFileValidator => {
-  class FileValidatorStub extends IFileValidator {
+const makeFileValidator = (returnValue: boolean): BaseFileValidator => {
+  class FileValidatorStub extends BaseFileValidator {
     isValid (filepath: string): boolean {
       return returnValue
     }
@@ -46,7 +46,7 @@ const makeMetadataLoadService = (): IMetadataLoadService => {
 
 interface SutTypes {
   sut: FileIdpMetadata
-  fileValidatorStub: IFileValidator
+  fileValidatorStub: BaseFileValidator
   metadataLoadServiceStub: IMetadataLoadService
 }
 
