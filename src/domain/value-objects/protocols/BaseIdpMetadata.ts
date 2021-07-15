@@ -7,7 +7,7 @@ import { ValueObject } from './ValueObject'
 export interface IIdpMetadata {
   source: 'file' | 'url'
   urlOrPath: string
-  data?: IProvider // criar outro valueObject
+  data?: string // criar outro valueObject
 }
 
 export abstract class BaseIdpMetadata extends ValueObject<IIdpMetadata> {
@@ -33,6 +33,6 @@ export abstract class BaseIdpMetadata extends ValueObject<IIdpMetadata> {
      * @abstract
      */
   load (): void {
-    this.loadService.load()
+    this.props.data = this.loadService.load()
   }
 }

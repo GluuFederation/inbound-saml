@@ -84,4 +84,9 @@ describe('FileIdpMetadata', () => {
       makeSut(false)
     }).toThrow(InvalidPathOrUrlError)
   })
+
+  it('props.data should contain Metadata', () => {
+    const { sut } = makeSut(true)
+    expect(sut.props.data).toEqual(validMetadataString)
+  })
 })
