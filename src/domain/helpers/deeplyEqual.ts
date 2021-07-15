@@ -1,5 +1,5 @@
 /* eslint-disable no-mixed-operators */
-interface comparableObject {
+export interface comparableObject {
   [index: string]: any
 }
 export function deeplyEqual (objectOne: comparableObject, objectTwo: comparableObject): boolean {
