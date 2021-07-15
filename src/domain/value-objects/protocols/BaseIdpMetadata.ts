@@ -1,4 +1,3 @@
-import { IProvider } from '../../entities/protocols/IProvider'
 import { InvalidPathOrUrlError } from '../../errors/InvalidPathOrUrlError'
 import { IValidator } from '../../protocols/IValidator'
 import { IMetadataLoadService } from '../../services/protocols/IMetadataLoadService'
