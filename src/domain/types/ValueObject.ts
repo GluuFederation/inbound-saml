@@ -1,4 +1,4 @@
-import { deeplyEqual } from '../../helpers/deeplyEqual'
+import { deeplyEqual } from '../helpers/deeplyEqual'
 
 export interface ValueObjectProps {
   [index: string]: any
@@ -8,7 +8,7 @@ export abstract class ValueObject<T extends ValueObjectProps> {
   public readonly props: T
 
   constructor (props: T) {
-    this.props = props // Object.freeze(props)
+    this.props = Object.freeze(props)
   }
 
   /**
