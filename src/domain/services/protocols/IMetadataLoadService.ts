@@ -1,4 +1,4 @@
-import { IMetadataLoader } from '../../value-objects/protocols/IMetadataLoader'
+import { IMetadataLoader } from '../../utils/IMetadataLoader'
 
 export interface IMetadataLoadService {
   readonly urlOrPath: string

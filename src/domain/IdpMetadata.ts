@@ -1,19 +1,19 @@
-import { InvalidPathOrUrlError } from '../../errors/InvalidPathOrUrlError'
-import { IValidator } from '../../protocols/IValidator'
-import { IMetadataLoadService } from '../../services/protocols/IMetadataLoadService'
-import { ValueObject } from './ValueObject'
+import { Entity } from './types/Entity'
+import { InvalidPathOrUrlError } from './errors/InvalidPathOrUrlError'
+import { IValidator } from './protocols/IValidator'
+import { IMetadataLoadService } from './services/protocols/IMetadataLoadService'
 
-export interface IIdpMetadata {
+export interface IdpMetadataProps {
   source: 'file' | 'url'
   urlOrPath: string
   data?: string // criar outro valueObject
 }
 
-export abstract class BaseIdpMetadata extends ValueObject<IIdpMetadata> {
+export class IdpMetadata extends Entity<IdpMetadataProps> {
   private readonly urlOrPathValidator
   private readonly loadService
   constructor (
-    props: IIdpMetadata,
+    props: IdpMetadataProps,
     urlOrPathValidator: IValidator,
     loadService: IMetadataLoadService
   ) {

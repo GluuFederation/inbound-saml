@@ -1,4 +1,4 @@
-import { IMetadataLoader } from '../value-objects/protocols/IMetadataLoader'
+import { IMetadataLoader } from '../utils/IMetadataLoader'
 import { IMetadataLoadService } from './protocols/IMetadataLoadService'
 
 export class FileMetadataLoadService implements IMetadataLoadService {
