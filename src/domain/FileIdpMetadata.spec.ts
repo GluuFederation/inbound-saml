@@ -1,13 +1,12 @@
 // import { readFileSync } from 'fs'
 // import { parseString } from 'xml2js'
 import { readFileSync } from 'fs'
-import { InvalidPathOrUrlError } from '../errors/InvalidPathOrUrlError'
-import { makeFileLoaderAdapter } from '../factories/makeFileLoaderAdapter'
-import { IMetadataLoadService } from '../services/protocols/IMetadataLoadService'
-import { FileIdpMetadata } from './FileIdpMetadata'
-import { IIdpMetadata } from './protocols/BaseIdpMetadata'
-import { BaseFileValidator } from '../protocols/BaseFileValidator'
-import { IMetadataLoader } from './protocols/IMetadataLoader'
+import { InvalidPathOrUrlError } from './errors/InvalidPathOrUrlError'
+import { makeFileLoaderAdapter } from './factories/makeFileLoaderAdapter'
+import { IMetadataLoadService } from './services/protocols/IMetadataLoadService'
+import { IdpMetadataProps, IdpMetadata } from './IdpMetadata'
+import { BaseFileValidator } from './protocols/BaseFileValidator'
+import { IMetadataLoader } from './utils/IMetadataLoader'
 
 const validFilePath = process.cwd() + '/src/testdata/shibIdpMetadata.xml'
 const validMetadataString = readFileSync(validFilePath).toString()
@@ -45,20 +44,20 @@ const makeMetadataLoadService = (): IMetadataLoadService => {
 }
 
 interface SutTypes {
-  sut: FileIdpMetadata
+  sut: IdpMetadata
   fileValidatorStub: BaseFileValidator
   metadataLoadServiceStub: IMetadataLoadService
 }
 
 const makeSut = (validatorReturnValue: boolean): SutTypes => {
-  const fakeIIdpMetadataProps: IIdpMetadata = {
+  const fakeIdpMetadataPropsProps: IdpMetadataProps = {
     source: 'file',
     urlOrPath: validFilePath
   }
   const fileValidatorStub = makeFileValidator(validatorReturnValue)
   const metadataLoadServiceStub = makeMetadataLoadService()
-  const sut = new FileIdpMetadata(
-    fakeIIdpMetadataProps, fileValidatorStub, metadataLoadServiceStub)
+  const sut = new IdpMetadata(
+    fakeIdpMetadataPropsProps, fileValidatorStub, metadataLoadServiceStub)
   return {
     sut,
     fileValidatorStub,
@@ -66,9 +65,9 @@ const makeSut = (validatorReturnValue: boolean): SutTypes => {
   }
 }
 
-describe('FileIdpMetadata', () => {
+describe('IdpMetadata', () => {
   it('should call load on new object construction/instance', () => {
-    const loadSpy = jest.spyOn(FileIdpMetadata.prototype, 'load')
+    const loadSpy = jest.spyOn(IdpMetadata.prototype, 'load')
     makeSut(true)
     expect(loadSpy).toHaveBeenCalledTimes(1)
   })
@@ -87,6 +86,7 @@ describe('FileIdpMetadata', () => {
 
   it('props.data should contain Metadata', () => {
     const { sut } = makeSut(true)
+    debugger
     expect(sut.props.data).toEqual(validMetadataString)
   })
 })
