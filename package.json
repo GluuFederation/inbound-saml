@@ -4,7 +4,8 @@
   "description": "Gluu inbound-saml module",
   "main": "index.js",
   "scripts": {
-    "test": "jest --watch --no-cache --verbose"
+    "test": "jest --watch --no-cache --verbose",
+    "test:all": "jest --no-cache --verbose"
   },
   "author": "Gluu",
   "license": "ISC",
