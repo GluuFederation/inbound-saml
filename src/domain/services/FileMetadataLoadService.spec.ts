@@ -1,8 +1,8 @@
-import { IMetadataLoader } from '../utils/IMetadataLoader'
+import { IMetadataLoaderRepository } from '../utils/IMetadataLoaderRepository'
 import { FileMetadataLoadService } from './FileMetadataLoadService'
 
-const makeFileLoader = (): IMetadataLoader => {
-  class FileLoaderStub implements IMetadataLoader {
+const makeFileLoader = (): IMetadataLoaderRepository => {
+  class FileLoaderStub implements IMetadataLoaderRepository {
     public load (): string {
       return 'valid file string'
     }

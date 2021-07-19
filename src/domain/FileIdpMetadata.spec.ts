@@ -2,11 +2,11 @@
 // import { parseString } from 'xml2js'
 import { readFileSync } from 'fs'
 import { InvalidPathOrUrlError } from './errors/InvalidPathOrUrlError'
-import { makeFileLoaderAdapter } from './factories/makeFileLoaderAdapter'
+import { makeFileLoaderAdapter } from '../application/factories/makeFileLoaderAdapter'
 import { IMetadataLoadService } from './services/protocols/IMetadataLoadService'
 import { IdpMetadataProps, IdpMetadata } from './IdpMetadata'
 import { BaseFileValidator } from './protocols/BaseFileValidator'
-import { IMetadataLoader } from './utils/IMetadataLoader'
+import { IMetadataLoaderRepository } from './utils/IMetadataLoaderRepository'
 
 const validFilePath = process.cwd() + '/src/testdata/shibIdpMetadata.xml'
 const validMetadataString = readFileSync(validFilePath).toString()
@@ -27,7 +27,7 @@ const makeMetadataLoadService = (): IMetadataLoadService => {
     readonly loader
     constructor (
       urlOrPath: string,
-      loader: IMetadataLoader
+      loader: IMetadataLoaderRepository
     ) {
       this.urlOrPath = urlOrPath
       this.loader = loader

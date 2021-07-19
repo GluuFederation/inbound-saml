@@ -9,9 +9,18 @@ export interface IdpMetadataProps {
   data?: string // criar outro valueObject
 }
 
+/**
+ *
+ */
 export class IdpMetadata extends Entity<IdpMetadataProps> {
   private readonly urlOrPathValidator
   private readonly loadService
+  /**
+   * Automatically loads from source on object creation
+   * @param props
+   * @param urlOrPathValidator
+   * @param loadService
+   */
   constructor (
     props: IdpMetadataProps,
     urlOrPathValidator: IValidator,
@@ -29,7 +38,6 @@ export class IdpMetadata extends Entity<IdpMetadataProps> {
 
   /**
      * load or fetch metadata
-     * @abstract
      */
   load (): void {
     this.props.data = this.loadService.load()

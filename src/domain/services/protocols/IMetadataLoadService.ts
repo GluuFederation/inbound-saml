@@ -1,7 +1,7 @@
-import { IMetadataLoader } from '../../utils/IMetadataLoader'
+import { IMetadataLoaderRepository } from '../../utils/IMetadataLoaderRepository'
 
 export interface IMetadataLoadService {
   readonly urlOrPath: string
-  readonly loader: IMetadataLoader
+  readonly loader: IMetadataLoaderRepository
   load: () => string
 }

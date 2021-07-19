@@ -1,12 +1,12 @@
-import { IMetadataLoader } from '../utils/IMetadataLoader'
+import { IMetadataLoaderRepository } from '../utils/IMetadataLoaderRepository'
 import { IMetadataLoadService } from './protocols/IMetadataLoadService'
 
 export class FileMetadataLoadService implements IMetadataLoadService {
   readonly urlOrPath: string
-  readonly loader: IMetadataLoader
+  readonly loader: IMetadataLoaderRepository
   constructor (
     urlOrPath: string,
-    loader: IMetadataLoader
+    loader: IMetadataLoaderRepository
   ) {
     this.urlOrPath = urlOrPath
     this.loader = loader
@@ -16,3 +16,4 @@ export class FileMetadataLoadService implements IMetadataLoadService {
     return this.loader.load(this.urlOrPath)
   }
 }
+
