@@ -2,11 +2,12 @@
 // import { parseString } from 'xml2js'
 import { readFileSync } from 'fs'
 import { InvalidPathOrUrlError } from './errors/InvalidPathOrUrlError'
-import { makeFileLoaderAdapter } from '../application/factories/makeFileLoaderAdapter'
+// import { makeFileLoaderAdapter } from '../application/factories/makeFileLoaderAdapter'
 import { IMetadataLoadService } from './services/protocols/IMetadataLoadService'
 import { IdpMetadataProps, IdpMetadata } from './IdpMetadata'
 import { BaseFileValidator } from './protocols/BaseFileValidator'
 import { IMetadataLoaderRepository } from './utils/IMetadataLoaderRepository'
+import { FileLoaderAdapter } from '../data/adapters/FileLoaderAdapter'
 
 const validFilePath = process.cwd() + '/src/testdata/shibIdpMetadata.xml'
 const validMetadataString = readFileSync(validFilePath).toString()
@@ -20,8 +21,18 @@ const makeFileValidator = (returnValue: boolean): BaseFileValidator => {
   return new FileValidatorStub()
 }
 
+const makeLoader = (): IMetadataLoaderRepository => {
+  class RepositoryImpl implements IMetadataLoaderRepository {
+    load (urlOrPath: string): string {
+      return validMetadataString
+    }
+  }
+  return new RepositoryImpl()
+}
+
+
 const makeMetadataLoadService = (): IMetadataLoadService => {
-  const fileLoaderAdapter = makeFileLoaderAdapter()
+  const loader = makeLoader()
   class MetadataLoadServiceStub implements IMetadataLoadService {
     readonly urlOrPath
     readonly loader
@@ -39,7 +50,7 @@ const makeMetadataLoadService = (): IMetadataLoadService => {
   }
   return new MetadataLoadServiceStub(
     validFilePath,
-    fileLoaderAdapter
+    loader
   )
 }
 
@@ -86,7 +97,6 @@ describe('IdpMetadata', () => {
 
   it('props.data should contain Metadata', () => {
     const { sut } = makeSut(true)
-    debugger
     expect(sut.props.data).toEqual(validMetadataString)
   })
 })
