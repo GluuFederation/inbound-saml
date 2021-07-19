@@ -1,7 +1,6 @@
 import { readFileSync } from 'fs'
 import { IMetadataLoader } from '../utils/IMetadataLoader'
 
-
 /**
  * Creates a File Loader using `fs` that implements IMetadataLoader
  * @implements IMetadataLoader
