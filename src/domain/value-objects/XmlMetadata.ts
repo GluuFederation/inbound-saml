@@ -1,7 +1,7 @@
 import { IValidator } from '../protocols/IValidator'
 import { ValueObject } from '../types/ValueObject'
 
-interface XmlMetadataProps {
+export interface XmlMetadataProps {
   'xml': string
 }
 
