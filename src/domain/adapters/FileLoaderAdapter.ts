@@ -3,7 +3,7 @@ import { IMetadataLoader } from '../utils/IMetadataLoader'
 
 
 /**
- * Creates a File Loader that implements IMetadataLoader
+ * Creates a File Loader using `fs` that implements IMetadataLoader
  * @implements IMetadataLoader
  */
 export class FileLoaderAdapter implements IMetadataLoader {
