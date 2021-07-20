@@ -56,11 +56,17 @@ describe('XmlValidatorAdapter', () => {
         line: 9
       }
     }
-    const validateSpy = jest.spyOn(parser, 'validate').mockReturnValueOnce(validationError)
+    jest.spyOn(parser, 'validate').mockReturnValueOnce(validationError)
     const sut = new XmlValidatorAdapter()
     const fakeXmlValidator = makeFakeValidator()
 
     // call isValid with a different XmlValidator, to avoid redundance
     expect(sut.isValid(fakeXmlMetadata(fakeXmlValidator))).toBeFalsy()
+  })
+  it('should return true if validate returns true', () => {
+    jest.spyOn(parser, 'validate').mockReturnValueOnce(true)
+    const sut = new XmlValidatorAdapter()
+    const fakeXmlValidator = makeFakeValidator()
+    expect(sut.isValid(fakeXmlMetadata(fakeXmlValidator))).toBeTruthy()
   })
 })
