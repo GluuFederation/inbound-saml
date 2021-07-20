@@ -4,12 +4,8 @@ import { IValidator } from '../protocols/IValidator'
 import { XmlMetadata, XmlMetadataProps } from '../value-objects/XmlMetadata'
 import { XmlValidatorAdapter } from './XmlValidatorAdapter'
 
-const validXmlFilePath = process.cwd() + '/src/testdata/shibIdpMetadata.xml'
-
-// const validXmlString = readFileSync(validXmlFilePath).toString()
-
 const validXmlString = '<root>Any valid xml</root>'
-// const invalidXml = '<asda> Invalid xml >'
+
 const fakeXmlProps: XmlMetadataProps = {
   xml: validXmlString
 }
