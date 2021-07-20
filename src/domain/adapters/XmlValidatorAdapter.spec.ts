@@ -1,5 +1,4 @@
 import * as parser from 'fast-xml-parser'
-import fs from 'fs'
 import { IValidator } from '../protocols/IValidator'
 import { XmlMetadata, XmlMetadataProps } from '../value-objects/XmlMetadata'
 import { XmlValidatorAdapter } from './XmlValidatorAdapter'
