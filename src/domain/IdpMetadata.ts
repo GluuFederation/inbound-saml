@@ -2,11 +2,12 @@ import { Entity } from './types/Entity'
 import { InvalidPathOrUrlError } from './errors/InvalidPathOrUrlError'
 import { IValidator } from './protocols/IValidator'
 import { IMetadataLoadService } from './services/protocols/IMetadataLoadService'
+import { XmlMetadata } from './value-objects/XmlMetadata'
 
 export interface IdpMetadataProps {
   source: 'file' | 'url'
   urlOrPath: string
-  data?: string // criar outro valueObject
+  data?: XmlMetadata // criar outro valueObject
 }
 
 /**

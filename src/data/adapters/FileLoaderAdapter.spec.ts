@@ -1,8 +1,10 @@
 import fs from 'fs'
+import { makeXmlMetadata } from '../../domain/factories/makeXmlMetadata'
 import { FileLoaderAdapter } from './FileLoaderAdapter'
 
 const validFilePath = process.cwd() + '/src/testdata/shibIdpMetadata.xml'
 const validMetadataString = fs.readFileSync(validFilePath).toString()
+const validXmlMetadata = makeXmlMetadata({ xml: validMetadataString })
 
 describe('FileLoaderAdapter', () => {
   it('should call readFileSync with correct values', () => {
@@ -15,7 +17,7 @@ describe('FileLoaderAdapter', () => {
 
   it('should return valid Metadata string', () => {
     const sut = new FileLoaderAdapter()
-    expect(sut.load(validFilePath)).toEqual(validMetadataString)
+    expect(sut.load(validFilePath)).toEqual(validXmlMetadata)
   })
 
   it('should throw if fs throws', () => {

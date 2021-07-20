@@ -1,10 +1,24 @@
+import { IValidator } from '../protocols/IValidator'
 import { IMetadataLoaderRepository } from '../utils/IMetadataLoaderRepository'
+import { XmlMetadata, XmlMetadataProps } from '../value-objects/XmlMetadata'
 import { FileMetadataLoadService } from './FileMetadataLoadService'
+
+const fakeXmlProps: XmlMetadataProps = {
+  xml: 'valid Xml String'
+}
+const makeXmlValidator = (): IValidator => {
+  class XmlValidatorStub implements IValidator {
+    isValid (data: XmlMetadata): boolean {
+      return true
+    }
+  }
+  return new XmlValidatorStub()
+}
 
 const makeFileLoader = (): IMetadataLoaderRepository => {
   class FileLoaderStub implements IMetadataLoaderRepository {
-    public load (): string {
-      return 'valid file string'
+    public load (): XmlMetadata {
+      return new XmlMetadata(makeXmlValidator(), fakeXmlProps)
     }
   }
   return new FileLoaderStub()

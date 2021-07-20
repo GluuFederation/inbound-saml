@@ -1,16 +1,17 @@
-// import { readFileSync } from 'fs'
-// import { parseString } from 'xml2js'
 import { readFileSync } from 'fs'
 import { InvalidPathOrUrlError } from './errors/InvalidPathOrUrlError'
-// import { makeFileLoaderAdapter } from '../application/factories/makeFileLoaderAdapter'
 import { IMetadataLoadService } from './services/protocols/IMetadataLoadService'
 import { IdpMetadataProps, IdpMetadata } from './IdpMetadata'
 import { BaseFileValidator } from './protocols/BaseFileValidator'
 import { IMetadataLoaderRepository } from './utils/IMetadataLoaderRepository'
-import { FileLoaderAdapter } from '../data/adapters/FileLoaderAdapter'
+import { XmlMetadata } from './value-objects/XmlMetadata'
+import { makeXmlMetadata } from './factories/makeXmlMetadata'
 
 const validFilePath = process.cwd() + '/src/testdata/shibIdpMetadata.xml'
 const validMetadataString = readFileSync(validFilePath).toString()
+const validXmlMetadataProps = {
+  xml: validMetadataString
+}
 
 const makeFileValidator = (returnValue: boolean): BaseFileValidator => {
   class FileValidatorStub extends BaseFileValidator {
@@ -23,13 +24,13 @@ const makeFileValidator = (returnValue: boolean): BaseFileValidator => {
 
 const makeLoader = (): IMetadataLoaderRepository => {
   class RepositoryImpl implements IMetadataLoaderRepository {
-    load (urlOrPath: string): string {
-      return validMetadataString
+    load (urlOrPath: string): XmlMetadata {
+      const xml = 'valid xml'
+      return makeXmlMetadata({ xml })
     }
   }
   return new RepositoryImpl()
 }
-
 
 const makeMetadataLoadService = (): IMetadataLoadService => {
   const loader = makeLoader()
@@ -44,8 +45,8 @@ const makeMetadataLoadService = (): IMetadataLoadService => {
       this.loader = loader
     }
 
-    load (): string {
-      return validMetadataString
+    load (): XmlMetadata {
+      return makeXmlMetadata(validXmlMetadataProps)
     }
   }
   return new MetadataLoadServiceStub(
@@ -95,8 +96,8 @@ describe('IdpMetadata', () => {
     }).toThrow(InvalidPathOrUrlError)
   })
 
-  it('props.data should contain Metadata', () => {
+  it('props.data should contain XmlMetadata', () => {
     const { sut } = makeSut(true)
-    expect(sut.props.data).toEqual(validMetadataString)
+    expect(sut.props.data).toEqual(makeXmlMetadata(validXmlMetadataProps))
   })
 })

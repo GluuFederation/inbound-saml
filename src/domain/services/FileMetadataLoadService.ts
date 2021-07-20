@@ -1,4 +1,5 @@
 import { IMetadataLoaderRepository } from '../utils/IMetadataLoaderRepository'
+import { XmlMetadata } from '../value-objects/XmlMetadata'
 import { IMetadataLoadService } from './protocols/IMetadataLoadService'
 
 export class FileMetadataLoadService implements IMetadataLoadService {
@@ -12,8 +13,7 @@ export class FileMetadataLoadService implements IMetadataLoadService {
     this.loader = loader
   }
 
-  public load (): string {
+  public load (): XmlMetadata {
     return this.loader.load(this.urlOrPath)
   }
 }
-
