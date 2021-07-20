@@ -1,9 +1,9 @@
 import { readFileSync } from 'fs'
 import { InvalidPathOrUrlError } from './errors/InvalidPathOrUrlError'
-import { IMetadataLoadService } from './services/protocols/IMetadataLoadService'
+import { IXmlMetadataLoadService } from './services/protocols/IXmlMetadataLoadService'
 import { IdpMetadataProps, IdpMetadata } from './IdpMetadata'
 import { BaseFileValidator } from './protocols/BaseFileValidator'
-import { IMetadataLoaderRepository } from './utils/IMetadataLoaderRepository'
+import { IXmlMetadataLoaderRepository } from './utils/IXmlMetadataLoaderRepository'
 import { XmlMetadata } from './value-objects/XmlMetadata'
 import { makeXmlMetadata } from './factories/makeXmlMetadata'
 
@@ -22,8 +22,8 @@ const makeFileValidator = (returnValue: boolean): BaseFileValidator => {
   return new FileValidatorStub()
 }
 
-const makeLoader = (): IMetadataLoaderRepository => {
-  class RepositoryImpl implements IMetadataLoaderRepository {
+const makeLoader = (): IXmlMetadataLoaderRepository => {
+  class RepositoryImpl implements IXmlMetadataLoaderRepository {
     load (urlOrPath: string): XmlMetadata {
       const xml = 'valid xml'
       return makeXmlMetadata({ xml })
@@ -32,14 +32,14 @@ const makeLoader = (): IMetadataLoaderRepository => {
   return new RepositoryImpl()
 }
 
-const makeMetadataLoadService = (): IMetadataLoadService => {
+const makeMetadataLoadService = (): IXmlMetadataLoadService => {
   const loader = makeLoader()
-  class MetadataLoadServiceStub implements IMetadataLoadService {
+  class MetadataLoadServiceStub implements IXmlMetadataLoadService {
     readonly urlOrPath
     readonly loader
     constructor (
       urlOrPath: string,
-      loader: IMetadataLoaderRepository
+      loader: IXmlMetadataLoaderRepository
     ) {
       this.urlOrPath = urlOrPath
       this.loader = loader
@@ -58,7 +58,7 @@ const makeMetadataLoadService = (): IMetadataLoadService => {
 interface SutTypes {
   sut: IdpMetadata
   fileValidatorStub: BaseFileValidator
-  metadataLoadServiceStub: IMetadataLoadService
+  metadataLoadServiceStub: IXmlMetadataLoadService
 }
 
 const makeSut = (validatorReturnValue: boolean): SutTypes => {

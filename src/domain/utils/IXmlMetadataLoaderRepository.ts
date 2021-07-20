@@ -1,5 +1,5 @@
 import { XmlMetadata } from '../value-objects/XmlMetadata'
 
-export interface IMetadataLoaderRepository {
+export interface IXmlMetadataLoaderRepository {
   load: (urlOrPath: string) => XmlMetadata
 }

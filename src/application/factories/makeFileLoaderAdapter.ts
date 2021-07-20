@@ -1,6 +1,6 @@
 import { FileLoaderAdapter } from '../../data/adapters/FileLoaderAdapter'
-import { IMetadataLoaderRepository } from '../../domain/utils/IMetadataLoaderRepository'
+import { IXmlMetadataLoaderRepository } from '../../domain/utils/IXmlMetadataLoaderRepository'
 
-export const makeFileLoaderAdapter = (): IMetadataLoaderRepository => {
+export const makeFileLoaderAdapter = (): IXmlMetadataLoaderRepository => {
   return new FileLoaderAdapter()
 }

@@ -1,7 +1,7 @@
 import { Entity } from './types/Entity'
 import { InvalidPathOrUrlError } from './errors/InvalidPathOrUrlError'
 import { IValidator } from './protocols/IValidator'
-import { IMetadataLoadService } from './services/protocols/IMetadataLoadService'
+import { IXmlMetadataLoadService } from './services/protocols/IXmlMetadataLoadService'
 import { XmlMetadata } from './value-objects/XmlMetadata'
 
 export interface IdpMetadataProps {
@@ -25,7 +25,7 @@ export class IdpMetadata extends Entity<IdpMetadataProps> {
   constructor (
     props: IdpMetadataProps,
     urlOrPathValidator: IValidator,
-    loadService: IMetadataLoadService
+    loadService: IXmlMetadataLoadService
   ) {
     super(props)
     this.urlOrPathValidator = urlOrPathValidator

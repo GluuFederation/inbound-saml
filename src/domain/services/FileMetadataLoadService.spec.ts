@@ -1,7 +1,7 @@
 import { IValidator } from '../protocols/IValidator'
-import { IMetadataLoaderRepository } from '../utils/IMetadataLoaderRepository'
+import { IXmlMetadataLoaderRepository } from '../utils/IXmlMetadataLoaderRepository'
 import { XmlMetadata, XmlMetadataProps } from '../value-objects/XmlMetadata'
-import { FileMetadataLoadService } from './FileMetadataLoadService'
+import { XmlMetadataLoadService } from './XmlMetadataLoadService'
 
 const fakeXmlProps: XmlMetadataProps = {
   xml: 'valid Xml String'
@@ -15,8 +15,8 @@ const makeXmlValidator = (): IValidator => {
   return new XmlValidatorStub()
 }
 
-const makeFileLoader = (): IMetadataLoaderRepository => {
-  class FileLoaderStub implements IMetadataLoaderRepository {
+const makeFileLoader = (): IXmlMetadataLoaderRepository => {
+  class FileLoaderStub implements IXmlMetadataLoaderRepository {
     public load (): XmlMetadata {
       return new XmlMetadata(makeXmlValidator(), fakeXmlProps)
     }
@@ -24,12 +24,12 @@ const makeFileLoader = (): IMetadataLoaderRepository => {
   return new FileLoaderStub()
 }
 
-describe('FileMetadataLoadService', () => {
+describe('XmlMetadataLoadService', () => {
   it('should call loader.load with correct values', () => {
     const validPath = '/valid/path'
     const fileLoader = makeFileLoader()
     const loaderLoadSpy = jest.spyOn(fileLoader, 'load')
-    const sut = new FileMetadataLoadService(
+    const sut = new XmlMetadataLoadService(
       validPath, fileLoader
     )
     sut.load()
