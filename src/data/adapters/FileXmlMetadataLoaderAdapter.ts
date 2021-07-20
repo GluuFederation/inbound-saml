@@ -7,8 +7,8 @@ import { XmlMetadata } from '../../domain/value-objects/XmlMetadata'
  * Creates a File Loader using `fs` that implements IXmlMetadataLoaderRepository
  * @implements IXmlMetadataLoaderRepository
  */
-export class FileLoaderAdapter implements IXmlMetadataLoaderRepository {
-  load (filePath: string): XmlMetadata {
+export class FileXmlMetadataLoaderAdapter implements IXmlMetadataLoaderRepository {
+  load(filePath: string): XmlMetadata {
     const xml = readFileSync(filePath).toString()
     return makeXmlMetadata({ xml })
   }
