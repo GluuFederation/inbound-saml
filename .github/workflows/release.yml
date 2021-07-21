@@ -1,6 +1,5 @@
 name: Release Test
-on:
-  - pull_request
+on: pull_request
   # - push:
   #   branches:
   #     - master
@@ -14,11 +13,11 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: 12
+          node-version: 14
       - name: Install dependencies
         run: npm ci
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          # NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run:  npx semantic-release --dry-run
