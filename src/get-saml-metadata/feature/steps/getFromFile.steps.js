@@ -131,8 +131,8 @@ When('client call getFromFile with the invalid file path', function () {
 })
 
 Then('It should return a valid object with metadata values', function () {
-  // const expectedData = parseMetadata(this.xmlData)
-  // assert.deepStrictEqual(expectedData, this.result)
+  const expectedData = parseMetadata(this.xmlData)
+  assert.deepStrictEqual(expectedData, this.result)
 })
 
 Then('It should throw a specific Error', function () {
