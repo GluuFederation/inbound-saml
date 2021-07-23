@@ -3,8 +3,8 @@ import { XmlMetadata } from '../value-objects/XmlMetadata'
 import { IXmlMetadataLoadService } from './protocols/IXmlMetadataLoadService'
 
 export class XmlMetadataLoadService implements IXmlMetadataLoadService {
-  readonly urlOrPath: string
-  readonly loader: IXmlMetadataLoaderRepository
+  private readonly urlOrPath: string
+  private readonly loader: IXmlMetadataLoaderRepository
   constructor (
     urlOrPath: string,
     loader: IXmlMetadataLoaderRepository
