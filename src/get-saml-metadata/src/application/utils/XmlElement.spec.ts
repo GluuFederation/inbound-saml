@@ -8,6 +8,7 @@ interface XmlElementProps {
 
 interface IXmlElement {
   addChild: (xmlElement: IXmlElement) => void
+  addNestedChilds: (...xmlElements: IXmlElement[]) => void
   childs: IXmlElement[]
   name: string
 }
@@ -23,6 +24,24 @@ class XmlElement extends ValueObject<XmlElementProps> implements IXmlElement {
 
   public addChild (xmlElement: IXmlElement): void {
     this._childs.push(xmlElement)
+  }
+
+  /**
+   * add multiple nested childs, first param is parent
+   * @param xmlElements
+   */
+  public addNestedChilds (...xmlElements: IXmlElement[]): void {
+    let parentElement
+    for (let i = 0; i < xmlElements.length; i++) {
+      const child = xmlElements[i]
+      if (parentElement === undefined) {
+        this.addChild(child)
+        parentElement = child
+      } else {
+        parentElement.addChild(child)
+        parentElement = child
+      }
+    }
   }
 
   public get childs (): IXmlElement[] {
@@ -47,7 +66,7 @@ class XmlElement extends ValueObject<XmlElementProps> implements IXmlElement {
 }
 
 describe('XmlElement', () => {
-  it('whatever too', () => {
+  it('should add text', () => {
     const iDPSSODescriptor = new XmlElement({ name: 'IDPSSODescriptor', text: 'text test' })
     expect(iDPSSODescriptor.text).not.toBeUndefined()
     expect(iDPSSODescriptor.text).toEqual('text test')
@@ -74,5 +93,19 @@ describe('XmlElement', () => {
     expect(root.childs[0].name).toBe('EntityDescriptor')
     expect(root.childs[0].childs[0].name).toBe('IDPSSODescriptor')
     expect(root.childs[0].childs[0].childs[0].name).toBe('fakeValueTag')
+  })
+  describe('addNestedChilds', () => {
+    it('should nest child elements sent as params', () => {
+      const root = new XmlElement({})
+      const entityDescriptor = new XmlElement({ name: 'EntityDescriptor' })
+      const iDPSSODescriptor = new XmlElement({ name: 'IDPSSODescriptor' })
+      const fakeValueTag = new XmlElement({ name: 'fakeValueTag' })
+
+      root.addNestedChilds(entityDescriptor, iDPSSODescriptor, fakeValueTag)
+
+      expect(root.childs[0].name).toBe('EntityDescriptor')
+      expect(root.childs[0].childs[0].name).toBe('IDPSSODescriptor')
+      expect(root.childs[0].childs[0].childs[0].name).toBe('fakeValueTag')
+    })
   })
 })
