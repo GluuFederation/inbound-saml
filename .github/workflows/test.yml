@@ -28,3 +28,4 @@ jobs:
       - uses: codecov/codecov-action@v2
         with:
           verbose: true # optional (default = false)
+          file: ./coverage/lcov.info
