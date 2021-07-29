@@ -23,9 +23,10 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm ci
       - run: npm run build --if-present
-      - run: npm run test:all --coverage
-      - uses: actions/checkout@master
+      - run: npm run test:all
+      - name: Generate Coverage Report
+      - run: npm run test:coverage
+      - name: Upload Coverage Report
       - uses: codecov/codecov-action@v2
         with:
-          verbose: true # optional (default = false)
-          file: ./coverage/lcov.info
+          verbose: true

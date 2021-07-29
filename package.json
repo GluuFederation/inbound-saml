@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest --watch --no-cache --verbose",
-    "test:all": "jest --no-cache --verbose"
+    "test:all": "jest --no-cache --verbose",
+    "test:coverage": "jest --ci --coverage"
   },
   "author": "Gluu",
   "license": "ISC",
