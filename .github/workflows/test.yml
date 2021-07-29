@@ -24,9 +24,6 @@ jobs:
       - run: npm ci
       - run: npm run build --if-present
       - run: npm run test:all
-      - name: Generate Coverage Report
       - run: npm run test:coverage
-      - name: Upload Coverage Report
-      - uses: codecov/codecov-action@v2
-        with:
-          verbose: true
+      - name: Upload Coverage
+        uses: codecov/codecov-action@v2
