@@ -98,6 +98,6 @@ describe('IdpMetadata', () => {
 
   it('props.data should contain XmlMetadata', () => {
     const { sut } = makeSut(true)
-    expect(sut.props.data).toEqual(makeXmlMetadata(validXmlMetadataProps))
+    expect(sut.props.xmlMetadata).toEqual(makeXmlMetadata(validXmlMetadataProps))
   })
 })

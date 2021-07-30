@@ -7,7 +7,7 @@ import { XmlMetadata } from './value-objects/XmlMetadata'
 export interface IdpMetadataProps {
   source: 'file' | 'url'
   urlOrPath: string
-  data?: XmlMetadata // criar outro valueObject
+  xmlMetadata?: XmlMetadata // criar outro valueObject
 }
 
 /**
@@ -41,6 +41,6 @@ export class IdpMetadata extends Entity<IdpMetadataProps> {
      * load or fetch metadata
      */
   load (): void {
-    this.props.data = this.loadService.load()
+    this.props.xmlMetadata = this.loadService.load()
   }
 }
