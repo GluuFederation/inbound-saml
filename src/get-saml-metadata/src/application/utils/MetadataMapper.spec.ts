@@ -1,33 +1,9 @@
 import { IDPSSODescriptor, IMetadata, X509Data } from '../protocols/IMetadataTypes'
-import { parse } from 'fast-xml-parser'
-// jest.mock('fast-xml-parser')
+import * as parser from 'fast-xml-parser'
+import { MetadataMapperAdapter } from './MetadataMapper'
+jest.mock('fast-xml-parser')
 
 const fakeXmlData = 'valid xml data'
-
-interface IMetadataMapper {
-  map: (xmlData: string) => IMetadata
-  // getX509Data:() => X509Data
-}
-
-export class MetadataMapperAdapter implements IMetadataMapper {
-  options = { ignoreAttributes: false }
-  getIdpssoDescriptor (xmlData: string): IDPSSODescriptor {
-    const parsed = parse(xmlData, this.options)
-    return parsed.EntityDescriptor.IDPSSODescriptor
-  }
-
-  /**
-   * Maps xmlData (string) to IMetadata type/interface
-   * @param xmlData
-   * @returns metadata model (IMetadata)
-   */
-  map (xmlData: string): IMetadata {
-    const metadata: IMetadata = {
-      idpssoDescriptor: this.getIdpssoDescriptor(xmlData)
-    }
-    return metadata
-  }
-}
 
 const fakeMetadata: IMetadata = {
   entityID: 'Nihil rerum maxime. Qui amet sed error. Earum iste consequatur sapiente. Occaecati reiciendis et.',
@@ -136,18 +112,34 @@ const fakeMetadata: IMetadata = {
   }
 }
 
+const options = { ignoreAttributes: false }
+
 describe('MetadataMapper', () => {
   describe('map', () => {
     it('should call getIdpssoDescriptor with correct params', () => {
       const sut = new MetadataMapperAdapter()
-      const getIdpssoDescriptorSpy = jest.spyOn(sut, 'getIdpssoDescriptor').mockImplementationOnce(
-        () => {
-          return fakeMetadata.idpssoDescriptor
-        }
-      )
+      const getIdpssoDescriptorSpy = jest.spyOn(MetadataMapperAdapter.prototype as any, 'getIdpssoDescriptor')
+        .mockImplementationOnce(
+          () => {
+            return fakeMetadata.idpssoDescriptor
+          }
+        )
       sut.map(fakeXmlData)
       expect(getIdpssoDescriptorSpy).toHaveBeenCalledWith(fakeXmlData)
       expect(getIdpssoDescriptorSpy).toHaveBeenCalledTimes(1)
+    })
+  })
+  describe('getIdpssoDescriptor', () => {
+    it('should call fast-xml-parser parse with correct params', () => {
+      const parseSpy = jest.spyOn(parser, 'parse').mockReturnValueOnce(
+        {
+          EntityDescriptor: fakeMetadata
+        }
+      )
+      const sut = new MetadataMapperAdapter()
+      sut.map(fakeXmlData)
+      expect(parseSpy).toHaveBeenCalledTimes(1)
+      expect(parseSpy).toHaveBeenCalledWith(fakeXmlData, options)
     })
   })
 })
