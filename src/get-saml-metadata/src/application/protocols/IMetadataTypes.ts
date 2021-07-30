@@ -49,7 +49,7 @@ export interface IDPSSODescriptor {
   artifactResolutionService?: ArtifactResolutionService
   singleLogoutService?: Service[]
   nameIDFormat?: string[]
-  singleSignOnService?: Service[]
+  singleSignOnService: Service[]
 }
 
 export interface ArtifactResolutionService {
