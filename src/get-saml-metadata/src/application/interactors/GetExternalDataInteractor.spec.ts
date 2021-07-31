@@ -1,15 +1,5 @@
-// recebe o request com o urlOrPath
-// ele pede pro XmlService carregar o XML
-// ele parsa o Xml pra objeto que impl IMetadata
-// ele adapta para IExternalData
-// ele gera o RespondeModel com IdpMetadata
-
-// receive request model
-// export class urlOrPath extends ValueObject<interface {a: string}>
-
 import { fakeMetadata, validMetadataString, validXmlMetadata } from '../../../../testdata/fakes'
 import { makeXmlMetadata } from '../../domain/factories/makeXmlMetadata'
-import { IValidator } from '../../domain/protocols/IValidator'
 import { IXmlMetadataLoaderRepository } from '../../domain/utils/IXmlMetadataLoaderRepository'
 import { XmlMetadata } from '../../domain/value-objects/XmlMetadata'
 import { IExternalData } from '../protocols/IExternalData'
