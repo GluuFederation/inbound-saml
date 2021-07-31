@@ -9,7 +9,7 @@ export interface ProviderProps {
   authnRequestBinding: 'HTTP-POST' | 'HTTP-Redirect'
 }
 
-abstract class BaseProvider extends Entity<ProviderProps> {
+export abstract class BaseProvider extends Entity<ProviderProps> {
   private readonly authenticationService
   constructor (
     props: ProviderProps,
