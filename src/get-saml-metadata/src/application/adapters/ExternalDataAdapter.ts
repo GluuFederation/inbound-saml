@@ -33,10 +33,8 @@ export class ExternalDataAdapter implements IExternalData {
     const allCerts = []
     const keyDescriptors = this.metadata.idpssoDescriptor.keyDescriptor
     for (const keyDescriptorItem of keyDescriptors) {
-      if ('use' in keyDescriptorItem) {
-        if (keyDescriptorItem.use === 'signing') {
-          allCerts.push(keyDescriptorItem.keyInfo.x509Data.x509Certificate)
-        }
+      if (keyDescriptorItem.use === 'signing') {
+        allCerts.push(keyDescriptorItem.keyInfo.x509Data.x509Certificate)
       }
     }
     return allCerts
