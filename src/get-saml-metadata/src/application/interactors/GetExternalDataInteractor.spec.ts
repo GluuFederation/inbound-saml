@@ -18,19 +18,18 @@ import { IMetadataMapper } from '../protocols/IMetadataMapper'
 import { IMetadata } from '../protocols/IMetadataTypes'
 import { GetExternalDataInteractor } from './GetExternalDataInteractor'
 import { GetExternalDataRequestModel } from './GetExternalDataRequestModel'
+import { GetExternalDataResponseModel } from './GetExternalDataResponseModel'
 import { IGetExternalDataInputBoundary } from './IGetExternalDataInputBoundary'
+import { IGetExternalDataOutputBoundary } from './IGetExternalDataOutputBoundary'
+import { IResponseModel } from './IResponseModel'
 
-export interface IGetExternalDataOutputBoundary {
-  any: any
-}
+const makePresenter = (): IGetExternalDataOutputBoundary => {
+  class PresenterStub implements IGetExternalDataOutputBoundary {
+    present(response: IResponseModel<GetExternalDataResponseModel>): void {
 
-const makeValidator = (): IValidator => {
-  class ValidatorStub implements IValidator {
-    isValid (arg: any): boolean {
-      return true
     }
   }
-  return new ValidatorStub()
+  return new PresenterStub()
 }
 
 const makeXmlMetadataLoader = (): IXmlMetadataLoaderRepository => {
@@ -73,20 +72,26 @@ interface SutTypes {
   xmlMetadataLoaderStub: IXmlMetadataLoaderRepository
   metadataMapperStub: IMetadataMapper
   externalDataMapperStub: IExternalDataMapper
+  presenterStub: IGetExternalDataOutputBoundary
 }
 
 const makeSut = (): SutTypes => {
   const metadataMapperStub = makeMetadataMapper()
   const xmlMetadataLoaderStub = makeXmlMetadataLoader()
   const externalDataMapperStub = makeExternalDataMapper()
+  const presenterStub = makePresenter()
   const sut = new GetExternalDataInteractor(
-    xmlMetadataLoaderStub, metadataMapperStub, externalDataMapperStub
+    xmlMetadataLoaderStub,
+    metadataMapperStub,
+    externalDataMapperStub,
+    presenterStub
   )
   return {
     sut,
     xmlMetadataLoaderStub,
     metadataMapperStub,
-    externalDataMapperStub
+    externalDataMapperStub,
+    presenterStub
   }
 }
 
@@ -97,10 +102,6 @@ const fakeRequestModel: GetExternalDataRequestModel = {
 
 describe('GetExternalDataInteractor', () => {
   describe('execute() method', () => {
-    it('void should return undefined', async () => {
-      const { sut } = makeSut()
-      expect(await sut.execute(fakeRequestModel)).toBeUndefined()
-    })
     it('should call loader with urlOrPath', async () => {
       const { sut, xmlMetadataLoaderStub } = makeSut()
       const loadSpy = jest.spyOn(xmlMetadataLoaderStub, 'load')
@@ -123,6 +124,19 @@ describe('GetExternalDataInteractor', () => {
       await sut.execute(fakeRequestModel)
       expect(mapSpy).toHaveBeenCalledTimes(1)
       expect(mapSpy).toHaveBeenCalledWith(fakeMetadata)
+    })
+    it('should call the presenter with response model with correct values', async () => {
+      const { sut, presenterStub } = makeSut()
+      const presentSpy = jest.spyOn(presenterStub, 'present')
+      const mapper = makeExternalDataMapper()
+      const expectedResponseModel = {
+        requestId: fakeRequestModel.requestId,
+        response: {
+          externalData: mapper.map(fakeMetadata)
+        }
+      }
+      await sut.execute(fakeRequestModel)
+      expect(presentSpy).toHaveBeenCalledWith(expectedResponseModel)
     })
   })
 })
