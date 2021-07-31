@@ -1,4 +1,4 @@
-import { IXmlMetadataLoadService } from '../domain/services/protocols/IXmlMetadataLoadService'
+import { IXmlMetadataLoadService } from './IXmlMetadataLoadService'
 import { XmlMetadata } from '../entities/value-objects/XmlMetadata'
 import { IXmlMetadataLoaderRepository } from './ports/IXmlMetadataLoaderRepository'
 

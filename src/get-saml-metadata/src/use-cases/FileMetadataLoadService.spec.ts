@@ -1,7 +1,7 @@
-import { XmlMetadata, XmlMetadataProps } from '../../entities/value-objects/XmlMetadata'
-import { IValidator } from '../../use-cases/ports/IValidator'
-import { IXmlMetadataLoaderRepository } from '../../use-cases/ports/IXmlMetadataLoaderRepository'
-import { XmlMetadataLoadService } from '../../use-cases/XmlMetadataLoadService'
+import { XmlMetadata, XmlMetadataProps } from "../entities/value-objects/XmlMetadata"
+import { IValidator } from "./ports/IValidator"
+import { IXmlMetadataLoaderRepository } from "./ports/IXmlMetadataLoaderRepository"
+import { XmlMetadataLoadService } from "./XmlMetadataLoadService"
 
 const fakeXmlProps: XmlMetadataProps = {
   xml: 'valid Xml String'
