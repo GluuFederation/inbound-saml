@@ -1,10 +1,6 @@
 import fs from 'fs'
-import { makeXmlMetadata } from '../../domain/factories/makeXmlMetadata'
+import { validFilePath, validXmlMetadata } from '../../../../testdata/fakes'
 import { FileXmlMetadataLoaderAdapter } from './FileXmlMetadataLoaderAdapter'
-
-const validFilePath = process.cwd() + '/src/testdata/shibIdpMetadata.xml'
-const validMetadataString = fs.readFileSync(validFilePath).toString()
-const validXmlMetadata = makeXmlMetadata({ xml: validMetadataString })
 
 describe('FileXmlMetadataLoaderAdapter', () => {
   it('should call readFileSync with correct values', () => {
