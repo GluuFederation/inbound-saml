@@ -77,4 +77,3 @@ export interface OrganizationURL {
   lang: string
   text: string
 }
-
