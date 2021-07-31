@@ -1,13 +1,13 @@
 import * as parser from 'fast-xml-parser'
 import { fakeMetadata } from '../../../../testdata/fakes'
-import { MetadataMapperAdapter } from './MetadataMapper'
+import { MetadataMapperAdapter } from './MetadataMapperAdapter'
 jest.mock('fast-xml-parser')
 
 const fakeXmlData = 'valid xml data'
 
 const options = { ignoreAttributes: false }
 
-describe('MetadataMapper', () => {
+describe('MetadataMapperAdapter', () => {
   describe('map', () => {
     it('should call getIdpssoDescriptor with correct params', () => {
       const sut = new MetadataMapperAdapter()
