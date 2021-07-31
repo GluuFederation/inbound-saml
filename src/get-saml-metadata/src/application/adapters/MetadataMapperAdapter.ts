@@ -6,7 +6,6 @@ export class MetadataMapperAdapter implements IMetadataMapper {
   options = { ignoreAttributes: false }
   private getIdpssoDescriptor (xmlData: string): IDPSSODescriptor {
     return parse(xmlData, this.options).EntityDescriptor.IDPSSODescriptor
-    // return parsed.EntityDescriptor.IDPSSODescriptor
   }
 
   /**
