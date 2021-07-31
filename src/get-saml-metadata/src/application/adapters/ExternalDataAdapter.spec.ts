@@ -1,7 +1,4 @@
 import { fakeMetadata } from '../../../../testdata/fakes'
-import { IExternalData } from '../protocols/IExternalData'
-import { IMetadata } from '../protocols/IMetadataTypes'
-import { ISingleSignOnService } from '../protocols/ISingleSignOnService'
 import { ExternalDataAdapter } from './ExternalDataAdapter'
 
 // getFromFile(urlOrPath)
