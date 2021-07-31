@@ -1,4 +1,10 @@
 import { IMetadata } from '../get-saml-metadata/src/application/protocols/IMetadataTypes'
+import * as fs from 'fs'
+import { makeXmlMetadata } from '../get-saml-metadata/src/domain/factories/makeXmlMetadata'
+
+export const validFilePath = process.cwd() + '/src/testdata/shibIdpMetadata.xml'
+export const validMetadataString = fs.readFileSync(validFilePath).toString()
+export const validXmlMetadata = makeXmlMetadata({ xml: validMetadataString })
 
 export const fakeMetadata: IMetadata = {
   entityID: 'Nihil rerum maxime. Qui amet sed error. Earum iste consequatur sapiente. Occaecati reiciendis et.',
