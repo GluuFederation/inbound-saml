@@ -1,21 +1,21 @@
 import { fakeMetadata, validMetadataString, validXmlMetadata } from '../../../../testdata/fakes'
-import { makeXmlMetadata } from '../../domain/factories/makeXmlMetadata'
-import { IXmlMetadataLoaderRepository } from '../../domain/utils/IXmlMetadataLoaderRepository'
-import { XmlMetadata } from '../../domain/value-objects/XmlMetadata'
-import { IExternalData } from '../protocols/IExternalData'
-import { IExternalDataMapper } from '../protocols/IExternalDataMapper'
-import { IMetadataMapper } from '../protocols/IMetadataMapper'
-import { IMetadata } from '../protocols/IMetadataTypes'
+import { makeXmlMetadata } from '../factories/makeXmlMetadata'
+import { IXmlMetadataLoaderRepository } from '../utils/IXmlMetadataLoaderRepository'
+import { XmlMetadata } from '../value-objects/XmlMetadata'
+import { IExternalDataMapper } from '../../application/protocols/IExternalDataMapper'
+import { IMetadata } from '../../application/protocols/IMetadataTypes'
 import { GetExternalDataInteractor } from './GetExternalDataInteractor'
 import { GetExternalDataRequestModel } from './GetExternalDataRequestModel'
 import { GetExternalDataResponseModel } from './GetExternalDataResponseModel'
 import { IGetExternalDataInputBoundary } from './IGetExternalDataInputBoundary'
 import { IGetExternalDataOutputBoundary } from './IGetExternalDataOutputBoundary'
 import { IResponseModel } from './IResponseModel'
+import { IExternalData } from '../../application/protocols/IExternalData'
+import { IMetadataMapper } from '../../application/protocols/IMetadataMapper'
 
 const makePresenter = (): IGetExternalDataOutputBoundary => {
   class PresenterStub implements IGetExternalDataOutputBoundary {
-    present(response: IResponseModel<GetExternalDataResponseModel>): void {
+    present (response: IResponseModel<GetExternalDataResponseModel>): void {
 
     }
   }
