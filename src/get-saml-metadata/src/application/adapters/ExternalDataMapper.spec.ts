@@ -1,10 +1,10 @@
 import { fakeMetadata } from '../../../../testdata/fakes'
-import { ExternalDataAdapter } from './ExternalDataAdapter'
+import { ExternalDataMapper } from './ExternalDataMapper'
 
 // getFromFile(urlOrPath)
 // idpMetadata = makeIdpMetadata(urlOrPath)
 
-describe('ExternalDataAdapter', () => {
+describe('ExternalDataMapper', () => {
   it('should create an object that implements IExternalData w/ correct values', () => {
     const allCerts = []
     const keyDescriptors = fakeMetadata.idpssoDescriptor.keyDescriptor
@@ -15,8 +15,9 @@ describe('ExternalDataAdapter', () => {
         }
       }
     }
-    const sut = new ExternalDataAdapter(fakeMetadata)
-    expect(sut.idpSigningCert).toStrictEqual(allCerts)
-    expect(sut.singleSignOnServices).toBe(fakeMetadata.idpssoDescriptor.singleSignOnService)
+    const sut = new ExternalDataMapper()
+    const result = sut.map(fakeMetadata)
+    expect(result.idpSigningCert).toStrictEqual(allCerts)
+    expect(result.singleSignOnServices).toBe(fakeMetadata.idpssoDescriptor.singleSignOnService)
   })
 })
