@@ -1,4 +1,4 @@
-import { IValidator } from '../protocols/IValidator'
+import { IValidator } from '../../use-cases/ports/IValidator'
 import { ValueObject } from '../types/ValueObject'
 
 export interface XmlMetadataProps {

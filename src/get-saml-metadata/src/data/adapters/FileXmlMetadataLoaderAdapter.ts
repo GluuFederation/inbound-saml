@@ -1,7 +1,7 @@
 import { readFileSync } from 'fs'
-import { makeXmlMetadata } from '../../domain/factories/makeXmlMetadata'
-import { IXmlMetadataLoaderRepository } from '../../domain/utils/IXmlMetadataLoaderRepository'
-import { XmlMetadata } from '../../domain/value-objects/XmlMetadata'
+import { makeXmlMetadata } from '../factories/makeXmlMetadata'
+import { IXmlMetadataLoaderRepository } from '../../use-cases/ports/IXmlMetadataLoaderRepository'
+import { XmlMetadata } from '../../entities/value-objects/XmlMetadata'
 
 /**
  * Creates a File Loader using `fs` that implements IXmlMetadataLoaderRepository

@@ -1,9 +1,9 @@
-import { IXmlMetadataLoaderRepository } from '../utils/IXmlMetadataLoaderRepository'
 import { GetExternalDataRequestModel } from './GetExternalDataRequestModel'
 import { IGetExternalDataInputBoundary } from './IGetExternalDataInputBoundary'
 import { IGetExternalDataOutputBoundary } from './IGetExternalDataOutputBoundary'
-import { IExternalDataMapper } from '../../application/protocols/IExternalDataMapper'
-import { IMetadataMapper } from '../../application/protocols/IMetadataMapper'
+import { IExternalDataMapper } from './ports/IExternalDataMapper'
+import { IMetadataMapper } from './ports/IMetadataMapper'
+import { IXmlMetadataLoaderRepository } from './ports/IXmlMetadataLoaderRepository'
 
 export class GetExternalDataInteractor implements IGetExternalDataInputBoundary {
   private readonly xmlMetadataLoader: IXmlMetadataLoaderRepository

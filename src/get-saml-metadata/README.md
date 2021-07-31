@@ -43,4 +43,5 @@ Example:
 - `singleSignOnServices`: array of singleSignOnService
 
 # singleSignOnService
+
 Object containing `SingleSignOnService` Binding and Location, indexed in `singleSignOnServices`

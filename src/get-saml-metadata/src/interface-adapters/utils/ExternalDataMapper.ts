@@ -1,6 +1,6 @@
-import { IExternalData } from '../protocols/IExternalData'
-import { IExternalDataMapper } from '../protocols/IExternalDataMapper'
-import { IMetadata, KeyDescriptor } from '../protocols/IMetadataTypes'
+import { IExternalData } from '../../entities/IExternalData'
+import { IMetadata, KeyDescriptor } from '../../entities/IMetadataTypes'
+import { IExternalDataMapper } from '../../use-cases/ports/IExternalDataMapper'
 
 /**
  * Adapts Metadata (IMetadata) to IExternalData

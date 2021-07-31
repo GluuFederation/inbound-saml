@@ -1,6 +1,6 @@
 import { parse } from 'fast-xml-parser'
-import { IMetadataMapper } from '../protocols/IMetadataMapper'
-import { IDPSSODescriptor, IMetadata } from '../protocols/IMetadataTypes'
+import { IDPSSODescriptor, IMetadata } from '../entities/IMetadataTypes'
+import { IMetadataMapper } from '../use-cases/ports/IMetadataMapper'
 
 export class MetadataMapperAdapter implements IMetadataMapper {
   options = { ignoreAttributes: false }

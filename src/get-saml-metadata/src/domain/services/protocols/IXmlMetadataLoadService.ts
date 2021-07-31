@@ -1,4 +1,4 @@
-import { XmlMetadata } from '../../value-objects/XmlMetadata'
+import { XmlMetadata } from '../../../entities/value-objects/XmlMetadata'
 
 export interface IXmlMetadataLoadService {
   // readonly urlOrPath: string

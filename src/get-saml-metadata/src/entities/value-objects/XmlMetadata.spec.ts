@@ -1,4 +1,4 @@
-import { IValidator } from '../protocols/IValidator'
+import { IValidator } from '../../use-cases/ports/IValidator'
 import { XmlMetadata, XmlMetadataProps } from './XmlMetadata'
 
 const makeXmlValidator = (): IValidator => {

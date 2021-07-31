@@ -1,6 +1,6 @@
-import { IMetadata } from '../get-saml-metadata/src/application/protocols/IMetadataTypes'
 import * as fs from 'fs'
-import { makeXmlMetadata } from '../get-saml-metadata/src/domain/factories/makeXmlMetadata'
+import { makeXmlMetadata } from '../get-saml-metadata/src/data/factories/makeXmlMetadata'
+import { IMetadata } from '../get-saml-metadata/src/entities/IMetadataTypes'
 
 export const validFilePath = process.cwd() + '/src/testdata/shibIdpMetadata.xml'
 export const validMetadataString = fs.readFileSync(validFilePath).toString()

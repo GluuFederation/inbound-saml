@@ -1,6 +1,6 @@
-import { IXmlMetadataLoaderRepository } from '../utils/IXmlMetadataLoaderRepository'
-import { XmlMetadata } from '../value-objects/XmlMetadata'
-import { IXmlMetadataLoadService } from './protocols/IXmlMetadataLoadService'
+import { IXmlMetadataLoadService } from '../domain/services/protocols/IXmlMetadataLoadService'
+import { XmlMetadata } from '../entities/value-objects/XmlMetadata'
+import { IXmlMetadataLoaderRepository } from './ports/IXmlMetadataLoaderRepository'
 
 export class XmlMetadataLoadService implements IXmlMetadataLoadService {
   private readonly urlOrPath: string

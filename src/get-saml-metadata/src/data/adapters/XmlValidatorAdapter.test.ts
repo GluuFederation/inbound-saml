@@ -1,7 +1,6 @@
-
 import { readFileSync } from 'fs'
-import { IValidator } from '../protocols/IValidator'
-import { XmlMetadata, XmlMetadataProps } from '../value-objects/XmlMetadata'
+import { XmlMetadata, XmlMetadataProps } from '../../entities/value-objects/XmlMetadata'
+import { IValidator } from '../../use-cases/ports/IValidator'
 import { XmlValidatorAdapter } from './XmlValidatorAdapter'
 const validXmlFilePath = process.cwd() + '/src/testdata/shibIdpMetadata.xml'
 

@@ -1,6 +1,6 @@
 import * as parser from 'fast-xml-parser'
-import { IValidator } from '../protocols/IValidator'
-import { XmlMetadata, XmlMetadataProps } from '../value-objects/XmlMetadata'
+import { XmlMetadata, XmlMetadataProps } from '../../entities/value-objects/XmlMetadata'
+import { IValidator } from '../../use-cases/ports/IValidator'
 import { XmlValidatorAdapter } from './XmlValidatorAdapter'
 
 const validXmlString = '<root>Any valid xml</root>'

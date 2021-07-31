@@ -1,5 +1,5 @@
+import { XmlMetadata, XmlMetadataProps } from '../../entities/value-objects/XmlMetadata'
 import { XmlValidatorAdapter } from '../adapters/XmlValidatorAdapter'
-import { XmlMetadata, XmlMetadataProps } from '../value-objects/XmlMetadata'
 
 export const makeXmlMetadata = (props: XmlMetadataProps): XmlMetadata => {
   const xmlValidator = new XmlValidatorAdapter()
