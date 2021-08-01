@@ -11,6 +11,12 @@ export class GetExternalDataInteractor implements IGetExternalDataInputBoundary 
   private readonly externalDataMapper: IExternalDataMapper
   private readonly presenter: IGetExternalDataOutputBoundary
 
+  /**
+   * @param xmlMetadataLoader Loads metadata from file or url...
+   * @param metadataMapper maps xmldata to IMetatada
+   * @param externalDataMapper  maps IMetadata to IExternalData
+   * @param presenter presents output
+   */
   constructor (
     xmlMetadataLoader: IXmlMetadataLoaderGateway,
     metadataMapper: IMetadataMapper,
