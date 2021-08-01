@@ -1,6 +1,6 @@
 import { XmlMetadata, XmlMetadataProps } from '../entities/value-objects/XmlMetadata'
 import { IValidator } from './ports/IValidator'
-import { IXmlMetadataLoaderRepository } from './ports/IXmlMetadataLoaderRepository'
+import { IXmlMetadataLoaderGateway } from './ports/IXmlMetadataLoaderGateway'
 import { XmlMetadataLoadService } from './XmlMetadataLoadService'
 
 const fakeXmlProps: XmlMetadataProps = {
@@ -15,8 +15,8 @@ const makeXmlValidator = (): IValidator => {
   return new XmlValidatorStub()
 }
 
-const makeFileLoader = (): IXmlMetadataLoaderRepository => {
-  class FileLoaderStub implements IXmlMetadataLoaderRepository {
+const makeFileLoader = (): IXmlMetadataLoaderGateway => {
+  class FileLoaderStub implements IXmlMetadataLoaderGateway {
     public load (): XmlMetadata {
       return new XmlMetadata(makeXmlValidator(), fakeXmlProps)
     }

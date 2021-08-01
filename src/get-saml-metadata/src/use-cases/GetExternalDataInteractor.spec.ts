@@ -11,7 +11,7 @@ import { IGetExternalDataOutputBoundary } from './IGetExternalDataOutputBoundary
 import { IResponseModel } from './IResponseModel'
 import { IExternalDataMapper } from './ports/IExternalDataMapper'
 import { IMetadataMapper } from './ports/IMetadataMapper'
-import { IXmlMetadataLoaderRepository } from './ports/IXmlMetadataLoaderRepository'
+import { IXmlMetadataLoaderGateway } from './ports/IXmlMetadataLoaderGateway'
 
 const makePresenter = (): IGetExternalDataOutputBoundary => {
   class PresenterStub implements IGetExternalDataOutputBoundary {
@@ -22,8 +22,8 @@ const makePresenter = (): IGetExternalDataOutputBoundary => {
   return new PresenterStub()
 }
 
-const makeXmlMetadataLoader = (): IXmlMetadataLoaderRepository => {
-  class XmlMetadataLoaderStub implements IXmlMetadataLoaderRepository {
+const makeXmlMetadataLoader = (): IXmlMetadataLoaderGateway => {
+  class XmlMetadataLoaderStub implements IXmlMetadataLoaderGateway {
     load (urlOrPath: string): XmlMetadata {
       return makeXmlMetadata({ xml: validMetadataString })
     }
@@ -59,7 +59,7 @@ const makeExternalDataMapper = (): IExternalDataMapper => {
 
 interface SutTypes {
   sut: IGetExternalDataInputBoundary
-  xmlMetadataLoaderStub: IXmlMetadataLoaderRepository
+  xmlMetadataLoaderStub: IXmlMetadataLoaderGateway
   metadataMapperStub: IMetadataMapper
   externalDataMapperStub: IExternalDataMapper
   presenterStub: IGetExternalDataOutputBoundary

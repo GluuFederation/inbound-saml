@@ -3,16 +3,16 @@ import { IGetExternalDataInputBoundary } from './IGetExternalDataInputBoundary'
 import { IGetExternalDataOutputBoundary } from './IGetExternalDataOutputBoundary'
 import { IExternalDataMapper } from './ports/IExternalDataMapper'
 import { IMetadataMapper } from './ports/IMetadataMapper'
-import { IXmlMetadataLoaderRepository } from './ports/IXmlMetadataLoaderRepository'
+import { IXmlMetadataLoaderGateway } from './ports/IXmlMetadataLoaderGateway'
 
 export class GetExternalDataInteractor implements IGetExternalDataInputBoundary {
-  private readonly xmlMetadataLoader: IXmlMetadataLoaderRepository
+  private readonly xmlMetadataLoader: IXmlMetadataLoaderGateway
   private readonly metadataMapper: IMetadataMapper
   private readonly externalDataMapper: IExternalDataMapper
   private readonly presenter: IGetExternalDataOutputBoundary
 
   constructor (
-    xmlMetadataLoader: IXmlMetadataLoaderRepository,
+    xmlMetadataLoader: IXmlMetadataLoaderGateway,
     metadataMapper: IMetadataMapper,
     externalDataMapper: IExternalDataMapper,
     presenter: IGetExternalDataOutputBoundary

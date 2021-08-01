@@ -1,13 +1,13 @@
 import { readFileSync } from 'fs'
 import { XmlMetadata } from '../../../entities/value-objects/XmlMetadata'
-import { IXmlMetadataLoaderRepository } from '../../../use-cases/ports/IXmlMetadataLoaderRepository'
+import { IXmlMetadataLoaderGateway } from '../../../use-cases/ports/IXmlMetadataLoaderGateway'
 import { makeXmlMetadata } from '../factories/makeXmlMetadata'
 
 /**
- * Creates a File Loader using `fs` that implements IXmlMetadataLoaderRepository
- * @implements IXmlMetadataLoaderRepository
+ * Creates a File Loader using `fs` that implements IXmlMetadataLoaderGateway
+ * @implements IXmlMetadataLoaderGateway
  */
-export class FileXmlMetadataLoaderAdapter implements IXmlMetadataLoaderRepository {
+export class FileXmlMetadataLoaderAdapter implements IXmlMetadataLoaderGateway {
   load (filePath: string): XmlMetadata {
     const xml = readFileSync(filePath).toString()
     return makeXmlMetadata({ xml })

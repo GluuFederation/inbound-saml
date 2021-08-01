@@ -1,13 +1,13 @@
 import { IXmlMetadataLoadService } from './IXmlMetadataLoadService'
 import { XmlMetadata } from '../entities/value-objects/XmlMetadata'
-import { IXmlMetadataLoaderRepository } from './ports/IXmlMetadataLoaderRepository'
+import { IXmlMetadataLoaderGateway } from './ports/IXmlMetadataLoaderGateway'
 
 export class XmlMetadataLoadService implements IXmlMetadataLoadService {
   private readonly urlOrPath: string
-  private readonly loader: IXmlMetadataLoaderRepository
+  private readonly loader: IXmlMetadataLoaderGateway
   constructor (
     urlOrPath: string,
-    loader: IXmlMetadataLoaderRepository
+    loader: IXmlMetadataLoaderGateway
   ) {
     this.urlOrPath = urlOrPath
     this.loader = loader

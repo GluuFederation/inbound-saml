@@ -2,6 +2,6 @@ import { XmlMetadata } from '../../../entities/value-objects/XmlMetadata'
 
 export interface IXmlMetadataLoadService {
   // readonly urlOrPath: string
-  // readonly loader: IXmlMetadataLoaderRepository
+  // readonly loader: IXmlMetadataLoaderGateway
   load: () => XmlMetadata
 }
