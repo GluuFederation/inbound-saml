@@ -1,5 +1,5 @@
 import fs from 'fs'
-import { validFilePath, validXmlMetadata } from '../../../../testdata/fakes'
+import { validFilePath, validXmlMetadata } from '../../../../../testdata/fakes'
 import { FileXmlMetadataLoaderAdapter } from './FileXmlMetadataLoaderAdapter'
 
 describe('FileXmlMetadataLoaderAdapter', () => {

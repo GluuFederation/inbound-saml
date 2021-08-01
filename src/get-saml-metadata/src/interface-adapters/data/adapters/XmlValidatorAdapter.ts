@@ -1,6 +1,6 @@
 import { validate } from 'fast-xml-parser'
-import { XmlMetadata } from '../../entities/value-objects/XmlMetadata'
-import { IValidator } from '../../use-cases/ports/IValidator'
+import { XmlMetadata } from '../../../entities/value-objects/XmlMetadata'
+import { IValidator } from '../../../use-cases/ports/IValidator'
 
 /**
  * Adapt to external fast-xml-parser module

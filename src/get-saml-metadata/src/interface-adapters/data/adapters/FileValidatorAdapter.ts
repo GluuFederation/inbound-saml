@@ -1,5 +1,5 @@
 import { existsSync } from 'fs'
-import { BaseFileValidator } from '../../use-cases/ports/BaseFileValidator'
+import { BaseFileValidator } from '../../../use-cases/ports/BaseFileValidator'
 
 /**
  * Check if file exists

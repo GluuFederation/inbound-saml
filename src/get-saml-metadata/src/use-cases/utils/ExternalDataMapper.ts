@@ -1,9 +1,9 @@
 import { IExternalData } from '../../entities/IExternalData'
 import { IMetadata, KeyDescriptor } from '../../entities/IMetadataTypes'
-import { IExternalDataMapper } from '../../use-cases/ports/IExternalDataMapper'
+import { IExternalDataMapper } from '../ports/IExternalDataMapper'
 
 /**
- * Adapts Metadata (IMetadata) to IExternalData
+ * Maps Metadata (IMetadata) to IExternalData
  */
 export class ExternalDataMapper implements IExternalDataMapper {
   public map (metadata: IMetadata): IExternalData {
