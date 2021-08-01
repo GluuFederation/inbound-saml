@@ -7,6 +7,7 @@
 import { GetExternalDataRequestModel } from '../../use-cases/GetExternalDataRequestModel'
 import { IGetExternalDataInputBoundary } from '../../use-cases/IGetExternalDataInputBoundary'
 import { IValidator } from '../../use-cases/ports/IValidator'
+import { InvalidPathOrUrlError } from './errors/InvalidPathOrUrlError'
 import { GetExternalDataController } from './GetExternalDataController'
 import { IGetExternalDataRequest } from './protocols/IGetExternalDataRequest'
 import { IRequest } from './protocols/IRequest'
@@ -63,5 +64,13 @@ describe('GetExternalDataController', () => {
     await sut.handle(validRequest)
     expect(isValidSpy).toHaveBeenCalledTimes(1)
     expect(isValidSpy).toHaveBeenCalledWith(validRequest.request.urlOrPath)
+  })
+  it('should throw InvalidUrlOrPathError if validator returns false', async () => {
+    const { sut, requestValidatorStub } = makeSut()
+    jest.spyOn(requestValidatorStub, 'isValid').mockReturnValue(false)
+    const promise = sut.handle(validRequest)
+    await expect(promise).rejects.toThrow(new InvalidPathOrUrlError(
+      validRequest.request.urlOrPath
+    ))
   })
 })
