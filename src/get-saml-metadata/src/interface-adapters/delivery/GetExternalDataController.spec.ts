@@ -30,8 +30,8 @@ const makeGetExternalDataInteractor = (): IGetExternalDataInputBoundary => {
   return new ExternalDataInteractorStub()
 }
 interface sutType {
-  sut: GetExternalDataController,
-  externalDataInteractorStub: IGetExternalDataInputBoundary,
+  sut: GetExternalDataController
+  externalDataInteractorStub: IGetExternalDataInputBoundary
   requestValidatorStub: IValidator
 }
 
