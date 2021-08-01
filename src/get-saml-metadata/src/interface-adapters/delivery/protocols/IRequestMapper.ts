@@ -1,6 +1,7 @@
-import { IRequestModel } from '../../../use-cases/IRequestModel'
+import { GetExternalDataRequestModel } from '../../../use-cases/GetExternalDataRequestModel'
+import { IGetExternalDataRequest } from './IGetExternalDataRequest'
 import { IRequest } from './IRequest'
 
-export interface IRequestMapper {
-  map: (request: IRequest<any>) => IRequestModel
+export interface IGetExternalDataRequestMapper {
+  map: (request: IRequest<IGetExternalDataRequest>) => GetExternalDataRequestModel
 }

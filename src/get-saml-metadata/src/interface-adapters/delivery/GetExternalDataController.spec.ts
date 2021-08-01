@@ -6,19 +6,19 @@
 
 import { GetExternalDataRequestModel } from '../../use-cases/GetExternalDataRequestModel'
 import { IGetExternalDataInputBoundary } from '../../use-cases/IGetExternalDataInputBoundary'
-import { IRequestModel } from '../../use-cases/IRequestModel'
 import { IValidator } from '../../use-cases/ports/IValidator'
 import { InvalidPathOrUrlError } from './errors/InvalidPathOrUrlError'
 import { GetExternalDataController } from './GetExternalDataController'
 import { IGetExternalDataRequest } from './protocols/IGetExternalDataRequest'
 import { IRequest } from './protocols/IRequest'
-import { IRequestMapper } from './protocols/IRequestMapper'
+import { IGetExternalDataRequestMapper } from './protocols/IRequestMapper'
 
-const makeMapper = (): IRequestMapper => {
-  class RequestMapperStub implements IRequestMapper {
-    map (request: IRequest<any>): IRequestModel {
+const makeMapper = (): IGetExternalDataRequestMapper => {
+  class RequestMapperStub implements IGetExternalDataRequestMapper {
+    map (request: IRequest<any>): GetExternalDataRequestModel {
       return {
-        requestId: 'valid id'
+        requestId: 'valid id',
+        urlOrPath: 'valid/path'
       }
     }
   }
@@ -46,7 +46,7 @@ interface sutType {
   sut: GetExternalDataController
   externalDataInteractorStub: IGetExternalDataInputBoundary
   requestValidatorStub: IValidator
-  requestMapperStub: IRequestMapper
+  requestMapperStub: IGetExternalDataRequestMapper
 }
 
 const makeSut = (): sutType => {
@@ -95,5 +95,21 @@ describe('GetExternalDataController', () => {
     const mapSpy = jest.spyOn(requestMapperStub, 'map')
     await sut.handle(validRequest)
     expect(mapSpy).toHaveBeenCalledWith(validRequest)
+    expect(mapSpy).toHaveBeenCalledTimes(1)
+  })
+  it('should call input execute with request model', async () => {
+    const { sut, externalDataInteractorStub, requestMapperStub } = makeSut()
+    jest.spyOn(requestMapperStub, 'map').mockReturnValueOnce({
+      requestId: validRequest.id,
+      urlOrPath: validRequest.request.urlOrPath
+    })
+    const executeSpy = jest.spyOn(externalDataInteractorStub, 'execute')
+    await sut.handle(validRequest)
+    const expected: GetExternalDataRequestModel = {
+      requestId: validRequest.id,
+      urlOrPath: validRequest.request.urlOrPath
+    }
+    expect(executeSpy).toHaveBeenCalledTimes(1)
+    expect(executeSpy).toHaveBeenCalledWith(expected)
   })
 })
