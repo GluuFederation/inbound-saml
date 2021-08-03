@@ -9,6 +9,7 @@ import { ExternalDataMapper } from '../../../use-cases/utils/ExternalDataMapper'
 import { makeFileXmlMetadataLoaderAdapter } from '../../data/factories/makeFileLoaderAdapter'
 import { MetadataMapperAdapter } from '../../utils/MetadataMapperAdapter'
 import { makeFileValidatorAdapter } from '../factories/makeFileValidatorAdapter'
+import { makeGetExternalDataInteractor } from '../factories/makeGetExternalDataInteractor'
 import { makeGetExternalDataRequestMapper } from '../factories/makeGetExternalDataRequestMapper'
 import { GetExternalDataController } from '../GetExternalDataController'
 import { GetExternalDataPresenter } from '../GetExternalDataPresenter'
@@ -23,20 +24,10 @@ interface IGetExternalDataResponse {
 
 export const getFromFile = async (path: UrlOrPath): Promise<IGetExternalDataResponse> => {
   const emiter = new EventEmitter()
-
-  const metadataMapper = new MetadataMapperAdapter()
-  const externalDataMapper = new ExternalDataMapper()
   const presenter = new GetExternalDataPresenter(
     emiter
   )
-  const xmlMetadataLoader = makeFileXmlMetadataLoaderAdapter()
-
-  const interactor = new GetExternalDataInteractor(
-    xmlMetadataLoader,
-    metadataMapper,
-    externalDataMapper,
-    presenter
-  )
+  const interactor = makeGetExternalDataInteractor(presenter)
 
   const validator = makeFileValidatorAdapter()
   const requestMapper = makeGetExternalDataRequestMapper()
