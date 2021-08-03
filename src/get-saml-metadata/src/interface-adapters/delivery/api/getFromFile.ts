@@ -1,17 +1,11 @@
 import { randomUUID } from 'crypto'
 import { EventEmitter } from 'stream'
 import { IExternalData } from '../../../entities/IExternalData'
-import { GetExternalDataInteractor } from '../../../use-cases/GetExternalDataInteractor'
 import { UrlOrPath } from '../../../use-cases/GetExternalDataRequestModel'
 import { GetExternalDataResponseModel } from '../../../use-cases/GetExternalDataResponseModel'
 import { IResponseModel } from '../../../use-cases/IResponseModel'
-import { ExternalDataMapper } from '../../../use-cases/utils/ExternalDataMapper'
-import { makeFileXmlMetadataLoaderAdapter } from '../../data/factories/makeFileLoaderAdapter'
-import { MetadataMapperAdapter } from '../../utils/MetadataMapperAdapter'
-import { makeFileValidatorAdapter } from '../factories/makeFileValidatorAdapter'
+import { makeGetExternalDataController } from '../factories/makeGetExternalDataController'
 import { makeGetExternalDataInteractor } from '../factories/makeGetExternalDataInteractor'
-import { makeGetExternalDataRequestMapper } from '../factories/makeGetExternalDataRequestMapper'
-import { GetExternalDataController } from '../GetExternalDataController'
 import { GetExternalDataPresenter } from '../GetExternalDataPresenter'
 
 interface IGetExternalDataResponse {
@@ -29,13 +23,7 @@ export const getFromFile = async (path: UrlOrPath): Promise<IGetExternalDataResp
   )
   const interactor = makeGetExternalDataInteractor(presenter)
 
-  const validator = makeFileValidatorAdapter()
-  const requestMapper = makeGetExternalDataRequestMapper()
-  const controller = new GetExternalDataController(
-    interactor,
-    validator,
-    requestMapper
-  )
+  const controller = makeGetExternalDataController(interactor)
 
   const requestId = randomUUID()
   const result: Array<IResponseModel<GetExternalDataResponseModel>> = []
