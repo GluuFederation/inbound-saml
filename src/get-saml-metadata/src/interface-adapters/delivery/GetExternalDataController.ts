@@ -1,7 +1,4 @@
-import { EventEmitter } from 'stream'
-import { GetExternalDataInteractor } from '../../use-cases/GetExternalDataInteractor'
-import { BaseGetExternalDataInteractor, IGetExternalDataInputBoundary } from '../../use-cases/IGetExternalDataInputBoundary'
-import { IGetExternalDataOutputBoundary } from '../../use-cases/IGetExternalDataOutputBoundary'
+import { IGetExternalDataInputBoundary } from '../../use-cases/IGetExternalDataInputBoundary'
 import { IValidator } from '../../use-cases/ports/IValidator'
 import { InvalidPathOrUrlError } from './errors/InvalidPathOrUrlError'
 import { IController } from './protocols/IController'
