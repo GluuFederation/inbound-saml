@@ -2,6 +2,9 @@ import { parse } from 'fast-xml-parser'
 import { IDPSSODescriptor, IMetadata } from '../../entities/IMetadataTypes'
 import { IMetadataMapper } from '../../use-cases/ports/IMetadataMapper'
 
+/**
+ * Uses fast-xml-parser
+ */
 export class MetadataMapperAdapter implements IMetadataMapper {
   options = { ignoreAttributes: false }
   private getIdpssoDescriptor (xmlData: string): IDPSSODescriptor {

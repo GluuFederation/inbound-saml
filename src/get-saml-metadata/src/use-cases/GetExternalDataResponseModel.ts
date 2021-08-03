@@ -1,4 +1,4 @@
-import { IExternalData } from '../domain/protocols/IExternalData'
+import { IExternalData } from '../entities/IExternalData'
 
 export type UrlOrPath = string
 
