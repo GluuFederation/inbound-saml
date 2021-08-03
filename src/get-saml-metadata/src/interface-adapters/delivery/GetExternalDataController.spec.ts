@@ -150,9 +150,7 @@ const makeSut = (concreteInteractor: boolean): sutType => {
   const sut = new GetExternalDataController(
     externalDataInteractorStub,
     requestValidatorStub,
-    requestMapperStub,
-    presenter,
-    emiter
+    requestMapperStub
   )
   return {
     sut,
@@ -176,14 +174,14 @@ describe('GetExternalDataController', () => {
     it('should call isValid once with correct params', async () => {
       const { sut, requestValidatorStub } = makeSut(false)
       const isValidSpy = jest.spyOn(requestValidatorStub, 'isValid')
-      await sut.handle(validRequest, cbfunction)
+      await sut.handle(validRequest)
       expect(isValidSpy).toHaveBeenCalledTimes(1)
       expect(isValidSpy).toHaveBeenCalledWith(validRequest.request.urlOrPath)
     })
     it('should throw InvalidUrlOrPathError if validator returns false', async () => {
       const { sut, requestValidatorStub } = makeSut(false)
       jest.spyOn(requestValidatorStub, 'isValid').mockReturnValue(false)
-      const promise = sut.handle(validRequest, cbfunction)
+      const promise = sut.handle(validRequest)
       await expect(promise).rejects.toThrow(new InvalidPathOrUrlError(
         validRequest.request.urlOrPath
       ))
@@ -191,7 +189,7 @@ describe('GetExternalDataController', () => {
     it('should call map with request object', async () => {
       const { sut, requestMapperStub } = makeSut(false)
       const mapSpy = jest.spyOn(requestMapperStub, 'map')
-      await sut.handle(validRequest, cbfunction)
+      await sut.handle(validRequest)
       expect(mapSpy).toHaveBeenCalledWith(validRequest)
       expect(mapSpy).toHaveBeenCalledTimes(1)
     })
@@ -202,7 +200,7 @@ describe('GetExternalDataController', () => {
         urlOrPath: validRequest.request.urlOrPath
       })
       const executeSpy = jest.spyOn(externalDataInteractorStub, 'execute')
-      await sut.handle(validRequest, cbfunction)
+      await sut.handle(validRequest)
       const expected: GetExternalDataRequestModel = {
         requestId: validRequest.id,
         urlOrPath: validRequest.request.urlOrPath
@@ -219,7 +217,7 @@ describe('GetExternalDataController', () => {
         urlOrPath: validRequest.request.urlOrPath
       })
       const executeSpy = jest.spyOn(externalDataInteractorStub, 'execute')
-      await sut.handle(validRequest, cbfunction)
+      await sut.handle(validRequest)
       const expected: GetExternalDataRequestModel = {
         requestId: validRequest.id,
         urlOrPath: validRequest.request.urlOrPath
@@ -228,13 +226,13 @@ describe('GetExternalDataController', () => {
       expect(executeSpy).toHaveBeenCalledWith(expected)
     })
   })
-  describe('event handler', () => {
-    it('should register listener to requestID event', async () => {
-      const { emiter, sut } = makeSut(true)
-      const onceSpy = jest.spyOn(emiter, 'once')
-      await sut.handle(validRequest, cbfunction)
-      expect(onceSpy).toHaveBeenCalledTimes(1)
-      expect(onceSpy.mock.calls[0][0]).toBe(validRequest.id)
-    })
-  })
+  // describe('event handler', () => {
+  //   it('should register listener to requestID event', async () => {
+  //     const { emiter, sut } = makeSut(true)
+  //     const onceSpy = jest.spyOn(emiter, 'once')
+  //     await sut.handle(validRequest)
+  //     expect(onceSpy).toHaveBeenCalledTimes(1)
+  //     expect(onceSpy.mock.calls[0][0]).toBe(validRequest.id)
+  //   })
+  // })
 })

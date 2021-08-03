@@ -13,16 +13,10 @@ export class GetExternalDataController implements IController {
   constructor (
     private readonly inputChannel: IGetExternalDataInputBoundary,
     private readonly urlOrPathValidator: IValidator,
-    private readonly requestMapper: IGetExternalDataRequestMapper,
-    private readonly presenter: IGetExternalDataOutputBoundary,
-    private readonly emiter: EventEmitter
+    private readonly requestMapper: IGetExternalDataRequestMapper
   ) {}
 
-  async handle (request: IRequest<IGetExternalDataRequest>,
-    callback: (response: any) => void): Promise<void> {
-    this.emiter.once(request.id, (response) => {
-      callback(response)
-    })
+  async handle (request: IRequest<IGetExternalDataRequest>): Promise<void> {
     if (!this.urlOrPathValidator.isValid(request.request.urlOrPath)) {
       throw new InvalidPathOrUrlError(request.request.urlOrPath)
     }
