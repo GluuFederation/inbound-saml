@@ -6,7 +6,7 @@ import { GetExternalDataResponseModel } from '../../../use-cases/GetExternalData
 import { IResponseModel } from '../../../use-cases/IResponseModel'
 import { makeGetExternalDataController } from '../factories/makeGetExternalDataController'
 import { makeGetExternalDataInteractor } from '../factories/makeGetExternalDataInteractor'
-import { GetExternalDataPresenter } from '../GetExternalDataPresenter'
+import { makeGetExternalDataPresenter } from '../factories/makeGetExternalDataPresenter'
 
 interface IGetExternalDataResponse {
   requestId: string
@@ -18,11 +18,8 @@ interface IGetExternalDataResponse {
 
 export const getFromFile = async (path: UrlOrPath): Promise<IGetExternalDataResponse> => {
   const emiter = new EventEmitter()
-  const presenter = new GetExternalDataPresenter(
-    emiter
-  )
+  const presenter = makeGetExternalDataPresenter(emiter)
   const interactor = makeGetExternalDataInteractor(presenter)
-
   const controller = makeGetExternalDataController(interactor)
 
   const requestId = randomUUID()
