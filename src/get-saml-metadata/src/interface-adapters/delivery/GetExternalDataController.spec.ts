@@ -4,6 +4,7 @@
  * - sends requestmodel to usecase
  */
 
+import { EventEmitter } from 'stream'
 import { fakeMetadata, validMetadataString } from '../../../../testdata/fakes'
 import { IExternalData } from '../../entities/IExternalData'
 import { IMetadata } from '../../entities/IMetadataTypes'
@@ -26,6 +27,13 @@ import { IRequest } from './protocols/IRequest'
 import { IGetExternalDataRequestMapper } from './protocols/IRequestMapper'
 
 jest.mock('../../use-cases/GetExternalDataInteractor')
+
+const cbfunction = (response: any): any => {
+  console.log('callback called with response')
+  console.log(response)
+  // whatever
+}
+
 const makeMapper = (): IGetExternalDataRequestMapper => {
   class RequestMapperStub implements IGetExternalDataRequestMapper {
     map (request: IRequest<any>): GetExternalDataRequestModel {
@@ -63,10 +71,12 @@ const makeGetExternalDataInteractor = (): BaseGetExternalDataInteractor => {
 
 // We also need to test with concrete interactor:
 
-const makePresenter = (): IGetExternalDataOutputBoundary => {
+const makePresenter = (emiter?: EventEmitter): IGetExternalDataOutputBoundary => {
   class PresenterStub implements IGetExternalDataOutputBoundary {
     present (response: IResponseModel<GetExternalDataResponseModel>): void {
-
+      if (emiter != null) {
+        emiter.emit(response.requestId, response)
+      }
     }
   }
   return new PresenterStub()
@@ -121,6 +131,8 @@ interface sutType {
   externalDataInteractorStub: BaseGetExternalDataInteractor
   requestValidatorStub: IValidator
   requestMapperStub: IGetExternalDataRequestMapper
+  presenter: IGetExternalDataOutputBoundary
+  emiter: EventEmitter
 }
 
 /**
@@ -129,20 +141,26 @@ interface sutType {
  * @returns sutType
  */
 const makeSut = (concreteInteractor: boolean): sutType => {
+  const emiter = new EventEmitter()
   const requestValidatorStub = makeRequestValidator()
   const externalDataInteractorStub = (
     concreteInteractor ? makeConcreteInteractor() : makeGetExternalDataInteractor())
   const requestMapperStub = makeMapper()
+  const presenter = makePresenter(emiter)
   const sut = new GetExternalDataController(
     externalDataInteractorStub,
     requestValidatorStub,
-    requestMapperStub
+    requestMapperStub,
+    presenter,
+    emiter
   )
   return {
     sut,
     externalDataInteractorStub,
     requestValidatorStub,
-    requestMapperStub
+    requestMapperStub,
+    presenter,
+    emiter
   }
 }
 
@@ -158,14 +176,14 @@ describe('GetExternalDataController', () => {
     it('should call isValid once with correct params', async () => {
       const { sut, requestValidatorStub } = makeSut(false)
       const isValidSpy = jest.spyOn(requestValidatorStub, 'isValid')
-      await sut.handle(validRequest)
+      await sut.handle(validRequest, cbfunction)
       expect(isValidSpy).toHaveBeenCalledTimes(1)
       expect(isValidSpy).toHaveBeenCalledWith(validRequest.request.urlOrPath)
     })
     it('should throw InvalidUrlOrPathError if validator returns false', async () => {
       const { sut, requestValidatorStub } = makeSut(false)
       jest.spyOn(requestValidatorStub, 'isValid').mockReturnValue(false)
-      const promise = sut.handle(validRequest)
+      const promise = sut.handle(validRequest, cbfunction)
       await expect(promise).rejects.toThrow(new InvalidPathOrUrlError(
         validRequest.request.urlOrPath
       ))
@@ -173,7 +191,7 @@ describe('GetExternalDataController', () => {
     it('should call map with request object', async () => {
       const { sut, requestMapperStub } = makeSut(false)
       const mapSpy = jest.spyOn(requestMapperStub, 'map')
-      await sut.handle(validRequest)
+      await sut.handle(validRequest, cbfunction)
       expect(mapSpy).toHaveBeenCalledWith(validRequest)
       expect(mapSpy).toHaveBeenCalledTimes(1)
     })
@@ -184,7 +202,7 @@ describe('GetExternalDataController', () => {
         urlOrPath: validRequest.request.urlOrPath
       })
       const executeSpy = jest.spyOn(externalDataInteractorStub, 'execute')
-      await sut.handle(validRequest)
+      await sut.handle(validRequest, cbfunction)
       const expected: GetExternalDataRequestModel = {
         requestId: validRequest.id,
         urlOrPath: validRequest.request.urlOrPath
@@ -201,13 +219,22 @@ describe('GetExternalDataController', () => {
         urlOrPath: validRequest.request.urlOrPath
       })
       const executeSpy = jest.spyOn(externalDataInteractorStub, 'execute')
-      await sut.handle(validRequest)
+      await sut.handle(validRequest, cbfunction)
       const expected: GetExternalDataRequestModel = {
         requestId: validRequest.id,
         urlOrPath: validRequest.request.urlOrPath
       }
       expect(executeSpy).toHaveBeenCalledTimes(1)
       expect(executeSpy).toHaveBeenCalledWith(expected)
+    })
+  })
+  describe('event handler', () => {
+    it('should register listener to requestID event', async () => {
+      const { emiter, sut } = makeSut(true)
+      const onceSpy = jest.spyOn(emiter, 'once')
+      await sut.handle(validRequest, cbfunction)
+      expect(onceSpy).toHaveBeenCalledTimes(1)
+      expect(onceSpy.mock.calls[0][0]).toBe(validRequest.id)
     })
   })
 })
