@@ -1,5 +1,5 @@
-import { IValidator } from '../../use-cases/ports/IValidator'
-import { ValueObject } from '../types/ValueObject'
+import { IValidator } from '@get-saml-metadata/entities/ports/IValidator'
+import { ValueObject } from '@get-saml-metadata/entities/types/ValueObject'
 
 export interface XmlMetadataProps {
   'xml': string

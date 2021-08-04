@@ -1,6 +1,6 @@
+import { IDPSSODescriptor, IMetadata, KeyDescriptor, Service } from '@get-saml-metadata/entities/IMetadataTypes'
+import { IMetadataMapper } from '@get-saml-metadata/use-cases/ports/IMetadataMapper'
 import { parse } from 'fast-xml-parser'
-import { IDPSSODescriptor, IMetadata, KeyDescriptor, Service } from '../../entities/IMetadataTypes'
-import { IMetadataMapper } from '../../use-cases/ports/IMetadataMapper'
 
 /**
  * Uses fast-xml-parser

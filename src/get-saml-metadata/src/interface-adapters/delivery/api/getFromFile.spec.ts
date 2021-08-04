@@ -1,9 +1,9 @@
+// ECMA6 import style needed for some mocks
+import * as loader from '@get-saml-metadata/interface-adapters/data/adapters/FileXmlMetadataLoaderAdapter'
+import { Getter } from '@get-saml-metadata/interface-adapters/delivery/api/getFromFile'
+import { GetExternalDataController } from '@get-saml-metadata/interface-adapters/delivery/GetExternalDataController'
+import * as interactor from '@get-saml-metadata/use-cases/GetExternalDataInteractor'
 import { validFilePath } from '../../../../../testdata/fakes'
-import * as interactor from '../../../use-cases/GetExternalDataInteractor'
-import * as loader from '../../data/adapters/FileXmlMetadataLoaderAdapter'
-import { GetExternalDataController } from '../GetExternalDataController'
-import { GetExternalDataPresenter } from '../GetExternalDataPresenter'
-import { Getter } from './getFromFile'
 
 jest.mock('../../../use-cases/GetExternalDataInteractor')
 jest.mock('../GetExternalDataController')

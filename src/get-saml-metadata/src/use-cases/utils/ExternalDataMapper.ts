@@ -1,6 +1,6 @@
-import { IExternalData } from '../../entities/IExternalData'
-import { IMetadata, KeyDescriptor } from '../../entities/IMetadataTypes'
-import { IExternalDataMapper } from '../ports/IExternalDataMapper'
+import { IExternalData } from '@get-saml-metadata/entities/IExternalData'
+import { IMetadata, KeyDescriptor } from '@get-saml-metadata/entities/IMetadataTypes'
+import { IExternalDataMapper } from '@get-saml-metadata/use-cases/ports/IExternalDataMapper'
 
 /**
  * Maps Metadata (IMetadata) to IExternalData

@@ -1,5 +1,5 @@
-import { GetExternalDataResponseModel } from './GetExternalDataResponseModel'
-import { IResponseModel } from './IResponseModel'
+import { GetExternalDataResponseModel } from '@get-saml-metadata/use-cases/GetExternalDataResponseModel'
+import { IResponseModel } from '@get-saml-metadata/use-cases/IResponseModel'
 
 export interface IGetExternalDataOutputBoundary {
   present: (response: IResponseModel<GetExternalDataResponseModel>) => void

@@ -1,8 +1,8 @@
-import { GetExternalDataRequestModel } from './GetExternalDataRequestModel'
-import { IGetExternalDataOutputBoundary } from './IGetExternalDataOutputBoundary'
-import { IExternalDataMapper } from './ports/IExternalDataMapper'
-import { IMetadataMapper } from './ports/IMetadataMapper'
-import { IXmlMetadataLoaderGateway } from './ports/IXmlMetadataLoaderGateway'
+import { GetExternalDataRequestModel } from '@get-saml-metadata/use-cases/GetExternalDataRequestModel'
+import { IGetExternalDataOutputBoundary } from '@get-saml-metadata/use-cases/IGetExternalDataOutputBoundary'
+import { IExternalDataMapper } from '@get-saml-metadata/use-cases/ports/IExternalDataMapper'
+import { IMetadataMapper } from '@get-saml-metadata/use-cases/ports/IMetadataMapper'
+import { IXmlMetadataLoaderGateway } from '@get-saml-metadata/use-cases/ports/IXmlMetadataLoaderGateway'
 
 export interface IGetExternalDataInputBoundary{
   execute: (request: GetExternalDataRequestModel) => Promise<void>

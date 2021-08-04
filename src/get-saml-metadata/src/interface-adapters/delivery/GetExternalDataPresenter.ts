@@ -1,7 +1,7 @@
-import { EventEmitter } from 'node:stream'
-import { GetExternalDataResponseModel } from '../../use-cases/GetExternalDataResponseModel'
-import { IGetExternalDataOutputBoundary } from '../../use-cases/IGetExternalDataOutputBoundary'
-import { IResponseModel } from '../../use-cases/IResponseModel'
+import { GetExternalDataResponseModel } from '@get-saml-metadata/use-cases/GetExternalDataResponseModel'
+import { IGetExternalDataOutputBoundary } from '@get-saml-metadata/use-cases/IGetExternalDataOutputBoundary'
+import { IResponseModel } from '@get-saml-metadata/use-cases/IResponseModel'
+import { EventEmitter } from 'stream'
 
 export class GetExternalDataPresenter implements IGetExternalDataOutputBoundary {
   /**

@@ -1,8 +1,5 @@
+import { ExternalDataMapper } from '@get-saml-metadata/use-cases/utils/ExternalDataMapper'
 import { fakeMetadata } from '../../../../testdata/fakes'
-import { ExternalDataMapper } from './ExternalDataMapper'
-
-// getFromFile(urlOrPath)
-// idpMetadata = makeIdpMetadata(urlOrPath)
 
 describe('ExternalDataMapper', () => {
   it('should create an object that implements IExternalData w/ correct values', () => {

@@ -1,5 +1,5 @@
-import { GetExternalDataRequestModel } from './GetExternalDataRequestModel'
-import { BaseGetExternalDataInteractor, IGetExternalDataInputBoundary } from './IGetExternalDataInputBoundary'
+import { GetExternalDataRequestModel } from '@get-saml-metadata/use-cases/GetExternalDataRequestModel'
+import { BaseGetExternalDataInteractor, IGetExternalDataInputBoundary } from '@get-saml-metadata/use-cases/IGetExternalDataInputBoundary'
 
 export class GetExternalDataInteractor extends BaseGetExternalDataInteractor implements IGetExternalDataInputBoundary {
   async execute (request: GetExternalDataRequestModel): Promise<void> {

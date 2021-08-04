@@ -1,7 +1,7 @@
+import { IValidator } from '@get-saml-metadata/entities/ports/IValidator'
+import { XmlMetadata, XmlMetadataProps } from '@get-saml-metadata/entities/value-objects/XmlMetadata'
+import { XmlValidatorAdapter } from '@get-saml-metadata/interface-adapters/data/adapters/XmlValidatorAdapter'
 import * as parser from 'fast-xml-parser'
-import { XmlMetadata, XmlMetadataProps } from '../../../entities/value-objects/XmlMetadata'
-import { IValidator } from '../../../use-cases/ports/IValidator'
-import { XmlValidatorAdapter } from './XmlValidatorAdapter'
 
 const validXmlString = '<root>Any valid xml</root>'
 

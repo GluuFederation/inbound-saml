@@ -1,10 +1,10 @@
+import { GetExternalDataPresenter } from '@get-saml-metadata/interface-adapters/delivery/GetExternalDataPresenter'
+import { IGetExternalDataRequest } from '@get-saml-metadata/interface-adapters/delivery/protocols/IGetExternalDataRequest'
+import { IRequest } from '@get-saml-metadata/interface-adapters/delivery/protocols/IRequest'
+import { GetExternalDataResponseModel } from '@get-saml-metadata/use-cases/GetExternalDataResponseModel'
+import { IGetExternalDataOutputBoundary } from '@get-saml-metadata/use-cases/IGetExternalDataOutputBoundary'
+import { IResponseModel } from '@get-saml-metadata/use-cases/IResponseModel'
 import { EventEmitter } from 'stream'
-import { GetExternalDataResponseModel } from '../../use-cases/GetExternalDataResponseModel'
-import { IGetExternalDataOutputBoundary } from '../../use-cases/IGetExternalDataOutputBoundary'
-import { IResponseModel } from '../../use-cases/IResponseModel'
-import { GetExternalDataPresenter } from './GetExternalDataPresenter'
-import { IGetExternalDataRequest } from './protocols/IGetExternalDataRequest'
-import { IRequest } from './protocols/IRequest'
 
 interface SutTypes {
   emiter: EventEmitter

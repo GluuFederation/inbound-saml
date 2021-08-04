@@ -1,5 +1,5 @@
-import { IXmlMetadataLoaderGateway } from '../../../use-cases/ports/IXmlMetadataLoaderGateway'
-import { FileXmlMetadataLoaderAdapter } from '../../data/adapters/FileXmlMetadataLoaderAdapter'
+import { FileXmlMetadataLoaderAdapter } from '@get-saml-metadata/interface-adapters/data/adapters/FileXmlMetadataLoaderAdapter'
+import { IXmlMetadataLoaderGateway } from '@get-saml-metadata/use-cases/ports/IXmlMetadataLoaderGateway'
 
 export const makeFileXmlMetadataLoaderAdapter = (): IXmlMetadataLoaderGateway => {
   return new FileXmlMetadataLoaderAdapter()

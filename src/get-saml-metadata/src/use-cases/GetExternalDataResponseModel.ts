@@ -1,4 +1,4 @@
-import { IExternalData } from '../entities/IExternalData'
+import { IExternalData } from '@get-saml-metadata/entities/IExternalData'
 
 export type UrlOrPath = string
 

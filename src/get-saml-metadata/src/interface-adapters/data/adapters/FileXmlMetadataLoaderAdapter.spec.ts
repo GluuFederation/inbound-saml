@@ -1,6 +1,6 @@
+import { FileXmlMetadataLoaderAdapter } from '@get-saml-metadata/interface-adapters/data/adapters/FileXmlMetadataLoaderAdapter'
 import fs from 'fs'
 import { validFilePath, validXmlMetadata } from '../../../../../testdata/fakes'
-import { FileXmlMetadataLoaderAdapter } from './FileXmlMetadataLoaderAdapter'
 
 describe('FileXmlMetadataLoaderAdapter', () => {
   it('should call readFileSync with correct values', () => {

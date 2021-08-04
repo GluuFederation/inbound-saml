@@ -1,4 +1,4 @@
-import { IRequestModel } from './IRequestModel'
+import { IRequestModel } from '@get-saml-metadata/use-cases/IRequestModel'
 
 export type UrlOrPath = string
 

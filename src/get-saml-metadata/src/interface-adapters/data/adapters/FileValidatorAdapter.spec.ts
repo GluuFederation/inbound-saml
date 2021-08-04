@@ -1,5 +1,5 @@
+import { FileValidatorAdapter } from '@get-saml-metadata/interface-adapters/data/adapters/FileValidatorAdapter'
 import fs from 'fs'
-import { FileValidatorAdapter } from './FileValidatorAdapter'
 
 const validPath = '/valid/path/file.ext'
 

@@ -1,7 +1,7 @@
-import { GetExternalDataRequestModel } from '../../../use-cases/GetExternalDataRequestModel'
-import { IGetExternalDataRequest } from '../protocols/IGetExternalDataRequest'
-import { IRequest } from '../protocols/IRequest'
-import { GetExternalDataRequestMapper } from './GetExternalDataRequestMapper'
+import { GetExternalDataRequestMapper } from '@get-saml-metadata/interface-adapters/delivery/mappers/GetExternalDataRequestMapper'
+import { IGetExternalDataRequest } from '@get-saml-metadata/interface-adapters/delivery/protocols/IGetExternalDataRequest'
+import { IRequest } from '@get-saml-metadata/interface-adapters/delivery/protocols/IRequest'
+import { GetExternalDataRequestModel } from '@get-saml-metadata/use-cases/GetExternalDataRequestModel'
 
 const fakeRequest: IRequest<IGetExternalDataRequest> = {
   id: 'valid id',

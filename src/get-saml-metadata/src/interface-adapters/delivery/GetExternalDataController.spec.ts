@@ -1,30 +1,24 @@
-/**
- * - getFromFile(controller.handle(getExternalDataRequest))
- * -
- * - sends requestmodel to usecase
- */
-
+import { IExternalData } from '@get-saml-metadata/entities/IExternalData'
+import { IMetadata } from '@get-saml-metadata/entities/IMetadataTypes'
+import { XmlMetadata } from '@get-saml-metadata/entities/value-objects/XmlMetadata'
+import { makeXmlMetadata } from '@get-saml-metadata/interface-adapters/data/factories/makeXmlMetadata'
+import { InvalidPathOrUrlError } from '@get-saml-metadata/interface-adapters/delivery/errors/InvalidPathOrUrlError'
+import { GetExternalDataController } from '@get-saml-metadata/interface-adapters/delivery/GetExternalDataController'
+import { IGetExternalDataRequest } from '@get-saml-metadata/interface-adapters/delivery/protocols/IGetExternalDataRequest'
+import { IRequest } from '@get-saml-metadata/interface-adapters/delivery/protocols/IRequest'
+import { IGetExternalDataRequestMapper } from '@get-saml-metadata/interface-adapters/delivery/protocols/IRequestMapper'
+import { GetExternalDataInteractor } from '@get-saml-metadata/use-cases/GetExternalDataInteractor'
+import { GetExternalDataRequestModel } from '@get-saml-metadata/use-cases/GetExternalDataRequestModel'
+import { GetExternalDataResponseModel } from '@get-saml-metadata/use-cases/GetExternalDataResponseModel'
+import { BaseGetExternalDataInteractor, IGetExternalDataInputBoundary } from '@get-saml-metadata/use-cases/IGetExternalDataInputBoundary'
+import { IGetExternalDataOutputBoundary } from '@get-saml-metadata/use-cases/IGetExternalDataOutputBoundary'
+import { IResponseModel } from '@get-saml-metadata/use-cases/IResponseModel'
+import { IExternalDataMapper } from '@get-saml-metadata/use-cases/ports/IExternalDataMapper'
+import { IMetadataMapper } from '@get-saml-metadata/use-cases/ports/IMetadataMapper'
+import { IValidator } from '@get-saml-metadata/use-cases/ports/IValidator'
+import { IXmlMetadataLoaderGateway } from '@get-saml-metadata/use-cases/ports/IXmlMetadataLoaderGateway'
 import { EventEmitter } from 'stream'
 import { fakeMetadata, validMetadataString } from '../../../../testdata/fakes'
-import { IExternalData } from '../../entities/IExternalData'
-import { IMetadata } from '../../entities/IMetadataTypes'
-import { XmlMetadata } from '../../entities/value-objects/XmlMetadata'
-import { GetExternalDataInteractor } from '../../use-cases/GetExternalDataInteractor'
-import { GetExternalDataRequestModel } from '../../use-cases/GetExternalDataRequestModel'
-import { GetExternalDataResponseModel } from '../../use-cases/GetExternalDataResponseModel'
-import { BaseGetExternalDataInteractor, IGetExternalDataInputBoundary } from '../../use-cases/IGetExternalDataInputBoundary'
-import { IGetExternalDataOutputBoundary } from '../../use-cases/IGetExternalDataOutputBoundary'
-import { IResponseModel } from '../../use-cases/IResponseModel'
-import { IExternalDataMapper } from '../../use-cases/ports/IExternalDataMapper'
-import { IMetadataMapper } from '../../use-cases/ports/IMetadataMapper'
-import { IValidator } from '../../use-cases/ports/IValidator'
-import { IXmlMetadataLoaderGateway } from '../../use-cases/ports/IXmlMetadataLoaderGateway'
-import { makeXmlMetadata } from '../data/factories/makeXmlMetadata'
-import { InvalidPathOrUrlError } from './errors/InvalidPathOrUrlError'
-import { GetExternalDataController } from './GetExternalDataController'
-import { IGetExternalDataRequest } from './protocols/IGetExternalDataRequest'
-import { IRequest } from './protocols/IRequest'
-import { IGetExternalDataRequestMapper } from './protocols/IRequestMapper'
 
 jest.mock('../../use-cases/GetExternalDataInteractor')
 
@@ -220,13 +214,4 @@ describe('GetExternalDataController', () => {
       expect(executeSpy).toHaveBeenCalledWith(expected)
     })
   })
-  // describe('event handler', () => {
-  //   it('should register listener to requestID event', async () => {
-  //     const { emiter, sut } = makeSut(true)
-  //     const onceSpy = jest.spyOn(emiter, 'once')
-  //     await sut.handle(validRequest)
-  //     expect(onceSpy).toHaveBeenCalledTimes(1)
-  //     expect(onceSpy.mock.calls[0][0]).toBe(validRequest.id)
-  //   })
-  // })
 })

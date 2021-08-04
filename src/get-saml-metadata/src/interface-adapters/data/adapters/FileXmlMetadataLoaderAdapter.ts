@@ -1,7 +1,8 @@
+
+import { XmlMetadata } from '@get-saml-metadata/entities/value-objects/XmlMetadata'
+import { makeXmlMetadata } from '@get-saml-metadata/interface-adapters/data/factories/makeXmlMetadata'
+import { IXmlMetadataLoaderGateway } from '@get-saml-metadata/use-cases/ports/IXmlMetadataLoaderGateway'
 import { readFileSync } from 'fs'
-import { XmlMetadata } from '../../../entities/value-objects/XmlMetadata'
-import { IXmlMetadataLoaderGateway } from '../../../use-cases/ports/IXmlMetadataLoaderGateway'
-import { makeXmlMetadata } from '../factories/makeXmlMetadata'
 
 /**
  * Creates a File Loader using `fs` that implements IXmlMetadataLoaderGateway

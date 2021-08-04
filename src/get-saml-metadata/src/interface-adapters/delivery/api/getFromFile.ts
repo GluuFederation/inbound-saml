@@ -1,13 +1,14 @@
+
+import { makeGetExternalDataController } from '@get-saml-metadata/interface-adapters/delivery/factories/makeGetExternalDataController'
+import { makeGetExternalDataInteractor } from '@get-saml-metadata/interface-adapters/delivery/factories/makeGetExternalDataInteractor'
+import { makeGetExternalDataPresenter } from '@get-saml-metadata/interface-adapters/delivery/factories/makeGetExternalDataPresenter'
+import { IGetExternalDataResponse } from '@get-saml-metadata/interface-adapters/delivery/protocols/IGetExternalDataResponse'
+import { IGetter } from '@get-saml-metadata/interface-adapters/delivery/protocols/IGetter'
+import { UrlOrPath } from '@get-saml-metadata/use-cases/GetExternalDataRequestModel'
+import { GetExternalDataResponseModel } from '@get-saml-metadata/use-cases/GetExternalDataResponseModel'
+import { IResponseModel } from '@get-saml-metadata/use-cases/IResponseModel'
 import { randomUUID } from 'crypto'
 import { EventEmitter } from 'stream'
-import { UrlOrPath } from '../../../use-cases/GetExternalDataRequestModel'
-import { GetExternalDataResponseModel } from '../../../use-cases/GetExternalDataResponseModel'
-import { IResponseModel } from '../../../use-cases/IResponseModel'
-import { makeGetExternalDataController } from '../factories/makeGetExternalDataController'
-import { makeGetExternalDataInteractor } from '../factories/makeGetExternalDataInteractor'
-import { makeGetExternalDataPresenter } from '../factories/makeGetExternalDataPresenter'
-import { IGetExternalDataResponse } from '../protocols/IGetExternalDataResponse'
-import { IGetter } from '../protocols/IGetter'
 
 export class Getter implements IGetter {
   emiter = new EventEmitter()

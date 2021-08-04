@@ -1,4 +1,4 @@
-import { IExternalData } from '../../../entities/IExternalData'
+import { IExternalData } from '@get-saml-metadata/entities/IExternalData'
 
 export interface IGetExternalDataResponse {
   requestId: string

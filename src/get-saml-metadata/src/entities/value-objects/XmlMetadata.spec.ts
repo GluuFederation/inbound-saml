@@ -1,5 +1,5 @@
-import { IValidator } from '../../use-cases/ports/IValidator'
-import { XmlMetadata, XmlMetadataProps } from './XmlMetadata'
+import { IValidator } from '@get-saml-metadata/entities/ports/IValidator'
+import { XmlMetadata, XmlMetadataProps } from '@get-saml-metadata/entities/value-objects/XmlMetadata'
 
 const makeXmlValidator = (): IValidator => {
   class XmlValidatorStub implements IValidator {

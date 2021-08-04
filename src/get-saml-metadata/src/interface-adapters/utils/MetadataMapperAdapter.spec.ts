@@ -1,6 +1,7 @@
+import { MetadataMapperAdapter } from '@get-saml-metadata/interface-adapters/utils/MetadataMapperAdapter'
 import * as parser from 'fast-xml-parser'
 import { fakeMetadata, parsedMetadataString, validMetadataString } from '../../../../testdata/fakes'
-import { MetadataMapperAdapter } from './MetadataMapperAdapter'
+
 jest.mock('fast-xml-parser')
 
 const fakeXmlData = 'valid xml data'

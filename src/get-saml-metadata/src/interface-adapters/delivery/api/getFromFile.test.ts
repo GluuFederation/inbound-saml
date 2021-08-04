@@ -1,5 +1,6 @@
 // import { validFilePath } from '../../../../../testdata/fakes'
-import { Getter } from './getFromFile'
+
+import { Getter } from '@get-saml-metadata/interface-adapters/delivery/api/getFromFile'
 
 export const validFilePath = process.cwd() + '/src/testdata/idp2certs.xml'
 

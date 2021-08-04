@@ -1,5 +1,5 @@
-import { IMetadataMapper } from '../../../use-cases/ports/IMetadataMapper'
-import { MetadataMapperAdapter } from '../../utils/MetadataMapperAdapter'
+import { MetadataMapperAdapter } from '@get-saml-metadata/interface-adapters/utils/MetadataMapperAdapter'
+import { IMetadataMapper } from '@get-saml-metadata/use-cases/ports/IMetadataMapper'
 
 export const makeMetadataMapper = (): IMetadataMapper => {
   return new MetadataMapperAdapter()

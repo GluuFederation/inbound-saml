@@ -1,5 +1,5 @@
+import { BaseFileValidator } from '@get-saml-metadata/use-cases/ports/BaseFileValidator'
 import { existsSync } from 'fs'
-import { BaseFileValidator } from '../../../use-cases/ports/BaseFileValidator'
 
 /**
  * Check if file exists

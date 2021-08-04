@@ -1,6 +1,6 @@
+import { IMetadata, KeyDescriptor, Service } from '@get-saml-metadata/entities/IMetadataTypes'
+import { MetadataMapperAdapter } from '@get-saml-metadata/interface-adapters/utils/MetadataMapperAdapter'
 import { parsedByToolIdpSSODescriptor, validMetadataString } from '../../../../testdata/fakes'
-import { IMetadata, KeyDescriptor, Service } from '../../entities/IMetadataTypes'
-import { MetadataMapperAdapter } from './MetadataMapperAdapter'
 
 function isMetadata (metadata: IMetadata): metadata is IMetadata {
   if (
