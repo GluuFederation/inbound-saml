@@ -1,5 +1,5 @@
 import * as parser from 'fast-xml-parser'
-import { fakeMetadata, parsedByToolIdpSSODescriptor, parsedMetadataString, validMetadataString } from '../../../../testdata/fakes'
+import { fakeMetadata, parsedMetadataString, validMetadataString } from '../../../../testdata/fakes'
 import { MetadataMapperAdapter } from './MetadataMapperAdapter'
 jest.mock('fast-xml-parser')
 

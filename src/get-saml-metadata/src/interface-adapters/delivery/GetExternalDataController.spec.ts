@@ -28,12 +28,6 @@ import { IGetExternalDataRequestMapper } from './protocols/IRequestMapper'
 
 jest.mock('../../use-cases/GetExternalDataInteractor')
 
-const cbfunction = (response: any): any => {
-  console.log('callback called with response')
-  console.log(response)
-  // whatever
-}
-
 const makeMapper = (): IGetExternalDataRequestMapper => {
   class RequestMapperStub implements IGetExternalDataRequestMapper {
     map (request: IRequest<any>): GetExternalDataRequestModel {
