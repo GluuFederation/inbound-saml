@@ -4,6 +4,85 @@ import { makeXmlMetadata } from '../get-saml-metadata/src/interface-adapters/dat
 
 export const validFilePath = process.cwd() + '/src/testdata/shibIdpMetadata.xml'
 export const validMetadataString = fs.readFileSync(validFilePath).toString()
+export const parsedMetadataString = {
+  EntityDescriptor: {
+    IDPSSODescriptor: {
+      Extensions: {
+        'shibmd:Scope': 'pocidp.techno24x7.com'
+      },
+      KeyDescriptor: [
+        {
+          'ds:KeyInfo': {
+            'ds:X509Data': {
+              'ds:X509Certificate': 'MIIDjTCCAnUCFEfrDgg5EbuYxdqMKep1Dy6l9tfmMA0GCSqGSIb3DQEBCwUAMIGC\nMQswCQYDVQQGEwJCUjELMAkGA1UECAwCU1AxEjAQBgNVBAcMCVNhbyBQYXVsbzET\nMBEGA1UECgwKU2luZ2xlTWV0YTEeMBwGA1UEAwwVcG9jaWRwLnRlY2hubzI0eDcu\nY29tMR0wGwYJKoZIhvcNAQkBFg5jaHJpc0BnbHV1Lm9yZzAeFw0yMTA2MjQxNzMx\nMDJaFw0yMjA2MjQxNzMxMDJaMIGCMQswCQYDVQQGEwJCUjELMAkGA1UECAwCU1Ax\nEjAQBgNVBAcMCVNhbyBQYXVsbzETMBEGA1UECgwKU2luZ2xlTWV0YTEeMBwGA1UE\nAwwVcG9jaWRwLnRlY2hubzI0eDcuY29tMR0wGwYJKoZIhvcNAQkBFg5jaHJpc0Bn\nbHV1Lm9yZzCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALGNOi4d5sbO\nIaqmJY7VLuLODs2bO1VvGN8AydqVL1TR2ibB1ZmkTZCBQAulh3iiW+NwHYpPVzoO\nkEmCH7qT+BvqQ0LuAWwb88+a7G4t69PwVkO1oE8sxApuQ0qh7TQ0eRhn1jhROff1\nM+SOvDYeJXezMLPyDSlgzzt9oEymb3spoV7LlyPfDXhfGIrGDWsrGFTAMC5wAlyM\nji3Cv+rjSNdJSFQQ07mYIGAiV9jmIDwe47amTvmMQZTXCOQlgJnjivalUfRkZnhY\nnBeS4tkkuQu/ZQqM5EOaX4hyZkYMImjpWq1Era4UmMht1y+zPLwIyGjoBMRvG/Iz\nnx6PWMQeTacCAwEAATANBgkqhkiG9w0BAQsFAAOCAQEAGuxFRGUxlOJ1EdgJSidl\nDbGY/LpuGoeQHmBk3gFhug8FMKjeY2MU+RfpCzxoR1sF2wsshagcSMYs7D6ApWFc\ng+RqpTJ6B3CP5rANx2+MwXDs8lEf0yrswlDmCVXTK8g5CwYtARqHPM9kv0gFUkSf\nSobRvkTRGPzYwhvmPNpTWKtZtPF/rNam8Y3l56jEeMFJjLLtz/3Q7/ofH94rsDFF\ngslzQrk0ETEftKsgV1g0s9/icPzgH9cYK+J2E/ADoC0j2XCk8TegMglUvJ34DsJU\nrL/sYIs/Z7A5nnrVMiTx7wAGDl1w6so7rK+h/TkIrORwOyXWyO1LIHD5+yMkv1AR\new=='
+            }
+          }
+        },
+        {
+          'ds:KeyInfo': {
+            'ds:X509Data': {
+              'ds:X509Certificate': 'MIIDjTCCAnUCFFlJu9jZPHz8Es2mM8IMHlfc2jPDMA0GCSqGSIb3DQEBCwUAMIGC\nMQswCQYDVQQGEwJCUjELMAkGA1UECAwCU1AxEjAQBgNVBAcMCVNhbyBQYXVsbzET\nMBEGA1UECgwKU2luZ2xlTWV0YTEeMBwGA1UEAwwVcG9jaWRwLnRlY2hubzI0eDcu\nY29tMR0wGwYJKoZIhvcNAQkBFg5jaHJpc0BnbHV1Lm9yZzAeFw0yMTA2MjQxNzMx\nMDFaFw0yMjA2MjQxNzMxMDFaMIGCMQswCQYDVQQGEwJCUjELMAkGA1UECAwCU1Ax\nEjAQBgNVBAcMCVNhbyBQYXVsbzETMBEGA1UECgwKU2luZ2xlTWV0YTEeMBwGA1UE\nAwwVcG9jaWRwLnRlY2hubzI0eDcuY29tMR0wGwYJKoZIhvcNAQkBFg5jaHJpc0Bn\nbHV1Lm9yZzCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANvT+2lBREr2\nYObeZuVhn1iJpytbFnMMu1xxtS5bSNdsZI+ogCqpzWz2U7+6is6Wlyj9ZM7KFUiR\nsXUssrR8EAqHCJ6FMFLfyKVPeYKEVfjzfZgBeeuSau46znIoQsxY3qZX5qSh/dMX\n9tFi+kCXx6coO+umCorIZTFF1EH7t1F2mNRiJXmEwdozCCGPmf0hZgZ6a5i1Lgsu\nR6+FmRQmgJLOJLlLXcXbI2dHtLBQtxtinMyRhy/u4Thk7QasvF5zxkHeiJKWm98p\nziXgaBFD70YO7TukKzkY6eNyIsCqN/irlrvHrqxxVB5heis+DLRJ9++O1rn6TEPo\nSiAyi7u1S78CAwEAATANBgkqhkiG9w0BAQsFAAOCAQEAx+ul0nfxf9hDO/6sS8Mm\nUbd002Dhm6gPWXOG2AEQrhdkL3gaWQZ+ffxMBmZ74FodsuKoxpsRUIkZ0olBDX+s\n8xYHSRq8LgQxiCxSEsa6km7WinHJD7iry1uzLpNPCsU+PPH3/s/AOKExghNccu/f\nTcqr514b9vDWMtSSQzc2eD8znhrRHiQKTLwGDbUM5AvXsEn3ZQvn3ctLOgkdtxiT\nQicgAVv6iBezmIjm6Zple7S5sRwSdR5MjhsAdbLlQ9en9l69PojsnTb9/iHSmhMy\nm4QKxaItsPONkG1AgwjkIpzWmPtO5kFsmdyeHq6Fgc/GYqVg6HF9R9UCav1pdJQO\nkA=='
+            }
+          }
+        }
+      ],
+      ArtifactResolutionService: '',
+      SingleLogoutService: [
+        '',
+        '',
+        '',
+        ''
+      ],
+      NameIDFormat: [
+        'urn:mace:shibboleth:1.0:nameIdentifier',
+        'urn:oasis:names:tc:SAML:2.0:nameid-format:transient',
+        'urn:oasis:names:tc:SAML:2.0:nameid-format:persistent'
+      ],
+      SingleSignOnService: [
+        '',
+        '',
+        '',
+        ''
+      ]
+    },
+    AttributeAuthorityDescriptor: {
+      Extensions: {
+        'shibmd:Scope': 'pocidp.techno24x7.com'
+      },
+      KeyDescriptor: [
+        {
+          'ds:KeyInfo': {
+            'ds:X509Data': {
+              'ds:X509Certificate': 'MIIDjTCCAnUCFEfrDgg5EbuYxdqMKep1Dy6l9tfmMA0GCSqGSIb3DQEBCwUAMIGC\nMQswCQYDVQQGEwJCUjELMAkGA1UECAwCU1AxEjAQBgNVBAcMCVNhbyBQYXVsbzET\nMBEGA1UECgwKU2luZ2xlTWV0YTEeMBwGA1UEAwwVcG9jaWRwLnRlY2hubzI0eDcu\nY29tMR0wGwYJKoZIhvcNAQkBFg5jaHJpc0BnbHV1Lm9yZzAeFw0yMTA2MjQxNzMx\nMDJaFw0yMjA2MjQxNzMxMDJaMIGCMQswCQYDVQQGEwJCUjELMAkGA1UECAwCU1Ax\nEjAQBgNVBAcMCVNhbyBQYXVsbzETMBEGA1UECgwKU2luZ2xlTWV0YTEeMBwGA1UE\nAwwVcG9jaWRwLnRlY2hubzI0eDcuY29tMR0wGwYJKoZIhvcNAQkBFg5jaHJpc0Bn\nbHV1Lm9yZzCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALGNOi4d5sbO\nIaqmJY7VLuLODs2bO1VvGN8AydqVL1TR2ibB1ZmkTZCBQAulh3iiW+NwHYpPVzoO\nkEmCH7qT+BvqQ0LuAWwb88+a7G4t69PwVkO1oE8sxApuQ0qh7TQ0eRhn1jhROff1\nM+SOvDYeJXezMLPyDSlgzzt9oEymb3spoV7LlyPfDXhfGIrGDWsrGFTAMC5wAlyM\nji3Cv+rjSNdJSFQQ07mYIGAiV9jmIDwe47amTvmMQZTXCOQlgJnjivalUfRkZnhY\nnBeS4tkkuQu/ZQqM5EOaX4hyZkYMImjpWq1Era4UmMht1y+zPLwIyGjoBMRvG/Iz\nnx6PWMQeTacCAwEAATANBgkqhkiG9w0BAQsFAAOCAQEAGuxFRGUxlOJ1EdgJSidl\nDbGY/LpuGoeQHmBk3gFhug8FMKjeY2MU+RfpCzxoR1sF2wsshagcSMYs7D6ApWFc\ng+RqpTJ6B3CP5rANx2+MwXDs8lEf0yrswlDmCVXTK8g5CwYtARqHPM9kv0gFUkSf\nSobRvkTRGPzYwhvmPNpTWKtZtPF/rNam8Y3l56jEeMFJjLLtz/3Q7/ofH94rsDFF\ngslzQrk0ETEftKsgV1g0s9/icPzgH9cYK+J2E/ADoC0j2XCk8TegMglUvJ34DsJU\nrL/sYIs/Z7A5nnrVMiTx7wAGDl1w6so7rK+h/TkIrORwOyXWyO1LIHD5+yMkv1AR\new=='
+            }
+          }
+        },
+        {
+          'ds:KeyInfo': {
+            'ds:X509Data': {
+              'ds:X509Certificate': 'MIIDjTCCAnUCFFlJu9jZPHz8Es2mM8IMHlfc2jPDMA0GCSqGSIb3DQEBCwUAMIGC\nMQswCQYDVQQGEwJCUjELMAkGA1UECAwCU1AxEjAQBgNVBAcMCVNhbyBQYXVsbzET\nMBEGA1UECgwKU2luZ2xlTWV0YTEeMBwGA1UEAwwVcG9jaWRwLnRlY2hubzI0eDcu\nY29tMR0wGwYJKoZIhvcNAQkBFg5jaHJpc0BnbHV1Lm9yZzAeFw0yMTA2MjQxNzMx\nMDFaFw0yMjA2MjQxNzMxMDFaMIGCMQswCQYDVQQGEwJCUjELMAkGA1UECAwCU1Ax\nEjAQBgNVBAcMCVNhbyBQYXVsbzETMBEGA1UECgwKU2luZ2xlTWV0YTEeMBwGA1UE\nAwwVcG9jaWRwLnRlY2hubzI0eDcuY29tMR0wGwYJKoZIhvcNAQkBFg5jaHJpc0Bn\nbHV1Lm9yZzCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANvT+2lBREr2\nYObeZuVhn1iJpytbFnMMu1xxtS5bSNdsZI+ogCqpzWz2U7+6is6Wlyj9ZM7KFUiR\nsXUssrR8EAqHCJ6FMFLfyKVPeYKEVfjzfZgBeeuSau46znIoQsxY3qZX5qSh/dMX\n9tFi+kCXx6coO+umCorIZTFF1EH7t1F2mNRiJXmEwdozCCGPmf0hZgZ6a5i1Lgsu\nR6+FmRQmgJLOJLlLXcXbI2dHtLBQtxtinMyRhy/u4Thk7QasvF5zxkHeiJKWm98p\nziXgaBFD70YO7TukKzkY6eNyIsCqN/irlrvHrqxxVB5heis+DLRJ9++O1rn6TEPo\nSiAyi7u1S78CAwEAATANBgkqhkiG9w0BAQsFAAOCAQEAx+ul0nfxf9hDO/6sS8Mm\nUbd002Dhm6gPWXOG2AEQrhdkL3gaWQZ+ffxMBmZ74FodsuKoxpsRUIkZ0olBDX+s\n8xYHSRq8LgQxiCxSEsa6km7WinHJD7iry1uzLpNPCsU+PPH3/s/AOKExghNccu/f\nTcqr514b9vDWMtSSQzc2eD8znhrRHiQKTLwGDbUM5AvXsEn3ZQvn3ctLOgkdtxiT\nQicgAVv6iBezmIjm6Zple7S5sRwSdR5MjhsAdbLlQ9en9l69PojsnTb9/iHSmhMy\nm4QKxaItsPONkG1AgwjkIpzWmPtO5kFsmdyeHq6Fgc/GYqVg6HF9R9UCav1pdJQO\nkA=='
+            }
+          }
+        }
+      ],
+      AttributeService: [
+        '',
+        ''
+      ],
+      NameIDFormat: [
+        'urn:mace:shibboleth:1.0:nameIdentifier',
+        'urn:oasis:names:tc:SAML:2.0:nameid-format:transient',
+        'urn:oasis:names:tc:SAML:2.0:nameid-format:persistent'
+      ]
+    },
+    Organization: {
+      OrganizationName: 'SingleMeta',
+      OrganizationDisplayName: 'SingleMeta',
+      OrganizationURL: 'https://pocidp.techno24x7.com'
+    }
+  }
+}
+
 export const validXmlMetadata = makeXmlMetadata({ xml: validMetadataString })
 
 export const fakeMetadata: IMetadata = {
@@ -111,4 +190,79 @@ export const fakeMetadata: IMetadata = {
       text: 'Temporibus vitae quos eum voluptatum cupiditate aliquam harum.'
     }
   }
+}
+
+export const parsedByToolIdpSSODescriptor = {
+  '@_errorURL': 'https://pocidp.techno24x7.com/identity/feedback.htm',
+  '@_protocolSupportEnumeration': 'urn:oasis:names:tc:SAML:2.0:protocol',
+  Extensions: {
+    'shibmd:Scope': {
+      '#text': 'pocidp.techno24x7.com',
+      '@_regexp': 'false'
+    }
+  },
+  KeyDescriptor: [
+    {
+      '@_use': 'signing',
+      'ds:KeyInfo': {
+        'ds:X509Data': {
+          'ds:X509Certificate': 'MIIDjTCCAnUCFEfrDgg5EbuYxdqMKep1Dy6l9tfmMA0GCSqGSIb3DQEBCwUAMIGC\nMQswCQYDVQQGEwJCUjELMAkGA1UECAwCU1AxEjAQBgNVBAcMCVNhbyBQYXVsbzET\nMBEGA1UECgwKU2luZ2xlTWV0YTEeMBwGA1UEAwwVcG9jaWRwLnRlY2hubzI0eDcu\nY29tMR0wGwYJKoZIhvcNAQkBFg5jaHJpc0BnbHV1Lm9yZzAeFw0yMTA2MjQxNzMx\nMDJaFw0yMjA2MjQxNzMxMDJaMIGCMQswCQYDVQQGEwJCUjELMAkGA1UECAwCU1Ax\nEjAQBgNVBAcMCVNhbyBQYXVsbzETMBEGA1UECgwKU2luZ2xlTWV0YTEeMBwGA1UE\nAwwVcG9jaWRwLnRlY2hubzI0eDcuY29tMR0wGwYJKoZIhvcNAQkBFg5jaHJpc0Bn\nbHV1Lm9yZzCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBALGNOi4d5sbO\nIaqmJY7VLuLODs2bO1VvGN8AydqVL1TR2ibB1ZmkTZCBQAulh3iiW+NwHYpPVzoO\nkEmCH7qT+BvqQ0LuAWwb88+a7G4t69PwVkO1oE8sxApuQ0qh7TQ0eRhn1jhROff1\nM+SOvDYeJXezMLPyDSlgzzt9oEymb3spoV7LlyPfDXhfGIrGDWsrGFTAMC5wAlyM\nji3Cv+rjSNdJSFQQ07mYIGAiV9jmIDwe47amTvmMQZTXCOQlgJnjivalUfRkZnhY\nnBeS4tkkuQu/ZQqM5EOaX4hyZkYMImjpWq1Era4UmMht1y+zPLwIyGjoBMRvG/Iz\nnx6PWMQeTacCAwEAATANBgkqhkiG9w0BAQsFAAOCAQEAGuxFRGUxlOJ1EdgJSidl\nDbGY/LpuGoeQHmBk3gFhug8FMKjeY2MU+RfpCzxoR1sF2wsshagcSMYs7D6ApWFc\ng+RqpTJ6B3CP5rANx2+MwXDs8lEf0yrswlDmCVXTK8g5CwYtARqHPM9kv0gFUkSf\nSobRvkTRGPzYwhvmPNpTWKtZtPF/rNam8Y3l56jEeMFJjLLtz/3Q7/ofH94rsDFF\ngslzQrk0ETEftKsgV1g0s9/icPzgH9cYK+J2E/ADoC0j2XCk8TegMglUvJ34DsJU\nrL/sYIs/Z7A5nnrVMiTx7wAGDl1w6so7rK+h/TkIrORwOyXWyO1LIHD5+yMkv1AR\new=='
+        }
+      }
+    },
+    {
+      '@_use': 'encryption',
+      'ds:KeyInfo': {
+        'ds:X509Data': {
+          'ds:X509Certificate': 'MIIDjTCCAnUCFFlJu9jZPHz8Es2mM8IMHlfc2jPDMA0GCSqGSIb3DQEBCwUAMIGC\nMQswCQYDVQQGEwJCUjELMAkGA1UECAwCU1AxEjAQBgNVBAcMCVNhbyBQYXVsbzET\nMBEGA1UECgwKU2luZ2xlTWV0YTEeMBwGA1UEAwwVcG9jaWRwLnRlY2hubzI0eDcu\nY29tMR0wGwYJKoZIhvcNAQkBFg5jaHJpc0BnbHV1Lm9yZzAeFw0yMTA2MjQxNzMx\nMDFaFw0yMjA2MjQxNzMxMDFaMIGCMQswCQYDVQQGEwJCUjELMAkGA1UECAwCU1Ax\nEjAQBgNVBAcMCVNhbyBQYXVsbzETMBEGA1UECgwKU2luZ2xlTWV0YTEeMBwGA1UE\nAwwVcG9jaWRwLnRlY2hubzI0eDcuY29tMR0wGwYJKoZIhvcNAQkBFg5jaHJpc0Bn\nbHV1Lm9yZzCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBANvT+2lBREr2\nYObeZuVhn1iJpytbFnMMu1xxtS5bSNdsZI+ogCqpzWz2U7+6is6Wlyj9ZM7KFUiR\nsXUssrR8EAqHCJ6FMFLfyKVPeYKEVfjzfZgBeeuSau46znIoQsxY3qZX5qSh/dMX\n9tFi+kCXx6coO+umCorIZTFF1EH7t1F2mNRiJXmEwdozCCGPmf0hZgZ6a5i1Lgsu\nR6+FmRQmgJLOJLlLXcXbI2dHtLBQtxtinMyRhy/u4Thk7QasvF5zxkHeiJKWm98p\nziXgaBFD70YO7TukKzkY6eNyIsCqN/irlrvHrqxxVB5heis+DLRJ9++O1rn6TEPo\nSiAyi7u1S78CAwEAATANBgkqhkiG9w0BAQsFAAOCAQEAx+ul0nfxf9hDO/6sS8Mm\nUbd002Dhm6gPWXOG2AEQrhdkL3gaWQZ+ffxMBmZ74FodsuKoxpsRUIkZ0olBDX+s\n8xYHSRq8LgQxiCxSEsa6km7WinHJD7iry1uzLpNPCsU+PPH3/s/AOKExghNccu/f\nTcqr514b9vDWMtSSQzc2eD8znhrRHiQKTLwGDbUM5AvXsEn3ZQvn3ctLOgkdtxiT\nQicgAVv6iBezmIjm6Zple7S5sRwSdR5MjhsAdbLlQ9en9l69PojsnTb9/iHSmhMy\nm4QKxaItsPONkG1AgwjkIpzWmPtO5kFsmdyeHq6Fgc/GYqVg6HF9R9UCav1pdJQO\nkA=='
+        }
+      }
+    }
+  ],
+  ArtifactResolutionService: {
+    '@_Binding': 'urn:oasis:names:tc:SAML:2.0:bindings:SOAP',
+    '@_Location': 'https://pocidp.techno24x7.com/idp/profile/SAML2/SOAP/ArtifactResolution',
+    '@_index': '1'
+  },
+  SingleLogoutService: [
+    {
+      '@_Binding': 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect',
+      '@_Location': 'https://pocidp.techno24x7.com/idp/profile/SAML2/Redirect/SLO'
+    },
+    {
+      '@_Binding': 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST',
+      '@_Location': 'https://pocidp.techno24x7.com/idp/profile/SAML2/POST/SLO'
+    },
+    {
+      '@_Binding': 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST-SimpleSign',
+      '@_Location': 'https://pocidp.techno24x7.com/idp/profile/SAML2/POST-SimpleSign/SLO'
+    },
+    {
+      '@_Binding': 'urn:oasis:names:tc:SAML:2.0:bindings:SOAP',
+      '@_Location': 'https://pocidp.techno24x7.com/idp/profile/SAML2/SOAP/SLO'
+    }
+  ],
+  NameIDFormat: [
+    'urn:mace:shibboleth:1.0:nameIdentifier',
+    'urn:oasis:names:tc:SAML:2.0:nameid-format:transient',
+    'urn:oasis:names:tc:SAML:2.0:nameid-format:persistent'
+  ],
+  SingleSignOnService: [
+    {
+      '@_Binding': 'urn:mace:shibboleth:2.0:profiles:AuthnRequest',
+      '@_Location': 'https://pocidp.techno24x7.com/idp/profile/SAML2/Unsolicited/SSO'
+    },
+    {
+      '@_Binding': 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST',
+      '@_Location': 'https://pocidp.techno24x7.com/idp/profile/SAML2/POST/SSO'
+    },
+    {
+      '@_Binding': 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST-SimpleSign',
+      '@_Location': 'https://pocidp.techno24x7.com/idp/profile/SAML2/POST-SimpleSign/SSO'
+    },
+    {
+      '@_Binding': 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect',
+      '@_Location': 'https://pocidp.techno24x7.com/idp/profile/SAML2/Redirect/SSO'
+    }
+  ]
 }

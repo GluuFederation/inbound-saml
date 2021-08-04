@@ -1,5 +1,5 @@
 import * as parser from 'fast-xml-parser'
-import { fakeMetadata } from '../../../../testdata/fakes'
+import { fakeMetadata, parsedByToolIdpSSODescriptor, parsedMetadataString, validMetadataString } from '../../../../testdata/fakes'
 import { MetadataMapperAdapter } from './MetadataMapperAdapter'
 jest.mock('fast-xml-parser')
 
@@ -24,15 +24,11 @@ describe('MetadataMapperAdapter', () => {
   })
   describe('getIdpssoDescriptor', () => {
     it('should call fast-xml-parser parse with correct params', () => {
-      const parseSpy = jest.spyOn(parser, 'parse').mockReturnValueOnce(
-        {
-          EntityDescriptor: fakeMetadata
-        }
-      )
+      const parseSpy = jest.spyOn(parser, 'parse').mockReturnValueOnce(parsedMetadataString)
       const sut = new MetadataMapperAdapter()
-      sut.map(fakeXmlData)
+      sut.map(validMetadataString)
       expect(parseSpy).toHaveBeenCalledTimes(1)
-      expect(parseSpy).toHaveBeenCalledWith(fakeXmlData, options)
+      expect(parseSpy).toHaveBeenCalledWith(validMetadataString, options)
     })
   })
 })
