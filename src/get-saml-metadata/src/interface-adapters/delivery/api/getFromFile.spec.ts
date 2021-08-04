@@ -2,8 +2,7 @@ import { validFilePath } from '../../../../../testdata/fakes'
 import * as interactor from '../../../use-cases/GetExternalDataInteractor'
 import * as loader from '../../data/adapters/FileXmlMetadataLoaderAdapter'
 import { GetExternalDataController } from '../GetExternalDataController'
-import * as presenter from '../GetExternalDataPresenter'
-import { IGetter } from '../protocols/IGetter'
+import { GetExternalDataPresenter } from '../GetExternalDataPresenter'
 import { Getter } from './getFromFile'
 
 jest.mock('../../../use-cases/GetExternalDataInteractor')
@@ -33,7 +32,7 @@ describe('Getter', () => {
       await api.getFromFile(validFilePath)
       expect(handleSpy).toHaveBeenCalledTimes(1)
     })
-    it('should throw if no response', async () => {
+    it('should call emitter once', async () => {
       const api = makeSut()
       const presentSpy = jest.spyOn(
         api.emiter, 'on')
