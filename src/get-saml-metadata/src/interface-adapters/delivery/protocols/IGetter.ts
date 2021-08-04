@@ -1,5 +1,5 @@
 import { IGetExternalDataResponse } from '@get-saml-metadata/interface-adapters/delivery/protocols/IGetExternalDataResponse'
-import { UrlOrPath } from '@get-saml-metadata/use-cases/GetExternalDataRequestModel';
+import { UrlOrPath } from '@get-saml-metadata/use-cases/GetExternalDataRequestModel'
 
 /**
  * Facade
