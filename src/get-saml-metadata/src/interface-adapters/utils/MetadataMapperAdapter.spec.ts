@@ -3,7 +3,7 @@ import * as parser from 'fast-xml-parser'
 import { fakeMetadata, parsedMetadataString, validMetadataString } from '../../../../testdata/fakes'
 
 jest.mock('fast-xml-parser')
-
+jest.mock('@get-saml-metadata/interface-adapters/data/adapters/XmlValidatorAdapter')
 const fakeXmlData = 'valid xml data'
 
 const options = { ignoreAttributes: false }
@@ -27,6 +27,7 @@ describe('MetadataMapperAdapter', () => {
     it('should call fast-xml-parser parse with correct params', () => {
       const parseSpy = jest.spyOn(parser, 'parse').mockReturnValueOnce(parsedMetadataString)
       const sut = new MetadataMapperAdapter()
+      // const validStirng = makeXmlMetadata({ xml: validMetadataString })
       sut.map(validMetadataString)
       expect(parseSpy).toHaveBeenCalledTimes(1)
       expect(parseSpy).toHaveBeenCalledWith(validMetadataString, options)
