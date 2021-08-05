@@ -12,12 +12,12 @@ Feature: Get data from metadata file
 
     Given "file" DOES NOT exists in local file system
     When client call getFromFile with the invalid file path
-    Then It should throw a specific Error
+    Then It should throw Error
 
   Scenario: Try to get data from an unparsable XML file
 
     Given "src/testdata/shibIdpMetadata.xml" exists in local file system
       And XML data is invalid
     When client call getFromFile with the valid file path
-    Then It should throw a specific Error
+    Then IIt should throw Error
 

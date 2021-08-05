@@ -2,7 +2,9 @@ const { Given, When, Then } = require('@cucumber/cucumber')
 const fs = require('fs')
 const assert = require('assert')
 const parser = require('fast-xml-parser')
-const { getFromFile } = require('../../src/lib')
+const { getFromFile } = require('../../../../dist/get-saml-metadata/src/lib')
+const chai = require('chai')
+const assertChai = chai.assert
 
 // parsed.EntityDescriptor.IDPSSODescriptor.KeyDescriptor[0]["ds:KeyInfo"]["ds:X509Data"]["ds:X509Certificate"]
 // parsed.EntityDescriptor.IDPSSODescriptor.KeyDescriptor[0]["@_use"] === 'signing'
@@ -36,30 +38,30 @@ const getSingleSignOnServices = (rawSingleSignOnServiceList) => {
 }
 
 const parseMetadata = (xmlData) => {
-  const entityDescriptorPathModel = {
-    EntityDescriptor: {
-      IDPSSODescriptor: {
-        KeyDescriptor: [
-          {
-            '@_use': 'signing',
-            'ds:KeyInfo': {
-              'ds:X509Data': {
-                'ds:X509Certificate': 'valid_certificate'
-              }
-            }
-          },
-          {
-            '@_use': 'signing',
-            'ds:KeyInfo': {
-              'ds:X509Data': {
-                'ds:X509Certificate': 'second_valid_certificate'
-              }
-            }
-          }
-        ]
-      }
-    }
-  }
+  // const entityDescriptorPathModel = {
+  //   EntityDescriptor: {
+  //     IDPSSODescriptor: {
+  //       KeyDescriptor: [
+  //         {
+  //           '@_use': 'signing',
+  //           'ds:KeyInfo': {
+  //             'ds:X509Data': {
+  //               'ds:X509Certificate': 'valid_certificate'
+  //             }
+  //           }
+  //         },
+  //         {
+  //           '@_use': 'signing',
+  //           'ds:KeyInfo': {
+  //             'ds:X509Data': {
+  //               'ds:X509Certificate': 'second_valid_certificate'
+  //             }
+  //           }
+  //         }
+  //       ]
+  //     }
+  //   }
+  // }
   // keyDescriptorListMapping = 'EntityDescriptor.IDPSSODescriptor.KeyDescriptor'
   const options = {
     ignoreAttributes: false
@@ -102,41 +104,52 @@ Given('XML data is valid', function () {
   assert.strictEqual(isValid, true)
 })
 
-Given('XML data is invalid', function () {
-  this.xmlData = fs.readFileSync(this.filePath).toString()
-  const IvalidXmlDataStub = '<root> This is invalid >root'
+Given('XML data is invalid', function (done) {
+  // this.xmlData = fs.readFileSync(this.filePath).toString()
+  const invalidXmlLocation = process.cwd + '/src/testdata/invalidXml.xml'
+  this.filePath = invalidXmlLocation
+  this.xmlData = '<root> This is invalid >root'
   let isValid
   if (this.filePath) {
-    isValid = parser.validate(IvalidXmlDataStub)
+    isValid = parser.validate(this.xmlData)
   }
   assert.strictEqual(isValid.err.code, 'InvalidXml')
+  done()
 })
 
-When('client call getFromFile with the valid file path', function () {
+When('client call getFromFile with the valid file path', function (done) {
   this.thrownErrors = []
-  try {
-    this.data = getFromFile(this.filePath)
-  } catch (err) {
+  getFromFile(this.filePath).then(result => {
+    console.log('result is' + JSON.stringify(result, null, 4))
+    this.result = result
+    done()
+  }).catch(err => {
+    console.log('ERROR is' + err)
     this.thrownErrors.push(err)
-  }
+    done()
+  })
 })
 
-When('client call getFromFile with the invalid file path', function () {
+When('client call getFromFile with the invalid file path', function (done) {
   this.thrownErrors = []
-  try {
-    this.data = getFromFile(this.filePath)
-  } catch (err) {
+  getFromFile(this.filePath).then(result => {
+    this.result = result
+    done()
+  }).catch(err => {
     this.thrownErrors.push(err)
-  }
+    done()
+  })
 })
 
 Then('It should return a valid object with metadata values', function () {
+  assert(this.result)
+  // let hasKeys = false
+  assertChai.hasAnyKeys(this.result, ['idpSigningCert', 'singleSignOnServices'])
   const expectedData = parseMetadata(this.xmlData)
   assert.deepStrictEqual(expectedData, this.result)
 })
 
-Then('It should throw a specific Error', function () {
-  console.log(this.thrownErrors)
+Then('It should throw Error', function () {
   assert.strictEqual(this.thrownErrors.length, 1)
 
   // @todo: specificError
