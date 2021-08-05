@@ -31,15 +31,15 @@ module.exports = {
   // ],
 
   // Indicates which provider should be used to instrument code for coverage
-  coverageProvider: 'v8',
+  coverageProvider: 'babel',
 
   // A list of reporter names that Jest uses when writing coverage reports
-  // coverageReporters: [
+  coverageReporters: [
   //   "json",
   //   "text",
-  //   "lcov",
+    'lcov'
   //   "clover"
-  // ],
+  ],
 
   // An object that configures minimum threshold enforcement for coverage results
   // coverageThreshold: undefined,
@@ -174,7 +174,7 @@ module.exports = {
   // A map from regular expressions to paths to transformers
   transform: {
     '.+\\.ts$': 'ts-jest'
-  }
+  },
 
   // An array of regexp pattern strings that are matched against all source file paths, matched files will skip transformation
   // transformIgnorePatterns: [
@@ -193,4 +193,10 @@ module.exports = {
 
   // Whether to use watchman for file crawling
   // watchman: true,
+  moduleNameMapper: {
+    '@get-saml-metadata/(.*)': '<rootDir>/src/get-saml-metadata/src/$1',
+    '@/tests/(.*)': '<rootDir>/tests/$1'
+    // '@get-saml-metadata/(.*)': '<rootDir>/src/get-saml-metadata/src/$1'
+  }
+  // resolver: undefined
 }
