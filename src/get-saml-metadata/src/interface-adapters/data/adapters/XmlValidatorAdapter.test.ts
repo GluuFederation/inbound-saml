@@ -32,7 +32,7 @@ describe('XmlValidatorAdapter', () => {
     const sut = new XmlValidatorAdapter()
     expect(sut.isValid(xmlMetadata)).toBeTruthy()
   })
-  it('should return false if invalid XML is sent as param', () => {
+  it('should throw if invalid XML is sent as param', () => {
     const invalidXmlProps = {
       xml: '<root> invalid >root'
     }
@@ -43,6 +43,8 @@ describe('XmlValidatorAdapter', () => {
     }
     const xmlMetadata = invalidXmlMetadata(makeFakeValidator())
     const sut = new XmlValidatorAdapter()
-    expect(sut.isValid(xmlMetadata)).toBeFalsy()
+    expect(() => {
+      sut.isValid(xmlMetadata)
+    }).toThrow()
   })
 })

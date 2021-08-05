@@ -28,7 +28,7 @@ jest.mock('fast-xml-parser')
 
 describe('XmlValidatorAdapter', () => {
   it('should call xml validate with correct value', () => {
-    const validateSpy = jest.spyOn(parser, 'validate')
+    const validateSpy = jest.spyOn(parser, 'validate').mockReturnValue(true)
     const sut = new XmlValidatorAdapter()
     const fakeXmlValidator = makeFakeValidator()
 
@@ -37,7 +37,7 @@ describe('XmlValidatorAdapter', () => {
     expect(validateSpy).toHaveBeenCalledTimes(1)
     expect(validateSpy).toHaveBeenCalledWith(validXmlString)
   })
-  it('should return false if validate returns ValidationError', () => {
+  it('should throw if validate returns ValidationError', () => {
     interface ValidationError {
       err: { code: string, msg: string, line: number }
     }
@@ -56,12 +56,31 @@ describe('XmlValidatorAdapter', () => {
     const fakeXmlValidator = makeFakeValidator()
 
     // call isValid with a different XmlValidator, to avoid redundance
-    expect(sut.isValid(fakeXmlMetadata(fakeXmlValidator))).toBeFalsy()
+    expect(() => {
+      sut.isValid(fakeXmlMetadata(fakeXmlValidator))
+    }).toThrow()
   })
   it('should return true if validate returns true', () => {
     jest.spyOn(parser, 'validate').mockReturnValueOnce(true)
     const sut = new XmlValidatorAdapter()
     const fakeXmlValidator = makeFakeValidator()
     expect(sut.isValid(fakeXmlMetadata(fakeXmlValidator))).toBeTruthy()
+  })
+  it('should throw if invalid', () => {
+    // should return fast-xml-parser ValidationError
+    const fakeXmlValidator = makeFakeValidator()
+    jest.spyOn(parser, 'validate').mockReturnValueOnce(
+      {
+        err: {
+          code: 'any code',
+          msg: 'any message',
+          line: 1
+        }
+      }
+    )
+    const sut = new XmlValidatorAdapter()
+    expect(() => {
+      sut.isValid(fakeXmlMetadata(fakeXmlValidator))
+    }).toThrow()
   })
 })

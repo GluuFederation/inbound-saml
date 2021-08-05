@@ -9,7 +9,8 @@ export class XmlValidatorAdapter implements IValidator {
   public isValid (xmlMetadata: XmlMetadata): boolean {
     if (validate(xmlMetadata.props.xml) === true) {
       return true
+    } else {
+      throw new Error()
     }
-    return false
   }
 }
