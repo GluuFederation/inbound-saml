@@ -34,6 +34,12 @@ It's initially intended to be used by [gluu-server](https://gluu.org):
 
 Please check [`CONTRIBUTING.md`](CONTRIBUTING.md)
 
+## Internal Reusable Modules
+
+  Independent modules:
+  
+  - [`@get-saml-metadata`](src/get-saml-metadata)
+
 ## Support
 
 You can ask and find related questions in [gluu community support portal](https://support.gluu.org)
