@@ -1,5 +1,17 @@
 # Changelog
 
+All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [1.1.0](https://github.com/GluuFederation/inbound-saml/compare/v1.0.0...v1.1.0) (2021-08-05)
+
+
+### Features
+
+* add token ([10cd478](https://github.com/GluuFederation/inbound-saml/commit/10cd478309e3862cb983de30db72cb46927aab6a))
+* another ([a1b5ad3](https://github.com/GluuFederation/inbound-saml/commit/a1b5ad39aefab8f41a905568f3bd76de6c4411f3))
+* dummy feat ([bd7a2b9](https://github.com/GluuFederation/inbound-saml/commit/bd7a2b9934b69d190a0f9e9ec7243dcc02a21133))
+* get saml metadata from file - getFromFile ([#10](https://github.com/GluuFederation/inbound-saml/issues/10)) ([82eeb46](https://github.com/GluuFederation/inbound-saml/commit/82eeb46ea7a3bd4096d64b52acbf4cf2ecb140ca))
+
 ## 1.0.0 (2021-07-29)
 
 
