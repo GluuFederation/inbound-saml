@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/GluuFederation/inbound-saml/compare/v1.1.0...v1.2.0) (2021-08-05)
+
+
+### Features
+
+* release  dummy ([#21](https://github.com/GluuFederation/inbound-saml/issues/21)) ([1140b78](https://github.com/GluuFederation/inbound-saml/commit/1140b78c30bedb3be5086a4bca2b523ad43b0b7b))
+
 ## [1.1.0](https://github.com/GluuFederation/inbound-saml/compare/v1.0.0...v1.1.0) (2021-08-05)
 
 
