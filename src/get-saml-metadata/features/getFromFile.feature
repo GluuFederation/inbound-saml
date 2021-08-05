@@ -19,5 +19,5 @@ Feature: Get data from metadata file
     Given "src/testdata/shibIdpMetadata.xml" exists in local file system
       And XML data is invalid
     When client call getFromFile with the valid file path
-    Then IIt should throw Error
+    Then It should throw Error
 
