@@ -9,7 +9,7 @@ import { IResponseModel } from '@get-saml-metadata/use-cases/IResponseModel'
 import { randomUUID } from 'crypto'
 import { EventEmitter } from 'stream'
 
-export class GetSamlMetadtaFacade implements IGetter {
+export class GetSamlMetadataFacade implements IGetter {
   constructor (
     private readonly eventBus: EventEmitter,
     private readonly getExternalDataController: IController

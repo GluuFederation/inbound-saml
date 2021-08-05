@@ -1,4 +1,4 @@
-import { GetSamlMetadtaFacade } from '@get-saml-metadata/interface-adapters/api/GetSamlMetadataFacade'
+import { GetSamlMetadataFacade } from '@get-saml-metadata/interface-adapters/api/GetSamlMetadataFacade'
 import { IController } from '@get-saml-metadata/interface-adapters/delivery/protocols/IController'
 import { IGetExternalDataRequest } from '@get-saml-metadata/interface-adapters/delivery/protocols/IGetExternalDataRequest'
 import { IRequest } from '@get-saml-metadata/interface-adapters/delivery/protocols/IRequest'
@@ -47,7 +47,7 @@ const makeController = (eventBus: EventEmitter): IController => {
 // "wait(then) for eventBus listener to be triggered
 // then return response
 interface SutTypes {
-  sut: GetSamlMetadtaFacade
+  sut: GetSamlMetadataFacade
   eventEmitter: EventEmitter
   controllerStub: IController
 }
@@ -64,7 +64,7 @@ const makeSut = (): SutTypes => {
       eventEmitter.emit(fakeUUID, fakeUseCaseResponse)
     }
   )
-  const sut = new GetSamlMetadtaFacade(
+  const sut = new GetSamlMetadataFacade(
     eventEmitter, controllerStub
   )
   return {
