@@ -6,14 +6,6 @@ const { getFromFile } = require('../../../../dist/get-saml-metadata/src/lib')
 const chai = require('chai')
 const assertChai = chai.assert
 
-// parsed.EntityDescriptor.IDPSSODescriptor.KeyDescriptor[0]["ds:KeyInfo"]["ds:X509Data"]["ds:X509Certificate"]
-// parsed.EntityDescriptor.IDPSSODescriptor.KeyDescriptor[0]["@_use"] === 'signing'
-
-// SingleSignOnService
-// list:: parsed.EntityDescriptor.IDPSSODescriptor.SingleSignOnService // array
-// Binding:: parsed.EntityDescriptor.IDPSSODescriptor.SingleSignOnService[0]["@_Binding"]
-// Location :: parsed.EntityDescriptor.IDPSSODescriptor.SingleSignOnService[0]["@_Location"]
-
 const getIdpSigningCerts = (keyDescriptorList) => {
   const idpSigningCert = []
   for (const keyDescriptor of keyDescriptorList) {
@@ -38,31 +30,6 @@ const getSingleSignOnServices = (rawSingleSignOnServiceList) => {
 }
 
 const parseMetadata = (xmlData) => {
-  // const entityDescriptorPathModel = {
-  //   EntityDescriptor: {
-  //     IDPSSODescriptor: {
-  //       KeyDescriptor: [
-  //         {
-  //           '@_use': 'signing',
-  //           'ds:KeyInfo': {
-  //             'ds:X509Data': {
-  //               'ds:X509Certificate': 'valid_certificate'
-  //             }
-  //           }
-  //         },
-  //         {
-  //           '@_use': 'signing',
-  //           'ds:KeyInfo': {
-  //             'ds:X509Data': {
-  //               'ds:X509Certificate': 'second_valid_certificate'
-  //             }
-  //           }
-  //         }
-  //       ]
-  //     }
-  //   }
-  // }
-  // keyDescriptorListMapping = 'EntityDescriptor.IDPSSODescriptor.KeyDescriptor'
   const options = {
     ignoreAttributes: false
   }
@@ -83,7 +50,6 @@ const parseMetadata = (xmlData) => {
 }
 
 Given('{string} exists in local file system', function (file) {
-  // Write code here that turns the phrase above into concrete actions
   this.filePath = process.cwd() + `/${file}`
   const existsInLocalFileSystem = fs.existsSync(this.filePath)
   assert.strictEqual(existsInLocalFileSystem, true)
@@ -105,7 +71,6 @@ Given('XML data is valid', function () {
 })
 
 Given('XML data is invalid', function (done) {
-  // this.xmlData = fs.readFileSync(this.filePath).toString()
   const invalidXmlLocation = process.cwd + '/src/testdata/invalidXml.xml'
   this.filePath = invalidXmlLocation
   this.xmlData = '<root> This is invalid >root'
@@ -120,11 +85,9 @@ Given('XML data is invalid', function (done) {
 When('client call getFromFile with the valid file path', function (done) {
   this.thrownErrors = []
   getFromFile(this.filePath).then(result => {
-    console.log('result is' + JSON.stringify(result, null, 4))
     this.result = result
     done()
   }).catch(err => {
-    console.log('ERROR is' + err)
     this.thrownErrors.push(err)
     done()
   })
@@ -143,7 +106,6 @@ When('client call getFromFile with the invalid file path', function (done) {
 
 Then('It should return a valid object with metadata values', function () {
   assert(this.result)
-  // let hasKeys = false
   assertChai.hasAnyKeys(this.result, ['idpSigningCert', 'singleSignOnServices'])
   const expectedData = parseMetadata(this.xmlData)
   assert.deepStrictEqual(expectedData, this.result)
@@ -151,7 +113,6 @@ Then('It should return a valid object with metadata values', function () {
 
 Then('It should throw Error', function () {
   assert.strictEqual(this.thrownErrors.length, 1)
-
   // @todo: specificError
   assert(this.thrownErrors[0] instanceof Error)
   this.thrownErrors = []
