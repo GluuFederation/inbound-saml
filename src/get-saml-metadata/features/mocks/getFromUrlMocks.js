@@ -13,8 +13,9 @@ const mockGetUrlEndpoints = function () {
     .replyWithError('not acessible')
 
   nock('https://remoteIdp.com')
-    .get('/unparsable"')
-    .reply(200, '<roo invalid< meta//data>', { 'Content-Type': 'application/xml;charset=utf-8' })
+    .get('/unparsable')
+    .reply(200, '>roo invalid< metadata', { 'Content-Type': 'application/xml;charset=utf-8' })
+    .persist()
 }
 
 module.exports = {

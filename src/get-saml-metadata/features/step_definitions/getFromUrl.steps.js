@@ -2,7 +2,7 @@ const { Given, When, Before } = require('@cucumber/cucumber')
 const axios = require('axios').default
 const assert = require('assert')
 const { validate } = require('fast-xml-parser')
-const { mockGetUrlEndpoints} = require('../mocks/getFromUrlMocks')
+const { mockGetUrlEndpoints } = require('../mocks/getFromUrlMocks')
 
 Before(function () {
   mockGetUrlEndpoints()
@@ -14,7 +14,7 @@ Given('{string} is NOT acessible', function (remoteIdpUrl, done) {
     assert.strictEqual(response.status, 200)
     done()
   }).catch(err => {
-    console.log(err)
+    this.errr = err
     done()
   })
 })
@@ -27,8 +27,7 @@ Given('{string} is acessible', function (remoteIdpUrl, done) {
     done()
   }
   ).catch(err => {
-    console.log(err)
-    done()
+    this.errr = err
   })
 })
 
@@ -41,7 +40,7 @@ Given('downloaded XML data is valid', function () {
 })
 
 Given('downloaded XML data is NOT valid', function () {
-  assert(!validate(this.response.data))
+  assert(validate(this.response.data) !== true)
 })
 
 When('client call getFromUrl with the unacessible url', function () {
