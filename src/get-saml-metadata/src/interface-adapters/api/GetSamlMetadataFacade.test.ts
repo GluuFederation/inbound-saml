@@ -1,4 +1,4 @@
-import { makeControllerComposite } from '@get-saml-metadata/interface-adapters/api/factories/makeControllerComposite'
+import { makeGetFromFileComposite } from '@get-saml-metadata/interface-adapters/api/factories/makeGetFromFileComposite'
 import { GetSamlMetadataFacade } from '@get-saml-metadata/interface-adapters/api/GetSamlMetadataFacade'
 import { IGetter } from '@get-saml-metadata/interface-adapters/delivery/protocols/IGetter'
 import { EventEmitter } from 'stream'
@@ -7,7 +7,7 @@ export const validFilePath = process.cwd() + '/src/testdata/idp2certs.xml'
 
 const makeSut = (): IGetter => {
   const eventBus = new EventEmitter()
-  const controller = makeControllerComposite(eventBus)
+  const controller = makeGetFromFileComposite(eventBus)
   return new GetSamlMetadataFacade(
     eventBus, controller
   )
