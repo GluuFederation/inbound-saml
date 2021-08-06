@@ -72,7 +72,7 @@ const makePresenter = (emiter?: EventEmitter): IGetExternalDataOutputBoundary =>
 
 const makeXmlMetadataLoader = (): IXmlMetadataLoaderGateway => {
   class XmlMetadataLoaderStub implements IXmlMetadataLoaderGateway {
-    load (urlOrPath: string): XmlMetadata {
+    async load (urlOrPath: string): Promise<XmlMetadata> {
       return makeXmlMetadata({ xml: validMetadataString })
     }
   }

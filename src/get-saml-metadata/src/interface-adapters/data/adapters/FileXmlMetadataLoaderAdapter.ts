@@ -9,7 +9,7 @@ import { readFileSync } from 'fs'
  * @implements IXmlMetadataLoaderGateway
  */
 export class FileXmlMetadataLoaderAdapter implements IXmlMetadataLoaderGateway {
-  load (filePath: string): XmlMetadata {
+  async load (filePath: string): Promise<XmlMetadata> {
     const xml = readFileSync(filePath).toString()
     return makeXmlMetadata({ xml })
   }

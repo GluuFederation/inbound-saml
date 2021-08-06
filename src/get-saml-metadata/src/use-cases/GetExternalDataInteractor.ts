@@ -3,9 +3,10 @@ import { BaseGetExternalDataInteractor, IGetExternalDataInputBoundary } from '@g
 
 export class GetExternalDataInteractor extends BaseGetExternalDataInteractor implements IGetExternalDataInputBoundary {
   async execute (request: GetExternalDataRequestModel): Promise<void> {
+    const loadedXmlData = await this.xmlMetadataLoader.load(request.urlOrPath)
     const externalData = this.externalDataMapper.map(
       this.metadataMapper.map(
-        this.xmlMetadataLoader.load(request.urlOrPath).props.xml
+        loadedXmlData.props.xml
       )
     )
     this.presenter.present(

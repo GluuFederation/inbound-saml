@@ -24,7 +24,7 @@ const makePresenter = (): IGetExternalDataOutputBoundary => {
 
 const makeXmlMetadataLoader = (): IXmlMetadataLoaderGateway => {
   class XmlMetadataLoaderStub implements IXmlMetadataLoaderGateway {
-    load (urlOrPath: string): XmlMetadata {
+    async load (urlOrPath: string): Promise<XmlMetadata> {
       return makeXmlMetadata({ xml: validMetadataString })
     }
   }
@@ -102,7 +102,7 @@ describe('GetExternalDataInteractor', () => {
     it('should call MetadataMapper.map', async () => {
       const { sut, metadataMapperStub, xmlMetadataLoaderStub } = makeSut()
       jest.spyOn(xmlMetadataLoaderStub, 'load')
-        .mockReturnValueOnce(validXmlMetadata)
+        .mockReturnValueOnce(Promise.resolve(validXmlMetadata))
       const mapSpy = jest.spyOn(metadataMapperStub, 'map')
       await sut.execute(fakeRequestModel)
       expect(mapSpy).toHaveBeenCalledWith(validXmlMetadata.props.xml)
