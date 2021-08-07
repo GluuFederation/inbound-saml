@@ -7,7 +7,8 @@ import { IXmlMetadataLoaderGateway } from '@get-saml-metadata/use-cases/ports/IX
 
 export const makeGetExternalDataInteractor = (
   presenter: IGetExternalDataOutputBoundary,
-  gateway: IXmlMetadataLoaderGateway): BaseGetExternalDataInteractor => {
+  gateway: IXmlMetadataLoaderGateway
+): BaseGetExternalDataInteractor => {
   return new GetExternalDataInteractor(
     gateway,
     makeMetadataMapper(),

@@ -22,7 +22,6 @@ describe('FileXmlMetadataLoaderAdapter', () => {
       throw new Error()
     }
     jest.spyOn(fs, 'readFileSync').mockImplementationOnce(throwError)
-    await expect(sut.load(validFilePath))
-      .rejects.toThrow(Error)
+    await expect(sut.load(validFilePath)).rejects.toThrow(Error)
   })
 })

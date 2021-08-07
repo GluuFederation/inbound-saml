@@ -7,8 +7,8 @@ import axios from 'axios'
  * Adapts loader gateway to be used with external axios lib
  */
 export class UrlXmlMetadataLoaderAdapter implements IXmlMetadataLoaderGateway {
-  async load (url: string): Promise<XmlMetadata> {
+  async load(url: string): Promise<XmlMetadata> {
     const response = await axios.get(url)
-    return (makeXmlMetadata({ xml: response.data }))
+    return makeXmlMetadata({ xml: response.data })
   }
 }

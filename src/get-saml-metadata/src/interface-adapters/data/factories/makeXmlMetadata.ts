@@ -1,4 +1,7 @@
-import { XmlMetadata, XmlMetadataProps } from '@get-saml-metadata/entities/value-objects/XmlMetadata'
+import {
+  XmlMetadata,
+  XmlMetadataProps
+} from '@get-saml-metadata/entities/value-objects/XmlMetadata'
 import { XmlValidatorAdapter } from '@get-saml-metadata/interface-adapters/data/adapters/XmlValidatorAdapter'
 
 export const makeXmlMetadata = (props: XmlMetadataProps): XmlMetadata => {

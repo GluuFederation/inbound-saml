@@ -9,26 +9,31 @@ Before(function () {
 })
 Given('{string} is NOT acessible', function (remoteIdpUrl, done) {
   this.remoteIdpUrl = remoteIdpUrl
-  axios.get(this.remoteIdpUrl).then(response => {
-    this.response = response
-    assert.strictEqual(response.status, 200)
-    done()
-  }).catch(err => {
-    this.errr = err
-    done()
-  })
+  axios
+    .get(this.remoteIdpUrl)
+    .then((response) => {
+      this.response = response
+      assert.strictEqual(response.status, 200)
+      done()
+    })
+    .catch((err) => {
+      this.errr = err
+      done()
+    })
 })
 
 Given('{string} is acessible', function (remoteIdpUrl, done) {
   this.remoteIdpUrl = remoteIdpUrl
-  axios.get(this.remoteIdpUrl).then(response => {
-    this.response = response
-    assert.strictEqual(response.status, 200)
-    done()
-  }
-  ).catch(err => {
-    this.errr = err
-  })
+  axios
+    .get(this.remoteIdpUrl)
+    .then((response) => {
+      this.response = response
+      assert.strictEqual(response.status, 200)
+      done()
+    })
+    .catch((err) => {
+      this.errr = err
+    })
 })
 
 Given('responds with XML', function () {

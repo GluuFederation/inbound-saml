@@ -12,10 +12,15 @@ import { EventEmitter } from 'stream'
  * @param eventBus
  * @returns controller
  */
-export const makeGetFromFileComposite = (eventBus: EventEmitter): IController => {
+export const makeGetFromFileComposite = (
+  eventBus: EventEmitter
+): IController => {
   const presenter = makeGetExternalDataPresenter(eventBus)
   const fileXmlMetadataLoader = makeFileXmlMetadataLoaderAdapter()
-  const interactor = makeGetExternalDataInteractor(presenter, fileXmlMetadataLoader)
+  const interactor = makeGetExternalDataInteractor(
+    presenter,
+    fileXmlMetadataLoader
+  )
   const fileValidator = makeFileValidatorAdapter()
   const externalRequestMapper = makeGetExternalDataRequestMapper()
   const controller = new GetExternalDataController(

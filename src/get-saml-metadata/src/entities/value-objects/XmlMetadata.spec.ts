@@ -1,9 +1,12 @@
 import { IValidator } from '@get-saml-metadata/entities/ports/IValidator'
-import { XmlMetadata, XmlMetadataProps } from '@get-saml-metadata/entities/value-objects/XmlMetadata'
+import {
+  XmlMetadata,
+  XmlMetadataProps
+} from '@get-saml-metadata/entities/value-objects/XmlMetadata'
 
 const makeXmlValidator = (): IValidator => {
   class XmlValidatorStub implements IValidator {
-    isValid (data: XmlMetadata): boolean {
+    isValid(data: XmlMetadata): boolean {
       return true
     }
   }
@@ -29,9 +32,9 @@ describe('XmlMetadata', () => {
   })
   it('should throw if validator throws', () => {
     const xmlValidatorStub = makeXmlValidator()
-    jest.spyOn(xmlValidatorStub, 'isValid').mockImplementationOnce(
-      () => { throw new Error() }
-    )
+    jest.spyOn(xmlValidatorStub, 'isValid').mockImplementationOnce(() => {
+      throw new Error()
+    })
     expect(() => {
       makeSut(xmlValidatorStub)
     }).toThrow()

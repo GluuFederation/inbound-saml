@@ -11,20 +11,22 @@ import { IResponseModel } from '@get-saml-metadata/use-cases/IResponseModel'
 import { IExternalDataMapper } from '@get-saml-metadata/use-cases/ports/IExternalDataMapper'
 import { IMetadataMapper } from '@get-saml-metadata/use-cases/ports/IMetadataMapper'
 import { IXmlMetadataLoaderGateway } from '@get-saml-metadata/use-cases/ports/IXmlMetadataLoaderGateway'
-import { fakeMetadata, validMetadataString, validXmlMetadata } from '../../../testdata/fakes'
+import {
+  fakeMetadata,
+  validMetadataString,
+  validXmlMetadata
+} from '../../../testdata/fakes'
 
 const makePresenter = (): IGetExternalDataOutputBoundary => {
   class PresenterStub implements IGetExternalDataOutputBoundary {
-    present (response: IResponseModel<GetExternalDataResponseModel>): void {
-
-    }
+    present(response: IResponseModel<GetExternalDataResponseModel>): void {}
   }
   return new PresenterStub()
 }
 
 const makeXmlMetadataLoader = (): IXmlMetadataLoaderGateway => {
   class XmlMetadataLoaderStub implements IXmlMetadataLoaderGateway {
-    async load (urlOrPath: string): Promise<XmlMetadata> {
+    async load(urlOrPath: string): Promise<XmlMetadata> {
       return makeXmlMetadata({ xml: validMetadataString })
     }
   }
@@ -33,7 +35,7 @@ const makeXmlMetadataLoader = (): IXmlMetadataLoaderGateway => {
 
 const makeMetadataMapper = (): IMetadataMapper => {
   class MetadataMapperStub implements IMetadataMapper {
-    map (xmlData: string): IMetadata {
+    map(xmlData: string): IMetadata {
       return fakeMetadata
     }
   }
@@ -42,7 +44,7 @@ const makeMetadataMapper = (): IMetadataMapper => {
 
 const makeExternalDataMapper = (): IExternalDataMapper => {
   class ExternalDataMapperStub implements IExternalDataMapper {
-    map (metadata: IMetadata): IExternalData {
+    map(metadata: IMetadata): IExternalData {
       return {
         idpSigningCert: ['valid cert 1', 'valid cert 2'],
         singleSignOnServices: [
@@ -101,7 +103,8 @@ describe('GetExternalDataInteractor', () => {
     })
     it('should call MetadataMapper.map', async () => {
       const { sut, metadataMapperStub, xmlMetadataLoaderStub } = makeSut()
-      jest.spyOn(xmlMetadataLoaderStub, 'load')
+      jest
+        .spyOn(xmlMetadataLoaderStub, 'load')
         .mockReturnValueOnce(Promise.resolve(validXmlMetadata))
       const mapSpy = jest.spyOn(metadataMapperStub, 'map')
       await sut.execute(fakeRequestModel)

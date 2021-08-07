@@ -7,9 +7,7 @@ import { EventEmitter } from 'stream'
 const makeGetter = (): IGetter => {
   const eventBus = new EventEmitter()
   const controller = makeGetFromFileComposite(eventBus)
-  return new GetSamlMetadataFacade(
-    eventBus, controller
-  )
+  return new GetSamlMetadataFacade(eventBus, controller)
 }
 
 export const getFromFile = (path: UrlOrPath): any => {

@@ -5,7 +5,8 @@ import { IController } from '@get-saml-metadata/interface-adapters/delivery/prot
 import { IGetExternalDataInputBoundary } from '@get-saml-metadata/use-cases/IGetExternalDataInputBoundary'
 
 export const makeGetExternalDataController = (
-  interactor: IGetExternalDataInputBoundary): IController => {
+  interactor: IGetExternalDataInputBoundary
+): IController => {
   return new GetExternalDataController(
     interactor,
     makeFileValidatorAdapter(),

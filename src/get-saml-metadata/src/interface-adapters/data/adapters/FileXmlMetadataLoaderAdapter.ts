@@ -1,4 +1,3 @@
-
 import { XmlMetadata } from '@get-saml-metadata/entities/value-objects/XmlMetadata'
 import { makeXmlMetadata } from '@get-saml-metadata/interface-adapters/data/factories/makeXmlMetadata'
 import { IXmlMetadataLoaderGateway } from '@get-saml-metadata/use-cases/ports/IXmlMetadataLoaderGateway'
@@ -9,7 +8,7 @@ import { readFileSync } from 'fs'
  * @implements IXmlMetadataLoaderGateway
  */
 export class FileXmlMetadataLoaderAdapter implements IXmlMetadataLoaderGateway {
-  async load (filePath: string): Promise<XmlMetadata> {
+  async load(filePath: string): Promise<XmlMetadata> {
     const xml = readFileSync(filePath).toString()
     return makeXmlMetadata({ xml })
   }

@@ -27,6 +27,8 @@ describe('FileValidatorAdapter', () => {
     }
     jest.spyOn(fs, 'existsSync').mockImplementationOnce(throwError)
     const sut = new FileValidatorAdapter()
-    expect(() => { sut.isValid(validPath) }).toThrow()
+    expect(() => {
+      sut.isValid(validPath)
+    }).toThrow()
   })
 })
