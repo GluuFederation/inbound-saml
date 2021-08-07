@@ -22,4 +22,14 @@ describe('UrlValidatorAdapter', () => {
     const sut = makeSut()
     expect(sut.isValid(noResponseUrl)).toBeFalsy()
   })
+  it('should return false if axios error.response', () => {
+    const errorResponseUrl = 'error response url'
+    const axiosError = {
+      response: 'valid error'
+    }
+    jest.spyOn(axios, 'get').mockRejectedValueOnce({ axiosError })
+    const sut = makeSut()
+    console.log(sut.isValid(errorResponseUrl))
+    expect(sut.isValid(errorResponseUrl)).toBeFalsy()
+  })
 })
