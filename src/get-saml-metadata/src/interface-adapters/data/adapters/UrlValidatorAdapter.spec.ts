@@ -31,4 +31,9 @@ describe('UrlValidatorAdapter', () => {
     const sut = makeSut()
     expect(await sut.isValid(errorResponseUrl)).toBeFalsy()
   })
+  it('should return true if acessible and axios does not throw', async () => {
+    jest.spyOn(axios, 'get').mockResolvedValueOnce('any value')
+    const sut = makeSut()
+    expect(await sut.isValid(fakeUrl)).toBeTruthy()
+  })
 })
