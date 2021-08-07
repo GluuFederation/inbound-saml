@@ -1,6 +1,11 @@
 {
-    "extends": "standard-with-typescript",
+    "extends": ["standard-with-typescript", "prettier"],
+    "plugins": ["prettier"],
     "parserOptions": {
-        "project": "./tsconfig.json"
+      "project": "./tsconfig.json"
+    },
+    "rules": {
+      "prettier/prettier": "error"
     }
-}
+  }
+  

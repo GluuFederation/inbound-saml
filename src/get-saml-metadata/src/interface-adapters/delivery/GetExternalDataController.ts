@@ -7,19 +7,17 @@ import { IGetExternalDataInputBoundary } from '@get-saml-metadata/use-cases/IGet
 import { IValidator } from '@get-saml-metadata/use-cases/ports/IValidator'
 
 export class GetExternalDataController implements IController {
-  constructor (
+  constructor(
     private readonly inputChannel: IGetExternalDataInputBoundary,
     private readonly urlOrPathValidator: IValidator,
     private readonly requestMapper: IGetExternalDataRequestMapper
   ) {}
 
-  async handle (request: IRequest<IGetExternalDataRequest>): Promise<void> {
-    if (!this.urlOrPathValidator.isValid(request.request.urlOrPath)) {
+  async handle(request: IRequest<IGetExternalDataRequest>): Promise<void> {
+    if (!(await this.urlOrPathValidator.isValid(request.request.urlOrPath))) {
       throw new InvalidPathOrUrlError(request.request.urlOrPath)
     }
     const mapped = this.requestMapper.map(request)
-    await this.inputChannel.execute(
-      mapped
-    )
+    await this.inputChannel.execute(mapped)
   }
 }

@@ -49,9 +49,6 @@ describe('GetExternalDataPresenter', () => {
     const emitSpy = jest.spyOn(emiter, 'emit')
     sut.present(fakeResponse)
     expect(emitSpy).toHaveBeenCalledTimes(1)
-    expect(emitSpy).toHaveBeenCalledWith(
-      fakeRequest.id,
-      fakeResponse
-    )
+    expect(emitSpy).toHaveBeenCalledWith(fakeRequest.id, fakeResponse)
   })
 })

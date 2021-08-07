@@ -3,5 +3,7 @@ import { IRequest } from '@get-saml-metadata/interface-adapters/delivery/protoco
 import { GetExternalDataRequestModel } from '@get-saml-metadata/use-cases/GetExternalDataRequestModel'
 
 export interface IGetExternalDataRequestMapper {
-  map: (request: IRequest<IGetExternalDataRequest>) => GetExternalDataRequestModel
+  map: (
+    request: IRequest<IGetExternalDataRequest>
+  ) => GetExternalDataRequestModel
 }

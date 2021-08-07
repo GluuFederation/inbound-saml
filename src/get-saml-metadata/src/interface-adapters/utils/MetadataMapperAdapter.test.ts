@@ -1,12 +1,23 @@
-import { IMetadata, KeyDescriptor, Service } from '@get-saml-metadata/entities/IMetadataTypes'
+import {
+  IMetadata,
+  KeyDescriptor,
+  Service
+} from '@get-saml-metadata/entities/IMetadataTypes'
 import { MetadataMapperAdapter } from '@get-saml-metadata/interface-adapters/utils/MetadataMapperAdapter'
-import { parsedByToolIdpSSODescriptor, validMetadataString } from '../../../../testdata/fakes'
+import {
+  parsedByToolIdpSSODescriptor,
+  validMetadataString
+} from '../../../../testdata/fakes'
 
-function isMetadata (metadata: IMetadata): metadata is IMetadata {
+function isMetadata(metadata: IMetadata): metadata is IMetadata {
   if (
     'keyDescriptor' in metadata.idpssoDescriptor &&
     'singleSignOnService' in metadata.idpssoDescriptor
-  ) { return true } else { return false }
+  ) {
+    return true
+  } else {
+    return false
+  }
 }
 
 const getKeyDescriptor = (idpssoDescriptor: any): KeyDescriptor[] => {
@@ -17,7 +28,8 @@ const getKeyDescriptor = (idpssoDescriptor: any): KeyDescriptor[] => {
         use: keyDescriptor['@_use'],
         keyInfo: {
           x509Data: {
-            x509Certificate: keyDescriptor['ds:KeyInfo']['ds:X509Data']['ds:X509Certificate']
+            x509Certificate:
+              keyDescriptor['ds:KeyInfo']['ds:X509Data']['ds:X509Certificate']
           }
         }
       }

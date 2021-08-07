@@ -1,5 +1,8 @@
 import { IValidator } from '@get-saml-metadata/entities/ports/IValidator'
-import { XmlMetadata, XmlMetadataProps } from '@get-saml-metadata/entities/value-objects/XmlMetadata'
+import {
+  XmlMetadata,
+  XmlMetadataProps
+} from '@get-saml-metadata/entities/value-objects/XmlMetadata'
 import { XmlValidatorAdapter } from '@get-saml-metadata/interface-adapters/data/adapters/XmlValidatorAdapter'
 import * as parser from 'fast-xml-parser'
 
@@ -11,7 +14,7 @@ const fakeXmlProps: XmlMetadataProps = {
 
 const makeFakeValidator = (): IValidator => {
   class FakeXmlValidator implements IValidator {
-    isValid (data: XmlMetadata): boolean {
+    isValid(data: XmlMetadata): boolean {
       return true
     }
   }
@@ -39,7 +42,7 @@ describe('XmlValidatorAdapter', () => {
   })
   it('should throw if validate returns ValidationError', () => {
     interface ValidationError {
-      err: { code: string, msg: string, line: number }
+      err: { code: string; msg: string; line: number }
     }
     /**
      * @implements private ValidationError
@@ -69,15 +72,13 @@ describe('XmlValidatorAdapter', () => {
   it('should throw if invalid', () => {
     // should return fast-xml-parser ValidationError
     const fakeXmlValidator = makeFakeValidator()
-    jest.spyOn(parser, 'validate').mockReturnValueOnce(
-      {
-        err: {
-          code: 'any code',
-          msg: 'any message',
-          line: 1
-        }
+    jest.spyOn(parser, 'validate').mockReturnValueOnce({
+      err: {
+        code: 'any code',
+        msg: 'any message',
+        line: 1
       }
-    )
+    })
     const sut = new XmlValidatorAdapter()
     expect(() => {
       sut.isValid(fakeXmlMetadata(fakeXmlValidator))

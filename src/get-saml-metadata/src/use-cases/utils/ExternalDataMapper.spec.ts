@@ -15,6 +15,8 @@ describe('ExternalDataMapper', () => {
     const sut = new ExternalDataMapper()
     const result = sut.map(fakeMetadata)
     expect(result.idpSigningCert).toStrictEqual(allCerts)
-    expect(result.singleSignOnServices).toBe(fakeMetadata.idpssoDescriptor.singleSignOnService)
+    expect(result.singleSignOnServices).toBe(
+      fakeMetadata.idpssoDescriptor.singleSignOnService
+    )
   })
 })

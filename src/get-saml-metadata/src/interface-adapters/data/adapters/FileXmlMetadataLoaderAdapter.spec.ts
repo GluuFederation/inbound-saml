@@ -3,27 +3,25 @@ import fs from 'fs'
 import { validFilePath, validXmlMetadata } from '../../../../../testdata/fakes'
 
 describe('FileXmlMetadataLoaderAdapter', () => {
-  it('should call readFileSync with correct values', () => {
+  it('should call readFileSync with correct values', async () => {
     const readFileSyncSpy = jest.spyOn(fs, 'readFileSync')
     const sut = new FileXmlMetadataLoaderAdapter()
-    sut.load(validFilePath)
+    await sut.load(validFilePath)
     expect(readFileSyncSpy).toHaveBeenCalledWith(validFilePath)
     expect(readFileSyncSpy).toHaveBeenCalledTimes(1)
   })
 
-  it('should return valid Metadata string', () => {
+  it('should return valid Metadata string', async () => {
     const sut = new FileXmlMetadataLoaderAdapter()
-    expect(sut.load(validFilePath)).toEqual(validXmlMetadata)
+    expect(await sut.load(validFilePath)).toEqual(validXmlMetadata)
   })
 
-  it('should throw if fs throws', () => {
+  it('should throw if fs throws', async () => {
     const sut = new FileXmlMetadataLoaderAdapter()
     const throwError = (): never => {
       throw new Error()
     }
     jest.spyOn(fs, 'readFileSync').mockImplementationOnce(throwError)
-    expect(() => {
-      sut.load(validFilePath)
-    }).toThrow(Error)
+    await expect(sut.load(validFilePath)).rejects.toThrow(Error)
   })
 })

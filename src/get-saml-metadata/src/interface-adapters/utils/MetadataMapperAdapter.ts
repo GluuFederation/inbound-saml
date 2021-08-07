@@ -1,4 +1,9 @@
-import { IDPSSODescriptor, IMetadata, KeyDescriptor, Service } from '@get-saml-metadata/entities/IMetadataTypes'
+import {
+  IDPSSODescriptor,
+  IMetadata,
+  KeyDescriptor,
+  Service
+} from '@get-saml-metadata/entities/IMetadataTypes'
 import { IMetadataMapper } from '@get-saml-metadata/use-cases/ports/IMetadataMapper'
 import { parse } from 'fast-xml-parser'
 
@@ -8,7 +13,9 @@ import { parse } from 'fast-xml-parser'
 export class MetadataMapperAdapter implements IMetadataMapper {
   options = { ignoreAttributes: false }
 
-  private readonly getKeyDescriptor = (idpssoDescriptor: any): KeyDescriptor[] => {
+  private readonly getKeyDescriptor = (
+    idpssoDescriptor: any
+  ): KeyDescriptor[] => {
     const keyDescriptors = []
     for (const keyDescriptor of idpssoDescriptor.KeyDescriptor) {
       if (keyDescriptor['@_use'] === 'signing') {
@@ -16,7 +23,8 @@ export class MetadataMapperAdapter implements IMetadataMapper {
           use: keyDescriptor['@_use'],
           keyInfo: {
             x509Data: {
-              x509Certificate: keyDescriptor['ds:KeyInfo']['ds:X509Data']['ds:X509Certificate']
+              x509Certificate:
+                keyDescriptor['ds:KeyInfo']['ds:X509Data']['ds:X509Certificate']
             }
           }
         }
@@ -38,8 +46,9 @@ export class MetadataMapperAdapter implements IMetadataMapper {
     return services
   }
 
-  private getIdpssoDescriptor (xmlData: string): IDPSSODescriptor {
-    const parsed = parse(xmlData, this.options).EntityDescriptor.IDPSSODescriptor
+  private getIdpssoDescriptor(xmlData: string): IDPSSODescriptor {
+    const parsed = parse(xmlData, this.options).EntityDescriptor
+      .IDPSSODescriptor
     return {
       keyDescriptor: this.getKeyDescriptor(parsed),
       singleSignOnService: this.getSSOServices(parsed)
@@ -51,7 +60,7 @@ export class MetadataMapperAdapter implements IMetadataMapper {
    * @param xmlData
    * @returns metadata model (IMetadata)
    */
-  map (xmlData: string): IMetadata {
+  map(xmlData: string): IMetadata {
     const metadata: IMetadata = {
       idpssoDescriptor: this.getIdpssoDescriptor(xmlData)
     }

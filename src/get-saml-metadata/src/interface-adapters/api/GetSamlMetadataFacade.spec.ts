@@ -8,7 +8,9 @@ import { IResponseModel } from '@get-saml-metadata/use-cases/IResponseModel'
 import * as crypto from 'crypto'
 import { EventEmitter } from 'stream'
 jest.mock('crypto')
-jest.mock('@get-saml-metadata/interface-adapters/delivery/GetExternalDataPresenter')
+jest.mock(
+  '@get-saml-metadata/interface-adapters/delivery/GetExternalDataPresenter'
+)
 
 const fakePath = 'valid/path/to.xml'
 const fakeUUID = 'valid UUID'
@@ -34,9 +36,7 @@ const fakeUseCaseResponse: IResponseModel<GetExternalDataResponseModel> = {
 
 const makeController = (eventBus: EventEmitter): IController => {
   class ControllerStub implements IController {
-    async handle (request: IRequest<IGetExternalDataRequest>): Promise<void> {
-
-    }
+    async handle(request: IRequest<IGetExternalDataRequest>): Promise<void> {}
   }
   return new ControllerStub()
 }
@@ -59,14 +59,10 @@ const makeSut = (): SutTypes => {
   // )
   const controllerStub = makeController(eventEmitter)
   // fake event emited by presenter
-  jest.spyOn(controllerStub as any, 'handle').mockImplementation(
-    () => {
-      eventEmitter.emit(fakeUUID, fakeUseCaseResponse)
-    }
-  )
-  const sut = new GetSamlMetadataFacade(
-    eventEmitter, controllerStub
-  )
+  jest.spyOn(controllerStub as any, 'handle').mockImplementation(() => {
+    eventEmitter.emit(fakeUUID, fakeUseCaseResponse)
+  })
+  const sut = new GetSamlMetadataFacade(eventEmitter, controllerStub)
   return {
     sut,
     eventEmitter,
@@ -78,10 +74,8 @@ describe('GetSamlMetadadtaFacade', () => {
   it('should register listener with requestId', async () => {
     const { sut, eventEmitter } = makeSut()
     const onceSpy = jest.spyOn(eventEmitter, 'once')
-    jest.spyOn(crypto, 'randomUUID').mockReturnValueOnce(
-      fakeUUID
-    )
-    await sut.getFromFile(fakePath)
+    jest.spyOn(crypto, 'randomUUID').mockReturnValueOnce(fakeUUID)
+    await sut.get(fakePath)
     expect(onceSpy).toHaveBeenCalledTimes(1)
     expect(onceSpy.mock.calls[0][0]).toBe(fakeUUID)
   })
@@ -89,20 +83,16 @@ describe('GetSamlMetadadtaFacade', () => {
   it('should register listener with function', async () => {
     const { sut, eventEmitter } = makeSut()
     const onceSpy = jest.spyOn(eventEmitter, 'once')
-    jest.spyOn(crypto, 'randomUUID').mockReturnValueOnce(
-      fakeUUID
-    )
-    await sut.getFromFile(fakePath)
-    expect(typeof (onceSpy.mock.calls[0][1])).toBe('function')
+    jest.spyOn(crypto, 'randomUUID').mockReturnValueOnce(fakeUUID)
+    await sut.get(fakePath)
+    expect(typeof onceSpy.mock.calls[0][1]).toBe('function')
   })
 
   it('should call controller handle with valid request', async () => {
     const { sut, controllerStub } = makeSut()
     const handleSpy = jest.spyOn(controllerStub, 'handle')
-    jest.spyOn(crypto, 'randomUUID').mockReturnValueOnce(
-      fakeUUID
-    )
-    await sut.getFromFile(fakePath)
+    jest.spyOn(crypto, 'randomUUID').mockReturnValueOnce(fakeUUID)
+    await sut.get(fakePath)
     const expectedRequest: IRequest<IGetExternalDataRequest> = {
       id: fakeUUID,
       request: {
@@ -118,17 +108,15 @@ describe('GetSamlMetadadtaFacade', () => {
     // controller emit event just for stubbing presenter action
     const pushSpy = jest.spyOn(Array.prototype as any, 'push')
     const { sut } = makeSut()
-    jest.spyOn(crypto, 'randomUUID').mockReturnValueOnce(
-      fakeUUID)
-    await sut.getFromFile(fakePath)
+    jest.spyOn(crypto, 'randomUUID').mockReturnValueOnce(fakeUUID)
+    await sut.get(fakePath)
     expect(pushSpy).toHaveBeenCalledTimes(1)
   })
 
   it('should return valid IFetchedData', async () => {
-    jest.spyOn(crypto, 'randomUUID').mockReturnValueOnce(
-      fakeUUID)
+    jest.spyOn(crypto, 'randomUUID').mockReturnValueOnce(fakeUUID)
     const { sut } = makeSut()
-    const result = await sut.getFromFile(fakePath)
+    const result = await sut.get(fakePath)
     expect(result).toEqual({
       idpSigningCert: expect.anything(),
       singleSignOnServices: expect.any(Array)
@@ -136,13 +124,13 @@ describe('GetSamlMetadadtaFacade', () => {
   })
 
   it('should return expected IFetchedData', async () => {
-    jest.spyOn(crypto, 'randomUUID').mockReturnValueOnce(
-      fakeUUID)
+    jest.spyOn(crypto, 'randomUUID').mockReturnValueOnce(fakeUUID)
     const { sut } = makeSut()
-    const result = await sut.getFromFile(fakePath)
+    const result = await sut.get(fakePath)
     expect(result).toStrictEqual({
       idpSigningCert: fakeUseCaseResponse.response.externalData.idpSigningCert,
-      singleSignOnServices: fakeUseCaseResponse.response.externalData.singleSignOnServices
+      singleSignOnServices:
+        fakeUseCaseResponse.response.externalData.singleSignOnServices
     })
   })
 })
