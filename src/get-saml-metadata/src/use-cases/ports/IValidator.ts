@@ -1,3 +1,3 @@
 export interface IValidator {
-  isValid: (arg: any) => boolean
+  isValid: (arg: any) => Promise<boolean>
 }

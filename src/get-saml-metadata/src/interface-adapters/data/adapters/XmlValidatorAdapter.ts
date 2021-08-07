@@ -1,6 +1,6 @@
+import { IValidator } from '@get-saml-metadata/entities/ports/IValidator'
 import { XmlMetadata } from '@get-saml-metadata/entities/value-objects/XmlMetadata'
 import { InvalidXmlError } from '@get-saml-metadata/interface-adapters/data/errors/InvalidXmlError'
-import { IValidator } from '@get-saml-metadata/use-cases/ports/IValidator'
 import { validate } from 'fast-xml-parser'
 
 /**

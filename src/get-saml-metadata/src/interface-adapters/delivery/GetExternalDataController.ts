@@ -14,7 +14,7 @@ export class GetExternalDataController implements IController {
   ) {}
 
   async handle(request: IRequest<IGetExternalDataRequest>): Promise<void> {
-    if (!this.urlOrPathValidator.isValid(request.request.urlOrPath)) {
+    if (!(await this.urlOrPathValidator.isValid(request.request.urlOrPath))) {
       throw new InvalidPathOrUrlError(request.request.urlOrPath)
     }
     const mapped = this.requestMapper.map(request)

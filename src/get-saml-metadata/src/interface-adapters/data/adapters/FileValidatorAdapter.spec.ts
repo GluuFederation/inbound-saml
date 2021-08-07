@@ -4,31 +4,30 @@ import fs from 'fs'
 const validPath = '/valid/path/file.ext'
 
 describe('FileValidatorAdapter', () => {
-  it('should call existsSync with correct parameters', () => {
+  it('should call existsSync with correct parameters', async () => {
     const existsSyncSpy = jest.spyOn(fs, 'existsSync')
     const sut = new FileValidatorAdapter()
-    sut.isValid(validPath)
+    await sut.isValid(validPath)
     expect(existsSyncSpy).toBeCalledTimes(1)
     expect(existsSyncSpy).toBeCalledWith(validPath)
   })
-  it('should return true if existsSync returns true', () => {
+  it('should return true if existsSync returns true', async () => {
     jest.spyOn(fs, 'existsSync').mockReturnValueOnce(true)
     const sut = new FileValidatorAdapter()
-    expect(sut.isValid(validPath)).toBeTruthy()
+    expect(await sut.isValid(validPath)).toBeTruthy()
   })
-  it('should return false if existsSync returns false', () => {
+  it('should return false if existsSync returns false', async () => {
     jest.spyOn(fs, 'existsSync').mockReturnValueOnce(false)
     const sut = new FileValidatorAdapter()
-    expect(sut.isValid(validPath)).toBeFalsy()
+    expect(await sut.isValid(validPath)).toBeFalsy()
   })
-  it('should throw if existsSync throws', () => {
+  it('should throw if existsSync throws', async () => {
     const throwError = (): never => {
       throw new Error()
     }
     jest.spyOn(fs, 'existsSync').mockImplementationOnce(throwError)
     const sut = new FileValidatorAdapter()
-    expect(() => {
-      sut.isValid(validPath)
-    }).toThrow()
+    const promise = sut.isValid(validPath)
+    await expect(promise).rejects.toThrow()
   })
 })

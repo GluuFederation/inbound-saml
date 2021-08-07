@@ -39,7 +39,7 @@ const makeMapper = (): IGetExternalDataRequestMapper => {
 
 const makeRequestValidator = (): IValidator => {
   class RequestvalidatorStub implements IValidator {
-    isValid(urlOrPath: 'string'): boolean {
+    async isValid(urlOrPath: 'string'): Promise<boolean> {
       return true
     }
   }
@@ -175,7 +175,7 @@ describe('GetExternalDataController', () => {
     })
     it('should throw InvalidUrlOrPathError if validator returns false', async () => {
       const { sut, requestValidatorStub } = makeSut(false)
-      jest.spyOn(requestValidatorStub, 'isValid').mockReturnValue(false)
+      jest.spyOn(requestValidatorStub, 'isValid').mockResolvedValueOnce(false)
       const promise = sut.handle(validRequest)
       await expect(promise).rejects.toThrow(
         new InvalidPathOrUrlError(validRequest.request.urlOrPath)
