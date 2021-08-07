@@ -75,7 +75,7 @@ describe('GetSamlMetadadtaFacade', () => {
     const { sut, eventEmitter } = makeSut()
     const onceSpy = jest.spyOn(eventEmitter, 'once')
     jest.spyOn(crypto, 'randomUUID').mockReturnValueOnce(fakeUUID)
-    await sut.getFromFile(fakePath)
+    await sut.get(fakePath)
     expect(onceSpy).toHaveBeenCalledTimes(1)
     expect(onceSpy.mock.calls[0][0]).toBe(fakeUUID)
   })
@@ -84,7 +84,7 @@ describe('GetSamlMetadadtaFacade', () => {
     const { sut, eventEmitter } = makeSut()
     const onceSpy = jest.spyOn(eventEmitter, 'once')
     jest.spyOn(crypto, 'randomUUID').mockReturnValueOnce(fakeUUID)
-    await sut.getFromFile(fakePath)
+    await sut.get(fakePath)
     expect(typeof onceSpy.mock.calls[0][1]).toBe('function')
   })
 
@@ -92,7 +92,7 @@ describe('GetSamlMetadadtaFacade', () => {
     const { sut, controllerStub } = makeSut()
     const handleSpy = jest.spyOn(controllerStub, 'handle')
     jest.spyOn(crypto, 'randomUUID').mockReturnValueOnce(fakeUUID)
-    await sut.getFromFile(fakePath)
+    await sut.get(fakePath)
     const expectedRequest: IRequest<IGetExternalDataRequest> = {
       id: fakeUUID,
       request: {
@@ -109,14 +109,14 @@ describe('GetSamlMetadadtaFacade', () => {
     const pushSpy = jest.spyOn(Array.prototype as any, 'push')
     const { sut } = makeSut()
     jest.spyOn(crypto, 'randomUUID').mockReturnValueOnce(fakeUUID)
-    await sut.getFromFile(fakePath)
+    await sut.get(fakePath)
     expect(pushSpy).toHaveBeenCalledTimes(1)
   })
 
   it('should return valid IFetchedData', async () => {
     jest.spyOn(crypto, 'randomUUID').mockReturnValueOnce(fakeUUID)
     const { sut } = makeSut()
-    const result = await sut.getFromFile(fakePath)
+    const result = await sut.get(fakePath)
     expect(result).toEqual({
       idpSigningCert: expect.anything(),
       singleSignOnServices: expect.any(Array)
@@ -126,7 +126,7 @@ describe('GetSamlMetadadtaFacade', () => {
   it('should return expected IFetchedData', async () => {
     jest.spyOn(crypto, 'randomUUID').mockReturnValueOnce(fakeUUID)
     const { sut } = makeSut()
-    const result = await sut.getFromFile(fakePath)
+    const result = await sut.get(fakePath)
     expect(result).toStrictEqual({
       idpSigningCert: fakeUseCaseResponse.response.externalData.idpSigningCert,
       singleSignOnServices:

@@ -15,7 +15,7 @@ export class GetSamlMetadataFacade implements IGetter {
     private readonly getExternalDataController: IController
   ) {}
 
-  async getFromFile(path: UrlOrPath): Promise<IFetchedData> {
+  async get(urlOrPath: UrlOrPath): Promise<IFetchedData> {
     const requestId = randomUUID()
     const result: Array<IResponseModel<GetExternalDataResponseModel>> = []
     this.eventBus.once(
@@ -28,7 +28,7 @@ export class GetSamlMetadataFacade implements IGetter {
       id: requestId,
       request: {
         source: 'file',
-        urlOrPath: path
+        urlOrPath: urlOrPath
       }
     }
     await this.getExternalDataController.handle(request)

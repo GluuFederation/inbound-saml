@@ -5,5 +5,5 @@ import { UrlOrPath } from '@get-saml-metadata/use-cases/GetExternalDataRequestMo
  * Facade
  */
 export interface IGetter {
-  getFromFile: (path: UrlOrPath) => Promise<IFetchedData>
+  get: (path: UrlOrPath) => Promise<IFetchedData>
 }
