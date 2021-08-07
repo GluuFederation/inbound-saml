@@ -4,13 +4,15 @@ import { IGetter } from '@get-saml-metadata/interface-adapters/delivery/protocol
 import { UrlOrPath } from '@get-saml-metadata/use-cases/GetExternalDataRequestModel'
 import { EventEmitter } from 'stream'
 
+// TODO: create same makeGetterComposite factory for url and file
 const makeGetter = (): IGetter => {
   const eventBus = new EventEmitter()
-  const controller = makeGetComposite('file', eventBus)
+  const controller = makeGetComposite('url', eventBus)
   return new GetSamlMetadataFacade(eventBus, controller)
 }
 
-export const getFromFile = async (path: UrlOrPath): Promise<any> => {
+// TODO: create type for return
+export const getFromUrl = (url: UrlOrPath): any => {
   const getter = makeGetter()
-  return await getter.get(path)
+  return getter.get(url)
 }

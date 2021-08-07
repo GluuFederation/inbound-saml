@@ -2,7 +2,7 @@ import nock from 'nock'
 import fs from 'fs'
 
 const validXmlData = fs
-  .readFileSync(process.cwd() + '/src/testdata/shibIdpMetadata.xml')
+  .readFileSync(process.cwd() + '/src/testdata/idp2certs.xml')
   .toString()
 export const endpoints = {
   valid: 'https://remoteIdp.com/metadata',
@@ -10,9 +10,12 @@ export const endpoints = {
   error: 'https://remoteIdp.com/error'
 }
 export const mockGetUrlEndpoints = function (): void {
-  nock('https://remoteIdp.com').get('/metadata').reply(200, validXmlData, {
-    'Content-Type': 'application/xml;charset=utf-8'
-  })
+  nock('https://remoteIdp.com')
+    .get('/metadata')
+    .reply(200, validXmlData, {
+      'Content-Type': 'application/xml;charset=utf-8'
+    })
+    .persist()
 
   nock('https://remoteIdp.com')
     .get('/unacessible')

@@ -3,6 +3,7 @@ const axios = require('axios').default
 const assert = require('assert')
 const { validate } = require('fast-xml-parser')
 const { mockGetUrlEndpoints } = require('../mocks/getFromUrlMocks')
+const { getFromUrl } = require('../../../../dist/get-saml-metadata/src/lib')
 
 Before(function () {
   mockGetUrlEndpoints()
@@ -42,18 +43,35 @@ Given('responds with XML', function () {
 
 Given('downloaded XML data is valid', function () {
   assert(validate(this.response.data))
+  this.xmlData = this.response.data
 })
 
 Given('downloaded XML data is NOT valid', function () {
   assert(validate(this.response.data) !== true)
 })
 
-When('client call getFromUrl with the unacessible url', function () {
-  // Write code here that turns the phrase above into concrete actions
-  return 'pending'
+When('client call getFromUrl with the unacessible url', function (done) {
+  this.thrownErrors = []
+  getFromUrl(this.remoteIdpUrl)
+    .then((result) => {
+      this.result = result
+      done()
+    })
+    .catch((err) => {
+      this.thrownErrors.push(err)
+      done()
+    })
 })
 
-When('client call getFromUrl with valid url', function () {
-  // Write code here that turns the phrase above into concrete actions
-  return 'pending'
+When('client call getFromUrl with valid url', function (done) {
+  this.thrownErrors = []
+  getFromUrl(this.remoteIdpUrl)
+    .then((result) => {
+      this.result = result
+      done()
+    })
+    .catch((err) => {
+      this.thrownErrors.push(err)
+      done()
+    })
 })

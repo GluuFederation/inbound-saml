@@ -6,9 +6,12 @@ const validXmlData = fs
   .toString()
 
 const mockGetUrlEndpoints = function () {
-  nock('https://remoteIdp.com').get('/metadata').reply(200, validXmlData, {
-    'Content-Type': 'application/xml;charset=utf-8'
-  })
+  nock('https://remoteIdp.com')
+    .get('/metadata')
+    .reply(200, validXmlData, {
+      'Content-Type': 'application/xml;charset=utf-8'
+    })
+    .persist()
 
   nock('https://remoteIdp.com')
     .get('/unacessible')
