@@ -3,6 +3,7 @@ import { IGetExternalDataOutputBoundary } from '@get-saml-metadata/use-cases/IGe
 import { EventEmitter } from 'stream'
 
 export const makeGetExternalDataPresenter = (
-  emiter: EventEmitter): IGetExternalDataOutputBoundary => {
+  emiter: EventEmitter
+): IGetExternalDataOutputBoundary => {
   return new GetExternalDataPresenter(emiter)
 }

@@ -1,5 +1,8 @@
 import { IValidator } from '@get-saml-metadata/entities/ports/IValidator'
-import { XmlMetadata, XmlMetadataProps } from '@get-saml-metadata/entities/value-objects/XmlMetadata'
+import {
+  XmlMetadata,
+  XmlMetadataProps
+} from '@get-saml-metadata/entities/value-objects/XmlMetadata'
 import { XmlValidatorAdapter } from '@get-saml-metadata/interface-adapters/data/adapters/XmlValidatorAdapter'
 import { InvalidXmlError } from '@get-saml-metadata/interface-adapters/data/errors/InvalidXmlError'
 import { readFileSync } from 'fs'
@@ -14,7 +17,7 @@ const fakeXmlProps: XmlMetadataProps = {
 
 const makeFakeValidator = (): IValidator => {
   class FakeXmlValidator implements IValidator {
-    isValid (data: XmlMetadata): boolean {
+    isValid(data: XmlMetadata): boolean {
       return true
     }
   }

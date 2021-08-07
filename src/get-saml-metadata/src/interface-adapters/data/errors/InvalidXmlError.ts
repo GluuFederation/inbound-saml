@@ -1,5 +1,5 @@
 export class InvalidXmlError extends Error {
-  constructor () {
+  constructor() {
     super()
     this.name = 'InvalidXmlError'
   }

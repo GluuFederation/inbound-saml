@@ -10,7 +10,10 @@ import { IGetExternalDataRequestMapper } from '@get-saml-metadata/interface-adap
 import { GetExternalDataInteractor } from '@get-saml-metadata/use-cases/GetExternalDataInteractor'
 import { GetExternalDataRequestModel } from '@get-saml-metadata/use-cases/GetExternalDataRequestModel'
 import { GetExternalDataResponseModel } from '@get-saml-metadata/use-cases/GetExternalDataResponseModel'
-import { BaseGetExternalDataInteractor, IGetExternalDataInputBoundary } from '@get-saml-metadata/use-cases/IGetExternalDataInputBoundary'
+import {
+  BaseGetExternalDataInteractor,
+  IGetExternalDataInputBoundary
+} from '@get-saml-metadata/use-cases/IGetExternalDataInputBoundary'
 import { IGetExternalDataOutputBoundary } from '@get-saml-metadata/use-cases/IGetExternalDataOutputBoundary'
 import { IResponseModel } from '@get-saml-metadata/use-cases/IResponseModel'
 import { IExternalDataMapper } from '@get-saml-metadata/use-cases/ports/IExternalDataMapper'
@@ -24,7 +27,7 @@ jest.mock('../../use-cases/GetExternalDataInteractor')
 
 const makeMapper = (): IGetExternalDataRequestMapper => {
   class RequestMapperStub implements IGetExternalDataRequestMapper {
-    map (request: IRequest<any>): GetExternalDataRequestModel {
+    map(request: IRequest<any>): GetExternalDataRequestModel {
       return {
         requestId: 'valid id',
         urlOrPath: 'valid/path'
@@ -36,7 +39,7 @@ const makeMapper = (): IGetExternalDataRequestMapper => {
 
 const makeRequestValidator = (): IValidator => {
   class RequestvalidatorStub implements IValidator {
-    isValid (urlOrPath: 'string'): boolean {
+    async isValid(urlOrPath: 'string'): Promise<boolean> {
       return true
     }
   }
@@ -44,10 +47,11 @@ const makeRequestValidator = (): IValidator => {
 }
 
 const makeGetExternalDataInteractor = (): BaseGetExternalDataInteractor => {
-  class ExternalDataInteractorStub extends BaseGetExternalDataInteractor implements IGetExternalDataInputBoundary {
-    async execute (request: GetExternalDataRequestModel): Promise<void> {
-
-    }
+  class ExternalDataInteractorStub
+    extends BaseGetExternalDataInteractor
+    implements IGetExternalDataInputBoundary
+  {
+    async execute(request: GetExternalDataRequestModel): Promise<void> {}
   }
   return new ExternalDataInteractorStub(
     makeXmlMetadataLoader(),
@@ -59,9 +63,11 @@ const makeGetExternalDataInteractor = (): BaseGetExternalDataInteractor => {
 
 // We also need to test with concrete interactor:
 
-const makePresenter = (emiter?: EventEmitter): IGetExternalDataOutputBoundary => {
+const makePresenter = (
+  emiter?: EventEmitter
+): IGetExternalDataOutputBoundary => {
   class PresenterStub implements IGetExternalDataOutputBoundary {
-    present (response: IResponseModel<GetExternalDataResponseModel>): void {
+    present(response: IResponseModel<GetExternalDataResponseModel>): void {
       if (emiter != null) {
         emiter.emit(response.requestId, response)
       }
@@ -72,7 +78,7 @@ const makePresenter = (emiter?: EventEmitter): IGetExternalDataOutputBoundary =>
 
 const makeXmlMetadataLoader = (): IXmlMetadataLoaderGateway => {
   class XmlMetadataLoaderStub implements IXmlMetadataLoaderGateway {
-    load (urlOrPath: string): XmlMetadata {
+    async load(urlOrPath: string): Promise<XmlMetadata> {
       return makeXmlMetadata({ xml: validMetadataString })
     }
   }
@@ -81,7 +87,7 @@ const makeXmlMetadataLoader = (): IXmlMetadataLoaderGateway => {
 
 const makeMetadataMapper = (): IMetadataMapper => {
   class MetadataMapperStub implements IMetadataMapper {
-    map (xmlData: string): IMetadata {
+    map(xmlData: string): IMetadata {
       return fakeMetadata
     }
   }
@@ -90,7 +96,7 @@ const makeMetadataMapper = (): IMetadataMapper => {
 
 const makeExternalDataMapper = (): IExternalDataMapper => {
   class ExternalDataMapperStub implements IExternalDataMapper {
-    map (metadata: IMetadata): IExternalData {
+    map(metadata: IMetadata): IExternalData {
       return {
         idpSigningCert: ['valid cert 1', 'valid cert 2'],
         singleSignOnServices: [
@@ -131,8 +137,9 @@ interface sutType {
 const makeSut = (concreteInteractor: boolean): sutType => {
   const emiter = new EventEmitter()
   const requestValidatorStub = makeRequestValidator()
-  const externalDataInteractorStub = (
-    concreteInteractor ? makeConcreteInteractor() : makeGetExternalDataInteractor())
+  const externalDataInteractorStub = concreteInteractor
+    ? makeConcreteInteractor()
+    : makeGetExternalDataInteractor()
   const requestMapperStub = makeMapper()
   const presenter = makePresenter(emiter)
   const sut = new GetExternalDataController(
@@ -168,11 +175,11 @@ describe('GetExternalDataController', () => {
     })
     it('should throw InvalidUrlOrPathError if validator returns false', async () => {
       const { sut, requestValidatorStub } = makeSut(false)
-      jest.spyOn(requestValidatorStub, 'isValid').mockReturnValue(false)
+      jest.spyOn(requestValidatorStub, 'isValid').mockResolvedValueOnce(false)
       const promise = sut.handle(validRequest)
-      await expect(promise).rejects.toThrow(new InvalidPathOrUrlError(
-        validRequest.request.urlOrPath
-      ))
+      await expect(promise).rejects.toThrow(
+        new InvalidPathOrUrlError(validRequest.request.urlOrPath)
+      )
     })
     it('should call map with request object', async () => {
       const { sut, requestMapperStub } = makeSut(false)
@@ -182,7 +189,8 @@ describe('GetExternalDataController', () => {
       expect(mapSpy).toHaveBeenCalledTimes(1)
     })
     it('should call input execute with request model', async () => {
-      const { sut, externalDataInteractorStub, requestMapperStub } = makeSut(false)
+      const { sut, externalDataInteractorStub, requestMapperStub } =
+        makeSut(false)
       jest.spyOn(requestMapperStub, 'map').mockReturnValueOnce({
         requestId: validRequest.id,
         urlOrPath: validRequest.request.urlOrPath
@@ -199,7 +207,8 @@ describe('GetExternalDataController', () => {
   })
   describe('with real concrete interactor', () => {
     it('should call input execute with request model', async () => {
-      const { sut, externalDataInteractorStub, requestMapperStub } = makeSut(true)
+      const { sut, externalDataInteractorStub, requestMapperStub } =
+        makeSut(true)
       jest.spyOn(requestMapperStub, 'map').mockReturnValueOnce({
         requestId: validRequest.id,
         urlOrPath: validRequest.request.urlOrPath

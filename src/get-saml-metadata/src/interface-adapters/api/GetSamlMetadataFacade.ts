@@ -10,22 +10,25 @@ import { randomUUID } from 'crypto'
 import { EventEmitter } from 'stream'
 
 export class GetSamlMetadataFacade implements IGetter {
-  constructor (
+  constructor(
     private readonly eventBus: EventEmitter,
     private readonly getExternalDataController: IController
   ) {}
 
-  async getFromFile (path: UrlOrPath): Promise<IFetchedData> {
+  async get(urlOrPath: UrlOrPath): Promise<IFetchedData> {
     const requestId = randomUUID()
     const result: Array<IResponseModel<GetExternalDataResponseModel>> = []
-    this.eventBus.once(requestId, (response: IResponseModel<GetExternalDataResponseModel>) => {
-      result.push(response)
-    })
+    this.eventBus.once(
+      requestId,
+      (response: IResponseModel<GetExternalDataResponseModel>) => {
+        result.push(response)
+      }
+    )
     const request: IRequest<IGetExternalDataRequest> = {
       id: requestId,
       request: {
         source: 'file',
-        urlOrPath: path
+        urlOrPath: urlOrPath
       }
     }
     await this.getExternalDataController.handle(request)

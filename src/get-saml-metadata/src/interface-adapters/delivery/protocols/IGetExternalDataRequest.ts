@@ -1,4 +1,5 @@
+export type SourceType = 'file' | 'url'
 export interface IGetExternalDataRequest {
-  source: 'file' | 'url'
+  source: SourceType
   urlOrPath: string
 }

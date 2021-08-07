@@ -5,7 +5,7 @@ import { existsSync } from 'fs'
  * Check if file exists
  */
 export class FileValidatorAdapter extends BaseFileValidator {
-  isValid (filepath: string): boolean {
+  async isValid(filepath: string): Promise<boolean> {
     return existsSync(filepath)
   }
 }
