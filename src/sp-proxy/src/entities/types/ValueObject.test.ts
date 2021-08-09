@@ -1,4 +1,4 @@
-import { ValueObject } from '@get-saml-metadata/entities/types/ValueObject'
+import { ValueObject } from '@sp-proxy/entities/types/ValueObject'
 
 interface ISutProps {
   key1: string

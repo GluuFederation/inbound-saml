@@ -1,9 +1,9 @@
 /**
  * Importing * as ... needed to adapt to jest.SpyOn requirements
  */
-import * as helper from '@get-saml-metadata/entities/helpers/deeplyEqual'
-import { ValueObject } from '@get-saml-metadata/entities/types/ValueObject'
-jest.mock('@get-saml-metadata/entities/helpers/deeplyEqual')
+import * as helper from '@sp-proxy/entities/helpers/deeplyEqual'
+import { ValueObject } from '@sp-proxy/entities/types/ValueObject'
+jest.mock('@sp-proxy/entities/helpers/deeplyEqual')
 
 interface ISutProps {
   key1: string

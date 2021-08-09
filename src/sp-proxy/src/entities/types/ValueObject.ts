@@ -1,4 +1,4 @@
-import { deeplyEqual } from '@get-saml-metadata/entities/helpers/deeplyEqual'
+import { deeplyEqual } from '@sp-proxy/entities/helpers/deeplyEqual'
 
 export interface ValueObjectProps {
   [index: string]: any

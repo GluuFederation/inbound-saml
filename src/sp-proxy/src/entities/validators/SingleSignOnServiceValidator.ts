@@ -1,6 +1,6 @@
-import { IValidator } from '@get-saml-metadata/entities/ports/IValidator'
-import { ValueObject } from '@get-saml-metadata/entities/types/ValueObject'
+import { ValueObject } from '@sp-proxy/entities/types/ValueObject'
 import { InvalidValueError } from '@sp-proxy/entities/errors/InvalidValueError'
+import { IValidator } from '@sp-proxy/entities/protocols/IValidator'
 
 export class SingleSignOnServiceValidator implements IValidator {
   isValid(singleSignOnService: ValueObject<any>): boolean {
