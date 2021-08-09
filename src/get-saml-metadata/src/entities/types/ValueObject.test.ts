@@ -32,5 +32,13 @@ describe('ValueObject - integration', () => {
       const equalSut = makeSut()
       expect(sut.equal(equalSut)).toBeTruthy()
     })
+    it('should return false if undefined vo', () => {
+      const sut = makeSut()
+      expect(sut.equal(undefined)).toBeFalsy()
+    })
+    it('should return false if null vo', () => {
+      const sut = makeSut()
+      expect(sut.equal()).toBeFalsy()
+    })
   })
 })
