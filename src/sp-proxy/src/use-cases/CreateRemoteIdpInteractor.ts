@@ -18,6 +18,12 @@ export class CreateRemoteIdpInteractor
     request: IRequestModel<CreateRemoteIdpRequestModel>
   ): Promise<void> {
     const mapped = this.entityMapper.map(request)
-    await this.gateway.create(mapped)
+    const success = await this.gateway.create(mapped)
+    this.output.present({
+      requestId: request.requestId,
+      response: {
+        success
+      }
+    })
   }
 }

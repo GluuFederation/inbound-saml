@@ -101,5 +101,19 @@ describe('CreateRemoteIdpInteractor', () => {
       expect(mapSpy).toHaveBeenCalledTimes(1)
       expect(mapSpy).toHaveBeenCalledWith(fakeRequestDto)
     })
+    it('should throw if mapper throws', async () => {
+      const { sut, mapper } = makeSut()
+      jest.spyOn(mapper, 'map').mockImplementationOnce(() => {
+        throw new Error()
+      })
+      await expect(sut.execute(fakeRequestDto)).rejects.toThrow()
+    })
+    it('should throw if gateway throws', async () => {
+      const { sut, gateway } = makeSut()
+      jest.spyOn(gateway, 'create').mockImplementationOnce(() => {
+        throw new Error()
+      })
+      await expect(sut.execute(fakeRequestDto)).rejects.toThrow()
+    })
   })
 })
