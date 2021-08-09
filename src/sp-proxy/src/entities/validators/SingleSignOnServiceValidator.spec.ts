@@ -65,4 +65,13 @@ describe('SingleSignOnServiceValidator', () => {
       sut.isValid(fakeObject)
     }).toThrow(new InvalidValueError('SingleSignOnService'))
   })
+  it('should return true if has all keys and types', () => {
+    const sut = makeSut()
+    const validProps = {
+      location: 'valid location',
+      binding: 'valid binding'
+    }
+    const validObject = makeSingleSignOnService(validProps)
+    expect(sut.isValid(validObject)).toBeTruthy()
+  })
 })

@@ -8,9 +8,9 @@ export class SingleSignOnServiceValidator implements IValidator {
       throw new InvalidValueError('SingleSignOnService')
     } else if (!('location' in singleSignOnService.props)) {
       throw new InvalidValueError('SingleSignOnService')
-    } else if (!(typeof singleSignOnService.props.binding !== 'string')) {
+    } else if (typeof singleSignOnService.props.binding !== 'string') {
       throw new InvalidValueError('SingleSignOnService')
-    } else if (!(typeof singleSignOnService.props.location !== 'string')) {
+    } else if (typeof singleSignOnService.props.location !== 'string') {
       throw new InvalidValueError('SingleSignOnService')
     }
     return true
