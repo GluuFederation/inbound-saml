@@ -48,7 +48,8 @@
     "baseUrl": "./src",
     "paths": {
       // "@/*": ["*"],
-      "@get-saml-metadata/*" : ["get-saml-metadata/src/*"]
+      "@get-saml-metadata/*" : ["get-saml-metadata/src/*"],
+      "@sp-proxy/*": ["sp-proxy/src/*"]
     },           
 
     // "rootDirs": [],                              /* List of root folders whose combined content represents the structure of the project at runtime. */
