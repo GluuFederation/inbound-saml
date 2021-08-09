@@ -4,7 +4,7 @@
 import { InvalidValueError } from '@sp-proxy/entities/errors/InvalidValueError'
 import { ValueObject } from '@sp-proxy/entities/types/ValueObject'
 import { SingleSignOnServiceValidator } from '@sp-proxy/entities/validators/SingleSignOnServiceValidator'
-import { SingleSignOnServiceProps } from '@sp-proxy/entities/value-objects/SignleSignOnServices'
+import { SingleSignOnServiceProps } from '@sp-proxy/entities/value-objects/SingleSignOnServices'
 
 // each item
 // item should have a binding, location

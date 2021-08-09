@@ -1,5 +1,5 @@
 import { UuidType } from '@sp-proxy/entities/types/UuidType'
-import { SingleSignOnService } from '@sp-proxy/entities/value-objects/SignleSignOnServices'
+import { SingleSignOnService } from '@sp-proxy/entities/value-objects/SingleSignOnServices'
 
 type RemoteIdpName = string
 type SigningCertificates = string[]
