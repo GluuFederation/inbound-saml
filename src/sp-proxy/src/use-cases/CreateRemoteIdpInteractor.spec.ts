@@ -5,12 +5,14 @@
 
 import { RemoteIdp } from '@sp-proxy/entities/RemoteIdp'
 import { CreateRemoteIdpInteractor } from '@sp-proxy/use-cases/CreateRemoteIdpInteractor'
+import { makeSingleSignOnServices } from '@sp-proxy/use-cases/factories/makeSingleSignOnServices'
 import { ICreateRemoteIdpOutputBoundary } from '@sp-proxy/use-cases/io-channels/ICreateRemoteIdpOutputBoundary'
 import { CreateRemoteIdpRequestModel } from '@sp-proxy/use-cases/io-models/CreateRemoteIdpRequestModel'
 import { CreateRemoteIdpResponseModel } from '@sp-proxy/use-cases/io-models/CreateRemoteIdpResponseModel'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
 import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'
 import { ICreateRemoteIdpGateway } from '@sp-proxy/use-cases/ports/ICreateRemoteIdpGateway'
+import { IMapper } from '@sp-proxy/use-cases/protocols/IMapper'
 
 const makePresenter = (): ICreateRemoteIdpOutputBoundary => {
   class PresenterStub implements ICreateRemoteIdpOutputBoundary {
@@ -31,23 +33,6 @@ const makeGateway = (): ICreateRemoteIdpGateway => {
   return new GatewayStub()
 }
 
-interface SutTypes {
-  sut: CreateRemoteIdpInteractor
-  presenter: ICreateRemoteIdpOutputBoundary
-  gateway: ICreateRemoteIdpGateway
-}
-
-const makeSut = (): SutTypes => {
-  const gateway = makeGateway()
-  const presenter = makePresenter()
-  const sut = new CreateRemoteIdpInteractor(gateway, presenter)
-  return {
-    sut,
-    gateway,
-    presenter
-  }
-}
-
 const fakeRequestDto: IRequestModel<CreateRemoteIdpRequestModel> = {
   requestId: 'valid id',
   request: {
@@ -62,6 +47,41 @@ const fakeRequestDto: IRequestModel<CreateRemoteIdpRequestModel> = {
   }
 }
 
+const makeMapper = (): IMapper => {
+  class MapperStub implements IMapper {
+    map(requestModel: IRequestModel<any>): RemoteIdp {
+      return new RemoteIdp({
+        name: fakeRequestDto.request.name,
+        signingCertificates: fakeRequestDto.request.signingCertificates,
+        supportedSingleSignOnServices: makeSingleSignOnServices(
+          fakeRequestDto.request.singleSignOnService
+        )
+      })
+    }
+  }
+  return new MapperStub()
+}
+
+interface SutTypes {
+  sut: CreateRemoteIdpInteractor
+  presenter: ICreateRemoteIdpOutputBoundary
+  gateway: ICreateRemoteIdpGateway
+  mapper: IMapper
+}
+
+const makeSut = (): SutTypes => {
+  const gateway = makeGateway()
+  const presenter = makePresenter()
+  const mapper = makeMapper()
+  const sut = new CreateRemoteIdpInteractor(gateway, presenter, mapper)
+  return {
+    sut,
+    gateway,
+    presenter,
+    mapper
+  }
+}
+
 describe('CreateRemoteIdpInteractor', () => {
   describe('execute', () => {
     it('should call gateway create once w/ Entity', async () => {
@@ -73,6 +93,13 @@ describe('CreateRemoteIdpInteractor', () => {
       expect(
         createSpy.mock.calls[0][0].props.supportedSingleSignOnServices[0].props
       ).toStrictEqual(fakeRequestDto.request.singleSignOnService[0])
+    })
+    it('should call mapper with request', async () => {
+      const { sut, mapper } = makeSut()
+      const mapSpy = jest.spyOn(mapper, 'map')
+      await sut.execute(fakeRequestDto)
+      expect(mapSpy).toHaveBeenCalledTimes(1)
+      expect(mapSpy).toHaveBeenCalledWith(fakeRequestDto)
     })
   })
 })
