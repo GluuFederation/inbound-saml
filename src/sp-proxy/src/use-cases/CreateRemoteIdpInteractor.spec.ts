@@ -62,15 +62,6 @@ const fakeRequestDto: IRequestModel<CreateRemoteIdpRequestModel> = {
   }
 }
 
-// const makeRemoteIdp = (): RemoteIdp => {
-//   const props: IRemoteIdpProps = {
-//     name: 'whatever',
-//     supportedSingleSignOnServices: [],
-//     signingCertificates: []
-//   }
-//   return new RemoteIdp(props)
-// }
-
 describe('CreateRemoteIdpInteractor', () => {
   describe('execute', () => {
     it('should call gateway create once w/ Entity', async () => {
