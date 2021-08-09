@@ -1,6 +1,6 @@
-import { makeSingleSignOnService } from '@sp-proxy/entities/factories/makeSingleSignOnService'
 import { IRemoteIdpProps } from '@sp-proxy/entities/IRemoteIdp'
 import { RemoteIdp } from '@sp-proxy/entities/RemoteIdp'
+import { makeSingleSignOnServices } from '@sp-proxy/use-cases/factories/makeSingleSignOnServices'
 import { ICreateRemoteIdpInputBoundary } from '@sp-proxy/use-cases/io-channels/ICreateRemoteIdpInputBoundary'
 import { ICreateRemoteIdpOutputBoundary } from '@sp-proxy/use-cases/io-channels/ICreateRemoteIdpOutputBoundary'
 import { CreateRemoteIdpRequestModel } from '@sp-proxy/use-cases/io-models/CreateRemoteIdpRequestModel'
@@ -15,12 +15,11 @@ export class CreateRemoteIdpInteractor
   ) {}
 
   async execute(request: CreateRemoteIdpRequestModel): Promise<void> {
-    const ssoServicesVO = []
-    for (const service of request.remoteIdp.singleSignOnService) {
-      ssoServicesVO.push(makeSingleSignOnService(service))
-    }
+    const singleSignOnServices = makeSingleSignOnServices(
+      request.remoteIdp.singleSignOnService
+    )
     const props: IRemoteIdpProps = {
-      supportedSingleSignOnServices: ssoServicesVO,
+      supportedSingleSignOnServices: singleSignOnServices,
       signingCertificates: request.remoteIdp.signingCertificates
     }
     const remoteIdp = new RemoteIdp(props)
