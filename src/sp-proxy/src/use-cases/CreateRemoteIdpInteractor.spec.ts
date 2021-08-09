@@ -8,6 +8,7 @@ import { CreateRemoteIdpInteractor } from '@sp-proxy/use-cases/CreateRemoteIdpIn
 import { ICreateRemoteIdpOutputBoundary } from '@sp-proxy/use-cases/io-channels/ICreateRemoteIdpOutputBoundary'
 import { CreateRemoteIdpRequestModel } from '@sp-proxy/use-cases/io-models/CreateRemoteIdpRequestModel'
 import { CreateRemoteIdpResponseModel } from '@sp-proxy/use-cases/io-models/CreateRemoteIdpResponseModel'
+import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
 import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'
 import { ICreateRemoteIdpGateway } from '@sp-proxy/use-cases/ports/ICreateRemoteIdpGateway'
 
@@ -47,9 +48,9 @@ const makeSut = (): SutTypes => {
   }
 }
 
-const fakeRequestDto: CreateRemoteIdpRequestModel = {
+const fakeRequestDto: IRequestModel<CreateRemoteIdpRequestModel> = {
   requestId: 'valid id',
-  remoteIdp: {
+  request: {
     name: 'valid name',
     signingCertificates: ['valid cert 1', 'valid cert 2'],
     singleSignOnService: [
@@ -80,7 +81,7 @@ describe('CreateRemoteIdpInteractor', () => {
       expect(createSpy.mock.calls[0][0]).toBeInstanceOf(RemoteIdp)
       expect(
         createSpy.mock.calls[0][0].props.supportedSingleSignOnServices[0].props
-      ).toStrictEqual(fakeRequestDto.remoteIdp.singleSignOnService[0])
+      ).toStrictEqual(fakeRequestDto.request.singleSignOnService[0])
     })
   })
 })

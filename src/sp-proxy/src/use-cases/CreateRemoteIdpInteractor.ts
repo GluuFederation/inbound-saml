@@ -4,6 +4,7 @@ import { makeSingleSignOnServices } from '@sp-proxy/use-cases/factories/makeSing
 import { ICreateRemoteIdpInputBoundary } from '@sp-proxy/use-cases/io-channels/ICreateRemoteIdpInputBoundary'
 import { ICreateRemoteIdpOutputBoundary } from '@sp-proxy/use-cases/io-channels/ICreateRemoteIdpOutputBoundary'
 import { CreateRemoteIdpRequestModel } from '@sp-proxy/use-cases/io-models/CreateRemoteIdpRequestModel'
+import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
 import { ICreateRemoteIdpGateway } from '@sp-proxy/use-cases/ports/ICreateRemoteIdpGateway'
 
 export class CreateRemoteIdpInteractor
@@ -14,13 +15,15 @@ export class CreateRemoteIdpInteractor
     private readonly output: ICreateRemoteIdpOutputBoundary
   ) {}
 
-  async execute(request: CreateRemoteIdpRequestModel): Promise<void> {
+  async execute(
+    request: IRequestModel<CreateRemoteIdpRequestModel>
+  ): Promise<void> {
     const singleSignOnServices = makeSingleSignOnServices(
-      request.remoteIdp.singleSignOnService
+      request.request.singleSignOnService
     )
     const props: IRemoteIdpProps = {
       supportedSingleSignOnServices: singleSignOnServices,
-      signingCertificates: request.remoteIdp.signingCertificates
+      signingCertificates: request.request.signingCertificates
     }
     const remoteIdp = new RemoteIdp(props)
     await this.gateway.create(remoteIdp)

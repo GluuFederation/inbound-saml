@@ -1,5 +1,8 @@
 import { CreateRemoteIdpRequestModel } from '@sp-proxy/use-cases/io-models/CreateRemoteIdpRequestModel'
+import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
 
 export interface ICreateRemoteIdpInputBoundary {
-  execute: (request: CreateRemoteIdpRequestModel) => Promise<void>
+  execute: (
+    request: IRequestModel<CreateRemoteIdpRequestModel>
+  ) => Promise<void>
 }
