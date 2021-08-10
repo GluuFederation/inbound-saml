@@ -1,4 +1,5 @@
 import { randomUUID } from 'crypto'
+import { isEntity } from '@sp-proxy/entities/helpers/isEntity'
 
 export abstract class BaseEntity<T> {
   protected readonly _id: string
@@ -12,9 +13,9 @@ export abstract class BaseEntity<T> {
   // Entities are compared based on their referential
   // equality.
   public equals(entity: BaseEntity<T>): boolean {
-    const isEntity = (v: any): v is BaseEntity<any> => {
-      return v instanceof BaseEntity
-    }
+    // const isEntity = (v: any): v is BaseEntity<any> => {
+    //   return v instanceof BaseEntity
+    // }
     if (entity === null || entity === undefined) {
       return false
     }
