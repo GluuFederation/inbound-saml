@@ -115,5 +115,31 @@ describe('CreateRemoteIdpInteractor', () => {
       })
       await expect(sut.execute(fakeRequestDto)).rejects.toThrow()
     })
+    it('should call presenter with once with success true', async () => {
+      const { sut, presenter, gateway } = makeSut()
+      const presentSpy = jest.spyOn(presenter, 'present')
+      jest.spyOn(gateway, 'create').mockResolvedValueOnce(true)
+      await sut.execute(fakeRequestDto)
+      expect(presentSpy).toHaveBeenCalledTimes(1)
+      expect(presentSpy).toHaveBeenCalledWith({
+        requestId: fakeRequestDto.requestId,
+        response: {
+          success: true
+        }
+      })
+    })
+    it('should call presenter with once with success false', async () => {
+      const { sut, presenter, gateway } = makeSut()
+      const presentSpy = jest.spyOn(presenter, 'present')
+      jest.spyOn(gateway, 'create').mockResolvedValueOnce(true)
+      await sut.execute(fakeRequestDto)
+      expect(presentSpy).toHaveBeenCalledTimes(1)
+      expect(presentSpy).toHaveBeenCalledWith({
+        requestId: fakeRequestDto.requestId,
+        response: {
+          success: true
+        }
+      })
+    })
   })
 })
