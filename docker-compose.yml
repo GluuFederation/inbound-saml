@@ -10,9 +10,9 @@ services:
       LDAP_ADMIN_PASSWORD: "admin"
       LDAP_CONFIG_PASSWORD: "config"
       LDAP_DOMAIN: "gluu"
-    command: --copy-service --loglevel debug
-    volumes:
-      - ./schemas:/container/service/slapd/assets/config/bootstrap/schema/custom
+    # command: --copy-service --loglevel debug
+    # volumes:
+      # - ./schemas:/container/service/slapd/assets/config/bootstrap/schema/custom
       # - ./ldif:/container/service/slapd/assets/config/bootstrap/ldif/custom
 
     stdin_open: true
@@ -21,16 +21,7 @@ services:
       - "636:636"
     depends_on:
       - inbound-saml
-  phpldapadmin:
-    image: osixia/phpldapadmin:0.9.0
-    container_name: phpldapadmin
-    environment:
-      PHPLDAPADMIN_LDAP_HOSTS: "openldap"
-      PHPLDAPADMIN_HTTPS: "false"
-    ports:
-      - "8080:80"
-    depends_on:
-      - openldap
+  
   inbound-saml:
     build: 
       context: .
