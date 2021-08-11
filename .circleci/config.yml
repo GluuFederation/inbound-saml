@@ -25,7 +25,8 @@ jobs:
 
       # start proprietary DB using private Docker image
       - run: |
-          docker-compose up
+          docker-compose up -d
+          npm ci
           npm run test
           
         # docker login -u $DOCKER_USER -p $DOCKER_PASS
