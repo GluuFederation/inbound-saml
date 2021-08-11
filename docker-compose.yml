@@ -19,11 +19,4 @@ services:
     ports:
       - "389:389"
       - "636:636"
-    depends_on:
-      - inbound-saml
-  
-  inbound-saml:
-    build: 
-      context: .
-    volumes:
-      - ./:/code
+
