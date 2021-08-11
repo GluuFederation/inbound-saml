@@ -1,4 +1,5 @@
 import { RemoteIdp } from '@sp-proxy/entities/RemoteIdp'
+import { PersistenceError } from '@sp-proxy/interface-adapters/data/errors/PersistenceError'
 import { ICreateRemoteIdpGateway } from '@sp-proxy/use-cases/ports/ICreateRemoteIdpGateway'
 import * as ldap from 'ldapjs'
 
@@ -13,7 +14,7 @@ export class LdapCreateRemoteIdp implements ICreateRemoteIdpGateway {
     const rdn = `${this.rdnAttribute}=${remoteIdp.id}`
     const name = `${rdn},${this.dn}`
     this.client.add(name, remoteIdp.props, (err) => {
-      throw Error(err.message)
+      throw new PersistenceError(err.name + ': ' + err.message)
     })
     return await Promise.resolve(true)
   }

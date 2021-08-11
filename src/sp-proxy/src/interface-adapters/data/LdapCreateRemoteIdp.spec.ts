@@ -1,5 +1,6 @@
 import { IRemoteIdpProps } from '@sp-proxy/entities/IRemoteIdp'
 import { RemoteIdp } from '@sp-proxy/entities/RemoteIdp'
+import { PersistenceError } from '@sp-proxy/interface-adapters/data/errors/PersistenceError'
 import { LdapCreateRemoteIdp } from '@sp-proxy/interface-adapters/data/LdapCreateRemoteIdp'
 import { makeSingleSignOnServices } from '@sp-proxy/use-cases/factories/makeSingleSignOnServices'
 import { randomUUID } from 'crypto'
@@ -17,9 +18,7 @@ const makeClientMock = (): ldapjs.Client => {
       controls: any,
       callback: ldapjs.ErrorCallback
     ): void
-    add(name: any, entry: any, controls: any, callback?: any): void {
-      // do nothing
-    }
+    add(name: any, entry: any, controls: any, callback?: any): void {}
 
     connected = true
     bind(dn: string, password: string, callback: ldapjs.CallBack): void
@@ -279,6 +278,23 @@ describe('LdapCreateRemoteIdp', () => {
       const expectedName = `${ldapCfg.attributes.remoteIdpUuid}=${randomUuid},${fakeDn}`
       expect(addSpy.mock.calls[0][0]).toEqual(expectedName)
       expect(addSpy.mock.calls[0][1]).toEqual(props)
+    })
+    it('should throw PersistenceError if create returns error', async () => {
+      const { clientStub, sut } = makeSut()
+
+      // force error callback to be called
+      clientStub.add = jest.fn(
+        (name: string, entry: Object, callback: ldapjs.ErrorCallback) => {
+          // eslint-disable-next-line node/no-callback-literal
+          return callback({
+            message: 'error message',
+            code: 69,
+            name: 'ValidErrorName'
+          })
+        }
+      )
+      const remoteIdp = makeRemoteIdp()
+      await expect(sut.create(remoteIdp)).rejects.toThrow(PersistenceError)
     })
   })
 })
