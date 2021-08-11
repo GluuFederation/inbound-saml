@@ -22,7 +22,13 @@ const makeSut = (): SutTypes => {
   const clientStub = makeLdapClientMock()
   const rdnAttribute = cfg.default.database.ldap.attributes.remoteIdpUuid
   const dnStub = fakeDn
-  const sut = new LdapCreateRemoteIdp(clientStub, dnStub, rdnAttribute)
+  const objectClass = cfg.default.database.ldap.objectClasses.remoteIdp
+  const sut = new LdapCreateRemoteIdp(
+    clientStub,
+    dnStub,
+    rdnAttribute,
+    objectClass
+  )
   return {
     sut,
     clientStub,
@@ -45,6 +51,7 @@ const makeRemoteIdp = (): RemoteIdp => {
 describe('LdapCreateRemoteIdp', () => {
   describe('create', () => {
     it('should call client.add once with correct params', async () => {
+      const objectClass = cfg.default.database.ldap.objectClasses.remoteIdp
       const { clientStub, sut } = makeSut()
       const addSpy = jest.spyOn(clientStub, 'add')
       const remoteIdp = makeRemoteIdp()
@@ -52,7 +59,11 @@ describe('LdapCreateRemoteIdp', () => {
       expect(addSpy).toHaveBeenCalledTimes(1)
       const expectedName = `${ldapCfg.attributes.remoteIdpUuid}=${randomUuid},${fakeDn}`
       expect(addSpy.mock.calls[0][0]).toEqual(expectedName)
-      expect(addSpy.mock.calls[0][1]).toEqual(props)
+      const expectedParams = {
+        description: JSON.stringify(props),
+        objectClass: objectClass
+      }
+      expect(addSpy.mock.calls[0][1]).toEqual(expectedParams)
     })
     it('should throw PersistenceError if create returns error', async () => {
       const { clientStub, sut } = makeSut()

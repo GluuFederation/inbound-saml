@@ -8,11 +8,13 @@ export class LdapCreateRemoteIdp implements ICreateRemoteIdpGateway {
    * @param client
    * @param dn - the complete dn (i.e.: ou=remoteIdps,ou=inbound-saml,o=gluu)
    * @param rdnAttribute - the unique identifier attribute
+   * @param objectClass - objectClass to be used to persist RemoteIdp
    */
   constructor(
     private readonly client: ldap.Client,
     private readonly dn: string,
-    private readonly rdnAttribute: string
+    private readonly rdnAttribute: string,
+    private readonly objectClass: string
   ) {}
 
   /**
@@ -23,11 +25,20 @@ export class LdapCreateRemoteIdp implements ICreateRemoteIdpGateway {
   async create(remoteIdp: RemoteIdp): Promise<boolean> {
     const rdn = `${this.rdnAttribute}=${remoteIdp.id}`
     const name = `${rdn},${this.dn}`
-    this.client.add(name, remoteIdp.props, (err) => {
-      throw new PersistenceError(
-        `${err.name.toString()}: ${err.message.toString()}`
-      )
-    })
+    this.client.add(
+      name,
+      {
+        description: JSON.stringify(remoteIdp.props),
+        objectClass: this.objectClass
+      },
+      (err) => {
+        if (err != null) {
+          throw new PersistenceError(
+            `${err.name.toString()}: ${err.message.toString()}`
+          )
+        }
+      }
+    )
     return true
   }
 }
