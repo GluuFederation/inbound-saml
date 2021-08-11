@@ -16,6 +16,6 @@ export class LdapCreateRemoteIdp implements ICreateRemoteIdpGateway {
     this.client.add(name, remoteIdp.props, (err) => {
       throw new PersistenceError(err.name + ': ' + err.message)
     })
-    return await Promise.resolve(true)
+    return true
   }
 }

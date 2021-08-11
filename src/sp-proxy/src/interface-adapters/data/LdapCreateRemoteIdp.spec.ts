@@ -295,6 +295,11 @@ describe('LdapCreateRemoteIdp', () => {
       )
       const remoteIdp = makeRemoteIdp()
       await expect(sut.create(remoteIdp)).rejects.toThrow(PersistenceError)
+      jest.resetAllMocks()
+    })
+    it('should return true if client.add doesnt throw', async () => {
+      const { sut } = makeSut()
+      expect(await sut.create(makeRemoteIdp())).toBeTruthy()
     })
   })
 })
