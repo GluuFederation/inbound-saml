@@ -19,7 +19,6 @@ workflows:
 jobs:
   build:
     machine: true
-    working_directory: ~/my_app
     steps:
       # Docker is preinstalled, along with docker-compose
       - checkout
