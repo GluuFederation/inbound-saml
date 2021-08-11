@@ -19,7 +19,6 @@ workflows:
 jobs:
   build:
     machine: true
-    working_directory: ~/my_app
     steps:
       # Docker is preinstalled, along with docker-compose
       - checkout
@@ -27,7 +26,7 @@ jobs:
       # start proprietary DB using private Docker image
       - run: |
           docker-compose up
-         
+          npm run test
           
         # docker login -u $DOCKER_USER -p $DOCKER_PASS
         # docker run -d --name db company/proprietary-db:1.2.3
