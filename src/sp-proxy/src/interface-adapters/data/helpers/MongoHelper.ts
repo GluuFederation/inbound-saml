@@ -1,4 +1,4 @@
-import { MongoClient } from 'mongodb'
+import { Collection, MongoClient } from 'mongodb'
 import * as cfg from '../config/env'
 const config = cfg.default
 
@@ -28,5 +28,9 @@ export class MongoHelper {
       { unique: true, name: 'remoteIdp._id' }
     )
     await this.client.close()
+  }
+
+  async getCollection(name: string): Promise<Collection> {
+    return this.client.db(config.database.mongo.dbName).collection(name)
   }
 }

@@ -1,3 +1,4 @@
+import { PersistenceError } from '@sp-proxy/interface-adapters/data/errors/PersistenceError'
 import { makeMongoHelper } from '@sp-proxy/interface-adapters/data/factories/makeMongoHelper'
 import { makeRemoteIdpStub } from '@sp-proxy/interface-adapters/data/mocks/makeRemoteIdpStub.mock'
 import { MongoCreateRemoteIdp } from '@sp-proxy/interface-adapters/data/MongoCreateRemoteIdp'
@@ -29,5 +30,14 @@ describe('MongoCreateRemoteIdp', () => {
     await sut.create(remoteIdpStub)
     expect(insertOneSpy).toHaveBeenCalledTimes(1)
     expect(insertOneSpy).toHaveBeenCalledWith({ remoteIdp: remoteIdpStub })
+  })
+  it('should throw PersistenceError if insertOne throws', async () => {
+    const { sut, collectionStub } = makeSut()
+    jest.spyOn(collectionStub, 'insertOne').mockImplementationOnce(() => {
+      throw new Error('a normal error message')
+    })
+    await expect(sut.create(makeRemoteIdpStub())).rejects.toThrow(
+      PersistenceError
+    )
   })
 })
