@@ -1,5 +1,16 @@
 export default {
   database: {
+    mongo: {
+      uri: process.env.MONGO_URI ?? 'mongodb://localhost',
+      credentials: {
+        adminLogin: process.env.MONGO_ADMIN_USER ?? 'admin',
+        adminPwd: process.env.MONGO_ADMIN_PASSWORD ?? 'admin'
+      },
+      dbName: process.env.MONGO_DB_NAME ?? 'inbound-saml',
+      collections: {
+        remoteIdps: process.env.MONGO_DB_COLLECTIONS_REMOTEIDPS ?? 'remote-idps'
+      }
+    },
     ldap: {
       url: process.env.LDAP_URL ?? 'ldap://localhost',
       credentials: {
