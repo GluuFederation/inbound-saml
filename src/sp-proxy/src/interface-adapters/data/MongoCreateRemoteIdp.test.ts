@@ -1,18 +1,46 @@
 import { PersistenceError } from '@sp-proxy/interface-adapters/data/errors/PersistenceError'
 import { makeMongoHelper } from '@sp-proxy/interface-adapters/data/factories/makeMongoHelper'
+import { MongoHelper } from '@sp-proxy/interface-adapters/data/helpers/MongoHelper'
 import { makeRemoteIdpStub } from '@sp-proxy/interface-adapters/data/mocks/makeRemoteIdpStub.mock'
 import { MongoCreateRemoteIdp } from '@sp-proxy/interface-adapters/data/MongoCreateRemoteIdp'
+import { Collection } from 'mongodb'
 import * as cfg from '../data/config/env'
 const config = cfg.default
 
+interface SutTypes {
+  sut: MongoCreateRemoteIdp
+  helper: MongoHelper
+  collection: Collection
+}
+
+const globalHelper = makeMongoHelper()
+
+const makeSut = async (): Promise<SutTypes> => {
+  const helper = globalHelper
+  const collection = await helper.getCollection(
+    config.database.mongo.collections.remoteIdps
+  )
+  const sut = new MongoCreateRemoteIdp(collection)
+  return {
+    sut: sut,
+    helper: helper,
+    collection: collection
+  }
+}
+
 describe('MongoCreateRemoteIdp - Integration', () => {
+  beforeAll(async () => {
+    await globalHelper.connect()
+    await globalHelper.prepare()
+  })
+
+  afterAll(async () => {
+    await globalHelper.client.close()
+  })
+
   it('should persist Object', async () => {
-    const helper = makeMongoHelper()
+    const { sut, collection, helper } = await makeSut()
     await helper.prepare()
-    const collection = await helper.getCollection(
-      config.database.mongo.collections.remoteIdps
-    )
-    const sut = new MongoCreateRemoteIdp(collection)
     const remoteIdp = makeRemoteIdpStub()
     await helper.connect()
     await sut.create(remoteIdp)
@@ -27,14 +55,9 @@ describe('MongoCreateRemoteIdp - Integration', () => {
     })
   })
   it('should throw error if no connection', async () => {
-    const helper = makeMongoHelper()
-    await helper.prepare()
-    const collection = helper.client
-      .db(config.database.mongo.dbName)
-      .collection(config.database.mongo.collections.remoteIdps)
-    const sut = new MongoCreateRemoteIdp(collection)
+    const { sut } = await makeSut()
+    await globalHelper.client.close()
     const remoteIdp = makeRemoteIdpStub()
-    // no connection
     await expect(sut.create(remoteIdp)).rejects.toThrow(PersistenceError)
   })
 })
