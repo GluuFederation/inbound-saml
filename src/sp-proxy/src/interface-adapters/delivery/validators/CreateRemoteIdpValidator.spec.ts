@@ -38,4 +38,15 @@ describe('CreateRemoteIdpValidator', () => {
       new InvalidRequestError('Missing param: signingCertificates.')
     )
   })
+  it('should return true if considered valid', async () => {
+    const sut = new CreateRemoteIdpValidator()
+    const validRequest = {
+      body: {
+        name: 'valid name',
+        signingCertificates: ['valid cert 1', 'valid cert 2'],
+        singleSignOnService: ['valid ssoService']
+      }
+    }
+    expect(await sut.isValid(validRequest as any)).toBeTruthy()
+  })
 })
