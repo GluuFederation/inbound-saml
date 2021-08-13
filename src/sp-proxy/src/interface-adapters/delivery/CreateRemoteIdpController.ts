@@ -15,7 +15,6 @@ export class CreateRemoteIdpController implements IController {
   ) {}
 
   async handle(request: IRequest<ICreateRemoteIdpRequest>): Promise<void> {
-    this.mapper.map(request)
-    // do something...
+    await this.interactor.execute(this.mapper.map(request))
   }
 }

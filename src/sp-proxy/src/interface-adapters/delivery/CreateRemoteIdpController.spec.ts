@@ -73,5 +73,16 @@ describe('CreateRemoteIdpController', () => {
       expect(mapSpy).toHaveBeenCalledTimes(1)
       expect(mapSpy).toHaveBeenCalledWith(fakeRequest)
     })
+
+    it('should call interactor execute once w/ map response', async () => {
+      const { sut, interactorStub, mapperStub } = makeSut()
+      const executeSpy = jest.spyOn(interactorStub, 'execute')
+      jest
+        .spyOn(mapperStub, 'map')
+        .mockReturnValueOnce('valid mapped value' as any)
+      await sut.handle(fakeRequest)
+      expect(executeSpy).toHaveBeenCalledTimes(1)
+      expect(executeSpy).toHaveBeenCalledWith('valid mapped value')
+    })
   })
 })
