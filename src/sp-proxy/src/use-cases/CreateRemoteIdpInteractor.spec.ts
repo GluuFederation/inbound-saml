@@ -16,7 +16,9 @@ import { IMapper } from '@sp-proxy/use-cases/protocols/IMapper'
 
 const makePresenter = (): ICreateRemoteIdpOutputBoundary => {
   class PresenterStub implements ICreateRemoteIdpOutputBoundary {
-    present(response: IResponseModel<CreateRemoteIdpResponseModel>): void {
+    async present(
+      response: IResponseModel<CreateRemoteIdpResponseModel>
+    ): Promise<void> {
       // do something
     }
   }

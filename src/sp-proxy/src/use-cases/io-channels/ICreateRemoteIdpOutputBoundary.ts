@@ -2,5 +2,7 @@ import { CreateRemoteIdpResponseModel } from '@sp-proxy/use-cases/io-models/Crea
 import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'
 
 export interface ICreateRemoteIdpOutputBoundary {
-  present: (response: IResponseModel<CreateRemoteIdpResponseModel>) => void
+  present: (
+    response: IResponseModel<CreateRemoteIdpResponseModel>
+  ) => Promise<void>
 }
