@@ -7,6 +7,7 @@ import { fakeCreateRemoteIdpRequest } from '@sp-proxy/interface-adapters/deliver
 import { ICreateRemoteIdpRequest } from '@sp-proxy/interface-adapters/protocols/ICreateRemoteIdpRequest'
 import { IMapper } from '@sp-proxy/interface-adapters/protocols/IMapper'
 import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'
+import { IValidator } from '@sp-proxy/interface-adapters/protocols/IValidator'
 import { ICreateRemoteIdpInputBoundary } from '@sp-proxy/use-cases/io-channels/ICreateRemoteIdpInputBoundary'
 import { CreateRemoteIdpRequestModel } from '@sp-proxy/use-cases/io-models/CreateRemoteIdpRequestModel'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
@@ -37,28 +38,45 @@ const makeMapper = (): IMapper<
 }
 
 const makeInteractor = (): ICreateRemoteIdpInputBoundary => {
-  class Interactor implements ICreateRemoteIdpInputBoundary {
+  class InteractorStub implements ICreateRemoteIdpInputBoundary {
     async execute(
       request: IRequestModel<CreateRemoteIdpRequestModel>
     ): Promise<void> {
       // do something
     }
   }
-  return new Interactor()
+  return new InteractorStub()
 }
+
+const makeValidator = (): IValidator => {
+  class ValidatorStub implements IValidator {
+    async isValid(value: any): Promise<boolean> {
+      return true
+    }
+  }
+  return new ValidatorStub()
+}
+
 interface SutTypes {
   sut: CreateRemoteIdpController
   mapperStub: IMapper<ICreateRemoteIdpRequest, CreateRemoteIdpRequestModel>
   interactorStub: ICreateRemoteIdpInputBoundary
+  validatorStub: IValidator
 }
 const makeSut = (): SutTypes => {
   const mapperStub = makeMapper()
   const interactorStub = makeInteractor()
-  const sut = new CreateRemoteIdpController(mapperStub, interactorStub)
+  const validatorStub = makeValidator()
+  const sut = new CreateRemoteIdpController(
+    mapperStub,
+    interactorStub,
+    validatorStub
+  )
   return {
     sut: sut,
     mapperStub: mapperStub,
-    interactorStub: interactorStub
+    interactorStub: interactorStub,
+    validatorStub
   }
 }
 
@@ -83,6 +101,14 @@ describe('CreateRemoteIdpController', () => {
       await sut.handle(fakeRequest)
       expect(executeSpy).toHaveBeenCalledTimes(1)
       expect(executeSpy).toHaveBeenCalledWith('valid mapped value')
+    })
+
+    it('should call validator with request', async () => {
+      const { sut, validatorStub } = makeSut()
+      const isValidSpy = jest.spyOn(validatorStub, 'isValid')
+      await sut.handle(fakeRequest)
+      expect(isValidSpy).toHaveBeenCalledTimes(1)
+      expect(isValidSpy).toHaveBeenCalledWith(fakeRequest)
     })
   })
 })
