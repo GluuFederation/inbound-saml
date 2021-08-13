@@ -1,26 +1,9 @@
 import { CreateRemoteIdpControllerMapper } from '@sp-proxy/interface-adapters/delivery/mappers/CreateRemoteIdpControllerMapper'
-import { ICreateRemoteIdpRequest } from '@sp-proxy/interface-adapters/protocols/ICreateRemoteIdpRequest'
-import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'
+import { fakeCreateRemoteIdpRequest } from '@sp-proxy/interface-adapters/delivery/mocks/fakeCreateRemoteIdpRequest.mock'
 import { CreateRemoteIdpRequestModel } from '@sp-proxy/use-cases/io-models/CreateRemoteIdpRequestModel'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
 
-const fakeRequest: IRequest<ICreateRemoteIdpRequest> = {
-  id: 'valid request id',
-  body: {
-    name: 'valid name',
-    singleSignOnService: [
-      {
-        binding: 'valid binding 1',
-        location: 'valid location 1'
-      },
-      {
-        binding: 'valid binding 2',
-        location: 'valid location 2'
-      }
-    ],
-    signingCertificates: ['valid cert 1', 'valid cert 2']
-  }
-}
+const fakeRequest = fakeCreateRemoteIdpRequest
 
 describe('CreateRemoteIdpControllerMapper', () => {
   describe('map', () => {
