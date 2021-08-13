@@ -8,9 +8,15 @@ export class CreateRemoteIdpPresenter
 {
   constructor(private readonly eventBus: EventEmitter) {}
 
+  // TODO: move mapping to external class
   async present(
     response: IResponseModel<CreateRemoteIdpResponseModel>
   ): Promise<void> {
-    this.eventBus.emit(response.requestId, response)
+    this.eventBus.emit(response.requestId, {
+      requestId: response.requestId,
+      body: {
+        success: response.response.success
+      }
+    })
   }
 }
