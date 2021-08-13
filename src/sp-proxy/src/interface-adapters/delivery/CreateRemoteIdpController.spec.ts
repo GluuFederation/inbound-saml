@@ -3,6 +3,7 @@
 // calls interactor execute() w/ IRequestModel
 
 import { CreateRemoteIdpController } from '@sp-proxy/interface-adapters/delivery/CreateRemoteIdpController'
+import { InvalidRequestError } from '@sp-proxy/interface-adapters/delivery/errors/InvalidRequestError'
 import { fakeCreateRemoteIdpRequest } from '@sp-proxy/interface-adapters/delivery/mocks/fakeCreateRemoteIdpRequest.mock'
 import { ICreateRemoteIdpRequest } from '@sp-proxy/interface-adapters/protocols/ICreateRemoteIdpRequest'
 import { IMapper } from '@sp-proxy/interface-adapters/protocols/IMapper'
@@ -109,6 +110,14 @@ describe('CreateRemoteIdpController', () => {
       await sut.handle(fakeRequest)
       expect(isValidSpy).toHaveBeenCalledTimes(1)
       expect(isValidSpy).toHaveBeenCalledWith(fakeRequest)
+    })
+
+    it('should throw InvalidRequestError if validator throws', async () => {
+      const { sut, validatorStub } = makeSut()
+      jest
+        .spyOn(validatorStub, 'isValid')
+        .mockRejectedValueOnce(new InvalidRequestError('Valid error'))
+      await expect(sut.handle(fakeRequest)).rejects.toThrow(InvalidRequestError)
     })
   })
 })
