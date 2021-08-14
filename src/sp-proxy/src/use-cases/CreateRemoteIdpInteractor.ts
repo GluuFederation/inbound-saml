@@ -1,13 +1,13 @@
 import { RemoteIdp } from '@sp-proxy/entities/RemoteIdp'
-import { ICreateRemoteIdpInputBoundary } from '@sp-proxy/use-cases/io-channels/ICreateRemoteIdpInputBoundary'
 import { ICreateRemoteIdpOutputBoundary } from '@sp-proxy/use-cases/io-channels/ICreateRemoteIdpOutputBoundary'
 import { CreateRemoteIdpRequestModel } from '@sp-proxy/use-cases/io-models/CreateRemoteIdpRequestModel'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
 import { ICreateRemoteIdpGateway } from '@sp-proxy/use-cases/ports/ICreateRemoteIdpGateway'
 import { IMapper } from '@sp-proxy/use-cases/protocols/IMapper'
+import { InputBoundary } from '@sp-proxy/use-cases/protocols/InputBoundary'
 
 export class CreateRemoteIdpInteractor
-  implements ICreateRemoteIdpInputBoundary
+  implements InputBoundary<CreateRemoteIdpRequestModel>
 {
   constructor(
     private readonly gateway: ICreateRemoteIdpGateway,

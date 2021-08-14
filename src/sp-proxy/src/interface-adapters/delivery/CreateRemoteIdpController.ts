@@ -3,8 +3,8 @@ import { ICreateRemoteIdpRequest } from '@sp-proxy/interface-adapters/protocols/
 import { IMapper } from '@sp-proxy/interface-adapters/protocols/IMapper'
 import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'
 import { IValidator } from '@sp-proxy/interface-adapters/protocols/IValidator'
-import { ICreateRemoteIdpInputBoundary } from '@sp-proxy/use-cases/io-channels/ICreateRemoteIdpInputBoundary'
 import { CreateRemoteIdpRequestModel } from '@sp-proxy/use-cases/io-models/CreateRemoteIdpRequestModel'
+import { InputBoundary } from '@sp-proxy/use-cases/protocols/InputBoundary'
 
 export class CreateRemoteIdpController implements IController {
   constructor(
@@ -12,7 +12,7 @@ export class CreateRemoteIdpController implements IController {
       ICreateRemoteIdpRequest,
       CreateRemoteIdpRequestModel
     >,
-    private readonly interactor: ICreateRemoteIdpInputBoundary,
+    private readonly interactor: InputBoundary<CreateRemoteIdpRequestModel>,
     private readonly validator: IValidator
   ) {}
 
