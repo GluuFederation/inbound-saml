@@ -1,22 +1,15 @@
-version: '2'
+version: '3'
 services:
-  openldap:
-    image: osixia/openldap:1.5.0
-    container_name: openldap
-    environment:
-      CONTAINER_LOG_LEVEL: 0
-      LDAP_LOG_LEVEL: "-1"
-      LDAP_ORGANISATION: "gluu"
-      LDAP_ADMIN_PASSWORD: "admin"
-      LDAP_CONFIG_PASSWORD: "config"
-      LDAP_DOMAIN: "gluu"
-    # command: --copy-service --loglevel debug
-    # volumes:
-      # - ./schemas:/container/service/slapd/assets/config/bootstrap/schema/custom
-      # - ./ldif:/container/service/slapd/assets/config/bootstrap/ldif/custom
-
-    stdin_open: true
+  mongo:
+    container_name: mongo-container
+    image: mongo:4
+    restart: always
     ports:
-      - "389:389"
-      - "636:636"
-
+      - '27017:27017'
+  # inbound-saml:
+  #   build: 
+  #     context: .
+  #   volumes:
+  #     - ./:/code
+  #   depends_on: 
+  #     - mongo
