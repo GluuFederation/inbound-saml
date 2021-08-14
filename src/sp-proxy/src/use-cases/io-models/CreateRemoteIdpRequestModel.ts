@@ -6,7 +6,3 @@ export interface CreateRemoteIdpRequestModel {
   singleSignOnService: IService[]
   signingCertificates: string[]
 }
-
-// export interface CreateRemoteIdpRequestModel extends IRequestModel {
-//   remoteIdp: RemoteIdpRequestModelProps
-// }

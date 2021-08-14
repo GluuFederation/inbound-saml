@@ -6,16 +6,16 @@
 import { RemoteIdp } from '@sp-proxy/entities/RemoteIdp'
 import { CreateRemoteIdpInteractor } from '@sp-proxy/use-cases/CreateRemoteIdpInteractor'
 import { makeSingleSignOnServices } from '@sp-proxy/use-cases/factories/makeSingleSignOnServices'
-import { ICreateRemoteIdpOutputBoundary } from '@sp-proxy/use-cases/io-channels/ICreateRemoteIdpOutputBoundary'
 import { CreateRemoteIdpRequestModel } from '@sp-proxy/use-cases/io-models/CreateRemoteIdpRequestModel'
 import { CreateRemoteIdpResponseModel } from '@sp-proxy/use-cases/io-models/CreateRemoteIdpResponseModel'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
 import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'
 import { ICreateRemoteIdpGateway } from '@sp-proxy/use-cases/ports/ICreateRemoteIdpGateway'
 import { IMapper } from '@sp-proxy/use-cases/protocols/IMapper'
+import { OutputBoundary } from '@sp-proxy/use-cases/protocols/OutputBoundary'
 
-const makePresenter = (): ICreateRemoteIdpOutputBoundary => {
-  class PresenterStub implements ICreateRemoteIdpOutputBoundary {
+const makePresenter = (): OutputBoundary<CreateRemoteIdpResponseModel> => {
+  class PresenterStub implements OutputBoundary<CreateRemoteIdpResponseModel> {
     async present(
       response: IResponseModel<CreateRemoteIdpResponseModel>
     ): Promise<void> {
@@ -66,7 +66,7 @@ const makeMapper = (): IMapper<RemoteIdp> => {
 
 interface SutTypes {
   sut: CreateRemoteIdpInteractor
-  presenter: ICreateRemoteIdpOutputBoundary
+  presenter: OutputBoundary<CreateRemoteIdpResponseModel>
   gateway: ICreateRemoteIdpGateway
   mapper: IMapper<RemoteIdp>
 }
