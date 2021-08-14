@@ -11,7 +11,9 @@ export class GetExternalDataPresenter
    */
   constructor(private readonly emiter: EventEmitter) {}
 
-  present(response: IResponseModel<GetExternalDataResponseModel>): void {
+  async present(
+    response: IResponseModel<GetExternalDataResponseModel>
+  ): Promise<void> {
     this.emiter.emit(response.requestId, response)
   }
 }

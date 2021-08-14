@@ -20,7 +20,7 @@ export class CreateRemoteIdpInteractor
   ): Promise<void> {
     const mapped = this.entityMapper.map(request)
     const success = await this.gateway.create(mapped)
-    this.output.present({
+    await this.output.present({
       requestId: request.requestId,
       response: {
         success

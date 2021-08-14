@@ -2,5 +2,7 @@ import { GetExternalDataResponseModel } from '@get-saml-metadata/use-cases/GetEx
 import { IResponseModel } from '@get-saml-metadata/use-cases/IResponseModel'
 
 export interface IGetExternalDataOutputBoundary {
-  present: (response: IResponseModel<GetExternalDataResponseModel>) => void
+  present: (
+    response: IResponseModel<GetExternalDataResponseModel>
+  ) => Promise<void>
 }
