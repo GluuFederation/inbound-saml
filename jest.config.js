@@ -26,19 +26,17 @@ module.exports = {
   coverageDirectory: 'coverage',
 
   // An array of regexp pattern strings used to skip coverage collection
-  // coveragePathIgnorePatterns: [
-  //   "/node_modules/"
-  // ],
+  coveragePathIgnorePatterns: ['/node_modules/', 'env.ts', '.mock.ts'],
 
   // Indicates which provider should be used to instrument code for coverage
   coverageProvider: 'babel',
 
   // A list of reporter names that Jest uses when writing coverage reports
   coverageReporters: [
-  //   "json",
-  //   "text",
+    //   "json",
+    //   "text",
     'lcov'
-  //   "clover"
+    //   "clover"
   ],
 
   // An object that configures minimum threshold enforcement for coverage results
@@ -195,6 +193,7 @@ module.exports = {
   // watchman: true,
   moduleNameMapper: {
     '@get-saml-metadata/(.*)': '<rootDir>/src/get-saml-metadata/src/$1',
+    '@sp-proxy/(.*)': '<rootDir>/src/sp-proxy/src/$1',
     '@/tests/(.*)': '<rootDir>/tests/$1'
     // '@get-saml-metadata/(.*)': '<rootDir>/src/get-saml-metadata/src/$1'
   }

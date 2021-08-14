@@ -67,7 +67,9 @@ const makePresenter = (
   emiter?: EventEmitter
 ): IGetExternalDataOutputBoundary => {
   class PresenterStub implements IGetExternalDataOutputBoundary {
-    present(response: IResponseModel<GetExternalDataResponseModel>): void {
+    async present(
+      response: IResponseModel<GetExternalDataResponseModel>
+    ): Promise<void> {
       if (emiter != null) {
         emiter.emit(response.requestId, response)
       }

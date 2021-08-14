@@ -19,7 +19,9 @@ import {
 
 const makePresenter = (): IGetExternalDataOutputBoundary => {
   class PresenterStub implements IGetExternalDataOutputBoundary {
-    present(response: IResponseModel<GetExternalDataResponseModel>): void {}
+    async present(
+      response: IResponseModel<GetExternalDataResponseModel>
+    ): Promise<void> {}
   }
   return new PresenterStub()
 }

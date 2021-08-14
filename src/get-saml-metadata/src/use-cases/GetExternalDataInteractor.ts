@@ -13,7 +13,7 @@ export class GetExternalDataInteractor
     const externalData = this.externalDataMapper.map(
       this.metadataMapper.map(loadedXmlData.props.xml)
     )
-    this.presenter.present({
+    await this.presenter.present({
       requestId: request.requestId,
       response: {
         externalData

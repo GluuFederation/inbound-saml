@@ -44,10 +44,10 @@ const makeSut = (): SutTypes => {
 }
 
 describe('GetExternalDataPresenter', () => {
-  it('should call emiter.emit with correct params', () => {
+  it('should call emiter.emit with correct params', async () => {
     const { emiter, sut } = makeSut()
     const emitSpy = jest.spyOn(emiter, 'emit')
-    sut.present(fakeResponse)
+    await sut.present(fakeResponse)
     expect(emitSpy).toHaveBeenCalledTimes(1)
     expect(emitSpy).toHaveBeenCalledWith(fakeRequest.id, fakeResponse)
   })
