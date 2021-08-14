@@ -11,6 +11,7 @@
     "test:coverage": "jest --ci --coverage",
     "test:behaviour": "cucumber-js src/get-saml-metadata",
     "test:staged": "npm test -- --findRelatedTests",
+    "prepare": "husky install",
     "build": "tsc && tsc-alias"
   },
   "author": "Gluu",
