@@ -6,6 +6,12 @@ import * as crypto from 'crypto'
 import { EventEmitter } from 'stream'
 jest.mock('crypto')
 
+const fakeRequest = fakeCreateRemoteIdpRequest
+const fakeUseCaseResponse = {
+  requestId: fakeRequest.id,
+  body: { success: true }
+}
+
 const makeController = (): IController => {
   class ControllerStub implements IController {
     async handle(request: IRequest<any>): Promise<void> {
@@ -22,6 +28,9 @@ interface SutTypes {
 const makeSut = (): SutTypes => {
   const controllerStub = makeController()
   const eventBusStub = new EventEmitter()
+  jest.spyOn(controllerStub as any, 'handle').mockImplementation(() => {
+    eventBusStub.emit(fakeRequest.id, fakeUseCaseResponse)
+  })
   const sut = new CreateRemoteIdpFacade(controllerStub, eventBusStub)
   return {
     sut: sut,
@@ -30,10 +39,12 @@ const makeSut = (): SutTypes => {
   }
 }
 
-const fakeRequest = fakeCreateRemoteIdpRequest
-
 describe('CreateRemoteIdpFacade', () => {
   describe('createRemoteIdp', () => {
+    beforeAll(() => {
+      // jest.clearAllMocks()
+      // jest.resetAllMocks()
+    })
     it('should call controller with correct values', async () => {
       const { sut, controllerStub } = makeSut()
       jest.spyOn(crypto, 'randomUUID').mockReturnValueOnce('valid request id')
@@ -55,6 +66,31 @@ describe('CreateRemoteIdpFacade', () => {
         'valid request id',
         expect.any(Function)
       )
+    })
+    it('should return response body status false', async () => {
+      // create sut with different useCaseResponse mock
+      const controllerStub = makeController()
+      const eventBusStub = new EventEmitter()
+      const useCaseResponseMock = {
+        requestId: fakeRequest.id,
+        body: { success: false }
+      }
+      jest.spyOn(controllerStub as any, 'handle').mockImplementation(() => {
+        eventBusStub.emit(fakeRequest.id, useCaseResponseMock)
+      })
+      const sut = new CreateRemoteIdpFacade(controllerStub, eventBusStub)
+      jest.spyOn(crypto, 'randomUUID').mockReturnValueOnce('valid request id')
+
+      expect(await sut.createRemoteIdp(fakeRequest.body)).toEqual({
+        success: false
+      })
+    })
+    it('should return response body status true', async () => {
+      const { sut } = makeSut()
+      jest.spyOn(crypto, 'randomUUID').mockReturnValueOnce('valid request id')
+      expect(await sut.createRemoteIdp(fakeRequest.body)).toEqual({
+        success: true
+      })
     })
   })
 })

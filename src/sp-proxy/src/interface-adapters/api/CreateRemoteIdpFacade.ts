@@ -2,6 +2,8 @@ import { IController } from '@sp-proxy/interface-adapters/protocols/IController'
 import { ICreateRemoteIdpFacade } from '@sp-proxy/interface-adapters/protocols/ICreateRemoteIdpFacade'
 import { ICreateRemoteIdpRequest } from '@sp-proxy/interface-adapters/protocols/ICreateRemoteIdpRequest'
 import { ICreateRemoteIdpResponse } from '@sp-proxy/interface-adapters/protocols/ICreateRemoteIdpResponse'
+import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'
+import { IResponse } from '@sp-proxy/interface-adapters/protocols/IResponse'
 import { randomUUID } from 'crypto'
 import { EventEmitter } from 'stream'
 
@@ -16,11 +18,18 @@ export class CreateRemoteIdpFacade implements ICreateRemoteIdpFacade {
   ): Promise<ICreateRemoteIdpResponse> {
     // TODO: move mapper to external Mapper class
     const requestId = randomUUID()
-    await this.controller.handle({
+    const result: ICreateRemoteIdpResponse[] = []
+    this.eventBus.once(
+      requestId,
+      (response: IResponse<ICreateRemoteIdpResponse>) => {
+        result.push(response.body)
+      }
+    )
+    const request: IRequest<ICreateRemoteIdpRequest> = {
       id: requestId,
       body: props
-    })
-    this.eventBus.once(requestId, () => {})
-    return { success: true }
+    }
+    await this.controller.handle(request)
+    return result[0]
   }
 }
