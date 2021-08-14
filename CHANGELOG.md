@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.3.0](https://www.github.com/GluuFederation/inbound-saml/compare/v0.2.0...v0.3.0) (2021-08-14)
+
+
+### Features
+
+* CreateRemoteIdp ([#36](https://www.github.com/GluuFederation/inbound-saml/issues/36)) ([abbfda5](https://www.github.com/GluuFederation/inbound-saml/commit/abbfda544636d0b23edcd614892435f0dae62847))
+
+
+### Miscellaneous Chores
+
+* release 0.3.0 ([d37c2f5](https://www.github.com/GluuFederation/inbound-saml/commit/d37c2f54df3e08a311461697517c854fa92464b9))
+
 ## [0.2.0](https://www.github.com/GluuFederation/inbound-saml/compare/v1.0.0...v0.2.0) (2021-08-07)
 
 
