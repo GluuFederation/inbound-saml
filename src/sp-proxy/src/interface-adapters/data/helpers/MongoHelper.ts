@@ -6,6 +6,9 @@ export class MongoHelper {
   client: MongoClient
   constructor(public uri: string) {
     this.client = new MongoClient(this.uri)
+    this.client.connect().finally(() => {
+      // do nothing
+    })
   }
 
   async connect(): Promise<void> {
@@ -30,7 +33,7 @@ export class MongoHelper {
     await this.client.close()
   }
 
-  async getCollection(name: string): Promise<Collection> {
+  getCollection(name: string): Collection {
     return this.client.db(config.database.mongo.dbName).collection(name)
   }
 }
