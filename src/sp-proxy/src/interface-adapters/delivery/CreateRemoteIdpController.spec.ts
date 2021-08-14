@@ -9,9 +9,9 @@ import { ICreateRemoteIdpRequest } from '@sp-proxy/interface-adapters/protocols/
 import { IMapper } from '@sp-proxy/interface-adapters/protocols/IMapper'
 import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'
 import { IValidator } from '@sp-proxy/interface-adapters/protocols/IValidator'
+import { InputBoundary } from '@sp-proxy/use-cases/io-channels/InputBoundary'
 import { CreateRemoteIdpRequestModel } from '@sp-proxy/use-cases/io-models/CreateRemoteIdpRequestModel'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
-import { InputBoundary } from '@sp-proxy/use-cases/protocols/InputBoundary'
 
 const makeMapper = (): IMapper<
   ICreateRemoteIdpRequest,
