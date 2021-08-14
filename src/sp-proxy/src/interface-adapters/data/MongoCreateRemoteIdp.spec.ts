@@ -1,18 +1,19 @@
 import { PersistenceError } from '@sp-proxy/interface-adapters/data/errors/PersistenceError'
-import { makeMongoHelper } from '@sp-proxy/interface-adapters/data/factories/makeMongoHelper'
 import { makeRemoteIdpStub } from '@sp-proxy/interface-adapters/data/mocks/makeRemoteIdpStub.mock'
 import { MongoCreateRemoteIdp } from '@sp-proxy/interface-adapters/data/MongoCreateRemoteIdp'
 import * as mongodb from 'mongodb'
+// jest.mock('mongodb')
+// jest.mock('@sp-proxy/interface-adapters/data/factories/makeMongoHelper')
 
 interface SutTypes {
   sut: MongoCreateRemoteIdp
   collectionStub: mongodb.Collection
 }
 
+const client = new mongodb.MongoClient('mongodb://anyurl')
+
 const makeSut = (): SutTypes => {
-  const collectionStub = makeMongoHelper()
-    .client.db('any-db')
-    .collection('any-collection')
+  const collectionStub = client.db().collection('any-collection')
   const sut = new MongoCreateRemoteIdp(collectionStub)
   return {
     sut,
