@@ -10,19 +10,19 @@ import { IMapper } from '@sp-proxy/interface-adapters/protocols/IMapper'
 import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'
 import { IValidator } from '@sp-proxy/interface-adapters/protocols/IValidator'
 import { InputBoundary } from '@sp-proxy/use-cases/io-channels/InputBoundary'
-import { CreateRemoteIdpRequestModel } from '@sp-proxy/use-cases/io-models/CreateRemoteIdpRequestModel'
+import { RemoteIdpUseCaseProps } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseProps'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
 
 const makeMapper = (): IMapper<
   ICreateRemoteIdpRequest,
-  CreateRemoteIdpRequestModel
+  RemoteIdpUseCaseProps
 > => {
   class MapperStub
-    implements IMapper<ICreateRemoteIdpRequest, CreateRemoteIdpRequestModel>
+    implements IMapper<ICreateRemoteIdpRequest, RemoteIdpUseCaseProps>
   {
     map(
       request: IRequest<ICreateRemoteIdpRequest>
-    ): IRequestModel<CreateRemoteIdpRequestModel> {
+    ): IRequestModel<RemoteIdpUseCaseProps> {
       return {
         requestId: 'valid id',
         request: {
@@ -38,10 +38,10 @@ const makeMapper = (): IMapper<
   return new MapperStub()
 }
 
-const makeInteractor = (): InputBoundary<CreateRemoteIdpRequestModel> => {
-  class InteractorStub implements InputBoundary<CreateRemoteIdpRequestModel> {
+const makeInteractor = (): InputBoundary<RemoteIdpUseCaseProps> => {
+  class InteractorStub implements InputBoundary<RemoteIdpUseCaseProps> {
     async execute(
-      request: IRequestModel<CreateRemoteIdpRequestModel>
+      request: IRequestModel<RemoteIdpUseCaseProps>
     ): Promise<void> {
       // do something
     }
@@ -60,8 +60,8 @@ const makeValidator = (): IValidator => {
 
 interface SutTypes {
   sut: CreateRemoteIdpController
-  mapperStub: IMapper<ICreateRemoteIdpRequest, CreateRemoteIdpRequestModel>
-  interactorStub: InputBoundary<CreateRemoteIdpRequestModel>
+  mapperStub: IMapper<ICreateRemoteIdpRequest, RemoteIdpUseCaseProps>
+  interactorStub: InputBoundary<RemoteIdpUseCaseProps>
   validatorStub: IValidator
 }
 const makeSut = (): SutTypes => {

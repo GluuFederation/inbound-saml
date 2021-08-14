@@ -1,6 +1,6 @@
 import { IService } from '@sp-proxy/use-cases/protocols/IService'
 
-export interface CreateRemoteIdpRequestModel {
+export interface RemoteIdpUseCaseProps {
   name: string
   metadataEndpoint?: string
   singleSignOnService: IService[]

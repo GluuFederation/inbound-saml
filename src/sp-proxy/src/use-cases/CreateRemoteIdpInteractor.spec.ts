@@ -7,7 +7,7 @@ import { RemoteIdp } from '@sp-proxy/entities/RemoteIdp'
 import { CreateRemoteIdpInteractor } from '@sp-proxy/use-cases/CreateRemoteIdpInteractor'
 import { makeSingleSignOnServices } from '@sp-proxy/use-cases/factories/makeSingleSignOnServices'
 import { OutputBoundary } from '@sp-proxy/use-cases/io-channels/OutputBoundary'
-import { CreateRemoteIdpRequestModel } from '@sp-proxy/use-cases/io-models/CreateRemoteIdpRequestModel'
+import { RemoteIdpUseCaseProps } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseProps'
 import { CreateRemoteIdpResponseModel } from '@sp-proxy/use-cases/io-models/CreateRemoteIdpResponseModel'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
 import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'
@@ -35,7 +35,7 @@ const makeGateway = (): ICreateRemoteIdpGateway => {
   return new GatewayStub()
 }
 
-const fakeRequestDto: IRequestModel<CreateRemoteIdpRequestModel> = {
+const fakeRequestDto: IRequestModel<RemoteIdpUseCaseProps> = {
   requestId: 'valid id',
   request: {
     name: 'valid name',
