@@ -143,4 +143,11 @@ describe('GetRemoteIdpInteractor', () => {
     expect(presentSpy).toHaveBeenCalledTimes(1)
     expect(presentSpy).toHaveBeenCalledWith(responseModelMock)
   })
+  it('should throw if presenter throws', async () => {
+    const { sut, presenterStub } = makeSut()
+    jest.spyOn(presenterStub, 'present').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    await expect(sut.execute(fakeRequestDto)).rejects.toThrow()
+  })
 })
