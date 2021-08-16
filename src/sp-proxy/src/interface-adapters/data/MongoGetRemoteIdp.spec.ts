@@ -1,4 +1,5 @@
 import { RemoteIdp } from '@sp-proxy/entities/RemoteIdp'
+import { PersistenceError } from '@sp-proxy/interface-adapters/data/errors/PersistenceError'
 import { makeRemoteIdpDataStub } from '@sp-proxy/interface-adapters/data/mocks/remoteIdpDataStub'
 import { MongoGetRemoteIdp } from '@sp-proxy/interface-adapters/data/MongoGetRemoteIdp'
 import { IDataMapper } from '@sp-proxy/interface-adapters/protocols/IDataMapper'
@@ -68,6 +69,13 @@ describe('MongoGetRemoteIdp', () => {
         .spyOn(dataMapperStub as any, 'map')
         .mockResolvedValueOnce('this value should be returned')
       expect(await sut.get('any id')).toBe('this value should be returned')
+    })
+    it('should throw PersistenceError if findOne throws', async () => {
+      const { sut, collectionStub } = makeSut()
+      jest.spyOn(collectionStub, 'findOne').mockImplementationOnce(() => {
+        throw new Error()
+      })
+      await expect(sut.get('any id')).rejects.toThrow(PersistenceError)
     })
   })
 })
