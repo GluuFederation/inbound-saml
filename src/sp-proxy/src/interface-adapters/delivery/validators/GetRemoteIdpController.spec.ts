@@ -113,11 +113,21 @@ describe('GetRemoteIdpController', () => {
     expect(mapSpy).toHaveBeenCalledTimes(1)
     expect(mapSpy).toHaveBeenCalledWith(fakeRequest)
   })
-  it('shoult throw if mapper throws', async () => {
+  it('should throw if mapper throws', async () => {
     const { sut, dtoMapperStub } = makeSut()
     jest.spyOn(dtoMapperStub, 'map').mockImplementationOnce(() => {
       throw new Error()
     })
     await expect(sut.handle(fakeRequest)).rejects.toThrow()
+  })
+  it('should call interactor with mapper response', async () => {
+    const { sut, dtoMapperStub, interactorStub } = makeSut()
+    const executeSpy = jest.spyOn(interactorStub, 'execute')
+    jest
+      .spyOn(dtoMapperStub as any, 'map')
+      .mockReturnValueOnce('mapper response')
+    await sut.handle(fakeRequest)
+    expect(executeSpy).toHaveBeenCalledTimes(1)
+    expect(executeSpy).toHaveBeenCalledWith('mapper response')
   })
 })

@@ -19,6 +19,7 @@ export class GetRemoteIdpController implements IController {
 
   async handle(request: IRequest<GetByIdDTO>): Promise<void> {
     await this.validator.isValid(request)
-    this.mapper.map(request)
+    const requestModel = this.mapper.map(request)
+    await this.interactor.execute(requestModel)
   }
 }
