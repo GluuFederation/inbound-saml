@@ -81,7 +81,7 @@ const makeSut = (): SutTypes => {
   }
 }
 
-const fakeRequest: IRequestModel<GetRemoteIdpRequestModel> = {
+const fakeRequestDto: IRequestModel<GetRemoteIdpRequestModel> = {
   requestId: 'valid request id',
   request: {
     id: 'valid entity id'
@@ -92,8 +92,15 @@ describe('GetRemoteIdpInteractor', () => {
   it('should call gateway.get once w/ entity id', async () => {
     const { sut, gatewayStub } = makeSut()
     const getSpy = jest.spyOn(gatewayStub, 'get')
-    await sut.execute(fakeRequest)
+    await sut.execute(fakeRequestDto)
     expect(getSpy).toHaveBeenCalledTimes(1)
-    expect(getSpy).toHaveBeenCalledWith(fakeRequest.request.id)
+    expect(getSpy).toHaveBeenCalledWith(fakeRequestDto.request.id)
+  })
+  it('should throw if gateway throws', async () => {
+    const { sut, gatewayStub } = makeSut()
+    jest.spyOn(gatewayStub, 'get').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    await expect(sut.execute(fakeRequestDto)).rejects.toThrow()
   })
 })
