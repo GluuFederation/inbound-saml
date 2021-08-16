@@ -99,4 +99,11 @@ describe('GetRemoteIdpController', () => {
     expect(isValidSpy).toHaveBeenCalledTimes(1)
     expect(isValidSpy).toHaveBeenCalledWith(fakeRequest)
   })
+  it('should throw if validator throws', async () => {
+    const { sut, validatorStub } = makeSut()
+    jest.spyOn(validatorStub, 'isValid').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    await expect(sut.handle(fakeRequest)).rejects.toThrow()
+  })
 })
