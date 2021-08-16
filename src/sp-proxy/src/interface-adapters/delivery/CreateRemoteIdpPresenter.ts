@@ -4,7 +4,7 @@ import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'
 import { EventEmitter } from 'stream'
 
 export class CreateRemoteIdpPresenter
-  implements OutputBoundary<CreateRemoteIdpResponseModel>
+  implements OutputBoundary<IResponseModel<CreateRemoteIdpResponseModel>>
 {
   constructor(private readonly eventBus: EventEmitter) {}
 

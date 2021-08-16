@@ -5,21 +5,26 @@ import { ICreateRemoteIdpGateway } from '@sp-proxy/use-cases/ports/ICreateRemote
 import { IMapper } from '@sp-proxy/use-cases/protocols/IMapper'
 import { InputBoundary } from '@sp-proxy/use-cases/io-channels/InputBoundary'
 import { OutputBoundary } from '@sp-proxy/use-cases/io-channels/OutputBoundary'
-import { RemoteIdpUseCaseProps } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseProps'
+import { AddRemoteIdpUseCaseProps } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseProps'
+import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'
 
 export class CreateRemoteIdpInteractor
-  implements InputBoundary<RemoteIdpUseCaseProps>
+  implements InputBoundary<AddRemoteIdpUseCaseProps>
 {
   constructor(
     private readonly gateway: ICreateRemoteIdpGateway,
-    private readonly output: OutputBoundary<CreateRemoteIdpResponseModel>,
+    private readonly output: OutputBoundary<
+      IResponseModel<CreateRemoteIdpResponseModel>
+    >,
     private readonly entityMapper: IMapper<
-      IRequestModel<RemoteIdpUseCaseProps>,
+      IRequestModel<AddRemoteIdpUseCaseProps>,
       RemoteIdp
     >
   ) {}
 
-  async execute(request: IRequestModel<RemoteIdpUseCaseProps>): Promise<void> {
+  async execute(
+    request: IRequestModel<AddRemoteIdpUseCaseProps>
+  ): Promise<void> {
     const mapped = this.entityMapper.map(request)
     const success = await this.gateway.create(mapped)
     await this.output.present({

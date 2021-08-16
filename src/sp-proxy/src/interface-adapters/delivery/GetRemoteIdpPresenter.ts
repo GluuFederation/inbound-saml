@@ -7,7 +7,7 @@ import { RemoteIdpUseCaseProps } from '@sp-proxy/use-cases/io-models/RemoteIdpUs
 import { EventEmitter } from 'stream'
 
 export class GetRemoteIdpPresenter
-  implements OutputBoundary<RemoteIdpUseCaseProps>
+  implements OutputBoundary<IResponseModel<RemoteIdpUseCaseProps>>
 {
   constructor(
     private readonly dtoMapper: IDeliveryMapper<

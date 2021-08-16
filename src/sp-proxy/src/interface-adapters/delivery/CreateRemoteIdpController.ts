@@ -5,15 +5,15 @@ import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'
 import { IValidator } from '@sp-proxy/interface-adapters/protocols/IValidator'
 import { InputBoundary } from '@sp-proxy/use-cases/io-channels/InputBoundary'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
-import { RemoteIdpUseCaseProps } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseProps'
+import { AddRemoteIdpUseCaseProps } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseProps'
 
 export class CreateRemoteIdpController implements IController {
   constructor(
     private readonly mapper: IDeliveryMapper<
       IRequest<ICreateRemoteIdpRequest>,
-      IRequestModel<RemoteIdpUseCaseProps>
+      IRequestModel<AddRemoteIdpUseCaseProps>
     >,
-    private readonly interactor: InputBoundary<RemoteIdpUseCaseProps>,
+    private readonly interactor: InputBoundary<AddRemoteIdpUseCaseProps>,
     private readonly validator: IValidator
   ) {}
 

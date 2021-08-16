@@ -14,8 +14,12 @@ import { IMapper } from '@sp-proxy/use-cases/protocols/IMapper'
 // maps entity to response model
 // calls output channel (presenter) with response model
 
-const makePresenter = (): OutputBoundary<RemoteIdpUseCaseProps> => {
-  class PresenterStub implements OutputBoundary<RemoteIdpUseCaseProps> {
+const makePresenter = (): OutputBoundary<
+  IResponseModel<RemoteIdpUseCaseProps>
+> => {
+  class PresenterStub
+    implements OutputBoundary<IResponseModel<RemoteIdpUseCaseProps>>
+  {
     async present(
       response: IResponseModel<RemoteIdpUseCaseProps>
     ): Promise<void> {
@@ -46,6 +50,7 @@ const makeEntityMapper = (): IMapper<
       return {
         requestId: 'valid request id',
         response: {
+          id: 'valid entity id',
           name: 'valid name',
           singleSignOnService: [
             { binding: 'valid binding', location: 'valid location' }
@@ -61,7 +66,7 @@ const makeEntityMapper = (): IMapper<
 interface SutTypes {
   gatewayStub: IGetRemoteIdpGateway
   entityMapperStub: IMapper<RemoteIdp, IResponseModel<RemoteIdpUseCaseProps>>
-  presenterStub: OutputBoundary<RemoteIdpUseCaseProps>
+  presenterStub: OutputBoundary<IResponseModel<RemoteIdpUseCaseProps>>
   sut: GetRemoteIdpInteractor
 }
 
@@ -127,6 +132,7 @@ describe('GetRemoteIdpInteractor', () => {
     const responseModelMock: IResponseModel<RemoteIdpUseCaseProps> = {
       requestId: 'valid request id',
       response: {
+        id: 'vakud entity id',
         name: 'valid entity name for this test',
         singleSignOnService: [
           {

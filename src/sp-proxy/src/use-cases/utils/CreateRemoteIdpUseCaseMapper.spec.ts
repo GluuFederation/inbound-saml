@@ -1,8 +1,8 @@
-import { RemoteIdpUseCaseProps } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseProps'
+import { AddRemoteIdpUseCaseProps } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseProps'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
 import { CreateRemoteIdpUseCaseMapper } from '@sp-proxy/use-cases/utils/CreateRemoteIdpUseCaseMapper'
 
-const fakeRequestModel: IRequestModel<RemoteIdpUseCaseProps> = {
+const fakeRequestModel: IRequestModel<AddRemoteIdpUseCaseProps> = {
   requestId: 'valid request ID',
   request: {
     name: 'valid name',

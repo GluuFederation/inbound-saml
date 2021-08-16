@@ -66,6 +66,7 @@ const makeSut = (): SutTypes => {
 const fakeResponse: IResponseModel<RemoteIdpUseCaseProps> = {
   requestId: 'valid requestId',
   response: {
+    id: 'valid entity id',
     name: 'valid RemoteIdp name',
     singleSignOnService: [
       {

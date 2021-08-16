@@ -9,24 +9,24 @@ import { ICreateRemoteIdpRequest } from '@sp-proxy/interface-adapters/protocols/
 import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'
 import { IValidator } from '@sp-proxy/interface-adapters/protocols/IValidator'
 import { InputBoundary } from '@sp-proxy/use-cases/io-channels/InputBoundary'
-import { RemoteIdpUseCaseProps } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseProps'
+import { AddRemoteIdpUseCaseProps } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseProps'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
 import { IDeliveryMapper } from '@sp-proxy/interface-adapters/protocols/IDeliveryMapper'
 
 const makeMapper = (): IDeliveryMapper<
   IRequest<ICreateRemoteIdpRequest>,
-  IRequestModel<RemoteIdpUseCaseProps>
+  IRequestModel<AddRemoteIdpUseCaseProps>
 > => {
   class MapperStub
     implements
       IDeliveryMapper<
         IRequest<ICreateRemoteIdpRequest>,
-        IRequestModel<RemoteIdpUseCaseProps>
+        IRequestModel<AddRemoteIdpUseCaseProps>
       >
   {
     map(
       request: IRequest<ICreateRemoteIdpRequest>
-    ): IRequestModel<RemoteIdpUseCaseProps> {
+    ): IRequestModel<AddRemoteIdpUseCaseProps> {
       return {
         requestId: 'valid id',
         request: {
@@ -42,10 +42,10 @@ const makeMapper = (): IDeliveryMapper<
   return new MapperStub()
 }
 
-const makeInteractor = (): InputBoundary<RemoteIdpUseCaseProps> => {
-  class InteractorStub implements InputBoundary<RemoteIdpUseCaseProps> {
+const makeInteractor = (): InputBoundary<AddRemoteIdpUseCaseProps> => {
+  class InteractorStub implements InputBoundary<AddRemoteIdpUseCaseProps> {
     async execute(
-      request: IRequestModel<RemoteIdpUseCaseProps>
+      request: IRequestModel<AddRemoteIdpUseCaseProps>
     ): Promise<void> {
       // do something
     }
@@ -66,9 +66,9 @@ interface SutTypes {
   sut: CreateRemoteIdpController
   mapperStub: IDeliveryMapper<
     IRequest<ICreateRemoteIdpRequest>,
-    IRequestModel<RemoteIdpUseCaseProps>
+    IRequestModel<AddRemoteIdpUseCaseProps>
   >
-  interactorStub: InputBoundary<RemoteIdpUseCaseProps>
+  interactorStub: InputBoundary<AddRemoteIdpUseCaseProps>
   validatorStub: IValidator
 }
 const makeSut = (): SutTypes => {

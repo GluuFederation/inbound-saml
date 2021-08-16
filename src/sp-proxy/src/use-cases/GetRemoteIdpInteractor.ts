@@ -13,7 +13,9 @@ export class GetRemoteIdpInteractor
 {
   constructor(
     private readonly gateway: IGetRemoteIdpGateway,
-    private readonly outputChannel: OutputBoundary<RemoteIdpUseCaseProps>,
+    private readonly outputChannel: OutputBoundary<
+      IResponseModel<RemoteIdpUseCaseProps>
+    >,
     private readonly entityMapper: IMapper<
       RemoteIdp,
       IResponseModel<RemoteIdpUseCaseProps>
