@@ -10,6 +10,12 @@ export class MongoGetRemoteIdp implements IGetRemoteIdpGateway {
     private readonly dataMapper: IDataMapper<any, RemoteIdp>
   ) {}
 
+  /**
+   * get remote idp by ID
+   * @param remoteIdpId
+   * @returns RemoteIdp entity
+   * @throws PersistenceError: if no document found or other error is thrown
+   */
   async get(remoteIdpId: string): Promise<RemoteIdp> {
     try {
       const document = await this.collection.findOne({
