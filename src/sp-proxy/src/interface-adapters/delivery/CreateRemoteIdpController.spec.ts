@@ -6,19 +6,19 @@ import { CreateRemoteIdpController } from '@sp-proxy/interface-adapters/delivery
 import { InvalidRequestError } from '@sp-proxy/interface-adapters/delivery/errors/InvalidRequestError'
 import { fakeCreateRemoteIdpRequest } from '@sp-proxy/interface-adapters/delivery/mocks/fakeCreateRemoteIdpRequest.mock'
 import { ICreateRemoteIdpRequest } from '@sp-proxy/interface-adapters/protocols/ICreateRemoteIdpRequest'
-import { IMapper } from '@sp-proxy/interface-adapters/protocols/IMapper'
 import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'
 import { IValidator } from '@sp-proxy/interface-adapters/protocols/IValidator'
 import { InputBoundary } from '@sp-proxy/use-cases/io-channels/InputBoundary'
 import { RemoteIdpUseCaseProps } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseProps'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
+import { IDeliveryMapper } from '@sp-proxy/interface-adapters/protocols/IDeliveryMapper'
 
-const makeMapper = (): IMapper<
+const makeMapper = (): IDeliveryMapper<
   ICreateRemoteIdpRequest,
   RemoteIdpUseCaseProps
 > => {
   class MapperStub
-    implements IMapper<ICreateRemoteIdpRequest, RemoteIdpUseCaseProps>
+    implements IDeliveryMapper<ICreateRemoteIdpRequest, RemoteIdpUseCaseProps>
   {
     map(
       request: IRequest<ICreateRemoteIdpRequest>
@@ -60,7 +60,7 @@ const makeValidator = (): IValidator => {
 
 interface SutTypes {
   sut: CreateRemoteIdpController
-  mapperStub: IMapper<ICreateRemoteIdpRequest, RemoteIdpUseCaseProps>
+  mapperStub: IDeliveryMapper<ICreateRemoteIdpRequest, RemoteIdpUseCaseProps>
   interactorStub: InputBoundary<RemoteIdpUseCaseProps>
   validatorStub: IValidator
 }
