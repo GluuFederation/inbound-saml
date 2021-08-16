@@ -16,5 +16,5 @@ const props: IRemoteIdpProps = {
  * @returns RemoteIdp entity stub
  */
 export const makeRemoteIdpUseCaseStub = (id?: string): RemoteIdp => {
-  return new RemoteIdp(props)
+  return new RemoteIdp(props, id)
 }

@@ -35,13 +35,14 @@ const makeGateway = (): IGetRemoteIdpGateway => {
   return new GatewayStub()
 }
 
-const makeEntityMapper = (): IMapper<IResponseModel<RemoteIdpUseCaseProps>> => {
+const makeEntityMapper = (): IMapper<
+  RemoteIdp,
+  IResponseModel<RemoteIdpUseCaseProps>
+> => {
   class EntityMapperStub
-    implements IMapper<IResponseModel<RemoteIdpUseCaseProps>>
+    implements IMapper<RemoteIdp, IResponseModel<RemoteIdpUseCaseProps>>
   {
-    map(
-      requestModel: IRequestModel<any>
-    ): IResponseModel<RemoteIdpUseCaseProps> {
+    map(entity: RemoteIdp): IResponseModel<RemoteIdpUseCaseProps> {
       return {
         requestId: 'valid request id',
         response: {
@@ -59,7 +60,7 @@ const makeEntityMapper = (): IMapper<IResponseModel<RemoteIdpUseCaseProps>> => {
 
 interface SutTypes {
   gatewayStub: IGetRemoteIdpGateway
-  entityMapperStub: IMapper<IResponseModel<RemoteIdpUseCaseProps>>
+  entityMapperStub: IMapper<RemoteIdp, IResponseModel<RemoteIdpUseCaseProps>>
   presenterStub: OutputBoundary<RemoteIdpUseCaseProps>
   sut: GetRemoteIdpInteractor
 }
@@ -102,5 +103,16 @@ describe('GetRemoteIdpInteractor', () => {
       throw new Error()
     })
     await expect(sut.execute(fakeRequestDto)).rejects.toThrow()
+  })
+  it('should call mapper with same entity returned from gateway', async () => {
+    const { sut, entityMapperStub, gatewayStub } = makeSut()
+    const mapSpy = jest.spyOn(entityMapperStub, 'map')
+    const entityMock = makeRemoteIdpUseCaseStub('valid id for this test')
+    jest
+      .spyOn(gatewayStub, 'get')
+      .mockResolvedValueOnce(makeRemoteIdpUseCaseStub('valid id for this test'))
+    await sut.execute(fakeRequestDto)
+    expect(mapSpy).toHaveBeenCalledTimes(1)
+    expect(mapSpy).toHaveBeenCalledWith(entityMock)
   })
 })

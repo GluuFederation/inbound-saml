@@ -3,9 +3,10 @@ import { InputBoundary } from '@sp-proxy/use-cases/io-channels/InputBoundary'
 import { OutputBoundary } from '@sp-proxy/use-cases/io-channels/OutputBoundary'
 import { RemoteIdpUseCaseProps } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseProps'
 import { IGetRemoteIdpGateway } from '@sp-proxy/use-cases/ports/IGetRemoteIdpGateway'
-import { IResponseModel } from '@get-saml-metadata/use-cases/IResponseModel'
 import { IMapper } from '@sp-proxy/use-cases/protocols/IMapper'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
+import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'
+import { RemoteIdp } from '@sp-proxy/entities/RemoteIdp'
 
 export class GetRemoteIdpInteractor
   implements InputBoundary<GetRemoteIdpRequestModel>
@@ -14,6 +15,7 @@ export class GetRemoteIdpInteractor
     private readonly gateway: IGetRemoteIdpGateway,
     private readonly outputChannel: OutputBoundary<RemoteIdpUseCaseProps>,
     private readonly entityMapper: IMapper<
+      RemoteIdp,
       IResponseModel<RemoteIdpUseCaseProps>
     >
   ) {}
@@ -21,6 +23,7 @@ export class GetRemoteIdpInteractor
   async execute(
     request: IRequestModel<GetRemoteIdpRequestModel>
   ): Promise<void> {
-    await this.gateway.get(request.request.id)
+    const remoteIdp = await this.gateway.get(request.request.id)
+    this.entityMapper.map(remoteIdp)
   }
 }
