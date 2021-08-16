@@ -24,6 +24,7 @@ export class GetRemoteIdpInteractor
     request: IRequestModel<GetRemoteIdpRequestModel>
   ): Promise<void> {
     const remoteIdp = await this.gateway.get(request.request.id)
-    this.entityMapper.map(remoteIdp)
+    const responseModel = this.entityMapper.map(remoteIdp)
+    await this.outputChannel.present(responseModel)
   }
 }

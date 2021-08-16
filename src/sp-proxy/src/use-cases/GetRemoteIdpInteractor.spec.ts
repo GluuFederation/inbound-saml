@@ -122,4 +122,25 @@ describe('GetRemoteIdpInteractor', () => {
     })
     await expect(sut.execute(fakeRequestDto)).rejects.toThrow()
   })
+  it('should call presenter with mapped response model', async () => {
+    const { sut, presenterStub, entityMapperStub } = makeSut()
+    const responseModelMock: IResponseModel<RemoteIdpUseCaseProps> = {
+      requestId: 'valid request id',
+      response: {
+        name: 'valid entity name for this test',
+        singleSignOnService: [
+          {
+            binding: 'valid binding',
+            location: 'valid location'
+          }
+        ],
+        signingCertificates: ['valid cert']
+      }
+    }
+    jest.spyOn(entityMapperStub, 'map').mockReturnValueOnce(responseModelMock)
+    const presentSpy = jest.spyOn(presenterStub, 'present')
+    await sut.execute(fakeRequestDto)
+    expect(presentSpy).toHaveBeenCalledTimes(1)
+    expect(presentSpy).toHaveBeenCalledWith(responseModelMock)
+  })
 })
