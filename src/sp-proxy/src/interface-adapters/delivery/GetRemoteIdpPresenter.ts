@@ -20,6 +20,7 @@ export class GetRemoteIdpPresenter
   async present(
     response: IResponseModel<RemoteIdpUseCaseProps>
   ): Promise<void> {
-    this.dtoMapper.map(response)
+    const dto = this.dtoMapper.map(response)
+    this.eventBus.emit(dto.requestId, dto.body)
   }
 }

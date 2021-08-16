@@ -92,4 +92,15 @@ describe('GetRemoteIdpPresenter', () => {
     })
     await expect(sut.present(fakeResponse)).rejects.toThrow()
   })
+  it('should call eventBus with mapped values', async () => {
+    const { sut, dtoMapperStub, eventBusStub } = makeSut()
+    const emitSpy = jest.spyOn(eventBusStub, 'emit')
+    jest.spyOn(dtoMapperStub as any, 'map').mockReturnValueOnce({
+      requestId: 'valid request id',
+      body: 'valid body'
+    })
+    await sut.present(fakeResponse)
+    expect(emitSpy).toHaveBeenCalledTimes(1)
+    expect(emitSpy).toHaveBeenCalledWith('valid request id', 'valid body')
+  })
 })
