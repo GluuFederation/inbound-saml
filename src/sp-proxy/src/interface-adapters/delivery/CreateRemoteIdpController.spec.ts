@@ -14,11 +14,15 @@ import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
 import { IDeliveryMapper } from '@sp-proxy/interface-adapters/protocols/IDeliveryMapper'
 
 const makeMapper = (): IDeliveryMapper<
-  ICreateRemoteIdpRequest,
-  RemoteIdpUseCaseProps
+  IRequest<ICreateRemoteIdpRequest>,
+  IRequestModel<RemoteIdpUseCaseProps>
 > => {
   class MapperStub
-    implements IDeliveryMapper<ICreateRemoteIdpRequest, RemoteIdpUseCaseProps>
+    implements
+      IDeliveryMapper<
+        IRequest<ICreateRemoteIdpRequest>,
+        IRequestModel<RemoteIdpUseCaseProps>
+      >
   {
     map(
       request: IRequest<ICreateRemoteIdpRequest>
@@ -60,7 +64,10 @@ const makeValidator = (): IValidator => {
 
 interface SutTypes {
   sut: CreateRemoteIdpController
-  mapperStub: IDeliveryMapper<ICreateRemoteIdpRequest, RemoteIdpUseCaseProps>
+  mapperStub: IDeliveryMapper<
+    IRequest<ICreateRemoteIdpRequest>,
+    IRequestModel<RemoteIdpUseCaseProps>
+  >
   interactorStub: InputBoundary<RemoteIdpUseCaseProps>
   validatorStub: IValidator
 }
