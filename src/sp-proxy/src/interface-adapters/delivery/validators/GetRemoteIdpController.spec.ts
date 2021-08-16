@@ -1,6 +1,6 @@
 // receive IRequest
 // validate IRequest object
-// create IRequestModel
+// maps create IRequest to IRequestModel
 // calls interactor execute w/ request model
 
 import { GetRemoteIdpController } from '@sp-proxy/interface-adapters/delivery/GetRemoteIdpController'
@@ -105,5 +105,12 @@ describe('GetRemoteIdpController', () => {
       throw new Error()
     })
     await expect(sut.handle(fakeRequest)).rejects.toThrow()
+  })
+  it('should call mapper once with request value', async () => {
+    const { sut, dtoMapperStub } = makeSut()
+    const mapSpy = jest.spyOn(dtoMapperStub, 'map')
+    await sut.handle(fakeRequest)
+    expect(mapSpy).toHaveBeenCalledTimes(1)
+    expect(mapSpy).toHaveBeenCalledWith(fakeRequest)
   })
 })
