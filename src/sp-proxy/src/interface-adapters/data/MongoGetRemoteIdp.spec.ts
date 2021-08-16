@@ -77,5 +77,12 @@ describe('MongoGetRemoteIdp', () => {
       })
       await expect(sut.get('any id')).rejects.toThrow(PersistenceError)
     })
+    it('should throw Persistence Error if no document found', async () => {
+      const { sut, collectionStub } = makeSut()
+      jest
+        .spyOn(collectionStub as any, 'findOne')
+        .mockResolvedValueOnce(undefined)
+      await expect(sut.get('any valid id')).rejects.toThrow(PersistenceError)
+    })
   })
 })

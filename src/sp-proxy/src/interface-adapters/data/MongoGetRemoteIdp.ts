@@ -15,6 +15,9 @@ export class MongoGetRemoteIdp implements IGetRemoteIdpGateway {
       const document = await this.collection.findOne({
         'remoteIdp._id': remoteIdpId
       })
+      if (document == null) {
+        throw new PersistenceError(`No remote idp with id ${remoteIdpId} found`)
+      }
       const remoteIdpEntity = await this.dataMapper.map(document)
       return remoteIdpEntity
     } catch (err) {
