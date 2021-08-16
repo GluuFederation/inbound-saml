@@ -115,4 +115,11 @@ describe('GetRemoteIdpInteractor', () => {
     expect(mapSpy).toHaveBeenCalledTimes(1)
     expect(mapSpy).toHaveBeenCalledWith(entityMock)
   })
+  it('should throw if mapper throws', async () => {
+    const { sut, entityMapperStub } = makeSut()
+    jest.spyOn(entityMapperStub, 'map').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    await expect(sut.execute(fakeRequestDto)).rejects.toThrow()
+  })
 })
