@@ -4,7 +4,9 @@ import { RemoteIdpUseCaseProps } from '@sp-proxy/use-cases/io-models/RemoteIdpUs
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
 import { IMapper } from '@sp-proxy/use-cases/protocols/IMapper'
 
-export class CreateRemoteIdpUseCaseMapper implements IMapper<RemoteIdp> {
+export class CreateRemoteIdpUseCaseMapper
+  implements IMapper<IRequestModel<RemoteIdpUseCaseProps>, RemoteIdp>
+{
   map(requestModel: IRequestModel<RemoteIdpUseCaseProps>): RemoteIdp {
     return new RemoteIdp({
       name: requestModel.request.name,

@@ -49,8 +49,13 @@ const fakeRequestDto: IRequestModel<RemoteIdpUseCaseProps> = {
   }
 }
 
-const makeMapper = (): IMapper<RemoteIdp> => {
-  class MapperStub implements IMapper<RemoteIdp> {
+const makeMapper = (): IMapper<
+  IRequestModel<RemoteIdpUseCaseProps>,
+  RemoteIdp
+> => {
+  class MapperStub
+    implements IMapper<IRequestModel<RemoteIdpUseCaseProps>, RemoteIdp>
+  {
     map(requestModel: IRequestModel<any>): RemoteIdp {
       return new RemoteIdp({
         name: fakeRequestDto.request.name,
@@ -68,7 +73,7 @@ interface SutTypes {
   sut: CreateRemoteIdpInteractor
   presenter: OutputBoundary<CreateRemoteIdpResponseModel>
   gateway: ICreateRemoteIdpGateway
-  mapper: IMapper<RemoteIdp>
+  mapper: IMapper<IRequestModel<RemoteIdpUseCaseProps>, RemoteIdp>
 }
 
 const makeSut = (): SutTypes => {

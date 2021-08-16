@@ -13,7 +13,10 @@ export class CreateRemoteIdpInteractor
   constructor(
     private readonly gateway: ICreateRemoteIdpGateway,
     private readonly output: OutputBoundary<CreateRemoteIdpResponseModel>,
-    private readonly entityMapper: IMapper<RemoteIdp>
+    private readonly entityMapper: IMapper<
+      IRequestModel<RemoteIdpUseCaseProps>,
+      RemoteIdp
+    >
   ) {}
 
   async execute(request: IRequestModel<RemoteIdpUseCaseProps>): Promise<void> {
