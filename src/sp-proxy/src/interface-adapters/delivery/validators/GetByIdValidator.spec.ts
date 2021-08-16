@@ -42,4 +42,14 @@ describe('GetByIdValidator', () => {
       InvalidRequestError
     )
   })
+  it('shoud return true if valid', async () => {
+    const sut = new GetByIdValidator()
+    const request = {
+      id: 'valid id',
+      body: {
+        id: 'valid entity id'
+      }
+    }
+    expect(await sut.isValid(request)).toBeTruthy()
+  })
 })
