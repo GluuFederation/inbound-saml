@@ -1,0 +1,72 @@
+// create request id
+// register eventbus listener with request id
+// create request dto
+// call controller handle w/ request dto
+// return result pushed by eventbus listener
+
+import { GetRemoteIdpFacade } from '@sp-proxy/interface-adapters/api/GetRemoteIdpFacade'
+import { GetByIdDTO } from '@sp-proxy/interface-adapters/protocols/GetByIdDTO'
+import { IController } from '@sp-proxy/interface-adapters/protocols/IController'
+import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'
+import { RemoteIdpUseCaseProps } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseProps'
+import * as crypto from 'crypto'
+import { EventEmitter } from 'stream'
+jest.mock('crypto')
+
+const fakeRequest: IRequest<GetByIdDTO> = {
+  id: 'valid GetRemoteIdp request id',
+  body: {
+    id: 'valid remote idp id'
+  }
+}
+
+const fakeUseCaseResponse: RemoteIdpUseCaseProps = {
+  id: 'entity id',
+  name: 'entity name',
+  signingCertificates: ['valid cert'],
+  singleSignOnService: [{ binding: 'binding', location: 'location' }]
+}
+
+const makeController = (): IController => {
+  class ControllerStub implements IController {
+    async handle(request: IRequest<any>): Promise<void> {
+      // do something cool
+    }
+  }
+  return new ControllerStub()
+}
+
+interface SutTypes {
+  sut: GetRemoteIdpFacade
+  controllerStub: IController
+  eventBusStub: EventEmitter
+}
+
+const makeSut = (): SutTypes => {
+  const controllerStub = makeController()
+  const eventBusStub = new EventEmitter()
+  // mock controller to call eventBus (in the full impl event is triggered by presenter)
+  jest.spyOn(controllerStub as any, 'handle').mockImplementation(() => {
+    eventBusStub.emit(fakeRequest.id, fakeUseCaseResponse)
+  })
+  const sut = new GetRemoteIdpFacade(controllerStub, eventBusStub)
+  return {
+    sut,
+    controllerStub,
+    eventBusStub
+  }
+}
+
+describe('GetRemoteIdpFacade', () => {
+  it('should register listener with request ID', async () => {
+    jest.spyOn(crypto, 'randomUUID').mockReturnValueOnce('valid request id')
+    const { sut, eventBusStub } = makeSut()
+    const onceSpy = jest.spyOn(eventBusStub, 'once')
+    await sut.getRemoteIdp(fakeRequest.id)
+    expect(onceSpy).toHaveBeenCalledTimes(1)
+    expect(onceSpy).toHaveBeenCalledWith(
+      'valid request id',
+      expect.any(Function)
+    )
+  })
+})
