@@ -17,6 +17,8 @@ import { SuccessResponseModel } from '@sp-proxy/use-cases/io-models/SuccessRespo
 import { IAddTrGateway } from '@sp-proxy/use-cases/ports/IAddTrGateway'
 import { ICreateRemoteIdpGateway } from '@sp-proxy/use-cases/ports/ICreateRemoteIdpGateway'
 import { IFetchExternalDataGateway } from '@sp-proxy/use-cases/ports/IFetchExternalDataGateway'
+import * as crypto from 'crypto'
+jest.mock('crypto')
 
 const makeFetchExternalDataGateway = (): IFetchExternalDataGateway => {
   class FetchExternalDataStub implements IFetchExternalDataGateway {
@@ -100,7 +102,21 @@ const fakeRequest: IRequestModel<AddTrFromMetadataUseCaseProps> = {
   }
 }
 
+const fakeRemoteIdp = new RemoteIdp(
+  {
+    name: fakeRequest.request.name,
+    signingCertificates: ['valid cert'],
+    supportedSingleSignOnServices: makeSingleSignOnServices([
+      { binding: 'valid binding', location: 'valid location' }
+    ])
+  },
+  'valid uuid'
+)
+
 describe('AddTrFromMetadataInteractor', () => {
+  beforeAll(async () => {
+    jest.spyOn(crypto, 'randomUUID').mockReturnValue('valid uuid')
+  })
   it('should call external data gateway fetch', async () => {
     const { sut, fetchExternalDataGatewayStub } = makeSut()
     const fetchSpy = jest.spyOn(fetchExternalDataGatewayStub, 'fetch')
@@ -109,26 +125,21 @@ describe('AddTrFromMetadataInteractor', () => {
     expect(fetchSpy).toHaveBeenCalledWith(fakeRequest.request.url)
   })
   it('should call create remoteIdp with fetched data', async () => {
-    const { sut, createRemoteIdpGatewayStub, fetchExternalDataGatewayStub } =
-      makeSut()
+    const { sut, createRemoteIdpGatewayStub } = makeSut()
     const createStub = jest.spyOn(createRemoteIdpGatewayStub, 'create')
-    jest.spyOn(fetchExternalDataGatewayStub, 'fetch').mockResolvedValueOnce({
-      idpSigningCert: ['valid cert 1'],
-      singleSignOnServices: [
-        { binding: 'any binding', location: 'any location' }
-      ]
-    })
     await sut.execute(fakeRequest)
     expect(createStub).toHaveBeenCalledTimes(1)
-    expect(createStub).toHaveBeenCalledWith({
-      _id: expect.any(String),
-      props: {
-        name: fakeRequest.request.name,
-        signingCertificates: ['valid cert 1'],
-        supportedSingleSignOnServices: makeSingleSignOnServices([
-          { binding: 'any binding', location: 'any location' }
-        ])
-      }
+    expect(createStub).toHaveBeenCalledWith(fakeRemoteIdp)
+  })
+  it('should call AddTrGateway with TrustRelation entity', async () => {
+    const { sut, addTrGatewayStub } = makeSut()
+    const expectedTr = new TrustRelation({
+      remoteIdp: fakeRemoteIdp,
+      singleSignOnService: fakeRemoteIdp.props.supportedSingleSignOnServices[0]
     })
+    const addSpy = jest.spyOn(addTrGatewayStub, 'add')
+    await sut.execute(fakeRequest)
+    expect(addSpy).toHaveBeenCalledTimes(1)
+    expect(addSpy).toHaveBeenCalledWith(expectedTr)
   })
 })
