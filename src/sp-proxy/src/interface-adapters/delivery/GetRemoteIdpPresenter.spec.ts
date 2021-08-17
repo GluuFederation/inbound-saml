@@ -102,6 +102,9 @@ describe('GetRemoteIdpPresenter', () => {
     })
     await sut.present(fakeResponse)
     expect(emitSpy).toHaveBeenCalledTimes(1)
-    expect(emitSpy).toHaveBeenCalledWith('valid request id', 'valid body')
+    expect(emitSpy).toHaveBeenCalledWith('valid request id', {
+      requestId: 'valid request id',
+      body: 'valid body'
+    })
   })
 })
