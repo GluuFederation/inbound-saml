@@ -167,9 +167,6 @@ const fakeRemoteIdp = new RemoteIdp(
 )
 
 describe('AddTrFromMetadataInteractor', () => {
-  beforeAll(async () => {
-    // jest.spyOn(crypto, 'randomUUID').mockReturnValue('valid uuid')
-  })
   it('should call external data gateway fetch', async () => {
     const { sut, fetchExternalDataGatewayStub } = makeSut()
     const fetchSpy = jest.spyOn(fetchExternalDataGatewayStub, 'fetch')
