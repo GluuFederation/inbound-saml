@@ -6,23 +6,27 @@ import { CreateRemoteIdpController } from '@sp-proxy/interface-adapters/delivery
 import { InvalidRequestError } from '@sp-proxy/interface-adapters/delivery/errors/InvalidRequestError'
 import { fakeCreateRemoteIdpRequest } from '@sp-proxy/interface-adapters/delivery/mocks/fakeCreateRemoteIdpRequest.mock'
 import { ICreateRemoteIdpRequest } from '@sp-proxy/interface-adapters/protocols/ICreateRemoteIdpRequest'
-import { IMapper } from '@sp-proxy/interface-adapters/protocols/IMapper'
 import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'
 import { IValidator } from '@sp-proxy/interface-adapters/protocols/IValidator'
-import { ICreateRemoteIdpInputBoundary } from '@sp-proxy/use-cases/io-channels/ICreateRemoteIdpInputBoundary'
-import { CreateRemoteIdpRequestModel } from '@sp-proxy/use-cases/io-models/CreateRemoteIdpRequestModel'
+import { InputBoundary } from '@sp-proxy/use-cases/io-channels/InputBoundary'
+import { AddRemoteIdpUseCaseProps } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseProps'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
+import { IDeliveryMapper } from '@sp-proxy/interface-adapters/protocols/IDeliveryMapper'
 
-const makeMapper = (): IMapper<
-  ICreateRemoteIdpRequest,
-  CreateRemoteIdpRequestModel
+const makeMapper = (): IDeliveryMapper<
+  IRequest<ICreateRemoteIdpRequest>,
+  IRequestModel<AddRemoteIdpUseCaseProps>
 > => {
   class MapperStub
-    implements IMapper<ICreateRemoteIdpRequest, CreateRemoteIdpRequestModel>
+    implements
+      IDeliveryMapper<
+        IRequest<ICreateRemoteIdpRequest>,
+        IRequestModel<AddRemoteIdpUseCaseProps>
+      >
   {
     map(
       request: IRequest<ICreateRemoteIdpRequest>
-    ): IRequestModel<CreateRemoteIdpRequestModel> {
+    ): IRequestModel<AddRemoteIdpUseCaseProps> {
       return {
         requestId: 'valid id',
         request: {
@@ -38,10 +42,10 @@ const makeMapper = (): IMapper<
   return new MapperStub()
 }
 
-const makeInteractor = (): ICreateRemoteIdpInputBoundary => {
-  class InteractorStub implements ICreateRemoteIdpInputBoundary {
+const makeInteractor = (): InputBoundary<AddRemoteIdpUseCaseProps> => {
+  class InteractorStub implements InputBoundary<AddRemoteIdpUseCaseProps> {
     async execute(
-      request: IRequestModel<CreateRemoteIdpRequestModel>
+      request: IRequestModel<AddRemoteIdpUseCaseProps>
     ): Promise<void> {
       // do something
     }
@@ -60,8 +64,11 @@ const makeValidator = (): IValidator => {
 
 interface SutTypes {
   sut: CreateRemoteIdpController
-  mapperStub: IMapper<ICreateRemoteIdpRequest, CreateRemoteIdpRequestModel>
-  interactorStub: ICreateRemoteIdpInputBoundary
+  mapperStub: IDeliveryMapper<
+    IRequest<ICreateRemoteIdpRequest>,
+    IRequestModel<AddRemoteIdpUseCaseProps>
+  >
+  interactorStub: InputBoundary<AddRemoteIdpUseCaseProps>
   validatorStub: IValidator
 }
 const makeSut = (): SutTypes => {

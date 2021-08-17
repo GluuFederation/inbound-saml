@@ -2,6 +2,10 @@
   "name": "inbound-saml",
   "version": "0.3.0",
   "description": "Gluu inbound-saml module",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:GluuFederation/inbound-saml.git"
+  },
   "main": "index.js",
   "scripts": {
     "test": "jest --no-cache --verbose",
@@ -14,8 +18,11 @@
     "prepare": "husky install",
     "build": "tsc && tsc-alias"
   },
-  "author": "Gluu",
-  "license": "ISC",
+  "author": {
+    "name": "Christian Eland",
+    "email": "chris@gluu.org"
+  },
+  "license": "Apache-2.0",
   "devDependencies": {
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",

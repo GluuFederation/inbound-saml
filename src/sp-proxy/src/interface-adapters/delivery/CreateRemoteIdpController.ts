@@ -1,18 +1,19 @@
 import { IController } from '@sp-proxy/interface-adapters/protocols/IController'
 import { ICreateRemoteIdpRequest } from '@sp-proxy/interface-adapters/protocols/ICreateRemoteIdpRequest'
-import { IMapper } from '@sp-proxy/interface-adapters/protocols/IMapper'
+import { IDeliveryMapper } from '@sp-proxy/interface-adapters/protocols/IDeliveryMapper'
 import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'
 import { IValidator } from '@sp-proxy/interface-adapters/protocols/IValidator'
-import { ICreateRemoteIdpInputBoundary } from '@sp-proxy/use-cases/io-channels/ICreateRemoteIdpInputBoundary'
-import { CreateRemoteIdpRequestModel } from '@sp-proxy/use-cases/io-models/CreateRemoteIdpRequestModel'
+import { InputBoundary } from '@sp-proxy/use-cases/io-channels/InputBoundary'
+import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
+import { AddRemoteIdpUseCaseProps } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseProps'
 
 export class CreateRemoteIdpController implements IController {
   constructor(
-    private readonly mapper: IMapper<
-      ICreateRemoteIdpRequest,
-      CreateRemoteIdpRequestModel
+    private readonly mapper: IDeliveryMapper<
+      IRequest<ICreateRemoteIdpRequest>,
+      IRequestModel<AddRemoteIdpUseCaseProps>
     >,
-    private readonly interactor: ICreateRemoteIdpInputBoundary,
+    private readonly interactor: InputBoundary<AddRemoteIdpUseCaseProps>,
     private readonly validator: IValidator
   ) {}
 

@@ -62,3 +62,6 @@ TDD is recommended
 ## Pull Requests
 
 Submit your PR, all checks must pass. Code will be reviewed.
+
+### Interfaces / Protocols
+There are some generic interfaces that may be implemented

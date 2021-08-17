@@ -1,10 +1,10 @@
-import { ICreateRemoteIdpOutputBoundary } from '@sp-proxy/use-cases/io-channels/ICreateRemoteIdpOutputBoundary'
+import { OutputBoundary } from '@sp-proxy/use-cases/io-channels/OutputBoundary'
 import { CreateRemoteIdpResponseModel } from '@sp-proxy/use-cases/io-models/CreateRemoteIdpResponseModel'
 import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'
 import { EventEmitter } from 'stream'
 
 export class CreateRemoteIdpPresenter
-  implements ICreateRemoteIdpOutputBoundary
+  implements OutputBoundary<IResponseModel<CreateRemoteIdpResponseModel>>
 {
   constructor(private readonly eventBus: EventEmitter) {}
 
