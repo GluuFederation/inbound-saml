@@ -155,4 +155,11 @@ describe('AddTrFromMetadataInteractor', () => {
     }
     expect(presentSpy).toHaveBeenCalledWith(expectedResponseModel)
   })
+  it('should throw if ExternalData fetching throws', async () => {
+    const { sut, fetchExternalDataGatewayStub } = makeSut()
+    jest.spyOn(fetchExternalDataGatewayStub, 'fetch').mockImplementation(() => {
+      throw new Error()
+    })
+    await expect(sut.execute(fakeRequest)).rejects.toThrow()
+  })
 })
