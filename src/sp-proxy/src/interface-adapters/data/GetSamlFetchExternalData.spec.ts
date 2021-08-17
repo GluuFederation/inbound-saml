@@ -9,5 +9,10 @@ describe('GetSamlFetchExternalData', () => {
       const sut = new GetSamlFetchExternalData()
       await sut.fetch('any url')
     })
+    it('should throw if getFromUrl throws', () => {
+      jest.spyOn(getSamlMetadata, 'getFromUrl').mockImplementationOnce(() => {
+        throw new Error()
+      })
+    })
   })
 })
