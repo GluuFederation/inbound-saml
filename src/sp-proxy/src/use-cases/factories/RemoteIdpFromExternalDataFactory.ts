@@ -22,17 +22,3 @@ export class RemoteIdpFromExternalDataFactory
     })
   }
 }
-
-// export const makeRemoteIdpFromExternalData = (
-//   externalData: IExternalDataModel,
-//   name: string,
-//   id?: string
-// ): RemoteIdp => {
-//   return new RemoteIdp({
-//     name: name,
-//     signingCertificates: externalData.idpSigningCert,
-//     supportedSingleSignOnServices: makeSingleSignOnServices(
-//       externalData.singleSignOnServices
-//     )
-//   })
-// }
