@@ -1,3 +1,5 @@
+import { RemoteIdp } from '@sp-proxy/entities/RemoteIdp'
+import { makeSingleSignOnServices } from '@sp-proxy/use-cases/factories/makeSingleSignOnServices'
 import { InputBoundary } from '@sp-proxy/use-cases/io-channels/InputBoundary'
 import { OutputBoundary } from '@sp-proxy/use-cases/io-channels/OutputBoundary'
 import { AddTrFromMetadataUseCaseProps } from '@sp-proxy/use-cases/io-models/AddTrFromMetadataUseCaseProps'
@@ -23,6 +25,17 @@ export class AddTrFromMetadataInteractor
   async execute(
     request: IRequestModel<AddTrFromMetadataUseCaseProps>
   ): Promise<void> {
-    await this.externalDataGateway.fetch(request.request.url)
+    const externalData = await this.externalDataGateway.fetch(
+      request.request.url
+    )
+    await this.createRemoteIdpGateway.create(
+      new RemoteIdp({
+        name: request.request.name,
+        supportedSingleSignOnServices: makeSingleSignOnServices(
+          externalData.singleSignOnServices
+        ),
+        signingCertificates: externalData.idpSigningCert
+      })
+    )
   }
 }

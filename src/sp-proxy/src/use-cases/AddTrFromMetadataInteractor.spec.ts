@@ -7,6 +7,7 @@
 import { RemoteIdp } from '@sp-proxy/entities/RemoteIdp'
 import { TrustRelation } from '@sp-proxy/entities/TrustRelation'
 import { AddTrFromMetadataInteractor } from '@sp-proxy/use-cases/AddTrFromMetadataInteractor'
+import { makeSingleSignOnServices } from '@sp-proxy/use-cases/factories/makeSingleSignOnServices'
 import { OutputBoundary } from '@sp-proxy/use-cases/io-channels/OutputBoundary'
 import { AddTrFromMetadataUseCaseProps } from '@sp-proxy/use-cases/io-models/AddTrFromMetadataUseCaseProps'
 import { IExternalDataModel } from '@sp-proxy/use-cases/io-models/IExternalDataModel'
@@ -106,5 +107,28 @@ describe('AddTrFromMetadataInteractor', () => {
     await sut.execute(fakeRequest)
     expect(fetchSpy).toHaveBeenCalledTimes(1)
     expect(fetchSpy).toHaveBeenCalledWith(fakeRequest.request.url)
+  })
+  it('should call create remoteIdp with fetched data', async () => {
+    const { sut, createRemoteIdpGatewayStub, fetchExternalDataGatewayStub } =
+      makeSut()
+    const createStub = jest.spyOn(createRemoteIdpGatewayStub, 'create')
+    jest.spyOn(fetchExternalDataGatewayStub, 'fetch').mockResolvedValueOnce({
+      idpSigningCert: ['valid cert 1'],
+      singleSignOnServices: [
+        { binding: 'any binding', location: 'any location' }
+      ]
+    })
+    await sut.execute(fakeRequest)
+    expect(createStub).toHaveBeenCalledTimes(1)
+    expect(createStub).toHaveBeenCalledWith({
+      _id: expect.any(String),
+      props: {
+        name: fakeRequest.request.name,
+        signingCertificates: ['valid cert 1'],
+        supportedSingleSignOnServices: makeSingleSignOnServices([
+          { binding: 'any binding', location: 'any location' }
+        ])
+      }
+    })
   })
 })
