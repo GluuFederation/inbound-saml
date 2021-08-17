@@ -20,7 +20,7 @@ describe('helper - pickDefaultSso', () => {
     binding: 'any-other-binding',
     location: 'any-other-location'
   }
-  it('should pick http-post binding if exists', () => {
+  it('should pick HTTP-POST binding if exists', () => {
     const params = makeSingleSignOnServices([
       httpPost,
       httpRedirect,
@@ -29,6 +29,16 @@ describe('helper - pickDefaultSso', () => {
     ])
     expect(pickDefaultSso(params)).toStrictEqual(
       makeSingleSignOnService(httpPost)
+    )
+  })
+  it('should pick HTTP-Redirect if no HTTP-POST available', () => {
+    const params = makeSingleSignOnServices([
+      httpPostSimplesign,
+      httpRedirect,
+      anyOtherService
+    ])
+    expect(pickDefaultSso(params)).toStrictEqual(
+      makeSingleSignOnService(httpRedirect)
     )
   })
 })
