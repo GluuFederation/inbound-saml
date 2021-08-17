@@ -1,5 +1,5 @@
 import { RemoteIdp } from '@sp-proxy/entities/RemoteIdp'
-import { CreateRemoteIdpResponseModel } from '@sp-proxy/use-cases/io-models/CreateRemoteIdpResponseModel'
+import { SuccessResponseModel } from '@sp-proxy/use-cases/io-models/SuccessResponseModel'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
 import { ICreateRemoteIdpGateway } from '@sp-proxy/use-cases/ports/ICreateRemoteIdpGateway'
 import { IMapper } from '@sp-proxy/use-cases/protocols/IMapper'
@@ -14,7 +14,7 @@ export class CreateRemoteIdpInteractor
   constructor(
     private readonly gateway: ICreateRemoteIdpGateway,
     private readonly output: OutputBoundary<
-      IResponseModel<CreateRemoteIdpResponseModel>
+      IResponseModel<SuccessResponseModel>
     >,
     private readonly entityMapper: IMapper<
       IRequestModel<AddRemoteIdpUseCaseProps>,
