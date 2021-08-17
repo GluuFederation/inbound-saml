@@ -1,5 +1,6 @@
 import { makeGetComposite } from '@get-saml-metadata/interface-adapters/api/factories/makeGetComposite'
 import { GetSamlMetadataFacade } from '@get-saml-metadata/interface-adapters/api/GetSamlMetadataFacade'
+import { IFetchedData } from '@get-saml-metadata/interface-adapters/api/protocols/IFetchedData'
 import { IGetter } from '@get-saml-metadata/interface-adapters/delivery/protocols/IGetter'
 import { UrlOrPath } from '@get-saml-metadata/use-cases/GetExternalDataRequestModel'
 import { EventEmitter } from 'stream'
@@ -11,8 +12,7 @@ const makeGetter = (): IGetter => {
   return new GetSamlMetadataFacade(eventBus, controller)
 }
 
-// TODO: create type for return
-export const getFromUrl = (url: UrlOrPath): any => {
+export const getFromUrl = async (url: UrlOrPath): Promise<IFetchedData> => {
   const getter = makeGetter()
-  return getter.get(url)
+  return await getter.get(url)
 }
