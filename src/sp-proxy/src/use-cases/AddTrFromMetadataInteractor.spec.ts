@@ -4,10 +4,13 @@
 // add TrustRelation entity with remoteIdp and default setup (TRGateway)
 // respond with success
 
+import { makeSingleSignOnService } from '@sp-proxy/entities/factories/makeSingleSignOnService'
 import { RemoteIdp } from '@sp-proxy/entities/RemoteIdp'
 import { TrustRelation } from '@sp-proxy/entities/TrustRelation'
 import { AddTrFromMetadataInteractor } from '@sp-proxy/use-cases/AddTrFromMetadataInteractor'
 import { makeSingleSignOnServices } from '@sp-proxy/use-cases/factories/makeSingleSignOnServices'
+import { RemoteIdpFromExternalParams } from '@sp-proxy/use-cases/factories/RemoteIdpFromExternalDataFactory'
+import { TrustRelationWithDefaultsParams } from '@sp-proxy/use-cases/factories/TrustRelationWithDefaultFactory'
 import { OutputBoundary } from '@sp-proxy/use-cases/io-channels/OutputBoundary'
 import { AddTrFromMetadataUseCaseProps } from '@sp-proxy/use-cases/io-models/AddTrFromMetadataUseCaseProps'
 import { IExternalDataModel } from '@sp-proxy/use-cases/io-models/IExternalDataModel'
@@ -17,8 +20,7 @@ import { SuccessResponseModel } from '@sp-proxy/use-cases/io-models/SuccessRespo
 import { IAddTrGateway } from '@sp-proxy/use-cases/ports/IAddTrGateway'
 import { ICreateRemoteIdpGateway } from '@sp-proxy/use-cases/ports/ICreateRemoteIdpGateway'
 import { IFetchExternalDataGateway } from '@sp-proxy/use-cases/ports/IFetchExternalDataGateway'
-import * as crypto from 'crypto'
-jest.mock('crypto')
+import { IFactory } from '@sp-proxy/use-cases/protocols/IFactory'
 
 const makeFetchExternalDataGateway = (): IFetchExternalDataGateway => {
   class FetchExternalDataStub implements IFetchExternalDataGateway {
@@ -66,29 +68,80 @@ const makePresenter = (): OutputBoundary<
   return new PresenterStub()
 }
 
+const makeRemoteIdpFactory = (): IFactory<
+  RemoteIdpFromExternalParams,
+  RemoteIdp
+> => {
+  class RemoteIdpFactoryStub
+    implements IFactory<RemoteIdpFromExternalParams, RemoteIdp>
+  {
+    async make(props: RemoteIdpFromExternalParams): Promise<RemoteIdp> {
+      return new RemoteIdp({
+        name: 'any vaid remote idp name',
+        signingCertificates: ['any valid certificate'],
+        supportedSingleSignOnServices: makeSingleSignOnServices([
+          { binding: 'a valid binding', location: 'a valid location' }
+        ])
+      })
+    }
+  }
+  return new RemoteIdpFactoryStub()
+}
+
+const makeTrustRelationFactory = (): IFactory<
+  TrustRelationWithDefaultsParams,
+  TrustRelation
+> => {
+  class TrustRelationFactoryStub
+    implements IFactory<TrustRelationWithDefaultsParams, TrustRelation>
+  {
+    async make(props: TrustRelationWithDefaultsParams): Promise<TrustRelation> {
+      const factory = makeRemoteIdpFactory()
+      return new TrustRelation({
+        remoteIdp: await factory.make('props' as any),
+        singleSignOnService: makeSingleSignOnService(
+          props.remoteIdp.props.supportedSingleSignOnServices[0].props
+        )
+      })
+    }
+  }
+  return new TrustRelationFactoryStub()
+}
+
 interface SutTypes {
   sut: AddTrFromMetadataInteractor
   fetchExternalDataGatewayStub: IFetchExternalDataGateway
+  remoteIdpFromDataStub: IFactory<RemoteIdpFromExternalParams, RemoteIdp>
   createRemoteIdpGatewayStub: ICreateRemoteIdpGateway
+  trustRelationFactoryStub: IFactory<
+    TrustRelationWithDefaultsParams,
+    TrustRelation
+  >
   addTrGatewayStub: IAddTrGateway
   presenterStub: OutputBoundary<IResponseModel<SuccessResponseModel>>
 }
 
 const makeSut = (): SutTypes => {
   const fetchExternalDataGatewayStub = makeFetchExternalDataGateway()
+  const remoteIdpFromDataStub = makeRemoteIdpFactory()
   const createRemoteIdpGatewayStub = makeCreateRemoteIdpGateway()
+  const trustRelationFactoryStub = makeTrustRelationFactory()
   const addTrGatewayStub = makeAddTrGateway()
   const presenterStub = makePresenter()
   const sut = new AddTrFromMetadataInteractor(
     fetchExternalDataGatewayStub,
+    remoteIdpFromDataStub,
     createRemoteIdpGatewayStub,
+    trustRelationFactoryStub,
     addTrGatewayStub,
     presenterStub
   )
   return {
     sut,
     fetchExternalDataGatewayStub,
+    remoteIdpFromDataStub,
     createRemoteIdpGatewayStub,
+    trustRelationFactoryStub,
     addTrGatewayStub,
     presenterStub
   }
@@ -115,7 +168,7 @@ const fakeRemoteIdp = new RemoteIdp(
 
 describe('AddTrFromMetadataInteractor', () => {
   beforeAll(async () => {
-    jest.spyOn(crypto, 'randomUUID').mockReturnValue('valid uuid')
+    // jest.spyOn(crypto, 'randomUUID').mockReturnValue('valid uuid')
   })
   it('should call external data gateway fetch', async () => {
     const { sut, fetchExternalDataGatewayStub } = makeSut()
@@ -124,23 +177,51 @@ describe('AddTrFromMetadataInteractor', () => {
     expect(fetchSpy).toHaveBeenCalledTimes(1)
     expect(fetchSpy).toHaveBeenCalledWith(fakeRequest.request.url)
   })
-  it('should call create remoteIdp with fetched data', async () => {
-    const { sut, createRemoteIdpGatewayStub } = makeSut()
-    const createStub = jest.spyOn(createRemoteIdpGatewayStub, 'create')
+  it('should call remoteIdp factory with fetched data', async () => {
+    const { sut, remoteIdpFromDataStub, fetchExternalDataGatewayStub } =
+      makeSut()
+    const fetchedDataMock: IExternalDataModel = {
+      idpSigningCert: ['valid cert'],
+      singleSignOnServices: [
+        { binding: 'any valid binding', location: 'any valid location' }
+      ]
+    }
+    const makeSpy = jest.spyOn(remoteIdpFromDataStub, 'make')
+    jest
+      .spyOn(fetchExternalDataGatewayStub, 'fetch')
+      .mockResolvedValueOnce(fetchedDataMock)
     await sut.execute(fakeRequest)
-    expect(createStub).toHaveBeenCalledTimes(1)
-    expect(createStub).toHaveBeenCalledWith(fakeRemoteIdp)
+    expect(makeSpy).toHaveBeenCalledTimes(1)
   })
-  it('should call AddTrGateway with TrustRelation entity', async () => {
-    const { sut, addTrGatewayStub } = makeSut()
-    const expectedTr = new TrustRelation({
-      remoteIdp: fakeRemoteIdp,
-      singleSignOnService: fakeRemoteIdp.props.supportedSingleSignOnServices[0]
-    })
+  it('should call remoteidp gateway create with object returned from remoteIdpFactory', async () => {
+    const { sut, remoteIdpFromDataStub, createRemoteIdpGatewayStub } = makeSut()
+    const createSpy = jest.spyOn(createRemoteIdpGatewayStub, 'create')
+    jest
+      .spyOn(remoteIdpFromDataStub, 'make')
+      .mockResolvedValueOnce(fakeRemoteIdp)
+    await sut.execute(fakeRequest)
+    expect(createSpy).toHaveBeenCalledTimes(1)
+    expect(createSpy).toHaveBeenCalledWith(fakeRemoteIdp)
+  })
+  it('should call TrustRelationFactory with remote Idp returned by remoteIdpFactory', async () => {
+    const { sut, remoteIdpFromDataStub, trustRelationFactoryStub } = makeSut()
+    const makeSpy = jest.spyOn(trustRelationFactoryStub, 'make')
+    jest
+      .spyOn(remoteIdpFromDataStub, 'make')
+      .mockResolvedValueOnce(fakeRemoteIdp)
+    await sut.execute(fakeRequest)
+    expect(makeSpy).toHaveBeenCalledTimes(1)
+    expect(makeSpy).toHaveBeenCalledWith({ remoteIdp: fakeRemoteIdp })
+  })
+  it('should call AddTrGateway with value entity returned from TR Factory', async () => {
+    const { sut, trustRelationFactoryStub, addTrGatewayStub } = makeSut()
     const addSpy = jest.spyOn(addTrGatewayStub, 'add')
+    jest
+      .spyOn(trustRelationFactoryStub as any, 'make')
+      .mockResolvedValueOnce('any valid TR instance')
     await sut.execute(fakeRequest)
     expect(addSpy).toHaveBeenCalledTimes(1)
-    expect(addSpy).toHaveBeenCalledWith(expectedTr)
+    expect(addSpy).toHaveBeenCalledWith('any valid TR instance')
   })
   it('should call presenter with success', async () => {
     const { sut, presenterStub } = makeSut()

@@ -1,5 +1,7 @@
-import { makeRemoteIdpFromExternalData } from '@sp-proxy/use-cases/factories/makeRemoteIdpFromExternalData'
-import { makeTrustRelationWithDefault } from '@sp-proxy/use-cases/factories/makeTrustRelationWithDefault'
+import { RemoteIdp } from '@sp-proxy/entities/RemoteIdp'
+import { TrustRelation } from '@sp-proxy/entities/TrustRelation'
+import { RemoteIdpFromExternalParams } from '@sp-proxy/use-cases/factories/RemoteIdpFromExternalDataFactory'
+import { TrustRelationWithDefaultsParams } from '@sp-proxy/use-cases/factories/TrustRelationWithDefaultFactory'
 import { InputBoundary } from '@sp-proxy/use-cases/io-channels/InputBoundary'
 import { OutputBoundary } from '@sp-proxy/use-cases/io-channels/OutputBoundary'
 import { AddTrFromMetadataUseCaseProps } from '@sp-proxy/use-cases/io-models/AddTrFromMetadataUseCaseProps'
@@ -9,7 +11,7 @@ import { SuccessResponseModel } from '@sp-proxy/use-cases/io-models/SuccessRespo
 import { IAddTrGateway } from '@sp-proxy/use-cases/ports/IAddTrGateway'
 import { ICreateRemoteIdpGateway } from '@sp-proxy/use-cases/ports/ICreateRemoteIdpGateway'
 import { IFetchExternalDataGateway } from '@sp-proxy/use-cases/ports/IFetchExternalDataGateway'
-import { randomUUID } from 'crypto'
+import { IFactory } from '@sp-proxy/use-cases/protocols/IFactory'
 
 /**
  * Interactor responsible for:
@@ -22,7 +24,15 @@ export class AddTrFromMetadataInteractor
 {
   constructor(
     private readonly externalDataGateway: IFetchExternalDataGateway,
+    private readonly remoteIdpFromExtDataFactory: IFactory<
+      RemoteIdpFromExternalParams,
+      RemoteIdp
+    >,
     private readonly createRemoteIdpGateway: ICreateRemoteIdpGateway,
+    private readonly trWithDefaultFactory: IFactory<
+      TrustRelationWithDefaultsParams,
+      TrustRelation
+    >,
     private readonly addTrGateeay: IAddTrGateway,
     private readonly outputChannel: OutputBoundary<
       IResponseModel<SuccessResponseModel>
@@ -42,17 +52,18 @@ export class AddTrFromMetadataInteractor
     const externalData = await this.externalDataGateway.fetch(
       request.request.url
     )
-    // create new remote idp from external data
-    const remoteIdpId = randomUUID()
-    const remoteIdp = makeRemoteIdpFromExternalData(
-      externalData,
-      request.request.name,
-      remoteIdpId
-    )
+
+    const remoteIdp = await this.remoteIdpFromExtDataFactory.make({
+      externalData: externalData,
+      name: request.request.name
+    })
 
     await this.createRemoteIdpGateway.create(remoteIdp)
 
-    const trustRelation = makeTrustRelationWithDefault(remoteIdp)
+    const trustRelation = await this.trWithDefaultFactory.make({
+      remoteIdp: remoteIdp
+    })
+
     await this.addTrGateeay.add(trustRelation)
 
     await this.outputChannel.present({
