@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.4.0](https://www.github.com/GluuFederation/inbound-saml/compare/v0.3.0...v0.4.0) (2021-08-17)
+
+
+### Features
+
+* **GetRemoteIdp:** get remote idp entity ([#43](https://www.github.com/GluuFederation/inbound-saml/issues/43)) ([6f323b3](https://www.github.com/GluuFederation/inbound-saml/commit/6f323b35b98179a5513e501f326982a0b580facb))
+
+
+### Miscellaneous Chores
+
+* release 0.4.0 ([b924282](https://www.github.com/GluuFederation/inbound-saml/commit/b924282568ecffe2c00c1d2557ba405c10cf9af0))
+
 ## [0.3.0](https://www.github.com/GluuFederation/inbound-saml/compare/v0.2.0...v0.3.0) (2021-08-14)
 
 
