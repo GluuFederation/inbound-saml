@@ -13,9 +13,22 @@ import { ICreateRemoteIdpGateway } from '@sp-proxy/use-cases/ports/ICreateRemote
 import { IFetchExternalDataGateway } from '@sp-proxy/use-cases/ports/IFetchExternalDataGateway'
 import { randomUUID } from 'crypto'
 
+/**
+ * Interactor responsible for:
+ *  - fetching metadata from Url
+ *  - persist new `RemoteIdp` entity
+ *  - persist new `TrustRelation` entity
+ */
 export class AddTrFromMetadataInteractor
   implements InputBoundary<AddTrFromMetadataUseCaseProps>
 {
+  /**
+   * Creates new interactor to add TrustRelation from Metadata
+   * @param externalDataGateway: IFetchExternalDataGateway - metadata fetcher impl
+   * @param createRemoteIdpGateway: ICreateRemoteIdpGateway
+   * @param addTrGateeay: IAddTrGateway
+   * @param outputChannel: OutputBoundary
+   */
   constructor(
     private readonly externalDataGateway: IFetchExternalDataGateway,
     private readonly createRemoteIdpGateway: ICreateRemoteIdpGateway,
@@ -25,6 +38,11 @@ export class AddTrFromMetadataInteractor
     >
   ) {}
 
+  /**
+   * Command to execute usecase request received by controller
+   * Calls presenter with IResponseModel
+   * @param request: IRequestModel
+   */
   async execute(
     request: IRequestModel<AddTrFromMetadataUseCaseProps>
   ): Promise<void> {
