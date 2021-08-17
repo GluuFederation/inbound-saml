@@ -142,4 +142,17 @@ describe('AddTrFromMetadataInteractor', () => {
     expect(addSpy).toHaveBeenCalledTimes(1)
     expect(addSpy).toHaveBeenCalledWith(expectedTr)
   })
+  it('should call presenter with success', async () => {
+    const { sut, presenterStub } = makeSut()
+    const presentSpy = jest.spyOn(presenterStub, 'present')
+    await sut.execute(fakeRequest)
+    expect(presentSpy).toHaveBeenCalledTimes(1)
+    const expectedResponseModel: IResponseModel<SuccessResponseModel> = {
+      requestId: fakeRequest.requestId,
+      response: {
+        success: true
+      }
+    }
+    expect(presentSpy).toHaveBeenCalledWith(expectedResponseModel)
+  })
 })

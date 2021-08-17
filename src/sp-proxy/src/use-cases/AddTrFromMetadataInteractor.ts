@@ -51,5 +51,11 @@ export class AddTrFromMetadataInteractor
         )
       })
     )
+    await this.outputChannel.present({
+      requestId: request.requestId,
+      response: {
+        success: true
+      }
+    })
   }
 }
