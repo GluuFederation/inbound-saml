@@ -13,12 +13,12 @@ describe('UrlValidatorAdapter integration', () => {
     const sut = makeSut()
     expect(await sut.isValid(endpoints.valid)).toBeTruthy()
   })
-  it('should return false if url is unreachable', async () => {
+  it('should throw if url is unreachable', async () => {
     const sut = makeSut()
-    expect(await sut.isValid(endpoints.unacessible)).toBeFalsy()
+    await expect(sut.isValid(endpoints.unacessible)).rejects.toThrow()
   })
-  it('should return false if url returns error code', async () => {
+  it('should throw if url returns error code', async () => {
     const sut = makeSut()
-    expect(await sut.isValid(endpoints.error)).toBeFalsy()
+    await expect(sut.isValid(endpoints.error)).rejects.toThrow()
   })
 })
