@@ -39,24 +39,16 @@ const makeGateway = (): IGetRemoteIdpGateway => {
   return new GatewayStub()
 }
 
-const makeEntityMapper = (): IMapper<
-  RemoteIdp,
-  IResponseModel<RemoteIdpUseCaseProps>
-> => {
-  class EntityMapperStub
-    implements IMapper<RemoteIdp, IResponseModel<RemoteIdpUseCaseProps>>
-  {
-    map(entity: RemoteIdp): IResponseModel<RemoteIdpUseCaseProps> {
+const makeEntityMapper = (): IMapper<RemoteIdp, RemoteIdpUseCaseProps> => {
+  class EntityMapperStub implements IMapper<RemoteIdp, RemoteIdpUseCaseProps> {
+    map(entity: RemoteIdp): RemoteIdpUseCaseProps {
       return {
-        requestId: 'valid request id',
-        response: {
-          id: 'valid entity id',
-          name: 'valid name',
-          singleSignOnService: [
-            { binding: 'valid binding', location: 'valid location' }
-          ],
-          signingCertificates: ['valid cert 1', 'valid cert 2']
-        }
+        id: 'valid entity id',
+        name: 'valid name',
+        singleSignOnService: [
+          { binding: 'valid binding', location: 'valid location' }
+        ],
+        signingCertificates: ['valid cert 1', 'valid cert 2']
       }
     }
   }
@@ -65,7 +57,7 @@ const makeEntityMapper = (): IMapper<
 
 interface SutTypes {
   gatewayStub: IGetRemoteIdpGateway
-  entityMapperStub: IMapper<RemoteIdp, IResponseModel<RemoteIdpUseCaseProps>>
+  entityMapperStub: IMapper<RemoteIdp, RemoteIdpUseCaseProps>
   presenterStub: OutputBoundary<IResponseModel<RemoteIdpUseCaseProps>>
   sut: GetRemoteIdpInteractor
 }
@@ -143,7 +135,9 @@ describe('GetRemoteIdpInteractor', () => {
         signingCertificates: ['valid cert']
       }
     }
-    jest.spyOn(entityMapperStub, 'map').mockReturnValueOnce(responseModelMock)
+    jest
+      .spyOn(entityMapperStub, 'map')
+      .mockReturnValueOnce(responseModelMock.response)
     const presentSpy = jest.spyOn(presenterStub, 'present')
     await sut.execute(fakeRequestDto)
     expect(presentSpy).toHaveBeenCalledTimes(1)

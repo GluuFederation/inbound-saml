@@ -16,17 +16,17 @@ export class GetRemoteIdpInteractor
     private readonly outputChannel: OutputBoundary<
       IResponseModel<RemoteIdpUseCaseProps>
     >,
-    private readonly entityMapper: IMapper<
-      RemoteIdp,
-      IResponseModel<RemoteIdpUseCaseProps>
-    >
+    private readonly entityMapper: IMapper<RemoteIdp, RemoteIdpUseCaseProps>
   ) {}
 
   async execute(
     request: IRequestModel<GetRemoteIdpRequestModel>
   ): Promise<void> {
     const remoteIdp = await this.gateway.get(request.request.id)
-    const responseModel = this.entityMapper.map(remoteIdp)
-    await this.outputChannel.present(responseModel)
+    const remoteIdpUseCaseProps = this.entityMapper.map(remoteIdp)
+    await this.outputChannel.present({
+      requestId: request.requestId,
+      response: remoteIdpUseCaseProps
+    })
   }
 }
