@@ -268,6 +268,12 @@ describe('AddTrFromMetadataInteractor', () => {
     })
     await expect(sut.execute(fakeRequest)).rejects.toThrow()
   })
-  it('should throw if AddTrustRelationGateway throws', async () => {})
+  it('should throw if AddTrustRelationGateway throws', async () => {
+    const { sut, addTrGatewayStub } = makeSut()
+    jest.spyOn(addTrGatewayStub, 'add').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    await expect(sut.execute(fakeRequest)).rejects.toThrow()
+  })
   it('should throw if presenter throws', async () => {})
 })
