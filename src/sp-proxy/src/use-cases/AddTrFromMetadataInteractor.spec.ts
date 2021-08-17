@@ -261,7 +261,13 @@ describe('AddTrFromMetadataInteractor', () => {
     })
     await expect(sut.execute(fakeRequest)).rejects.toThrow()
   })
-  it('should throw if TrustRelation factory throws', async () => {})
+  it('should throw if TrustRelation factory throws', async () => {
+    const { sut, trustRelationFactoryStub } = makeSut()
+    jest.spyOn(trustRelationFactoryStub, 'make').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    await expect(sut.execute(fakeRequest)).rejects.toThrow()
+  })
   it('should throw if AddTrustRelationGateway throws', async () => {})
   it('should throw if presenter throws', async () => {})
 })
