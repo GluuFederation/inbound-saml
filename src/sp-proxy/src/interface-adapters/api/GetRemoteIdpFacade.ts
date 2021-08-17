@@ -14,6 +14,12 @@ export class GetRemoteIdpFacade implements IGetRemoteIdpFacade {
     const requestId = randomUUID()
     this.eventBus.once(requestId, () => {})
     // stub to impl interface during tests
+    await this.controller.handle({
+      id: requestId,
+      body: {
+        id: id
+      }
+    })
     return {
       id: 'any',
       name: 'any',

@@ -62,11 +62,22 @@ describe('GetRemoteIdpFacade', () => {
     jest.spyOn(crypto, 'randomUUID').mockReturnValueOnce('valid request id')
     const { sut, eventBusStub } = makeSut()
     const onceSpy = jest.spyOn(eventBusStub, 'once')
-    await sut.getRemoteIdp(fakeRequest.id)
+    await sut.getRemoteIdp(fakeRequest.body.id)
     expect(onceSpy).toHaveBeenCalledTimes(1)
     expect(onceSpy).toHaveBeenCalledWith(
       'valid request id',
       expect.any(Function)
     )
+  })
+  it('should call controller with request dto', async () => {
+    const { sut, controllerStub } = makeSut()
+    jest.spyOn(crypto, 'randomUUID').mockReturnValueOnce('valid request id')
+    const handleSpy = jest.spyOn(controllerStub, 'handle')
+    await sut.getRemoteIdp(fakeRequest.body.id)
+    expect(handleSpy).toHaveBeenCalledTimes(1)
+    expect(handleSpy).toHaveBeenCalledWith({
+      id: 'valid request id',
+      body: fakeRequest.body
+    })
   })
 })
