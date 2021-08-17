@@ -1,5 +1,8 @@
+import { GetByIdDTO } from '@sp-proxy/interface-adapters/protocols/GetByIdDTO'
 import { IController } from '@sp-proxy/interface-adapters/protocols/IController'
 import { IGetRemoteIdpFacade } from '@sp-proxy/interface-adapters/protocols/IGetRemoteIdpFacade'
+import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'
+import { IResponse } from '@sp-proxy/interface-adapters/protocols/IResponse'
 import { RemoteIdpDeliveryProps } from '@sp-proxy/interface-adapters/protocols/RemoteIdpDeliveryProps'
 import { randomUUID } from 'crypto'
 import { EventEmitter } from 'stream'
@@ -12,19 +15,20 @@ export class GetRemoteIdpFacade implements IGetRemoteIdpFacade {
 
   async getRemoteIdp(id: string): Promise<RemoteIdpDeliveryProps> {
     const requestId = randomUUID()
-    this.eventBus.once(requestId, () => {})
-    // stub to impl interface during tests
-    await this.controller.handle({
+    const result: RemoteIdpDeliveryProps[] = []
+    this.eventBus.once(
+      requestId,
+      (response: IResponse<RemoteIdpDeliveryProps>) => {
+        result.push(response.body)
+      }
+    )
+    const request: IRequest<GetByIdDTO> = {
       id: requestId,
       body: {
         id: id
       }
-    })
-    return {
-      id: 'any',
-      name: 'any',
-      signingCertificates: ['any'],
-      singleSignOnService: [{ binding: 'any', location: 'any' }]
     }
+    await this.controller.handle(request)
+    return result[0]
   }
 }

@@ -8,6 +8,7 @@ import { GetRemoteIdpFacade } from '@sp-proxy/interface-adapters/api/GetRemoteId
 import { GetByIdDTO } from '@sp-proxy/interface-adapters/protocols/GetByIdDTO'
 import { IController } from '@sp-proxy/interface-adapters/protocols/IController'
 import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'
+import { IResponse } from '@sp-proxy/interface-adapters/protocols/IResponse'
 import { RemoteIdpUseCaseProps } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseProps'
 import * as crypto from 'crypto'
 import { EventEmitter } from 'stream'
@@ -20,11 +21,14 @@ const fakeRequest: IRequest<GetByIdDTO> = {
   }
 }
 
-const fakeUseCaseResponse: RemoteIdpUseCaseProps = {
-  id: 'entity id',
-  name: 'entity name',
-  signingCertificates: ['valid cert'],
-  singleSignOnService: [{ binding: 'binding', location: 'location' }]
+const fakeUseCaseResponse: IResponse<RemoteIdpUseCaseProps> = {
+  requestId: 'valid request id',
+  body: {
+    id: 'entity id',
+    name: 'entity name',
+    signingCertificates: ['valid cert'],
+    singleSignOnService: [{ binding: 'binding', location: 'location' }]
+  }
 }
 
 const makeController = (): IController => {
@@ -79,5 +83,12 @@ describe('GetRemoteIdpFacade', () => {
       id: 'valid request id',
       body: fakeRequest.body
     })
+  })
+  it('should return response body', async () => {
+    const { sut } = makeSut()
+    jest.spyOn(crypto, 'randomUUID').mockReturnValueOnce(fakeRequest.id)
+    expect(await sut.getRemoteIdp(fakeRequest.body.id)).toEqual(
+      fakeUseCaseResponse.body
+    )
   })
 })
