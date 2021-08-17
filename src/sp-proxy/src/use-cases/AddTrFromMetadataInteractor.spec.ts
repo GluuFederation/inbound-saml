@@ -157,9 +157,20 @@ describe('AddTrFromMetadataInteractor', () => {
   })
   it('should throw if ExternalData fetching throws', async () => {
     const { sut, fetchExternalDataGatewayStub } = makeSut()
-    jest.spyOn(fetchExternalDataGatewayStub, 'fetch').mockImplementation(() => {
-      throw new Error()
-    })
+    jest
+      .spyOn(fetchExternalDataGatewayStub, 'fetch')
+      .mockImplementationOnce(() => {
+        throw new Error()
+      })
+    await expect(sut.execute(fakeRequest)).rejects.toThrow()
+  })
+  it('should throw if remote idp creation throws', async () => {
+    const { sut, createRemoteIdpGatewayStub } = makeSut()
+    jest
+      .spyOn(createRemoteIdpGatewayStub, 'create')
+      .mockImplementationOnce(() => {
+        throw new Error()
+      })
     await expect(sut.execute(fakeRequest)).rejects.toThrow()
   })
 })
