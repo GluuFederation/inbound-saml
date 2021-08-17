@@ -275,5 +275,11 @@ describe('AddTrFromMetadataInteractor', () => {
     })
     await expect(sut.execute(fakeRequest)).rejects.toThrow()
   })
-  it('should throw if presenter throws', async () => {})
+  it('should throw if presenter throws', async () => {
+    const { sut, presenterStub } = makeSut()
+    jest.spyOn(presenterStub, 'present').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    await expect(sut.execute(fakeRequest)).rejects.toThrow()
+  })
 })
