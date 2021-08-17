@@ -41,4 +41,13 @@ describe('helper - pickDefaultSso', () => {
       makeSingleSignOnService(httpRedirect)
     )
   })
+  it('should pick first binding if no POST or REDIRECT available', () => {
+    const params = makeSingleSignOnServices([
+      httpPostSimplesign,
+      anyOtherService
+    ])
+    expect(pickDefaultSso(params)).toStrictEqual(
+      makeSingleSignOnService(httpPostSimplesign)
+    )
+  })
 })
