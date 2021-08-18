@@ -90,4 +90,11 @@ describe('AddTrFromMetadataPresenter', () => {
     })
     await expect(sut.present(fakeResponse)).rejects.toThrow()
   })
+  it('should throw if eventBus throws', async () => {
+    const { sut, eventBusStub } = makeSut()
+    jest.spyOn(eventBusStub, 'emit').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    await expect(sut.present(fakeResponse)).rejects.toThrow()
+  })
 })
