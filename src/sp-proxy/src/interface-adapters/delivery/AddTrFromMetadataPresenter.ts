@@ -18,6 +18,7 @@ export class AddTrFromMetadataPresenter
   ) {}
 
   async present(response: IResponseModel<SuccessResponseModel>): Promise<void> {
-    this.dtoMapper.map(response)
+    const responseModel = this.dtoMapper.map(response)
+    this.eventBus.emit(response.requestId, responseModel)
   }
 }

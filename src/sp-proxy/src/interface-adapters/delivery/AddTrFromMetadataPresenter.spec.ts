@@ -70,4 +70,17 @@ describe('AddTrFromMetadataPresenter', () => {
     expect(mapSpy).toHaveBeenCalledTimes(1)
     expect(mapSpy).toHaveBeenCalledWith(fakeResponse)
   })
+  it('should call eventBus with mapped response model', async () => {
+    const { sut, eventBusStub, mapperStub } = makeSut()
+    const emitSpy = jest.spyOn(eventBusStub, 'emit')
+    jest
+      .spyOn(mapperStub as any, 'map')
+      .mockReturnValueOnce('valid response model from mapper')
+    await sut.present(fakeResponse)
+    expect(emitSpy).toHaveBeenCalledTimes(1)
+    expect(emitSpy).toHaveBeenCalledWith(
+      fakeResponse.requestId,
+      'valid response model from mapper'
+    )
+  })
 })
