@@ -12,7 +12,14 @@ export class AddTrFromMetadataFacade implements IAddTrFromMetadataFacade {
 
   async addTrFromMetadata(params: IAddTrFromMetadataRequest): Promise<boolean> {
     const requestId = randomUUID()
-    this.eventBus.once(requestId, () => {})
+    const respond = (value: any): void => {
+      console.log(value)
+    }
+    this.eventBus.once(requestId, respond)
+    await this.controller.handle({
+      id: requestId,
+      body: params
+    })
     return true
   }
 }

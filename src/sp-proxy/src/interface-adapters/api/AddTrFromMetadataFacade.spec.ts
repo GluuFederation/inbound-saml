@@ -56,4 +56,15 @@ describe('AddFromMetadataFacade', () => {
       expect.any(Function)
     )
   })
+  it('should call controller handle with IRequest', async () => {
+    const { sut, controllerStub } = makeSut()
+    const handleSpy = jest.spyOn(controllerStub, 'handle')
+    const expected: IRequest<IAddTrFromMetadataRequest> = {
+      id: 'valid mocked request id',
+      body: fakeParams
+    }
+    await sut.addTrFromMetadata(fakeParams)
+    expect(handleSpy).toHaveBeenCalledTimes(1)
+    expect(handleSpy).toHaveBeenCalledWith(expected)
+  })
 })
