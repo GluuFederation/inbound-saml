@@ -13,23 +13,23 @@ describe('UrlValidatorAdapter', () => {
     expect(getSpy).toHaveBeenCalledTimes(1)
     expect(getSpy).toHaveBeenCalledWith(fakeUrl)
   })
-  it('should return false if no response', async () => {
+  it('should throw if no response', async () => {
     const noResponseUrl = 'no response url'
     const axiosError = {
       request: 'unreachable'
     }
     jest.spyOn(axios, 'get').mockRejectedValueOnce({ axiosError })
     const sut = makeSut()
-    expect(await sut.isValid(noResponseUrl)).toBeFalsy()
+    await expect(sut.isValid(noResponseUrl)).rejects.toThrow()
   })
-  it('should return false if axios error.response', async () => {
+  it('should throw if axios error.response', async () => {
     const errorResponseUrl = 'error response url'
     const axiosError = {
       response: 'valid error'
     }
     jest.spyOn(axios, 'get').mockRejectedValueOnce({ axiosError })
     const sut = makeSut()
-    expect(await sut.isValid(errorResponseUrl)).toBeFalsy()
+    await expect(sut.isValid(errorResponseUrl)).rejects.toThrow()
   })
   it('should return true if acessible and axios does not throw', async () => {
     jest.spyOn(axios, 'get').mockResolvedValueOnce('any value')

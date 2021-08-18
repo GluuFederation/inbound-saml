@@ -17,7 +17,8 @@ export class UrlValidatorAdapter
       await axios.get(url)
       return true
     } catch (err) {
-      return false
+      const error = err as Error
+      throw new Error(`Error on axios: ${error.message}`)
     }
   }
 }

@@ -8,7 +8,10 @@ export default {
       },
       dbName: process.env.MONGO_DB_NAME ?? 'inbound-saml',
       collections: {
-        remoteIdps: process.env.MONGO_DB_COLLECTIONS_REMOTEIDPS ?? 'remote-idps'
+        remoteIdps:
+          process.env.MONGO_DB_COLLECTIONS_REMOTEIDPS ?? 'remote-idps',
+        trustRelations:
+          process.env.MONGO_DB_TRUST_RELATIONS ?? 'trust-relations'
       }
     },
     ldap: {

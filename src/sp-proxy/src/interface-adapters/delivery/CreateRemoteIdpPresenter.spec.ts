@@ -1,7 +1,7 @@
 import { CreateRemoteIdpPresenter } from '@sp-proxy/interface-adapters/delivery/CreateRemoteIdpPresenter'
 import { ICreateRemoteIdpResponse } from '@sp-proxy/interface-adapters/protocols/ICreateRemoteIdpResponse'
 import { IResponse } from '@sp-proxy/interface-adapters/protocols/IResponse'
-import { CreateRemoteIdpResponseModel } from '@sp-proxy/use-cases/io-models/CreateRemoteIdpResponseModel'
+import { SuccessResponseModel } from '@sp-proxy/use-cases/io-models/SuccessResponseModel'
 import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'
 import { EventEmitter } from 'stream'
 
@@ -19,7 +19,7 @@ const makeSut = (): SutTypes => {
   }
 }
 
-const fakeResponseModel: IResponseModel<CreateRemoteIdpResponseModel> = {
+const fakeResponseModel: IResponseModel<SuccessResponseModel> = {
   requestId: 'valid request id',
   response: {
     success: true

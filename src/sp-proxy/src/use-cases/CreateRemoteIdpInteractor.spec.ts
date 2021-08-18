@@ -8,20 +8,20 @@ import { CreateRemoteIdpInteractor } from '@sp-proxy/use-cases/CreateRemoteIdpIn
 import { makeSingleSignOnServices } from '@sp-proxy/use-cases/factories/makeSingleSignOnServices'
 import { OutputBoundary } from '@sp-proxy/use-cases/io-channels/OutputBoundary'
 import { AddRemoteIdpUseCaseProps } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseProps'
-import { CreateRemoteIdpResponseModel } from '@sp-proxy/use-cases/io-models/CreateRemoteIdpResponseModel'
+import { SuccessResponseModel } from '@sp-proxy/use-cases/io-models/SuccessResponseModel'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
 import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'
 import { ICreateRemoteIdpGateway } from '@sp-proxy/use-cases/ports/ICreateRemoteIdpGateway'
 import { IMapper } from '@sp-proxy/use-cases/protocols/IMapper'
 
 const makePresenter = (): OutputBoundary<
-  IResponseModel<CreateRemoteIdpResponseModel>
+  IResponseModel<SuccessResponseModel>
 > => {
   class PresenterStub
-    implements OutputBoundary<IResponseModel<CreateRemoteIdpResponseModel>>
+    implements OutputBoundary<IResponseModel<SuccessResponseModel>>
   {
     async present(
-      response: IResponseModel<CreateRemoteIdpResponseModel>
+      response: IResponseModel<SuccessResponseModel>
     ): Promise<void> {
       // do something
     }
@@ -75,7 +75,7 @@ const makeMapper = (): IMapper<
 
 interface SutTypes {
   sut: CreateRemoteIdpInteractor
-  presenter: OutputBoundary<IResponseModel<CreateRemoteIdpResponseModel>>
+  presenter: OutputBoundary<IResponseModel<SuccessResponseModel>>
   gateway: ICreateRemoteIdpGateway
   mapper: IMapper<IRequestModel<AddRemoteIdpUseCaseProps>, RemoteIdp>
 }
