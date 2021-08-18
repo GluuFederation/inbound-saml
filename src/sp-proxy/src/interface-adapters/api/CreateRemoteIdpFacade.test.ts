@@ -6,7 +6,7 @@ import { CreateRemoteIdpControllerMapper } from '@sp-proxy/interface-adapters/de
 import { fakeCreateRemoteIdpRequest } from '@sp-proxy/interface-adapters/delivery/mocks/fakeCreateRemoteIdpRequest.mock'
 import { CreateRemoteIdpValidator } from '@sp-proxy/interface-adapters/delivery/validators/CreateRemoteIdpValidator'
 import { CreateRemoteIdpInteractor } from '@sp-proxy/use-cases/CreateRemoteIdpInteractor'
-import { CreateRemoteIdpUseCaseMapper } from '@sp-proxy/use-cases/utils/CreateRemoteIdpUseCaseMapper'
+import { CreateRemoteIdpUseCaseMapper } from '@sp-proxy/use-cases/mappers/CreateRemoteIdpUseCaseMapper'
 import { Collection, MongoClient, Document as MongoDocument } from 'mongodb'
 import { EventEmitter } from 'stream'
 import config from '../data/config/env'

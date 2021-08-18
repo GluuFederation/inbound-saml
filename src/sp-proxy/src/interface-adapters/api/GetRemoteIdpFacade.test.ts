@@ -11,7 +11,7 @@ import { GetRemoteIdpPresenterMapper } from '@sp-proxy/interface-adapters/delive
 import { MongoGetRemoteIdp } from '@sp-proxy/interface-adapters/data/MongoGetRemoteIdp'
 import { GetRemoteIdpMongoMapper } from '@sp-proxy/interface-adapters/data/mappers/GetRemoteIdpMongoMapper'
 import { GetRemoteIdpInteractor } from '@sp-proxy/use-cases/GetRemoteIdpInteractor'
-import { GetRemoteIdpUseCaseMapper } from '@sp-proxy/use-cases/utils/GetRemoteIdpUseCaseMapper'
+import { GetRemoteIdpUseCaseMapper } from '@sp-proxy/use-cases/mappers/GetRemoteIdpUseCaseMapper'
 import { GetRemoteIdpController } from '@sp-proxy/interface-adapters/delivery/GetRemoteIdpController'
 import { GetByIdValidator } from '@sp-proxy/interface-adapters/delivery/validators/GetByIdValidator'
 import { GetRemoteIdpControllerMapper } from '@sp-proxy/interface-adapters/delivery/mappers/GetRemoteIdpControllerMapper'
