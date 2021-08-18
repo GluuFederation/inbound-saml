@@ -17,13 +17,12 @@ export class AddTrFromMetadataFacade implements IAddTrFromMetadataFacade {
     const requestId = randomUUID()
     const result: SuccessResponseModel[] = []
     this.eventBus.once(requestId, (response) => {
-      result.push(response.response)
+      result.push(response.body)
     })
     await this.controller.handle({
       id: requestId,
       body: params
     })
-    console.log(result)
     return result[0]
   }
 }

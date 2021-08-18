@@ -4,12 +4,12 @@
 // calls controller
 // return result emitted to eventBus
 
-import { IResponseModel } from '@get-saml-metadata/use-cases/IResponseModel'
 import { AddTrFromMetadataFacade } from '@sp-proxy/interface-adapters/api/AddTrFromMetadataFacade'
 import { IAddTrFromMetadataRequest } from '@sp-proxy/interface-adapters/protocols/IAddTrFromMetadataRequest'
+import { IAddTrFromMetadataResponse } from '@sp-proxy/interface-adapters/protocols/IAddTrFromMetadataResponse'
 import { IController } from '@sp-proxy/interface-adapters/protocols/IController'
 import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'
-import { SuccessResponseModel } from '@sp-proxy/use-cases/io-models/SuccessResponseModel'
+import { IResponse } from '@sp-proxy/interface-adapters/protocols/IResponse'
 import * as crypto from 'crypto'
 import { EventEmitter } from 'stream'
 jest.mock('crypto')
@@ -34,9 +34,9 @@ const fakeParams: IAddTrFromMetadataRequest = {
   url: 'valid fake url param'
 }
 
-const fakeUseCaseResponse: IResponseModel<SuccessResponseModel> = {
+const fakeResponseDto: IResponse<IAddTrFromMetadataResponse> = {
   requestId: 'valid request id',
-  response: {
+  body: {
     success: true
   }
 }
@@ -45,7 +45,7 @@ const makeSut = (): SutTypes => {
   const eventBusStub = new EventEmitter()
   // mock controller to call eventBus (in the full impl event is triggered by presenter)
   jest.spyOn(controllerStub as any, 'handle').mockImplementation(() => {
-    eventBusStub.emit('valid mocked request id', fakeUseCaseResponse)
+    eventBusStub.emit('valid mocked request id', fakeResponseDto)
   })
   const sut = new AddTrFromMetadataFacade(controllerStub, eventBusStub)
   return {
@@ -90,7 +90,7 @@ describe('AddFromMetadataFacade', () => {
   it('should return response body', async () => {
     const { sut } = makeSut()
     expect(await sut.addTrFromMetadata(fakeParams)).toEqual(
-      fakeUseCaseResponse.response
+      fakeResponseDto.body
     )
   })
 })
