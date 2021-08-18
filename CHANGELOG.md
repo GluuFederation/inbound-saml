@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.5.0](https://www.github.com/GluuFederation/inbound-saml/compare/v0.4.0...v0.5.0) (2021-08-18)
+
+
+### Features
+
+* **AddTrFromMetadata:** add TrustRelation from metadata url ([#45](https://www.github.com/GluuFederation/inbound-saml/issues/45)) ([3da89f6](https://www.github.com/GluuFederation/inbound-saml/commit/3da89f643f323a251a038c4d019dbe5c847efc60))
+
+
+### Miscellaneous Chores
+
+* release 0.5.0 ([3ef9399](https://www.github.com/GluuFederation/inbound-saml/commit/3ef9399a825507d58b6e18710236222155cd9ba9))
+
 ## [0.4.0](https://www.github.com/GluuFederation/inbound-saml/compare/v0.3.0...v0.4.0) (2021-08-17)
 
 
