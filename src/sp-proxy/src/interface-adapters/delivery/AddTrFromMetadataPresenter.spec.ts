@@ -83,4 +83,11 @@ describe('AddTrFromMetadataPresenter', () => {
       'valid response model from mapper'
     )
   })
+  it('should throw if mapper throws', async () => {
+    const { sut, mapperStub } = makeSut()
+    jest.spyOn(mapperStub, 'map').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    await expect(sut.present(fakeResponse)).rejects.toThrow()
+  })
 })
