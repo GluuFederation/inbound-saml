@@ -1,5 +1,5 @@
+import { GetByIdDTO } from '@sp-proxy/interface-adapters/delivery/dtos/GetByIdDTO'
 import { InvalidRequestError } from '@sp-proxy/interface-adapters/delivery/errors/InvalidRequestError'
-import { GetByIdDTO } from '@sp-proxy/interface-adapters/protocols/GetByIdDTO'
 import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'
 import { IValidator } from '@sp-proxy/interface-adapters/protocols/IValidator'
 

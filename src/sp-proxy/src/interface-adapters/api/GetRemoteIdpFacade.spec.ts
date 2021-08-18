@@ -5,7 +5,7 @@
 // return result pushed by eventbus listener
 
 import { GetRemoteIdpFacade } from '@sp-proxy/interface-adapters/api/GetRemoteIdpFacade'
-import { GetByIdDTO } from '@sp-proxy/interface-adapters/protocols/GetByIdDTO'
+import { GetByIdDTO } from '@sp-proxy/interface-adapters/delivery/dtos/GetByIdDTO'
 import { IController } from '@sp-proxy/interface-adapters/protocols/IController'
 import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'
 import { IResponse } from '@sp-proxy/interface-adapters/protocols/IResponse'

@@ -1,4 +1,4 @@
-import { IAddTrFromMetadataResponse } from '@sp-proxy/interface-adapters/protocols/IAddTrFromMetadataResponse'
+import { IAddTrFromMetadataResponse } from '@sp-proxy/interface-adapters/delivery/dtos//IAddTrFromMetadataResponse'
 import { IDeliveryMapper } from '@sp-proxy/interface-adapters/protocols/IDeliveryMapper'
 import { IResponse } from '@sp-proxy/interface-adapters/protocols/IResponse'
 import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'

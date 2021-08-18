@@ -1,4 +1,4 @@
-import { IAddTrFromMetadataRequest } from '@sp-proxy/interface-adapters/protocols/IAddTrFromMetadataRequest'
+import { IAddTrFromMetadataRequest } from '@sp-proxy/interface-adapters/delivery/dtos/IAddTrFromMetadataRequest'
 import { IController } from '@sp-proxy/interface-adapters/protocols/IController'
 import { IDeliveryMapper } from '@sp-proxy/interface-adapters/protocols/IDeliveryMapper'
 import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'

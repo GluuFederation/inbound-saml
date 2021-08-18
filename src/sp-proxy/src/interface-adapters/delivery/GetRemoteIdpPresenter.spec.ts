@@ -2,10 +2,10 @@
 // maps response model to response dto (IResponse)
 // dispatch IResponse through event emitting
 
+import { RemoteIdpDeliveryProps } from '@sp-proxy/interface-adapters/delivery/dtos/RemoteIdpDeliveryProps'
 import { GetRemoteIdpPresenter } from '@sp-proxy/interface-adapters/delivery/GetRemoteIdpPresenter'
 import { IDeliveryMapper } from '@sp-proxy/interface-adapters/protocols/IDeliveryMapper'
 import { IResponse } from '@sp-proxy/interface-adapters/protocols/IResponse'
-import { RemoteIdpDeliveryProps } from '@sp-proxy/interface-adapters/protocols/RemoteIdpDeliveryProps'
 import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'
 import { RemoteIdpUseCaseParams } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseParams'
 import { EventEmitter } from 'stream'

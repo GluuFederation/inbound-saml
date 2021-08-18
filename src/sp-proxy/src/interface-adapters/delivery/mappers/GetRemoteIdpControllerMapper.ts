@@ -1,4 +1,4 @@
-import { GetByIdDTO } from '@sp-proxy/interface-adapters/protocols/GetByIdDTO'
+import { GetByIdDTO } from '@sp-proxy/interface-adapters/delivery/dtos/GetByIdDTO'
 import { IDeliveryMapper } from '@sp-proxy/interface-adapters/protocols/IDeliveryMapper'
 import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'
 import { GetRemoteIdpUseCaseParams } from '@sp-proxy/use-cases/io-models/GetRemoteIdpUseCaseParams'

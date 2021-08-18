@@ -17,9 +17,9 @@ import { GetByIdValidator } from '@sp-proxy/interface-adapters/delivery/validato
 import { GetRemoteIdpControllerMapper } from '@sp-proxy/interface-adapters/delivery/mappers/GetRemoteIdpControllerMapper'
 import { GetRemoteIdpFacade } from '@sp-proxy/interface-adapters/api/GetRemoteIdpFacade'
 import { makeRemoteIdpStub } from '@sp-proxy/interface-adapters/data/mocks/makeRemoteIdpStub.mock'
-import { RemoteIdpDeliveryProps } from '@sp-proxy/interface-adapters/protocols/RemoteIdpDeliveryProps'
 import { IService } from '@sp-proxy/interface-adapters/protocols/IService'
 import { RemoteIdp } from '@sp-proxy/entities/RemoteIdp'
+import { RemoteIdpDeliveryProps } from '@sp-proxy/interface-adapters/delivery/dtos/RemoteIdpDeliveryProps'
 
 const getSsoServices = (remoteIdp: RemoteIdp): IService[] => {
   const ssoServices: IService[] = []

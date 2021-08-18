@@ -1,4 +1,3 @@
-import { GetByIdDTO } from '@sp-proxy/interface-adapters/protocols/GetByIdDTO'
 import { IController } from '@sp-proxy/interface-adapters/protocols/IController'
 import { IDeliveryMapper } from '@sp-proxy/interface-adapters/protocols/IDeliveryMapper'
 import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'
@@ -6,6 +5,7 @@ import { IValidator } from '@sp-proxy/interface-adapters/protocols/IValidator'
 import { InputBoundary } from '@sp-proxy/use-cases/ports/InputBoundary'
 import { GetRemoteIdpUseCaseParams } from '@sp-proxy/use-cases/io-models/GetRemoteIdpUseCaseParams'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
+import { GetByIdDTO } from '@sp-proxy/interface-adapters/delivery/dtos/GetByIdDTO'
 
 export class GetRemoteIdpController implements IController {
   constructor(

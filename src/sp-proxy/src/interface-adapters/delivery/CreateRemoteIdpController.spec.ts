@@ -5,13 +5,13 @@
 import { CreateRemoteIdpController } from '@sp-proxy/interface-adapters/delivery/CreateRemoteIdpController'
 import { InvalidRequestError } from '@sp-proxy/interface-adapters/delivery/errors/InvalidRequestError'
 import { fakeCreateRemoteIdpRequest } from '@sp-proxy/interface-adapters/delivery/mocks/fakeCreateRemoteIdpRequest.mock'
-import { ICreateRemoteIdpRequest } from '@sp-proxy/interface-adapters/protocols/ICreateRemoteIdpRequest'
 import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'
 import { IValidator } from '@sp-proxy/interface-adapters/protocols/IValidator'
 import { InputBoundary } from '@sp-proxy/use-cases/ports/InputBoundary'
 import { AddRemoteIdpUseCaseParams } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseParams'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
 import { IDeliveryMapper } from '@sp-proxy/interface-adapters/protocols/IDeliveryMapper'
+import { ICreateRemoteIdpRequest } from '@sp-proxy/interface-adapters/delivery/dtos/ICreateRemoteIdpRequest'
 
 const makeMapper = (): IDeliveryMapper<
   IRequest<ICreateRemoteIdpRequest>,

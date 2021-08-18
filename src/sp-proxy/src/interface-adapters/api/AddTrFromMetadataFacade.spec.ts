@@ -5,8 +5,8 @@
 // return result emitted to eventBus
 
 import { AddTrFromMetadataFacade } from '@sp-proxy/interface-adapters/api/AddTrFromMetadataFacade'
-import { IAddTrFromMetadataRequest } from '@sp-proxy/interface-adapters/protocols/IAddTrFromMetadataRequest'
-import { IAddTrFromMetadataResponse } from '@sp-proxy/interface-adapters/protocols/IAddTrFromMetadataResponse'
+import { IAddTrFromMetadataRequest } from '@sp-proxy/interface-adapters/delivery/dtos/IAddTrFromMetadataRequest'
+import { IAddTrFromMetadataResponse } from '@sp-proxy/interface-adapters/delivery/dtos//IAddTrFromMetadataResponse'
 import { IController } from '@sp-proxy/interface-adapters/protocols/IController'
 import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'
 import { IResponse } from '@sp-proxy/interface-adapters/protocols/IResponse'

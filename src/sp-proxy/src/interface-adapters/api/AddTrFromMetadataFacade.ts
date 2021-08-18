@@ -1,5 +1,5 @@
 import { IAddTrFromMetadataFacade } from '@sp-proxy/interface-adapters/protocols/IAddTrFromMetadataFacade'
-import { IAddTrFromMetadataRequest } from '@sp-proxy/interface-adapters/protocols/IAddTrFromMetadataRequest'
+import { IAddTrFromMetadataRequest } from '@sp-proxy/interface-adapters/delivery/dtos/IAddTrFromMetadataRequest'
 import { IController } from '@sp-proxy/interface-adapters/protocols/IController'
 import { SuccessResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/SuccessResponseUseCaseParams'
 import { randomUUID } from 'crypto'
