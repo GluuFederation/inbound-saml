@@ -1,6 +1,7 @@
 import { IAddTrFromMetadataFacade } from '@sp-proxy/interface-adapters/protocols/IAddTrFromMetadataFacade'
 import { IAddTrFromMetadataRequest } from '@sp-proxy/interface-adapters/protocols/IAddTrFromMetadataRequest'
 import { IController } from '@sp-proxy/interface-adapters/protocols/IController'
+import { SuccessResponseModel } from '@sp-proxy/use-cases/io-models/SuccessResponseModel'
 import { randomUUID } from 'crypto'
 import { EventEmitter } from 'stream'
 
@@ -10,16 +11,19 @@ export class AddTrFromMetadataFacade implements IAddTrFromMetadataFacade {
     private readonly eventBus: EventEmitter
   ) {}
 
-  async addTrFromMetadata(params: IAddTrFromMetadataRequest): Promise<boolean> {
+  async addTrFromMetadata(
+    params: IAddTrFromMetadataRequest
+  ): Promise<SuccessResponseModel> {
     const requestId = randomUUID()
-    const respond = (value: any): void => {
-      console.log(value)
-    }
-    this.eventBus.once(requestId, respond)
+    const result: SuccessResponseModel[] = []
+    this.eventBus.once(requestId, (response) => {
+      result.push(response.response)
+    })
     await this.controller.handle({
       id: requestId,
       body: params
     })
-    return true
+    console.log(result)
+    return result[0]
   }
 }
