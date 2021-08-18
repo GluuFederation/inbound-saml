@@ -122,4 +122,14 @@ describe('AddTrFromMetadataController', () => {
     })
     await expect(sut.handle(fakeRequestDto)).rejects.toThrow()
   })
+  it('should call interactor with response model returned from mapper', async () => {
+    const { sut, mapperStub, interactorStub } = makeSut()
+    jest
+      .spyOn(mapperStub as any, 'map')
+      .mockReturnValueOnce('a valid mapped request model')
+    const executeSpy = jest.spyOn(interactorStub, 'execute')
+    await sut.handle(fakeRequestDto)
+    expect(executeSpy).toHaveBeenCalledTimes(1)
+    expect(executeSpy).toHaveBeenCalledWith('a valid mapped request model')
+  })
 })
