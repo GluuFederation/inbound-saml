@@ -1,7 +1,7 @@
 import { IDeliveryMapper } from '@sp-proxy/interface-adapters/protocols/IDeliveryMapper'
 import { IResponse } from '@sp-proxy/interface-adapters/protocols/IResponse'
 import { RemoteIdpDeliveryProps } from '@sp-proxy/interface-adapters/protocols/RemoteIdpDeliveryProps'
-import { OutputBoundary } from '@sp-proxy/use-cases/io-channels/OutputBoundary'
+import { OutputBoundary } from '@sp-proxy/use-cases/protocols/OutputBoundary'
 import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'
 import { RemoteIdpUseCaseParams } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseParams'
 import { EventEmitter } from 'stream'

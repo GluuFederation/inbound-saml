@@ -8,7 +8,7 @@ import { fakeCreateRemoteIdpRequest } from '@sp-proxy/interface-adapters/deliver
 import { ICreateRemoteIdpRequest } from '@sp-proxy/interface-adapters/protocols/ICreateRemoteIdpRequest'
 import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'
 import { IValidator } from '@sp-proxy/interface-adapters/protocols/IValidator'
-import { InputBoundary } from '@sp-proxy/use-cases/io-channels/InputBoundary'
+import { InputBoundary } from '@sp-proxy/use-cases/protocols/InputBoundary'
 import { AddRemoteIdpUseCaseParams } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseParams'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
 import { IDeliveryMapper } from '@sp-proxy/interface-adapters/protocols/IDeliveryMapper'

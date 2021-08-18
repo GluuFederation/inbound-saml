@@ -11,7 +11,7 @@ import { AddTrFromMetadataInteractor } from '@sp-proxy/use-cases/AddTrFromMetada
 import { makeSingleSignOnServices } from '@sp-proxy/use-cases/factories/makeSingleSignOnServices'
 import { RemoteIdpFromExternalParams } from '@sp-proxy/use-cases/factories/RemoteIdpFromExternalDataFactory'
 import { TrustRelationWithDefaultsParams } from '@sp-proxy/use-cases/factories/TrustRelationWithDefaultFactory'
-import { OutputBoundary } from '@sp-proxy/use-cases/io-channels/OutputBoundary'
+import { OutputBoundary } from '@sp-proxy/use-cases/protocols/OutputBoundary'
 import { AddTrFromMetadataUseCaseParams } from '@sp-proxy/use-cases/io-models/AddTrFromMetadataUseCaseParams'
 import { ExternalUseCaseParams } from '@sp-proxy/use-cases/io-models/ExternalUseCaseParams'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
