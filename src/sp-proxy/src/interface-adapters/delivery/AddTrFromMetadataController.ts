@@ -19,5 +19,6 @@ export class AddTrFromMetadataController implements IController {
 
   async handle(request: IRequest<IAddTrFromMetadataRequest>): Promise<void> {
     await this.validator.isValid(request)
+    this.mapper.map(request)
   }
 }
