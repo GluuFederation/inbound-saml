@@ -22,5 +22,4 @@ export const mockXmlEndpoints = (): void => {
     .reply(200, '>roo invalid< metadata', {
       'Content-Type': 'application/xml;charset=utf-8'
     })
-    .persist()
 }

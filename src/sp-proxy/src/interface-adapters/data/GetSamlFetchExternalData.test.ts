@@ -1,5 +1,5 @@
 import { GetSamlFetchExternalData } from '@sp-proxy/interface-adapters/data/GetSamlFetchExternalData'
-import { mockXmlEndpoints } from '@sp-proxy/interface-adapters/data/mocks/xmlEndpoints.mock'
+import { mockXmlEndpoints } from '@sp-proxy/interface-adapters/mocks/xmlEndpoints.mock'
 import { IExternalDataModel } from '@sp-proxy/use-cases/io-models/IExternalDataModel'
 
 /**
