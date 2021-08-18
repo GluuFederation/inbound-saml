@@ -115,4 +115,11 @@ describe('AddTrFromMetadataController', () => {
     expect(mapSpy).toHaveBeenCalledTimes(1)
     expect(mapSpy).toHaveBeenCalledWith(fakeRequestDto)
   })
+  it('should throw if mapper throws', async () => {
+    const { sut, mapperStub } = makeSut()
+    jest.spyOn(mapperStub, 'map').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    await expect(sut.handle(fakeRequestDto)).rejects.toThrow()
+  })
 })
