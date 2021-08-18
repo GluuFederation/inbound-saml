@@ -101,4 +101,11 @@ describe('AddTrFromMetadataController', () => {
     expect(isValidSpy).toHaveBeenCalledTimes(1)
     expect(isValidSpy).toHaveBeenCalledWith(fakeRequestDto)
   })
+  it('should throw if Validator throws', async () => {
+    const { sut, validatorStub } = makeSut()
+    jest.spyOn(validatorStub, 'isValid').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    await expect(sut.handle(fakeRequestDto)).rejects.toThrow()
+  })
 })
