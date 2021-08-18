@@ -1,10 +1,10 @@
 import { RemoteIdp } from '@sp-proxy/entities/RemoteIdp'
 import { GetRemoteIdpInteractor } from '@sp-proxy/use-cases/GetRemoteIdpInteractor'
-import { OutputBoundary } from '@sp-proxy/use-cases/io-channels/OutputBoundary'
-import { GetRemoteIdpRequestModel } from '@sp-proxy/use-cases/io-models/GetRemoteIdpRequestModel'
+import { OutputBoundary } from '@sp-proxy/use-cases/ports/OutputBoundary'
+import { GetRemoteIdpUseCaseParams } from '@sp-proxy/use-cases/io-models/GetRemoteIdpUseCaseParams'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
 import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'
-import { RemoteIdpUseCaseProps } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseProps'
+import { RemoteIdpUseCaseParams } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseParams'
 import { makeRemoteIdpUseCaseStub } from '@sp-proxy/use-cases/mocks/remoteIdpUseCaseStub'
 import { IGetRemoteIdpGateway } from '@sp-proxy/use-cases/ports/IGetRemoteIdpGateway'
 import { IMapper } from '@sp-proxy/use-cases/protocols/IMapper'
@@ -15,13 +15,13 @@ import { IMapper } from '@sp-proxy/use-cases/protocols/IMapper'
 // calls output channel (presenter) with response model
 
 const makePresenter = (): OutputBoundary<
-  IResponseModel<RemoteIdpUseCaseProps>
+  IResponseModel<RemoteIdpUseCaseParams>
 > => {
   class PresenterStub
-    implements OutputBoundary<IResponseModel<RemoteIdpUseCaseProps>>
+    implements OutputBoundary<IResponseModel<RemoteIdpUseCaseParams>>
   {
     async present(
-      response: IResponseModel<RemoteIdpUseCaseProps>
+      response: IResponseModel<RemoteIdpUseCaseParams>
     ): Promise<void> {
       // do something...
     }
@@ -39,9 +39,9 @@ const makeGateway = (): IGetRemoteIdpGateway => {
   return new GatewayStub()
 }
 
-const makeEntityMapper = (): IMapper<RemoteIdp, RemoteIdpUseCaseProps> => {
-  class EntityMapperStub implements IMapper<RemoteIdp, RemoteIdpUseCaseProps> {
-    map(entity: RemoteIdp): RemoteIdpUseCaseProps {
+const makeEntityMapper = (): IMapper<RemoteIdp, RemoteIdpUseCaseParams> => {
+  class EntityMapperStub implements IMapper<RemoteIdp, RemoteIdpUseCaseParams> {
+    map(entity: RemoteIdp): RemoteIdpUseCaseParams {
       return {
         id: 'valid entity id',
         name: 'valid name',
@@ -57,8 +57,8 @@ const makeEntityMapper = (): IMapper<RemoteIdp, RemoteIdpUseCaseProps> => {
 
 interface SutTypes {
   gatewayStub: IGetRemoteIdpGateway
-  entityMapperStub: IMapper<RemoteIdp, RemoteIdpUseCaseProps>
-  presenterStub: OutputBoundary<IResponseModel<RemoteIdpUseCaseProps>>
+  entityMapperStub: IMapper<RemoteIdp, RemoteIdpUseCaseParams>
+  presenterStub: OutputBoundary<IResponseModel<RemoteIdpUseCaseParams>>
   sut: GetRemoteIdpInteractor
 }
 
@@ -79,7 +79,7 @@ const makeSut = (): SutTypes => {
   }
 }
 
-const fakeRequestDto: IRequestModel<GetRemoteIdpRequestModel> = {
+const fakeRequestDto: IRequestModel<GetRemoteIdpUseCaseParams> = {
   requestId: 'valid request id',
   request: {
     id: 'valid entity id'
@@ -121,7 +121,7 @@ describe('GetRemoteIdpInteractor', () => {
   })
   it('should call presenter with mapped response model', async () => {
     const { sut, presenterStub, entityMapperStub } = makeSut()
-    const responseModelMock: IResponseModel<RemoteIdpUseCaseProps> = {
+    const responseModelMock: IResponseModel<RemoteIdpUseCaseParams> = {
       requestId: 'valid request id',
       response: {
         id: 'vakud entity id',

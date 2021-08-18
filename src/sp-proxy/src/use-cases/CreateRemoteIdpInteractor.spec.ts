@@ -6,22 +6,22 @@
 import { RemoteIdp } from '@sp-proxy/entities/RemoteIdp'
 import { CreateRemoteIdpInteractor } from '@sp-proxy/use-cases/CreateRemoteIdpInteractor'
 import { makeSingleSignOnServices } from '@sp-proxy/use-cases/factories/makeSingleSignOnServices'
-import { OutputBoundary } from '@sp-proxy/use-cases/io-channels/OutputBoundary'
-import { AddRemoteIdpUseCaseProps } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseProps'
-import { SuccessResponseModel } from '@sp-proxy/use-cases/io-models/SuccessResponseModel'
+import { OutputBoundary } from '@sp-proxy/use-cases/ports/OutputBoundary'
+import { AddRemoteIdpUseCaseParams } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseParams'
+import { SuccessResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/SuccessResponseUseCaseParams'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
 import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'
 import { ICreateRemoteIdpGateway } from '@sp-proxy/use-cases/ports/ICreateRemoteIdpGateway'
 import { IMapper } from '@sp-proxy/use-cases/protocols/IMapper'
 
 const makePresenter = (): OutputBoundary<
-  IResponseModel<SuccessResponseModel>
+  IResponseModel<SuccessResponseUseCaseParams>
 > => {
   class PresenterStub
-    implements OutputBoundary<IResponseModel<SuccessResponseModel>>
+    implements OutputBoundary<IResponseModel<SuccessResponseUseCaseParams>>
   {
     async present(
-      response: IResponseModel<SuccessResponseModel>
+      response: IResponseModel<SuccessResponseUseCaseParams>
     ): Promise<void> {
       // do something
     }
@@ -39,7 +39,7 @@ const makeGateway = (): ICreateRemoteIdpGateway => {
   return new GatewayStub()
 }
 
-const fakeRequestDto: IRequestModel<AddRemoteIdpUseCaseProps> = {
+const fakeRequestDto: IRequestModel<AddRemoteIdpUseCaseParams> = {
   requestId: 'valid id',
   request: {
     name: 'valid name',
@@ -54,11 +54,11 @@ const fakeRequestDto: IRequestModel<AddRemoteIdpUseCaseProps> = {
 }
 
 const makeMapper = (): IMapper<
-  IRequestModel<AddRemoteIdpUseCaseProps>,
+  IRequestModel<AddRemoteIdpUseCaseParams>,
   RemoteIdp
 > => {
   class MapperStub
-    implements IMapper<IRequestModel<AddRemoteIdpUseCaseProps>, RemoteIdp>
+    implements IMapper<IRequestModel<AddRemoteIdpUseCaseParams>, RemoteIdp>
   {
     map(requestModel: IRequestModel<any>): RemoteIdp {
       return new RemoteIdp({
@@ -75,9 +75,9 @@ const makeMapper = (): IMapper<
 
 interface SutTypes {
   sut: CreateRemoteIdpInteractor
-  presenter: OutputBoundary<IResponseModel<SuccessResponseModel>>
+  presenter: OutputBoundary<IResponseModel<SuccessResponseUseCaseParams>>
   gateway: ICreateRemoteIdpGateway
-  mapper: IMapper<IRequestModel<AddRemoteIdpUseCaseProps>, RemoteIdp>
+  mapper: IMapper<IRequestModel<AddRemoteIdpUseCaseParams>, RemoteIdp>
 }
 
 const makeSut = (): SutTypes => {

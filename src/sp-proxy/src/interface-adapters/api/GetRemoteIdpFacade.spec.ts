@@ -5,11 +5,11 @@
 // return result pushed by eventbus listener
 
 import { GetRemoteIdpFacade } from '@sp-proxy/interface-adapters/api/GetRemoteIdpFacade'
-import { GetByIdDTO } from '@sp-proxy/interface-adapters/protocols/GetByIdDTO'
+import { GetByIdDTO } from '@sp-proxy/interface-adapters/delivery/dtos/GetByIdDTO'
 import { IController } from '@sp-proxy/interface-adapters/protocols/IController'
 import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'
 import { IResponse } from '@sp-proxy/interface-adapters/protocols/IResponse'
-import { RemoteIdpUseCaseProps } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseProps'
+import { RemoteIdpUseCaseParams } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseParams'
 import * as crypto from 'crypto'
 import { EventEmitter } from 'stream'
 jest.mock('crypto')
@@ -21,7 +21,7 @@ const fakeRequest: IRequest<GetByIdDTO> = {
   }
 }
 
-const fakeUseCaseResponse: IResponse<RemoteIdpUseCaseProps> = {
+const fakeUseCaseResponse: IResponse<RemoteIdpUseCaseParams> = {
   requestId: 'valid request id',
   body: {
     id: 'entity id',

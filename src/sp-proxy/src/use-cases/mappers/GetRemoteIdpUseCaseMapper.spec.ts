@@ -1,11 +1,11 @@
-import { RemoteIdpUseCaseProps } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseProps'
+import { RemoteIdpUseCaseParams } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseParams'
 import { makeRemoteIdpUseCaseStub } from '@sp-proxy/use-cases/mocks/remoteIdpUseCaseStub'
-import { GetRemoteIdpUseCaseMapper } from '@sp-proxy/use-cases/utils/GetRemoteIdpUseCaseMapper'
+import { GetRemoteIdpUseCaseMapper } from '@sp-proxy/use-cases/mappers/GetRemoteIdpUseCaseMapper'
 
 describe('GetRemoteIdpUseCaseMapper', () => {
   it('should map RemoteIdp entity to usecase props', () => {
     const fakeRemoteIdp = makeRemoteIdpUseCaseStub()
-    const expectedResponseModel: RemoteIdpUseCaseProps = {
+    const expectedResponseModel: RemoteIdpUseCaseParams = {
       id: fakeRemoteIdp.id,
       singleSignOnService: [
         {

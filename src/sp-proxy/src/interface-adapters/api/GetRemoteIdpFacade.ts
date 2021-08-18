@@ -1,9 +1,9 @@
-import { GetByIdDTO } from '@sp-proxy/interface-adapters/protocols/GetByIdDTO'
+import { GetByIdDTO } from '@sp-proxy/interface-adapters/delivery/dtos/GetByIdDTO'
+import { RemoteIdpDeliveryProps } from '@sp-proxy/interface-adapters/delivery/dtos/RemoteIdpDeliveryProps'
 import { IController } from '@sp-proxy/interface-adapters/protocols/IController'
 import { IGetRemoteIdpFacade } from '@sp-proxy/interface-adapters/protocols/IGetRemoteIdpFacade'
 import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'
 import { IResponse } from '@sp-proxy/interface-adapters/protocols/IResponse'
-import { RemoteIdpDeliveryProps } from '@sp-proxy/interface-adapters/protocols/RemoteIdpDeliveryProps'
 import { randomUUID } from 'crypto'
 import { EventEmitter } from 'stream'
 

@@ -1,17 +1,17 @@
-import { GetByIdDTO } from '@sp-proxy/interface-adapters/protocols/GetByIdDTO'
+import { GetByIdDTO } from '@sp-proxy/interface-adapters/delivery/dtos/GetByIdDTO'
 import { IDeliveryMapper } from '@sp-proxy/interface-adapters/protocols/IDeliveryMapper'
 import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'
-import { GetRemoteIdpRequestModel } from '@sp-proxy/use-cases/io-models/GetRemoteIdpRequestModel'
+import { GetRemoteIdpUseCaseParams } from '@sp-proxy/use-cases/io-models/GetRemoteIdpUseCaseParams'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
 
 export class GetRemoteIdpControllerMapper
   implements
     IDeliveryMapper<
       IRequest<GetByIdDTO>,
-      IRequestModel<GetRemoteIdpRequestModel>
+      IRequestModel<GetRemoteIdpUseCaseParams>
     >
 {
-  map(request: IRequest<GetByIdDTO>): IRequestModel<GetRemoteIdpRequestModel> {
+  map(request: IRequest<GetByIdDTO>): IRequestModel<GetRemoteIdpUseCaseParams> {
     return {
       requestId: request.id,
       request: request.body

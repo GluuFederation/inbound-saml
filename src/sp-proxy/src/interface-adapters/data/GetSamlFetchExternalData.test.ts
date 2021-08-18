@@ -1,11 +1,11 @@
 import { GetSamlFetchExternalData } from '@sp-proxy/interface-adapters/data/GetSamlFetchExternalData'
 import { mockXmlEndpoints } from '@sp-proxy/interface-adapters/mocks/xmlEndpoints.mock'
-import { IExternalDataModel } from '@sp-proxy/use-cases/io-models/IExternalDataModel'
+import { ExternalUseCaseParams } from '@sp-proxy/use-cases/io-models/ExternalUseCaseParams'
 
 /**
  * Expected data from testfile used in this test
  */
-const expectedData: IExternalDataModel = {
+const expectedData: ExternalUseCaseParams = {
   idpSigningCert: [
     'MIIDjTCCAnUCFEfrDgg5EbuYxdqMKep1Dy6l9tfmMA0GCSqGSIb3DQEBCwUAMIGC\n' +
       'MQswCQYDVQQGEwJCUjELMAkGA1UECAwCU1AxEjAQBgNVBAcMCVNhbyBQYXVsbzET\n' +

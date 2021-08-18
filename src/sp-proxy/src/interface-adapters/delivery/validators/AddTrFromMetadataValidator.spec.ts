@@ -1,6 +1,6 @@
 import { AddTrFromMetadataValidator } from '@sp-proxy/interface-adapters/delivery/validators/AddTrFromMetadataValidator'
 import * as vUrl from '@sp-proxy/interface-adapters/delivery/validators/singles/isValidUrl'
-import { IAddTrFromMetadataRequest } from '@sp-proxy/interface-adapters/protocols/IAddTrFromMetadataRequest'
+import { IAddTrFromMetadataRequest } from '@sp-proxy/interface-adapters/delivery/dtos/IAddTrFromMetadataRequest'
 import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'
 jest.mock('@sp-proxy/interface-adapters/delivery/validators/singles/isValidUrl')
 

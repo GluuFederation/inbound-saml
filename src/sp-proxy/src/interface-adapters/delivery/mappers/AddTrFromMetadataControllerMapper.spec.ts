@@ -1,7 +1,7 @@
 import { AddTrFromMetadataControllerMapper } from '@sp-proxy/interface-adapters/delivery/mappers/AddTrFromMetadataControllerMapper'
-import { IAddTrFromMetadataRequest } from '@sp-proxy/interface-adapters/protocols/IAddTrFromMetadataRequest'
+import { IAddTrFromMetadataRequest } from '@sp-proxy/interface-adapters/delivery/dtos/IAddTrFromMetadataRequest'
 import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'
-import { AddTrFromMetadataUseCaseProps } from '@sp-proxy/use-cases/io-models/AddTrFromMetadataUseCaseProps'
+import { AddTrFromMetadataUseCaseParams } from '@sp-proxy/use-cases/io-models/AddTrFromMetadataUseCaseParams'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
 
 describe('AddTrFromMetadataControllerMapper', () => {
@@ -14,10 +14,11 @@ describe('AddTrFromMetadataControllerMapper', () => {
         url: 'fake url'
       }
     }
-    const expectedRequestModel: IRequestModel<AddTrFromMetadataUseCaseProps> = {
-      requestId: fakeDto.id,
-      request: fakeDto.body
-    }
+    const expectedRequestModel: IRequestModel<AddTrFromMetadataUseCaseParams> =
+      {
+        requestId: fakeDto.id,
+        request: fakeDto.body
+      }
     expect(sut.map(fakeDto)).toStrictEqual(expectedRequestModel)
   })
 })

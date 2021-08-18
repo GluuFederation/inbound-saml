@@ -11,12 +11,12 @@ import { AddTrFromMetadataInteractor } from '@sp-proxy/use-cases/AddTrFromMetada
 import { makeSingleSignOnServices } from '@sp-proxy/use-cases/factories/makeSingleSignOnServices'
 import { RemoteIdpFromExternalParams } from '@sp-proxy/use-cases/factories/RemoteIdpFromExternalDataFactory'
 import { TrustRelationWithDefaultsParams } from '@sp-proxy/use-cases/factories/TrustRelationWithDefaultFactory'
-import { OutputBoundary } from '@sp-proxy/use-cases/io-channels/OutputBoundary'
-import { AddTrFromMetadataUseCaseProps } from '@sp-proxy/use-cases/io-models/AddTrFromMetadataUseCaseProps'
-import { IExternalDataModel } from '@sp-proxy/use-cases/io-models/IExternalDataModel'
+import { OutputBoundary } from '@sp-proxy/use-cases/ports/OutputBoundary'
+import { AddTrFromMetadataUseCaseParams } from '@sp-proxy/use-cases/io-models/AddTrFromMetadataUseCaseParams'
+import { ExternalUseCaseParams } from '@sp-proxy/use-cases/io-models/ExternalUseCaseParams'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
 import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'
-import { SuccessResponseModel } from '@sp-proxy/use-cases/io-models/SuccessResponseModel'
+import { SuccessResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/SuccessResponseUseCaseParams'
 import { IAddTrGateway } from '@sp-proxy/use-cases/ports/IAddTrGateway'
 import { ICreateRemoteIdpGateway } from '@sp-proxy/use-cases/ports/ICreateRemoteIdpGateway'
 import { IFetchExternalDataGateway } from '@sp-proxy/use-cases/ports/IFetchExternalDataGateway'
@@ -24,7 +24,7 @@ import { IFactory } from '@sp-proxy/use-cases/protocols/IFactory'
 
 const makeFetchExternalDataGateway = (): IFetchExternalDataGateway => {
   class FetchExternalDataStub implements IFetchExternalDataGateway {
-    async fetch(url: string): Promise<IExternalDataModel> {
+    async fetch(url: string): Promise<ExternalUseCaseParams> {
       return {
         idpSigningCert: ['valid cert'],
         singleSignOnServices: [
@@ -54,13 +54,13 @@ const makeAddTrGateway = (): IAddTrGateway => {
 }
 
 const makePresenter = (): OutputBoundary<
-  IResponseModel<SuccessResponseModel>
+  IResponseModel<SuccessResponseUseCaseParams>
 > => {
   class PresenterStub
-    implements OutputBoundary<IResponseModel<SuccessResponseModel>>
+    implements OutputBoundary<IResponseModel<SuccessResponseUseCaseParams>>
   {
     async present(
-      response: IResponseModel<SuccessResponseModel>
+      response: IResponseModel<SuccessResponseUseCaseParams>
     ): Promise<void> {
       // do something
     }
@@ -118,7 +118,7 @@ interface SutTypes {
     TrustRelation
   >
   addTrGatewayStub: IAddTrGateway
-  presenterStub: OutputBoundary<IResponseModel<SuccessResponseModel>>
+  presenterStub: OutputBoundary<IResponseModel<SuccessResponseUseCaseParams>>
 }
 
 const makeSut = (): SutTypes => {
@@ -147,7 +147,7 @@ const makeSut = (): SutTypes => {
   }
 }
 
-const fakeRequest: IRequestModel<AddTrFromMetadataUseCaseProps> = {
+const fakeRequest: IRequestModel<AddTrFromMetadataUseCaseParams> = {
   requestId: 'valid request id',
   request: {
     url: 'valid url',
@@ -177,7 +177,7 @@ describe('AddTrFromMetadataInteractor', () => {
   it('should call remoteIdp factory with fetched data', async () => {
     const { sut, remoteIdpFromDataStub, fetchExternalDataGatewayStub } =
       makeSut()
-    const fetchedDataMock: IExternalDataModel = {
+    const fetchedDataMock: ExternalUseCaseParams = {
       idpSigningCert: ['valid cert'],
       singleSignOnServices: [
         { binding: 'any valid binding', location: 'any valid location' }
@@ -225,12 +225,13 @@ describe('AddTrFromMetadataInteractor', () => {
     const presentSpy = jest.spyOn(presenterStub, 'present')
     await sut.execute(fakeRequest)
     expect(presentSpy).toHaveBeenCalledTimes(1)
-    const expectedResponseModel: IResponseModel<SuccessResponseModel> = {
-      requestId: fakeRequest.requestId,
-      response: {
-        success: true
+    const expectedResponseModel: IResponseModel<SuccessResponseUseCaseParams> =
+      {
+        requestId: fakeRequest.requestId,
+        response: {
+          success: true
+        }
       }
-    }
     expect(presentSpy).toHaveBeenCalledWith(expectedResponseModel)
   })
   it('should throw if ExternalData fetching throws', async () => {

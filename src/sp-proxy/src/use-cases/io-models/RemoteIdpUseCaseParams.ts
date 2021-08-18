@@ -1,6 +1,6 @@
 import { IService } from '@sp-proxy/use-cases/protocols/IService'
 
-export interface RemoteIdpUseCaseProps {
+export interface RemoteIdpUseCaseParams {
   id: string
   name: string
   metadataEndpoint?: string
@@ -8,4 +8,4 @@ export interface RemoteIdpUseCaseProps {
   signingCertificates: string[]
 }
 
-export type AddRemoteIdpUseCaseProps = Omit<RemoteIdpUseCaseProps, 'id'>
+export type AddRemoteIdpUseCaseParams = Omit<RemoteIdpUseCaseParams, 'id'>

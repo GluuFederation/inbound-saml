@@ -1,19 +1,19 @@
-import { IAddTrFromMetadataRequest } from '@sp-proxy/interface-adapters/protocols/IAddTrFromMetadataRequest'
+import { IAddTrFromMetadataRequest } from '@sp-proxy/interface-adapters/delivery/dtos/IAddTrFromMetadataRequest'
 import { IController } from '@sp-proxy/interface-adapters/protocols/IController'
 import { IDeliveryMapper } from '@sp-proxy/interface-adapters/protocols/IDeliveryMapper'
 import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'
 import { IValidator } from '@sp-proxy/interface-adapters/protocols/IValidator'
-import { InputBoundary } from '@sp-proxy/use-cases/io-channels/InputBoundary'
-import { AddTrFromMetadataUseCaseProps } from '@sp-proxy/use-cases/io-models/AddTrFromMetadataUseCaseProps'
+import { AddTrFromMetadataUseCaseParams } from '@sp-proxy/use-cases/io-models/AddTrFromMetadataUseCaseParams'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
+import { InputBoundary } from '@sp-proxy/use-cases/ports/InputBoundary'
 
 export class AddTrFromMetadataController implements IController {
   constructor(
     private readonly mapper: IDeliveryMapper<
       IRequest<IAddTrFromMetadataRequest>,
-      IRequestModel<AddTrFromMetadataUseCaseProps>
+      IRequestModel<AddTrFromMetadataUseCaseParams>
     >,
-    private readonly interactor: InputBoundary<AddTrFromMetadataUseCaseProps>,
+    private readonly interactor: InputBoundary<AddTrFromMetadataUseCaseParams>,
     private readonly validator: IValidator
   ) {}
 

@@ -1,13 +1,13 @@
 import { AddTrFromMetadataPresenterMapper } from '@sp-proxy/interface-adapters/delivery/mappers/AddTrFromMetadataPresenterMapper'
-import { IAddTrFromMetadataResponse } from '@sp-proxy/interface-adapters/protocols/IAddTrFromMetadataResponse'
+import { IAddTrFromMetadataResponse } from '@sp-proxy/interface-adapters/delivery/dtos/IAddTrFromMetadataResponse'
 import { IResponse } from '@sp-proxy/interface-adapters/protocols/IResponse'
 import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'
-import { SuccessResponseModel } from '@sp-proxy/use-cases/io-models/SuccessResponseModel'
+import { SuccessResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/SuccessResponseUseCaseParams'
 
 describe('AddTrFromMetadataPresenterMapper', () => {
   it('should return expected dto', () => {
     const sut = new AddTrFromMetadataPresenterMapper()
-    const fakeResponseModel: IResponseModel<SuccessResponseModel> = {
+    const fakeResponseModel: IResponseModel<SuccessResponseUseCaseParams> = {
       requestId: 'fake request id',
       response: {
         success: true
