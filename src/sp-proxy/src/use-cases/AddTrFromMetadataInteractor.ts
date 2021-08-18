@@ -23,6 +23,7 @@ export class AddTrFromMetadataInteractor
   implements InputBoundary<AddTrFromMetadataUseCaseProps>
 {
   constructor(
+    // TODO: validate if TR singleSignOnService is one of the availables in RemoteIdp
     private readonly externalDataGateway: IFetchExternalDataGateway,
     private readonly remoteIdpFromExtDataFactory: IFactory<
       RemoteIdpFromExternalParams,
