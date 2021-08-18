@@ -1,6 +1,6 @@
 import { GetRemoteIdpUseCaseParams } from '@sp-proxy/use-cases/io-models/GetRemoteIdpUseCaseParams'
-import { InputBoundary } from '@sp-proxy/use-cases/protocols/InputBoundary'
-import { OutputBoundary } from '@sp-proxy/use-cases/protocols/OutputBoundary'
+import { InputBoundary } from '@sp-proxy/use-cases/ports/InputBoundary'
+import { OutputBoundary } from '@sp-proxy/use-cases/ports/OutputBoundary'
 import { RemoteIdpUseCaseParams } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseParams'
 import { IGetRemoteIdpGateway } from '@sp-proxy/use-cases/ports/IGetRemoteIdpGateway'
 import { IMapper } from '@sp-proxy/use-cases/protocols/IMapper'

@@ -1,6 +1,6 @@
 import { RemoteIdp } from '@sp-proxy/entities/RemoteIdp'
 import { GetRemoteIdpInteractor } from '@sp-proxy/use-cases/GetRemoteIdpInteractor'
-import { OutputBoundary } from '@sp-proxy/use-cases/protocols/OutputBoundary'
+import { OutputBoundary } from '@sp-proxy/use-cases/ports/OutputBoundary'
 import { GetRemoteIdpUseCaseParams } from '@sp-proxy/use-cases/io-models/GetRemoteIdpUseCaseParams'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
 import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'

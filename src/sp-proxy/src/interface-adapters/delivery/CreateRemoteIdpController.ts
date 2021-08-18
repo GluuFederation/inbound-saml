@@ -3,7 +3,7 @@ import { ICreateRemoteIdpRequest } from '@sp-proxy/interface-adapters/protocols/
 import { IDeliveryMapper } from '@sp-proxy/interface-adapters/protocols/IDeliveryMapper'
 import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'
 import { IValidator } from '@sp-proxy/interface-adapters/protocols/IValidator'
-import { InputBoundary } from '@sp-proxy/use-cases/protocols/InputBoundary'
+import { InputBoundary } from '@sp-proxy/use-cases/ports/InputBoundary'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
 import { AddRemoteIdpUseCaseParams } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseParams'
 

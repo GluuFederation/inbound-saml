@@ -1,4 +1,4 @@
-import { OutputBoundary } from '@sp-proxy/use-cases/protocols/OutputBoundary'
+import { OutputBoundary } from '@sp-proxy/use-cases/ports/OutputBoundary'
 import { SuccessResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/SuccessResponseUseCaseParams'
 import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'
 import { EventEmitter } from 'stream'

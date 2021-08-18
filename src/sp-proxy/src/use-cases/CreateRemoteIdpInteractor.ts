@@ -3,8 +3,8 @@ import { SuccessResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/Succ
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
 import { ICreateRemoteIdpGateway } from '@sp-proxy/use-cases/ports/ICreateRemoteIdpGateway'
 import { IMapper } from '@sp-proxy/use-cases/protocols/IMapper'
-import { InputBoundary } from '@sp-proxy/use-cases/protocols/InputBoundary'
-import { OutputBoundary } from '@sp-proxy/use-cases/protocols/OutputBoundary'
+import { InputBoundary } from '@sp-proxy/use-cases/ports/InputBoundary'
+import { OutputBoundary } from '@sp-proxy/use-cases/ports/OutputBoundary'
 import { AddRemoteIdpUseCaseParams } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseParams'
 import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'
 
