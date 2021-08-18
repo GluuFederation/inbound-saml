@@ -1,8 +1,8 @@
 import { IAddTrFromMetadataRequest } from '@sp-proxy/interface-adapters/protocols/IAddTrFromMetadataRequest'
-import { SuccessResponseModel } from '@sp-proxy/use-cases/io-models/SuccessResponseModel'
+import { SuccessResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/SuccessResponseUseCaseParams'
 
 export interface IAddTrFromMetadataFacade {
   addTrFromMetadata: (
     params: IAddTrFromMetadataRequest
-  ) => Promise<SuccessResponseModel>
+  ) => Promise<SuccessResponseUseCaseParams>
 }

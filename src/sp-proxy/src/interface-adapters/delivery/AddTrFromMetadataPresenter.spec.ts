@@ -7,22 +7,22 @@ import { IAddTrFromMetadataResponse } from '@sp-proxy/interface-adapters/protoco
 import { IDeliveryMapper } from '@sp-proxy/interface-adapters/protocols/IDeliveryMapper'
 import { IResponse } from '@sp-proxy/interface-adapters/protocols/IResponse'
 import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'
-import { SuccessResponseModel } from '@sp-proxy/use-cases/io-models/SuccessResponseModel'
+import { SuccessResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/SuccessResponseUseCaseParams'
 import { EventEmitter } from 'stream'
 
 const makeMapper = (): IDeliveryMapper<
-  IResponseModel<SuccessResponseModel>,
+  IResponseModel<SuccessResponseUseCaseParams>,
   IResponse<IAddTrFromMetadataResponse>
 > => {
   class MapperStub
     implements
       IDeliveryMapper<
-        IResponseModel<SuccessResponseModel>,
+        IResponseModel<SuccessResponseUseCaseParams>,
         IResponse<IAddTrFromMetadataResponse>
       >
   {
     map(
-      mapFrom: IResponseModel<SuccessResponseModel>
+      mapFrom: IResponseModel<SuccessResponseUseCaseParams>
     ): IResponse<IAddTrFromMetadataResponse> {
       return {
         requestId: 'a valid mapped request id',
@@ -38,7 +38,7 @@ const makeMapper = (): IDeliveryMapper<
 interface SutTypes {
   sut: AddTrFromMetadataPresenter
   mapperStub: IDeliveryMapper<
-    IResponseModel<SuccessResponseModel>,
+    IResponseModel<SuccessResponseUseCaseParams>,
     IResponse<IAddTrFromMetadataResponse>
   >
   eventBusStub: EventEmitter
@@ -55,7 +55,7 @@ const makeSut = (): SutTypes => {
   }
 }
 
-const fakeResponse: IResponseModel<SuccessResponseModel> = {
+const fakeResponse: IResponseModel<SuccessResponseUseCaseParams> = {
   requestId: 'a valid fakeResponse request id',
   response: {
     success: true

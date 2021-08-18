@@ -2,17 +2,17 @@ import { IAddTrFromMetadataResponse } from '@sp-proxy/interface-adapters/protoco
 import { IDeliveryMapper } from '@sp-proxy/interface-adapters/protocols/IDeliveryMapper'
 import { IResponse } from '@sp-proxy/interface-adapters/protocols/IResponse'
 import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'
-import { SuccessResponseModel } from '@sp-proxy/use-cases/io-models/SuccessResponseModel'
+import { SuccessResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/SuccessResponseUseCaseParams'
 
 export class AddTrFromMetadataPresenterMapper
   implements
     IDeliveryMapper<
-      IResponseModel<SuccessResponseModel>,
+      IResponseModel<SuccessResponseUseCaseParams>,
       IResponse<IAddTrFromMetadataResponse>
     >
 {
   map(
-    responseModel: IResponseModel<SuccessResponseModel>
+    responseModel: IResponseModel<SuccessResponseUseCaseParams>
   ): IResponse<IAddTrFromMetadataResponse> {
     return {
       requestId: responseModel.requestId,

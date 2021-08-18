@@ -7,22 +7,22 @@ import { IDeliveryMapper } from '@sp-proxy/interface-adapters/protocols/IDeliver
 import { IResponse } from '@sp-proxy/interface-adapters/protocols/IResponse'
 import { RemoteIdpDeliveryProps } from '@sp-proxy/interface-adapters/protocols/RemoteIdpDeliveryProps'
 import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'
-import { RemoteIdpUseCaseProps } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseProps'
+import { RemoteIdpUseCaseParams } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseParams'
 import { EventEmitter } from 'stream'
 
 const makeDtoMapper = (): IDeliveryMapper<
-  IResponseModel<RemoteIdpUseCaseProps>,
+  IResponseModel<RemoteIdpUseCaseParams>,
   IResponse<RemoteIdpDeliveryProps>
 > => {
   class DtoMapperStub
     implements
       IDeliveryMapper<
-        IResponseModel<RemoteIdpUseCaseProps>,
+        IResponseModel<RemoteIdpUseCaseParams>,
         IResponse<RemoteIdpDeliveryProps>
       >
   {
     map(
-      responseModel: IResponseModel<RemoteIdpUseCaseProps>
+      responseModel: IResponseModel<RemoteIdpUseCaseParams>
     ): IResponse<RemoteIdpDeliveryProps> {
       return {
         requestId: 'valid request id',
@@ -46,7 +46,7 @@ const makeDtoMapper = (): IDeliveryMapper<
 interface SutTypes {
   eventBusStub: EventEmitter
   dtoMapperStub: IDeliveryMapper<
-    IResponseModel<RemoteIdpUseCaseProps>,
+    IResponseModel<RemoteIdpUseCaseParams>,
     IResponse<RemoteIdpDeliveryProps>
   >
   sut: GetRemoteIdpPresenter
@@ -63,7 +63,7 @@ const makeSut = (): SutTypes => {
   }
 }
 
-const fakeResponse: IResponseModel<RemoteIdpUseCaseProps> = {
+const fakeResponse: IResponseModel<RemoteIdpUseCaseParams> = {
   requestId: 'valid requestId',
   response: {
     id: 'valid entity id',

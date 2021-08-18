@@ -1,13 +1,13 @@
 import { RemoteIdp } from '@sp-proxy/entities/RemoteIdp'
 import { makeSingleSignOnServices } from '@sp-proxy/use-cases/factories/makeSingleSignOnServices'
-import { AddRemoteIdpUseCaseProps } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseProps'
+import { AddRemoteIdpUseCaseParams } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseParams'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
 import { IMapper } from '@sp-proxy/use-cases/protocols/IMapper'
 
 export class CreateRemoteIdpUseCaseMapper
-  implements IMapper<IRequestModel<AddRemoteIdpUseCaseProps>, RemoteIdp>
+  implements IMapper<IRequestModel<AddRemoteIdpUseCaseParams>, RemoteIdp>
 {
-  map(requestModel: IRequestModel<AddRemoteIdpUseCaseProps>): RemoteIdp {
+  map(requestModel: IRequestModel<AddRemoteIdpUseCaseParams>): RemoteIdp {
     return new RemoteIdp({
       name: requestModel.request.name,
       signingCertificates: requestModel.request.signingCertificates,

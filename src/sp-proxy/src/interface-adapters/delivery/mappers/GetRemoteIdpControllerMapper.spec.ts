@@ -1,7 +1,7 @@
 import { GetRemoteIdpControllerMapper } from '@sp-proxy/interface-adapters/delivery/mappers/GetRemoteIdpControllerMapper'
 import { GetByIdDTO } from '@sp-proxy/interface-adapters/protocols/GetByIdDTO'
 import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'
-import { GetRemoteIdpRequestModel } from '@sp-proxy/use-cases/io-models/GetRemoteIdpRequestModel'
+import { GetRemoteIdpUseCaseParams } from '@sp-proxy/use-cases/io-models/GetRemoteIdpUseCaseParams'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
 
 describe('GetRemoteIdpControllerMapper', () => {
@@ -12,7 +12,7 @@ describe('GetRemoteIdpControllerMapper', () => {
         id: 'entity id'
       }
     }
-    const expectedResponse: IRequestModel<GetRemoteIdpRequestModel> = {
+    const expectedResponse: IRequestModel<GetRemoteIdpUseCaseParams> = {
       requestId: fakeRequest.id,
       request: fakeRequest.body
     }

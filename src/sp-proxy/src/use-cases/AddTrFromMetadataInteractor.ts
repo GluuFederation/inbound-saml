@@ -4,10 +4,10 @@ import { RemoteIdpFromExternalParams } from '@sp-proxy/use-cases/factories/Remot
 import { TrustRelationWithDefaultsParams } from '@sp-proxy/use-cases/factories/TrustRelationWithDefaultFactory'
 import { InputBoundary } from '@sp-proxy/use-cases/io-channels/InputBoundary'
 import { OutputBoundary } from '@sp-proxy/use-cases/io-channels/OutputBoundary'
-import { AddTrFromMetadataUseCaseProps } from '@sp-proxy/use-cases/io-models/AddTrFromMetadataUseCaseProps'
+import { AddTrFromMetadataUseCaseParams } from '@sp-proxy/use-cases/io-models/AddTrFromMetadataUseCaseParams'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
 import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'
-import { SuccessResponseModel } from '@sp-proxy/use-cases/io-models/SuccessResponseModel'
+import { SuccessResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/SuccessResponseUseCaseParams'
 import { IAddTrGateway } from '@sp-proxy/use-cases/ports/IAddTrGateway'
 import { ICreateRemoteIdpGateway } from '@sp-proxy/use-cases/ports/ICreateRemoteIdpGateway'
 import { IFetchExternalDataGateway } from '@sp-proxy/use-cases/ports/IFetchExternalDataGateway'
@@ -20,7 +20,7 @@ import { IFactory } from '@sp-proxy/use-cases/protocols/IFactory'
  *  - persist new `TrustRelation` entity *
  */
 export class AddTrFromMetadataInteractor
-  implements InputBoundary<AddTrFromMetadataUseCaseProps>
+  implements InputBoundary<AddTrFromMetadataUseCaseParams>
 {
   constructor(
     // TODO: validate if TR singleSignOnService is one of the availables in RemoteIdp
@@ -36,19 +36,19 @@ export class AddTrFromMetadataInteractor
     >,
     private readonly addTrGateeay: IAddTrGateway,
     private readonly outputChannel: OutputBoundary<
-      IResponseModel<SuccessResponseModel>
+      IResponseModel<SuccessResponseUseCaseParams>
     >
   ) {}
 
   /**
    * Command to execute usecase request received by controller
    * Calls presenter with IResponseModel
-   * @param {IRequestModel<AddTrFromMetadataUseCaseProps>} request
+   * @param {IRequestModel<AddTrFromMetadataUseCaseParams>} request
    * @return {*}  {Promise<void>}
    * @memberof AddTrFromMetadataInteractor
    */
   async execute(
-    request: IRequestModel<AddTrFromMetadataUseCaseProps>
+    request: IRequestModel<AddTrFromMetadataUseCaseParams>
   ): Promise<void> {
     const externalData = await this.externalDataGateway.fetch(
       request.request.url

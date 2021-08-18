@@ -1,15 +1,17 @@
 import { OutputBoundary } from '@sp-proxy/use-cases/io-channels/OutputBoundary'
-import { SuccessResponseModel } from '@sp-proxy/use-cases/io-models/SuccessResponseModel'
+import { SuccessResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/SuccessResponseUseCaseParams'
 import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'
 import { EventEmitter } from 'stream'
 
 export class CreateRemoteIdpPresenter
-  implements OutputBoundary<IResponseModel<SuccessResponseModel>>
+  implements OutputBoundary<IResponseModel<SuccessResponseUseCaseParams>>
 {
   constructor(private readonly eventBus: EventEmitter) {}
 
   // TODO: move mapping to external class
-  async present(response: IResponseModel<SuccessResponseModel>): Promise<void> {
+  async present(
+    response: IResponseModel<SuccessResponseUseCaseParams>
+  ): Promise<void> {
     this.eventBus.emit(response.requestId, {
       requestId: response.requestId,
       body: {
