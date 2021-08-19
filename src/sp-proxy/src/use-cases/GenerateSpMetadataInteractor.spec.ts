@@ -176,4 +176,14 @@ describe('GenerateMetadataInteractor', () => {
     expect(presentSpy).toHaveBeenCalledTimes(1)
     expect(presentSpy).toHaveBeenCalledWith('valid mapped response model')
   })
+  it('should throw if config gateway throws', async () => {
+    const { sut, readConfigGatewayStub } = makeSut()
+    jest.spyOn(readConfigGatewayStub, 'read').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    await expect(sut.execute(fakeRequestModel)).rejects.toThrow()
+  })
+  it('should throw if metadata generator throws', async () => {})
+  it('should throw if mapper throws', async () => {})
+  it('should throw if presenter throws', async () => {})
 })
