@@ -1,3 +1,4 @@
+import { SpProxyConfigProps } from '@sp-proxy/entities/protocols/SpProxyConfigProps'
 import * as configEntity from '@sp-proxy/entities/SpProxyConfig'
 import { FileReadProxyConfig } from '@sp-proxy/interface-adapters/data/FileReadProxyConfig'
 import * as fs from 'fs'
@@ -58,5 +59,22 @@ describe('FileReadProxyConfig', () => {
     await sut.read()
     expect(constructorSpy).toHaveBeenCalledTimes(1)
     expect(constructorSpy).toHaveBeenCalledWith('valid parsed object')
+  })
+  it('should return the created instance', async () => {
+    jest
+      .spyOn(JSON, 'parse')
+      .mockReturnValueOnce(
+        'valid parsed object' as unknown as SpProxyConfigProps
+      )
+    jest.spyOn(fs, 'readFileSync').mockReturnValueOnce(buffer)
+    const entitymock = jest.spyOn(configEntity, 'SpProxyConfig')
+    const createdInstance = new configEntity.SpProxyConfig(
+      'valid parsed object' as unknown as SpProxyConfigProps
+    )
+    entitymock.mockImplementationOnce(
+      () => createdInstance as unknown as configEntity.SpProxyConfig
+    )
+    const sut = new FileReadProxyConfig()
+    expect(await sut.read()).toStrictEqual(createdInstance)
   })
 })
