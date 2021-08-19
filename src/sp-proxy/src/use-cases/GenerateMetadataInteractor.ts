@@ -36,6 +36,7 @@ export class GenerateSpMetadataInteractor
         privateKeyPath: spProxyConfig.props.signing.privateKeyPath
       }
     )
-    await this.metadataMapper.map(xmlData)
+    const responseModel = this.metadataMapper.map(xmlData)
+    await this.output.present(responseModel)
   }
 }

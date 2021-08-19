@@ -2,6 +2,8 @@
 // read/get proxy config entity (gateway)
 // delegates to EXTERNAL api to generate Metadata
 // maps Xmldata to response model
+// calls presenter with response model
+
 import { SpProxyConfig } from '@sp-proxy/entities/SpProxyConfig'
 import { GenerateSpMetadataInteractor } from '@sp-proxy/use-cases/GenerateMetadataInteractor'
 import { GenerateMetadataResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/GenerateMetadataResponseUseCaseParams'
@@ -163,5 +165,15 @@ describe('GenerateMetadataInteractor', () => {
     await sut.execute(fakeRequestModel)
     expect(mapSpy).toHaveBeenCalledTimes(1)
     expect(mapSpy).toHaveBeenCalledWith('valid mocked xml data')
+  })
+  it('should call presenter with mapped request model', async () => {
+    const { sut, mapperStub, presenterStub } = makeSut()
+    const presentSpy = jest.spyOn(presenterStub, 'present')
+    jest
+      .spyOn(mapperStub as any, 'map')
+      .mockReturnValueOnce('valid mapped response model')
+    await sut.execute(fakeRequestModel)
+    expect(presentSpy).toHaveBeenCalledTimes(1)
+    expect(presentSpy).toHaveBeenCalledWith('valid mapped response model')
   })
 })
