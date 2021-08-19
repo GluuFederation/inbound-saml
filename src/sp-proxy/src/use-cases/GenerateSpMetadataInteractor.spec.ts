@@ -183,7 +183,13 @@ describe('GenerateMetadataInteractor', () => {
     })
     await expect(sut.execute(fakeRequestModel)).rejects.toThrow()
   })
-  it('should throw if metadata generator throws', async () => {})
+  it('should throw if metadata generator throws', async () => {
+    const { sut, metadataGeneratorStub } = makeSut()
+    jest.spyOn(metadataGeneratorStub, 'generate').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    await expect(sut.execute(fakeRequestModel)).rejects.toThrow()
+  })
   it('should throw if mapper throws', async () => {})
   it('should throw if presenter throws', async () => {})
 })
