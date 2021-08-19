@@ -10,6 +10,10 @@ export abstract class BaseEntity<T> {
     this.props = props
   }
 
+  public get id(): string {
+    return this._id
+  }
+
   // Entities are compared based on their referential
   // equality.
   public equals(entity: BaseEntity<T>): boolean {
