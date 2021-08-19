@@ -26,7 +26,7 @@ export class GenerateSpMetadataInteractor
 
   async execute(request: IRequestModel<'GenerateSpMetadata'>): Promise<void> {
     const spProxyConfig = await this.readProxyConfigGateway.read()
-    await this.metadataGenerator.generate(
+    const xmlData = await this.metadataGenerator.generate(
       {
         certPath: spProxyConfig.props.decryption.publicCertPath,
         privateKeyPath: spProxyConfig.props.decryption.privateKeyPath
@@ -36,5 +36,6 @@ export class GenerateSpMetadataInteractor
         privateKeyPath: spProxyConfig.props.signing.privateKeyPath
       }
     )
+    await this.metadataMapper.map(xmlData)
   }
 }

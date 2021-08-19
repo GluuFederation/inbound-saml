@@ -152,7 +152,16 @@ describe('GenerateMetadataInteractor', () => {
       privateKeyPath: fakeConfigProps.signing.privateKeyPath
     }
     expect(generateSpy).toHaveBeenCalledTimes(1)
-
     expect(generateSpy).toHaveBeenCalledWith(expectedParam1, expectedParam2)
+  })
+  it('should call mapper with received xmldata', async () => {
+    const { sut, metadataGeneratorStub, mapperStub } = makeSut()
+    const mapSpy = jest.spyOn(mapperStub, 'map')
+    jest
+      .spyOn(metadataGeneratorStub, 'generate')
+      .mockResolvedValueOnce('valid mocked xml data')
+    await sut.execute(fakeRequestModel)
+    expect(mapSpy).toHaveBeenCalledTimes(1)
+    expect(mapSpy).toHaveBeenCalledWith('valid mocked xml data')
   })
 })
