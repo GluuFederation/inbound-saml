@@ -4,7 +4,7 @@ import cfg from '@sp-proxy/interface-adapters/data/config/env'
 import { readFileSync } from 'fs'
 export class FileReadProxyConfig implements IReadProxyConfigGateway {
   async read(): Promise<SpProxyConfig> {
-    readFileSync(cfg.database.file.proxyConfigPath)
+    readFileSync(cfg.database.file.proxyConfigPath).toString()
     return new SpProxyConfig({
       host: 'valid hostname',
       requestedIdentifierFormat: 'valid requestedIdentifierFormat',

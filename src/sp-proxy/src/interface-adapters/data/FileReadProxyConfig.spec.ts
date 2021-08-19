@@ -17,11 +17,22 @@ jest.mock('@sp-proxy/interface-adapters/data/config/env', () => {
 const mockedPath = '/valid/path/to/file.xml'
 
 describe('FileReadProxyConfig', () => {
+  const buffer = Buffer.from('a fake string')
   it('should call fs.readFileSync with correct params', async () => {
-    const readFileSyncSpy = jest.spyOn(fs, 'readFileSync')
+    const readFileSyncSpy = jest
+      .spyOn(fs, 'readFileSync')
+      .mockReturnValueOnce(buffer)
     const sut = new FileReadProxyConfig()
     await sut.read()
     expect(readFileSyncSpy).toHaveBeenCalledTimes(1)
     expect(readFileSyncSpy).toHaveBeenCalledWith(mockedPath)
+  })
+  it('should call toString from received buffer', async () => {
+    /// const toStringSpy = jest.spyOn(Buffer.prototype, 'toString')
+    const toStringSpy = jest.spyOn(buffer, 'toString')
+    jest.spyOn(fs, 'readFileSync').mockReturnValueOnce(buffer)
+    const sut = new FileReadProxyConfig()
+    await sut.read()
+    expect(toStringSpy).toHaveBeenCalledTimes(1)
   })
 })
