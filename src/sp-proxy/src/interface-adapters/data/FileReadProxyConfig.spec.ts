@@ -1,6 +1,8 @@
+import * as configEntity from '@sp-proxy/entities/SpProxyConfig'
 import { FileReadProxyConfig } from '@sp-proxy/interface-adapters/data/FileReadProxyConfig'
 import * as fs from 'fs'
 
+jest.mock('@sp-proxy/entities/SpProxyConfig')
 jest.mock('fs')
 // mock file persistence configuration
 jest.mock('@sp-proxy/interface-adapters/data/config/env', () => {
@@ -22,7 +24,7 @@ describe('FileReadProxyConfig', () => {
     const readFileSyncSpy = jest
       .spyOn(fs, 'readFileSync')
       .mockReturnValueOnce(buffer)
-    jest.spyOn(JSON, 'parse').mockReturnValueOnce('valid json')
+    jest.spyOn(JSON, 'parse').mockReturnValueOnce('valid parsed object')
     const sut = new FileReadProxyConfig()
     await sut.read()
     expect(readFileSyncSpy).toHaveBeenCalledTimes(1)
@@ -30,7 +32,7 @@ describe('FileReadProxyConfig', () => {
   })
   it('should call toString from received buffer', async () => {
     /// const toStringSpy = jest.spyOn(Buffer.prototype, 'toString')
-    jest.spyOn(JSON, 'parse').mockReturnValueOnce('valid json')
+    jest.spyOn(JSON, 'parse').mockReturnValueOnce('valid parsed object')
     const toStringSpy = jest.spyOn(buffer, 'toString')
     jest.spyOn(fs, 'readFileSync').mockReturnValueOnce(buffer)
     jest.spyOn(JSON, 'parse')
@@ -40,10 +42,21 @@ describe('FileReadProxyConfig', () => {
   })
   it('should call JSON Parse once with received string', async () => {
     jest.spyOn(fs, 'readFileSync').mockReturnValueOnce(buffer)
-    const parseSpy = jest.spyOn(JSON, 'parse').mockReturnValueOnce('valid json')
+    const parseSpy = jest
+      .spyOn(JSON, 'parse')
+      .mockReturnValueOnce('valid parsed object')
     const sut = new FileReadProxyConfig()
     await sut.read()
     expect(parseSpy).toHaveBeenCalledTimes(1)
     expect(parseSpy).toHaveBeenCalledWith('a fake json string config')
+  })
+  it('should create a SpProxyConfig instance with parsed object', async () => {
+    jest.spyOn(JSON, 'parse').mockReturnValueOnce('valid parsed object')
+    jest.spyOn(fs, 'readFileSync').mockReturnValueOnce(buffer)
+    const constructorSpy = jest.spyOn(configEntity, 'SpProxyConfig')
+    const sut = new FileReadProxyConfig()
+    await sut.read()
+    expect(constructorSpy).toHaveBeenCalledTimes(1)
+    expect(constructorSpy).toHaveBeenCalledWith('valid parsed object')
   })
 })
