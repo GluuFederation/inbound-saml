@@ -2,8 +2,6 @@
 // read/get proxy config entity (gateway)
 // delegates to EXTERNAL api to generate Metadata
 // maps Xmldata to response model
-
-import { SpProxyConfigProps } from '@sp-proxy/entities/protocols/SpProxyConfigProps'
 import { SpProxyConfig } from '@sp-proxy/entities/SpProxyConfig'
 import { GenerateSpMetadataInteractor } from '@sp-proxy/use-cases/GenerateMetadataInteractor'
 import { GenerateMetadataResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/GenerateMetadataResponseUseCaseParams'
@@ -16,25 +14,26 @@ import { CertKeySetType } from '@sp-proxy/use-cases/protocols/CertKeySetType'
 import { IMapper } from '@sp-proxy/use-cases/protocols/IMapper'
 import { IXmlData } from '@sp-proxy/use-cases/protocols/IXmlData'
 
+const fakeConfigProps = {
+  host: 'valid hostname',
+  requestedIdentifierFormat: 'valid reqyestedIdentifierFormat',
+  authnContextIdentifierFormat: 'valid authnContextIdentifierFormat',
+  skipRequestCompression: false,
+  decryption: {
+    publicCertPath: '/valid/path/to/decryption/cert.crt',
+    privateKeyPath: '/valid/path/to/decryption/private.pem'
+  },
+  signing: {
+    publicCertPath: '/valid/path/to/signing/cert.crt',
+    privateKeyPath: '/valid/path/to/signing/private.pem'
+  }
+}
+
 // present response model with generated metadata
 const makeConfigGateway = (): IReadProxyConfigGateway => {
   class ConfigGatewayStub implements IReadProxyConfigGateway {
     async read(): Promise<SpProxyConfig> {
-      const validProps: SpProxyConfigProps = {
-        host: 'valid hostname',
-        requestedIdentifierFormat: 'valid reqyestedIdentifierFormat',
-        authnContextIdentifierFormat: 'valid authnContextIdentifierFormat',
-        skipRequestCompression: false,
-        decryption: {
-          publicCertPath: '/valid/path/to/decryption/cert.crt',
-          privateKeyPath: '/valid/path/to/decryption/private.pem'
-        },
-        signing: {
-          publicCertPath: '/valid/path/to/signing/cert.crt',
-          privateKeyPath: '/valid/path/to/signing/private.pem'
-        }
-      }
-      return new SpProxyConfig(validProps)
+      return new SpProxyConfig(fakeConfigProps)
     }
   }
   return new ConfigGatewayStub()
@@ -135,5 +134,25 @@ describe('GenerateMetadataInteractor', () => {
     await sut.execute(fakeRequestModel)
     expect(readSpy).toHaveBeenCalledTimes(1)
     expect(readSpy).toHaveBeenCalledWith()
+  })
+  it('should call metadata generator with correct params', async () => {
+    const { sut, metadataGeneratorStub, readConfigGatewayStub } = makeSut()
+    const generateSpy = jest.spyOn(metadataGeneratorStub, 'generate')
+    const spProxyConfigMock = new SpProxyConfig(fakeConfigProps)
+    jest
+      .spyOn(readConfigGatewayStub, 'read')
+      .mockResolvedValueOnce(spProxyConfigMock)
+    await sut.execute(fakeRequestModel)
+    const expectedParam1 = {
+      certPath: fakeConfigProps.decryption.publicCertPath,
+      privateKeyPath: fakeConfigProps.decryption.privateKeyPath
+    }
+    const expectedParam2 = {
+      certPath: fakeConfigProps.signing.publicCertPath,
+      privateKeyPath: fakeConfigProps.signing.privateKeyPath
+    }
+    expect(generateSpy).toHaveBeenCalledTimes(1)
+
+    expect(generateSpy).toHaveBeenCalledWith(expectedParam1, expectedParam2)
   })
 })

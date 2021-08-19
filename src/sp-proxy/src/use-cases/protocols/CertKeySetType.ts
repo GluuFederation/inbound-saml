@@ -1,4 +1,4 @@
 export interface CertKeySetType {
-  cert: string
-  privateKey: string
+  certPath: string
+  privateKeyPath: string
 }
