@@ -190,6 +190,12 @@ describe('GenerateMetadataInteractor', () => {
     })
     await expect(sut.execute(fakeRequestModel)).rejects.toThrow()
   })
-  it('should throw if mapper throws', async () => {})
+  it('should throw if mapper throws', async () => {
+    const { sut, mapperStub } = makeSut()
+    jest.spyOn(mapperStub, 'map').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    await expect(sut.execute(fakeRequestModel)).rejects.toThrow()
+  })
   it('should throw if presenter throws', async () => {})
 })
