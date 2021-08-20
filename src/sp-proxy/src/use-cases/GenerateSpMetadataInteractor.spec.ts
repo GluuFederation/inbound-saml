@@ -115,12 +115,12 @@ const fakeRequestParams: IMetadataGeneratorParams = {
   authnContextIdentifierFormat: 'valid authnContextIdentifierFormat',
   skipRequestCompression: false,
   decryption: {
-    publicCertPath: '/valid/path/to/decryption/cert.crt',
-    privateKeyPath: '/valid/path/to/decryption/private.pem'
+    publicCert: 'valid certificate as string with no spaces',
+    privateKey: 'valid key as string with no spaces'
   },
   signing: {
-    publicCertPath: '/valid/path/to/signing/cert.crt',
-    privateKeyPath: '/valid/path/to/signing/private.pem'
+    publicCert: 'valid certificate as string with no spaces',
+    privateKey: 'valid key as string with no spaces'
   }
 }
 
