@@ -29,10 +29,24 @@ export class GenerateMetadataTransformer
   async transform(
     spProxyConfigProps: SpProxyConfigProps
   ): Promise<IMetadataGeneratorParams> {
-    await this.loader.load(spProxyConfigProps.decryption.publicCertPath)
-    await this.loader.load(spProxyConfigProps.decryption.privateKeyPath)
-    await this.loader.load(spProxyConfigProps.signing.publicCertPath)
-    await this.loader.load(spProxyConfigProps.signing.privateKeyPath)
+    await this.formatter.format(
+      await this.loader.load(spProxyConfigProps.decryption.publicCertPath)
+    )
+    if (spProxyConfigProps.decryption.privateKeyPath != null) {
+      await this.formatter.format(
+        await this.loader.load(spProxyConfigProps.decryption.privateKeyPath)
+      )
+    }
+    if (spProxyConfigProps.signing?.publicCertPath != null) {
+      await this.formatter.format(
+        await this.loader.load(spProxyConfigProps.signing?.publicCertPath)
+      )
+    }
+    if (spProxyConfigProps.signing?.privateKeyPath != null) {
+      await this.formatter.format(
+        await this.loader.load(spProxyConfigProps.signing?.privateKeyPath)
+      )
+    }
     return {
       host: '',
       requestedIdentifierFormat: '',

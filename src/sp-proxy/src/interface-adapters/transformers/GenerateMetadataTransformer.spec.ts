@@ -1,6 +1,7 @@
 // load certificates string for each filepaths in configuration props
 // format strings to passport config requirements (online, without spaces, etc)
 
+import { SpProxyConfigProps } from '@sp-proxy/entities/protocols/SpProxyConfigProps'
 import { IKeyCertLoader } from '@sp-proxy/interface-adapters/protocols/IKeyCertLoader'
 import { IKeyCertFormatter } from '@sp-proxy/interface-adapters/protocols/IKeySetFormatter'
 import { GenerateMetadataTransformer } from '@sp-proxy/interface-adapters/transformers/GenerateMetadataTransformer'
@@ -21,7 +22,7 @@ import { GenerateMetadataTransformer } from '@sp-proxy/interface-adapters/transf
 //   }
 // }
 
-const fakeConfigProps = {
+const fakeConfigProps: SpProxyConfigProps = {
   host: 'valid hostname',
   requestedIdentifierFormat: 'valid reqyestedIdentifierFormat',
   authnContextIdentifierFormat: 'valid authnContextIdentifierFormat',
@@ -39,7 +40,7 @@ const fakeConfigProps = {
 const makeLoader = (): IKeyCertLoader => {
   class LoaderStub implements IKeyCertLoader {
     async load(path: string): Promise<string> {
-      return 'stubbed loaded key or cert'
+      return `stubbed loaded key or cert for ${path}`
     }
   }
   return new LoaderStub()
@@ -83,7 +84,46 @@ describe('GenerateMetadataTransfromer', () => {
     expect(loadSpy).toHaveBeenCalledWith(
       fakeConfigProps.decryption.privateKeyPath
     )
-    expect(loadSpy).toHaveBeenCalledWith(fakeConfigProps.signing.publicCertPath)
-    expect(loadSpy).toHaveBeenCalledWith(fakeConfigProps.signing.privateKeyPath)
+    expect(loadSpy).toHaveBeenCalledWith(
+      fakeConfigProps.decryption.publicCertPath
+    )
+    expect(loadSpy).toHaveBeenCalledWith(
+      fakeConfigProps.signing?.publicCertPath
+    )
+    expect(loadSpy).toHaveBeenCalledWith(
+      fakeConfigProps.signing?.privateKeyPath
+    )
+  })
+  it('should call formatter for each cert/key received from loader', async () => {
+    const { sut, loaderStub, formatterStub } = makeSut()
+    const formatSpy = jest.spyOn(formatterStub, 'format')
+    jest
+      .spyOn(loaderStub, 'load')
+      .mockResolvedValueOnce('loaded mocked value 1')
+      .mockResolvedValueOnce('loaded mocked value 2')
+      .mockResolvedValueOnce('loaded mocked value 3')
+      .mockResolvedValueOnce('loaded mocked value 4')
+    await sut.transform(fakeConfigProps)
+    expect(formatSpy).toHaveBeenCalledTimes(4)
+    expect(formatSpy).toHaveBeenCalledWith('loaded mocked value 1')
+    expect(formatSpy).toHaveBeenCalledWith('loaded mocked value 2')
+    expect(formatSpy).toHaveBeenCalledWith('loaded mocked value 3')
+    expect(formatSpy).toHaveBeenCalledWith('loaded mocked value 4')
+  })
+  it('should call loader 3 times', async () => {
+    const propsCopy = Object.assign({}, fakeConfigProps)
+    delete propsCopy.signing?.privateKeyPath
+    const { sut, loaderStub } = makeSut()
+    const loadspy = jest.spyOn(loaderStub, 'load')
+    await sut.transform(propsCopy)
+    expect(loadspy).toHaveBeenCalledTimes(3)
+  })
+  it('should call loader 2 times', async () => {
+    const propsCopy = Object.assign({}, fakeConfigProps)
+    delete propsCopy.signing
+    const { sut, loaderStub } = makeSut()
+    const loadspy = jest.spyOn(loaderStub, 'load')
+    await sut.transform(propsCopy)
+    expect(loadspy).toHaveBeenCalledTimes(2)
   })
 })
