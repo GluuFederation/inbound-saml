@@ -3,12 +3,20 @@ import { IReadProxyConfigGateway } from '@sp-proxy/use-cases/ports/IReadProxyCon
 import cfg from '@sp-proxy/interface-adapters/data/config/env'
 import { readFileSync } from 'fs'
 import { SpProxyConfigProps } from '@sp-proxy/entities/protocols/SpProxyConfigProps'
+import { PersistenceError } from '@sp-proxy/interface-adapters/data/errors/PersistenceError'
 export class FileReadProxyConfig implements IReadProxyConfigGateway {
   async read(): Promise<SpProxyConfig> {
     // 🙏🏻 🙏🏻 🙏🏻
-    const parsedFromFile: SpProxyConfigProps = JSON.parse(
-      readFileSync(cfg.database.file.proxyConfigPath).toString()
-    )
-    return new SpProxyConfig(parsedFromFile)
+    try {
+      const parsedProps: SpProxyConfigProps = JSON.parse(
+        readFileSync(cfg.database.file.proxyConfigPath).toString()
+      )
+      return new SpProxyConfig(parsedProps)
+    } catch (err) {
+      const error = err as Error
+      throw new PersistenceError(
+        `error fetching configuration from file: ${error.name} - ${error.message}`
+      )
+    }
   }
 }

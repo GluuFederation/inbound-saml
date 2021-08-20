@@ -1,5 +1,6 @@
 import { SpProxyConfigProps } from '@sp-proxy/entities/protocols/SpProxyConfigProps'
 import * as configEntity from '@sp-proxy/entities/SpProxyConfig'
+import { PersistenceError } from '@sp-proxy/interface-adapters/data/errors/PersistenceError'
 import { FileReadProxyConfig } from '@sp-proxy/interface-adapters/data/FileReadProxyConfig'
 import * as fs from 'fs'
 
@@ -76,5 +77,12 @@ describe('FileReadProxyConfig', () => {
     )
     const sut = new FileReadProxyConfig()
     expect(await sut.read()).toStrictEqual(createdInstance)
+  })
+  it('should throw PersistenceError if fs throws', async () => {
+    jest.spyOn(fs, 'readFileSync').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const sut = new FileReadProxyConfig()
+    await expect(sut.read()).rejects.toThrow(PersistenceError)
   })
 })
