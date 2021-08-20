@@ -26,16 +26,22 @@ export class GenerateSpMetadataInteractor
 
   async execute(request: IRequestModel<'GenerateSpMetadata'>): Promise<void> {
     const spProxyConfig = await this.readProxyConfigGateway.read()
-    const xmlData = await this.metadataGenerator.generate(
-      {
-        certPath: spProxyConfig.props.decryption.publicCertPath,
+    // TODO: create mapper class and inject
+    const xmlData = await this.metadataGenerator.generate({
+      host: spProxyConfig.props.host,
+      requestedIdentifierFormat: spProxyConfig.props.requestedIdentifierFormat,
+      authnContextIdentifierFormat:
+        spProxyConfig.props.authnContextIdentifierFormat,
+      skipRequestCompression: spProxyConfig.props.skipRequestCompression,
+      decryption: {
+        publicCertPath: spProxyConfig.props.decryption.publicCertPath,
         privateKeyPath: spProxyConfig.props.decryption.privateKeyPath
       },
-      {
-        certPath: spProxyConfig.props.signing.publicCertPath,
+      signing: {
+        publicCertPath: spProxyConfig.props.signing.publicCertPath,
         privateKeyPath: spProxyConfig.props.signing.privateKeyPath
       }
-    )
+    })
     const responseModel = this.metadataMapper.map(xmlData)
     await this.output.present(responseModel)
   }

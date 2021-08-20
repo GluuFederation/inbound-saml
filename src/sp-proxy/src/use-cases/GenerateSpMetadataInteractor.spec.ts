@@ -9,10 +9,12 @@ import { GenerateSpMetadataInteractor } from '@sp-proxy/use-cases/GenerateMetada
 import { GenerateMetadataResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/GenerateMetadataResponseUseCaseParams'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
 import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'
-import { IMetadataGenerator } from '@sp-proxy/use-cases/ports/IMetadataGenerator'
+import {
+  IMetadataGenerator,
+  IMetadataGeneratorParams
+} from '@sp-proxy/use-cases/ports/IMetadataGenerator'
 import { IReadProxyConfigGateway } from '@sp-proxy/use-cases/ports/IReadProxyConfigGateway'
 import { OutputBoundary } from '@sp-proxy/use-cases/ports/OutputBoundary'
-import { CertKeySetType } from '@sp-proxy/use-cases/protocols/CertKeySetType'
 import { IMapper } from '@sp-proxy/use-cases/protocols/IMapper'
 import { IXmlData } from '@sp-proxy/use-cases/protocols/IXmlData'
 
@@ -42,10 +44,7 @@ const makeConfigGateway = (): IReadProxyConfigGateway => {
 
 const makeMetadataGenerator = (): IMetadataGenerator => {
   class MetadataGeneratorStub implements IMetadataGenerator {
-    async generate(
-      decryptionKeySet?: CertKeySetType | undefined,
-      signingKeySet?: CertKeySetType | undefined
-    ): Promise<IXmlData> {
+    async generate(params: IMetadataGeneratorParams): Promise<IXmlData> {
       return 'valid xml mock'
     }
   }
@@ -140,20 +139,27 @@ describe('GenerateMetadataInteractor', () => {
     const { sut, metadataGeneratorStub, readConfigGatewayStub } = makeSut()
     const generateSpy = jest.spyOn(metadataGeneratorStub, 'generate')
     const spProxyConfigMock = new SpProxyConfig(fakeConfigProps)
+    const expectedParams: IMetadataGeneratorParams = {
+      host: fakeConfigProps.host,
+      requestedIdentifierFormat: fakeConfigProps.requestedIdentifierFormat,
+      authnContextIdentifierFormat:
+        fakeConfigProps.authnContextIdentifierFormat,
+      skipRequestCompression: fakeConfigProps.skipRequestCompression,
+      decryption: {
+        publicCertPath: fakeConfigProps.decryption.publicCertPath,
+        privateKeyPath: fakeConfigProps.decryption.privateKeyPath
+      },
+      signing: {
+        publicCertPath: fakeConfigProps.signing.publicCertPath,
+        privateKeyPath: fakeConfigProps.signing.privateKeyPath
+      }
+    }
     jest
       .spyOn(readConfigGatewayStub, 'read')
       .mockResolvedValueOnce(spProxyConfigMock)
     await sut.execute(fakeRequestModel)
-    const expectedParam1 = {
-      certPath: fakeConfigProps.decryption.publicCertPath,
-      privateKeyPath: fakeConfigProps.decryption.privateKeyPath
-    }
-    const expectedParam2 = {
-      certPath: fakeConfigProps.signing.publicCertPath,
-      privateKeyPath: fakeConfigProps.signing.privateKeyPath
-    }
     expect(generateSpy).toHaveBeenCalledTimes(1)
-    expect(generateSpy).toHaveBeenCalledWith(expectedParam1, expectedParam2)
+    expect(generateSpy).toHaveBeenCalledWith(expectedParams)
   })
   it('should call mapper with received xmldata', async () => {
     const { sut, metadataGeneratorStub, mapperStub } = makeSut()
