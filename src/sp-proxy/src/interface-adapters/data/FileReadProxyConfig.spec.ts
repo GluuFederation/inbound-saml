@@ -85,4 +85,7 @@ describe('FileReadProxyConfig', () => {
     const sut = new FileReadProxyConfig()
     await expect(sut.read()).rejects.toThrow(PersistenceError)
   })
+  // TODO: throws if toString throws
+  // throw if JSON throws
+  // throw if constructor throws
 })
