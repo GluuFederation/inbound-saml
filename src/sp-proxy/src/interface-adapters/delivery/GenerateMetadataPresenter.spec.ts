@@ -91,4 +91,11 @@ describe('GenerateMetadataPresenter', () => {
     })
     await expect(sut.present(fakeResponseModel)).rejects.toThrow()
   })
+  it('should throw if eventBus throws', async () => {
+    const { eventBusStub, sut } = makeSut()
+    jest.spyOn(eventBusStub, 'emit').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    await expect(sut.present(fakeResponseModel)).rejects.toThrow()
+  })
 })
