@@ -33,7 +33,8 @@ describe('MetadataGeneratorSpec', () => {
       authnContext: [fakeRequestParams.authnContextIdentifierFormat],
       skipRequestCompression: fakeRequestParams.skipRequestCompression,
       cert: expect.any(String),
-      decryptionPvk: fakeRequestParams.decryption.privateKey
+      decryptionPvk: fakeRequestParams.decryption.privateKey,
+      privateKey: fakeRequestParams.signing?.privateKey
     }
     await sut.generate(fakeRequestParams)
     expect(strategySpy).toHaveBeenCalledTimes(1)

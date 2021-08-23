@@ -14,7 +14,8 @@ export class MetadataGenerator implements IMetadataGenerator {
         authnContext: [params.authnContextIdentifierFormat],
         skipRequestCompression: params.skipRequestCompression,
         cert: 'dummy value',
-        decryptionPvk: params.decryption.privateKey
+        decryptionPvk: params.decryption.privateKey,
+        privateKey: params.signing?.privateKey
       },
       (profile: Profile | null | undefined, done: VerifiedCallback) => {
         return done(null)
