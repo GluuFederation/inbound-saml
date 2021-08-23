@@ -79,4 +79,11 @@ describe('MetadataGeneratorSpec', () => {
       'valid mocked generated metadata'
     )
   })
+  it('should throw if strategy creation throws', async () => {
+    jest.spyOn(passportSaml, 'Strategy').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const sut = new MetadataGenerator()
+    await expect(sut.generate(fakeRequestParams)).rejects.toThrow()
+  })
 })
