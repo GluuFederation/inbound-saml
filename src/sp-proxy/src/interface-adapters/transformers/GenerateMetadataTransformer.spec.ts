@@ -142,7 +142,6 @@ describe('GenerateMetadataTransfromer', () => {
       .mockResolvedValueOnce(formatedValues[3])
 
     const result = await sut.transform(fakeConfigProps)
-    console.log(result)
     const keyAndCerts = []
     keyAndCerts.push(result.decryption.privateKey)
     keyAndCerts.push(result.decryption.publicCert)
