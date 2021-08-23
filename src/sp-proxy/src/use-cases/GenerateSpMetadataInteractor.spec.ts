@@ -59,20 +59,14 @@ const makeMetadataGenerator = (): IMetadataGenerator => {
 
 const makeMapper = (): IMapper<
   IXmlData,
-  IResponseModel<GenerateMetadataResponseUseCaseParams>
+  GenerateMetadataResponseUseCaseParams
 > => {
   class MapperStub
-    implements
-      IMapper<IXmlData, IResponseModel<GenerateMetadataResponseUseCaseParams>>
+    implements IMapper<IXmlData, GenerateMetadataResponseUseCaseParams>
   {
-    map(
-      mappedFrom: IXmlData
-    ): IResponseModel<GenerateMetadataResponseUseCaseParams> {
+    map(mappedFrom: IXmlData): GenerateMetadataResponseUseCaseParams {
       return {
-        requestId: 'valid mapped id',
-        response: {
-          xmldata: 'valid mapped xml data'
-        }
+        xmldata: 'valid mapped xml data'
       }
     }
   }
@@ -100,10 +94,7 @@ interface SutTypes {
   readConfigGatewayStub: IReadProxyConfigGateway
   transformerStub: ITransformer<SpProxyConfigProps, IMetadataGeneratorParams>
   metadataGeneratorStub: IMetadataGenerator
-  mapperStub: IMapper<
-    IXmlData,
-    IResponseModel<GenerateMetadataResponseUseCaseParams>
-  >
+  mapperStub: IMapper<IXmlData, GenerateMetadataResponseUseCaseParams>
   presenterStub: OutputBoundary<
     IResponseModel<GenerateMetadataResponseUseCaseParams>
   >
@@ -212,10 +203,13 @@ describe('GenerateMetadataInteractor', () => {
     const presentSpy = jest.spyOn(presenterStub, 'present')
     jest
       .spyOn(mapperStub as any, 'map')
-      .mockReturnValueOnce('valid mapped response model')
+      .mockReturnValueOnce('valid mapped useCase params')
     await sut.execute(fakeRequestModel)
     expect(presentSpy).toHaveBeenCalledTimes(1)
-    expect(presentSpy).toHaveBeenCalledWith('valid mapped response model')
+    expect(presentSpy).toHaveBeenCalledWith({
+      requestId: fakeRequestModel.requestId,
+      response: 'valid mapped useCase params'
+    })
   })
   it('should throw if config gateway throws', async () => {
     const { sut, readConfigGatewayStub } = makeSut()

@@ -26,7 +26,7 @@ export class GenerateSpMetadataInteractor
     private readonly metadataGenerator: IMetadataGenerator,
     private readonly metadataMapper: IMapper<
       IXmlData,
-      IResponseModel<GenerateMetadataResponseUseCaseParams>
+      GenerateMetadataResponseUseCaseParams
     >,
     private readonly output: OutputBoundary<
       IResponseModel<GenerateMetadataResponseUseCaseParams>
@@ -39,7 +39,10 @@ export class GenerateSpMetadataInteractor
       spProxyConfig.props
     )
     const xmlData = await this.metadataGenerator.generate(generatorParams)
-    const responseModel = this.metadataMapper.map(xmlData)
-    await this.output.present(responseModel)
+    const useCaseProps = this.metadataMapper.map(xmlData)
+    await this.output.present({
+      requestId: request.requestId,
+      response: useCaseProps
+    })
   }
 }
