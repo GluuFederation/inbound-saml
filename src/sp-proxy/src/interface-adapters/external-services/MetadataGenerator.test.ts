@@ -47,4 +47,10 @@ describe('Metadatagenerator - integration', () => {
       '<AssertionConsumerService index="1" isDefault="true" Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://my.super.cool/callback"/>'
     expect(result).toContain(expected)
   })
+  it('should contain valid name identifier', async () => {
+    const sut = new MetadataGenerator()
+    const result = await sut.generate(validRequest)
+    const expected = `<NameIDFormat>${validRequest.requestedIdentifierFormat}</NameIDFormat>`
+    expect(result).toContain(expected)
+  })
 })
