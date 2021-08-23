@@ -96,4 +96,11 @@ describe('GenerateMetadataController', () => {
     })
     await expect(sut.handle(fakeRequestDto)).rejects.toThrow()
   })
+  it('should throw if interactor throws', async () => {
+    const { sut, interactorStub } = makeSut()
+    jest.spyOn(interactorStub, 'execute').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    await expect(sut.handle(fakeRequestDto)).rejects.toThrow()
+  })
 })
