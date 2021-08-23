@@ -1,7 +1,3 @@
-// .replace(/(\r\n|\n|\r)/gm, '')
-// .replace('-----BEGIN CERTIFICATE-----', '')
-// .replace('-----END CERTIFICATE-----', '')
-
 import { GenerateMetadataFormatter } from '@sp-proxy/interface-adapters/utils/GenerateMetadataFormatter'
 
 describe('GenerateMetadataTransformer', () => {
