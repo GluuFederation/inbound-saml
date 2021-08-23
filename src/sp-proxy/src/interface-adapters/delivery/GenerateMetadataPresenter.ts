@@ -20,6 +20,6 @@ export class GenerateMetadataPresenter
   async present(
     responseModel: IResponseModel<GenerateMetadataResponseUseCaseParams>
   ): Promise<void> {
-    this.mapper.map(responseModel)
+    this.eventBus.emit(responseModel.requestId, this.mapper.map(responseModel))
   }
 }

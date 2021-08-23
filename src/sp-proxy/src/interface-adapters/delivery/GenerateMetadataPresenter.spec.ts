@@ -71,4 +71,17 @@ describe('GenerateMetadataPresenter', () => {
     expect(mapSpy).toHaveBeenCalledTimes(1)
     expect(mapSpy).toHaveBeenCalledWith(fakeResponseModel)
   })
+  it('should call eventbus emit with returned dto', async () => {
+    const { sut, eventBusStub, mapperStub } = makeSut()
+    const emitSpy = jest.spyOn(eventBusStub, 'emit')
+    jest
+      .spyOn(mapperStub as any, 'map')
+      .mockReturnValueOnce('mapped response dto')
+    await sut.present(fakeResponseModel)
+    expect(emitSpy).toHaveBeenCalledTimes(1)
+    expect(emitSpy).toHaveBeenCalledWith(
+      fakeResponseModel.requestId,
+      'mapped response dto'
+    )
+  })
 })
