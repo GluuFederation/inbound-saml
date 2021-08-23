@@ -2,12 +2,16 @@ import { MetadataGenerator } from '@sp-proxy/interface-adapters/external-service
 import { IMetadataGeneratorParams } from '@sp-proxy/use-cases/ports/IMetadataGenerator'
 import { readFileSync } from 'fs'
 
-const loadedCert = readFileSync(
-  process.cwd() + '/src/testdata/cert.pem'
-).toString()
-const loadedPvk = readFileSync(
-  process.cwd() + '/src/testdata/key.pem'
-).toString()
+const loadedCert = readFileSync(process.cwd() + '/src/testdata/cert.pem')
+  .toString()
+  .replace(/(\r\n|\n|\r)/gm, '')
+  .replace('-----BEGIN CERTIFICATE-----', '')
+  .replace('-----END CERTIFICATE-----', '')
+const loadedPvk = readFileSync(process.cwd() + '/src/testdata/key.pem')
+  .toString()
+  .replace(/(\r\n|\n|\r)/gm, '')
+  .replace('-----BEGIN ENCRYPTED PRIVATE KEY-----', '')
+  .replace('-----END ENCRYPTED PRIVATE KEY-----', '')
 
 const validRequest: IMetadataGeneratorParams = {
   callbackUrl: 'https://my.super.cool/callback',
@@ -24,8 +28,9 @@ const validRequest: IMetadataGeneratorParams = {
   }
 }
 describe('Metadatagenerator - integration', () => {
-  it('should return expected value', async () => {
+  it('response should contain cert', async () => {
     const sut = new MetadataGenerator()
-    console.log(await sut.generate(validRequest))
+    const result = await sut.generate(validRequest)
+    expect(result).toContain(loadedCert)
   })
 })
