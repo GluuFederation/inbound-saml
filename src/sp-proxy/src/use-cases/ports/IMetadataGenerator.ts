@@ -1,17 +1,17 @@
 import { IXmlData } from '@sp-proxy/use-cases/protocols/IXmlData'
 
-interface ICertKeySetPath {
-  publicCertPath: string
-  privateKeyPath?: string
+interface ICertKeySet {
+  publicCert: string
+  privateKey: string
 }
 
 export interface IMetadataGeneratorParams {
-  host: string
+  callbackUrl: string
   requestedIdentifierFormat: string
   authnContextIdentifierFormat: string
   skipRequestCompression: boolean
-  decryption: ICertKeySetPath
-  signing: ICertKeySetPath
+  decryption: ICertKeySet
+  signing?: ICertKeySet
 }
 
 export interface IMetadataGenerator {

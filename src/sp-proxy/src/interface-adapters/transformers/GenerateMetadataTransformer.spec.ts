@@ -110,20 +110,46 @@ describe('GenerateMetadataTransfromer', () => {
     expect(formatSpy).toHaveBeenCalledWith('loaded mocked value 3')
     expect(formatSpy).toHaveBeenCalledWith('loaded mocked value 4')
   })
-  it('should call loader 3 times', async () => {
-    const propsCopy = Object.assign({}, fakeConfigProps)
-    delete propsCopy.signing?.privateKeyPath
-    const { sut, loaderStub } = makeSut()
-    const loadspy = jest.spyOn(loaderStub, 'load')
-    await sut.transform(propsCopy)
-    expect(loadspy).toHaveBeenCalledTimes(3)
-  })
-  it('should call loader 2 times', async () => {
+  it('should call loader 2 times if no signing', async () => {
     const propsCopy = Object.assign({}, fakeConfigProps)
     delete propsCopy.signing
     const { sut, loaderStub } = makeSut()
     const loadspy = jest.spyOn(loaderStub, 'load')
     await sut.transform(propsCopy)
     expect(loadspy).toHaveBeenCalledTimes(2)
+  })
+  it('should call formatter 2 times no signing', async () => {
+    const propsCopy = Object.assign({}, fakeConfigProps)
+    delete propsCopy.signing
+    const { sut, formatterStub } = makeSut()
+    const formatSpy = jest.spyOn(formatterStub, 'format')
+    await sut.transform(propsCopy)
+    expect(formatSpy).toHaveBeenCalledTimes(2)
+  })
+  it('should return params with formatted strings', async () => {
+    const { sut, formatterStub } = makeSut()
+    const formatedValues = [
+      'formated value 1',
+      'formated value 2',
+      'formated value 3',
+      'formated value 4'
+    ]
+    jest
+      .spyOn(formatterStub, 'format')
+      .mockResolvedValueOnce(formatedValues[0])
+      .mockResolvedValueOnce(formatedValues[1])
+      .mockResolvedValueOnce(formatedValues[2])
+      .mockResolvedValueOnce(formatedValues[3])
+
+    const result = await sut.transform(fakeConfigProps)
+    console.log(result)
+    const keyAndCerts = []
+    keyAndCerts.push(result.decryption.privateKey)
+    keyAndCerts.push(result.decryption.publicCert)
+    keyAndCerts.push(result.signing?.privateKey)
+    keyAndCerts.push(result.signing?.publicCert)
+
+    // eslint-disable-next-line @typescript-eslint/require-array-sort-compare
+    expect(keyAndCerts.sort()).toEqual(formatedValues.sort())
   })
 })

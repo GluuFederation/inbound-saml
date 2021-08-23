@@ -110,7 +110,7 @@ interface SutTypes {
 }
 
 const fakeRequestParams: IMetadataGeneratorParams = {
-  host: 'valid hostname',
+  callbackUrl: 'valid hostname',
   requestedIdentifierFormat: 'valid reqyestedIdentifierFormat',
   authnContextIdentifierFormat: 'valid authnContextIdentifierFormat',
   skipRequestCompression: false,

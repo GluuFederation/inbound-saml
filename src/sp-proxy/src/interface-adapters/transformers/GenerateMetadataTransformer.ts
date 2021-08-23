@@ -26,40 +26,40 @@ export class GenerateMetadataTransformer
     private readonly formatter: IKeyCertFormatter
   ) {}
 
+  // SP decryption pvk and cert is mandatory to generate valid metadata
+  // Signing pvk and certs are not mandatory, but if exists, both should exist
   async transform(
     spProxyConfigProps: SpProxyConfigProps
   ): Promise<IMetadataGeneratorParams> {
-    await this.formatter.format(
+    const decryptionCert = await this.formatter.format(
       await this.loader.load(spProxyConfigProps.decryption.publicCertPath)
     )
-    if (spProxyConfigProps.decryption.privateKeyPath != null) {
-      await this.formatter.format(
-        await this.loader.load(spProxyConfigProps.decryption.privateKeyPath)
-      )
-    }
-    if (spProxyConfigProps.signing?.publicCertPath != null) {
-      await this.formatter.format(
-        await this.loader.load(spProxyConfigProps.signing?.publicCertPath)
-      )
-    }
-    if (spProxyConfigProps.signing?.privateKeyPath != null) {
-      await this.formatter.format(
-        await this.loader.load(spProxyConfigProps.signing?.privateKeyPath)
-      )
-    }
-    return {
-      host: '',
-      requestedIdentifierFormat: '',
-      authnContextIdentifierFormat: '',
-      skipRequestCompression: false,
+    const decryptionPvk = await this.formatter.format(
+      await this.loader.load(spProxyConfigProps.decryption.privateKeyPath)
+    )
+
+    const generatorParams: IMetadataGeneratorParams = {
+      callbackUrl: `https://${spProxyConfigProps.host}/inbound-saml/sp/callback`,
+      requestedIdentifierFormat: spProxyConfigProps.requestedIdentifierFormat,
+      authnContextIdentifierFormat:
+        spProxyConfigProps.authnContextIdentifierFormat,
+      skipRequestCompression: spProxyConfigProps.skipRequestCompression,
       decryption: {
-        publicCert: '',
-        privateKey: ''
-      },
-      signing: {
-        publicCert: '',
-        privateKey: ''
+        publicCert: decryptionCert,
+        privateKey: decryptionPvk
       }
     }
+    // if signing exists, add to params
+    if (spProxyConfigProps.signing != null) {
+      generatorParams.signing = {
+        publicCert: await this.formatter.format(
+          await this.loader.load(spProxyConfigProps.signing.publicCertPath)
+        ),
+        privateKey: await this.formatter.format(
+          await this.loader.load(spProxyConfigProps.signing.privateKeyPath)
+        )
+      }
+    }
+    return generatorParams
   }
 }
