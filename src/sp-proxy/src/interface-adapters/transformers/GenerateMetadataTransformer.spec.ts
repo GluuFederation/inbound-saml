@@ -5,22 +5,6 @@ import { SpProxyConfigProps } from '@sp-proxy/entities/protocols/SpProxyConfigPr
 import { IKeyCertLoader } from '@sp-proxy/interface-adapters/protocols/IKeyCertLoader'
 import { IKeyCertFormatter } from '@sp-proxy/interface-adapters/protocols/IKeySetFormatter'
 import { GenerateMetadataTransformer } from '@sp-proxy/interface-adapters/transformers/GenerateMetadataTransformer'
-// import { IMetadataGeneratorParams } from '@sp-proxy/use-cases/ports/IMetadataGenerator'
-
-// const fakeRequestParams: IMetadataGeneratorParams = {
-//   host: 'valid hostname',
-//   requestedIdentifierFormat: 'valid reqyestedIdentifierFormat',
-//   authnContextIdentifierFormat: 'valid authnContextIdentifierFormat',
-//   skipRequestCompression: false,
-//   decryption: {
-//     publicCert: 'valid certificate as string with no spaces',
-//     privateKey: 'valid key as string with no spaces'
-//   },
-//   signing: {
-//     publicCert: 'valid certificate as string with no spaces',
-//     privateKey: 'valid key as string with no spaces'
-//   }
-// }
 
 const fakeConfigProps: SpProxyConfigProps = {
   host: 'valid hostname',
