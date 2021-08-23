@@ -23,4 +23,13 @@ describe('KeyCertLoader', () => {
     expect(toStringSpy).toHaveBeenCalledTimes(1)
     expect(toStringSpy).toHaveBeenCalledWith()
   })
+  it('return value returned from toString', async () => {
+    const bufferMock = Buffer.from('a valid string to be bufferized')
+    jest.spyOn(fs, 'readFileSync').mockReturnValueOnce(bufferMock)
+    jest
+      .spyOn(bufferMock, 'toString')
+      .mockReturnValueOnce('valid value to be returned')
+    const sut = new KeyCertLoader()
+    expect(await sut.load(fakePath)).toEqual('valid value to be returned')
+  })
 })
