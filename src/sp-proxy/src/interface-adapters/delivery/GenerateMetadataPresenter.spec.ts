@@ -84,4 +84,11 @@ describe('GenerateMetadataPresenter', () => {
       'mapped response dto'
     )
   })
+  it('should throw if mapper throws', async () => {
+    const { mapperStub, sut } = makeSut()
+    jest.spyOn(mapperStub, 'map').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    await expect(sut.present(fakeResponseModel)).rejects.toThrow()
+  })
 })
