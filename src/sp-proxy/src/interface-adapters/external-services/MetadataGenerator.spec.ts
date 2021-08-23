@@ -42,7 +42,22 @@ describe('MetadataGeneratorSpec', () => {
       expect.any(Function)
     )
   })
-  it('should call generateServiceProviderMetadata w/ correct params', async () => {
+  it('should call generateServiceProviderMetadata w/ decryption cert', async () => {
+    const newParams = Object.assign({}, fakeRequestParams)
+    delete newParams.signing
+    const generateSpy = jest.spyOn(
+      passportSaml.Strategy.prototype,
+      'generateServiceProviderMetadata'
+    )
+    const sut = new MetadataGenerator()
+    await sut.generate(newParams)
+    expect(generateSpy).toHaveBeenCalledTimes(1)
+    expect(generateSpy).toHaveBeenCalledWith(
+      fakeRequestParams.decryption.publicCert,
+      undefined
+    )
+  })
+  it('should call generateServiceProviderMetadata w/ decryption and signing cert', async () => {
     const generateSpy = jest.spyOn(
       passportSaml.Strategy.prototype,
       'generateServiceProviderMetadata'
@@ -50,5 +65,18 @@ describe('MetadataGeneratorSpec', () => {
     const sut = new MetadataGenerator()
     await sut.generate(fakeRequestParams)
     expect(generateSpy).toHaveBeenCalledTimes(1)
+    expect(generateSpy).toHaveBeenCalledWith(
+      fakeRequestParams.decryption.publicCert,
+      fakeRequestParams.signing?.publicCert
+    )
+  })
+  it('should return value returned by passport-saml generator', async () => {
+    jest
+      .spyOn(passportSaml.Strategy.prototype, 'generateServiceProviderMetadata')
+      .mockReturnValueOnce('valid mocked generated metadata')
+    const sut = new MetadataGenerator()
+    expect(await sut.generate(fakeRequestParams)).toEqual(
+      'valid mocked generated metadata'
+    )
   })
 })
