@@ -32,4 +32,11 @@ describe('KeyCertLoader', () => {
     const sut = new KeyCertLoader()
     expect(await sut.load(fakePath)).toEqual('valid value to be returned')
   })
+  it('should throw if readFileSync throws', async () => {
+    jest.spyOn(fs, 'readFileSync').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const sut = new KeyCertLoader()
+    await expect(sut.load(fakePath)).rejects.toThrow()
+  })
 })
