@@ -3,7 +3,7 @@ import { readFileSync } from 'fs'
 
 export class KeyCertLoader implements IKeyCertLoader {
   async load(path: string): Promise<string> {
-    readFileSync(path)
+    readFileSync(path).toString()
     return ''
   }
 }
