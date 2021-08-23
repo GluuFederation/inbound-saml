@@ -13,5 +13,5 @@ export interface SpProxyConfigProps {
   authnContextIdentifierFormat: NameIdentifierFormatType
   skipRequestCompression: boolean
   decryption: CertKeySetPath
-  signing: CertKeySetPath
+  signing?: CertKeySetPath
 }

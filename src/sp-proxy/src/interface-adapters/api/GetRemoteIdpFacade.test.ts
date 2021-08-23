@@ -3,7 +3,7 @@
 // create controller with interactor
 // create facade with controller and same eventBus from 1
 
-import config from '../data/config/env'
+import config from '../config/env'
 import { Collection, MongoClient, Document as MongoDocument } from 'mongodb'
 import { EventEmitter } from 'stream'
 import { GetRemoteIdpPresenter } from '@sp-proxy/interface-adapters/delivery/GetRemoteIdpPresenter'

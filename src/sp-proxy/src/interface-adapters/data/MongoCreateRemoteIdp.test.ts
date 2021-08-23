@@ -2,7 +2,7 @@ import { PersistenceError } from '@sp-proxy/interface-adapters/data/errors/Persi
 import { makeRemoteIdpStub } from '@sp-proxy/interface-adapters/data/mocks/makeRemoteIdpStub.mock'
 import { MongoCreateRemoteIdp } from '@sp-proxy/interface-adapters/data/MongoCreateRemoteIdp'
 import { Collection, Document, MongoClient } from 'mongodb'
-import * as cfg from '../data/config/env'
+import * as cfg from '../config/env'
 const config = cfg.default
 
 describe('MongoCreateRemoteIdp - Integration', () => {

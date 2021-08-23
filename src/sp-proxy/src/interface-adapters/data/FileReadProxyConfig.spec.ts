@@ -7,7 +7,7 @@ import * as fs from 'fs'
 jest.mock('@sp-proxy/entities/SpProxyConfig')
 jest.mock('fs')
 // mock file persistence configuration
-jest.mock('@sp-proxy/interface-adapters/data/config/env', () => {
+jest.mock('@sp-proxy/interface-adapters/config/env', () => {
   return {
     database: {
       file: {

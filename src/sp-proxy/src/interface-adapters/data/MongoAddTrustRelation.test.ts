@@ -2,7 +2,7 @@ import { PersistenceError } from '@sp-proxy/interface-adapters/data/errors/Persi
 import { makeTrustRelationStub } from '@sp-proxy/interface-adapters/data/mocks/makeTrustRelationStub.mock'
 import { MongoAddTrustRelation } from '@sp-proxy/interface-adapters/data/MongoAddTrustRelation'
 import { Collection, Document, MongoClient } from 'mongodb'
-import * as cfg from '../data/config/env'
+import * as cfg from '../config/env'
 const config = cfg.default
 
 describe('MongoAddTrustRelation - Integration', () => {

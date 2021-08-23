@@ -9,7 +9,7 @@ import { CreateRemoteIdpInteractor } from '@sp-proxy/use-cases/CreateRemoteIdpIn
 import { CreateRemoteIdpUseCaseMapper } from '@sp-proxy/use-cases/mappers/CreateRemoteIdpUseCaseMapper'
 import { Collection, MongoClient, Document as MongoDocument } from 'mongodb'
 import { EventEmitter } from 'stream'
-import config from '../data/config/env'
+import config from '../config/env'
 
 // create presenter with eventBus
 // create interactor with presenter

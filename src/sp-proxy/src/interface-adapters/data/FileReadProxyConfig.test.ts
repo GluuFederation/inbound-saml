@@ -1,9 +1,9 @@
 import { FileReadProxyConfig } from '@sp-proxy/interface-adapters/data/FileReadProxyConfig'
-import cfg from '@sp-proxy/interface-adapters/data/config/env'
+import cfg from '@sp-proxy/interface-adapters/config/env'
 import { readFileSync } from 'fs'
 import { randomUUID } from 'crypto'
 import { PersistenceError } from '@sp-proxy/interface-adapters/data/errors/PersistenceError'
-jest.mock('@sp-proxy/interface-adapters/data/config/env')
+jest.mock('@sp-proxy/interface-adapters/config/env')
 describe('FileReadProxyConfig - integration', () => {
   beforeAll(async () => {
     cfg.database.file.proxyConfigPath =

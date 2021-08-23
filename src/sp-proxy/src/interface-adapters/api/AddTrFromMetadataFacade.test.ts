@@ -14,7 +14,7 @@ import { TrustRelationWithDefaultFactory } from '@sp-proxy/use-cases/factories/T
 import { Collection, MongoClient, Document as MongoDocument } from 'mongodb'
 import nock from 'nock'
 import { EventEmitter } from 'stream'
-import config from '../data/config/env'
+import config from '../config/env'
 
 describe('AddTrFromMetadataFacade - integration', () => {
   const client = new MongoClient(config.database.mongo.uri)
