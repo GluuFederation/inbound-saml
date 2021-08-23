@@ -86,4 +86,13 @@ describe('MetadataGeneratorSpec', () => {
     const sut = new MetadataGenerator()
     await expect(sut.generate(fakeRequestParams)).rejects.toThrow()
   })
+  it('should throw if generateServiceProviderMetadata throws', async () => {
+    jest
+      .spyOn(passportSaml.Strategy.prototype, 'generateServiceProviderMetadata')
+      .mockImplementationOnce(() => {
+        throw new Error()
+      })
+    const sut = new MetadataGenerator()
+    await expect(sut.generate(fakeRequestParams)).rejects.toThrow()
+  })
 })
