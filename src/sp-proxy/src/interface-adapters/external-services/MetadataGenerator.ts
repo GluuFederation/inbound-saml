@@ -17,8 +17,8 @@ export class MetadataGenerator implements IMetadataGenerator {
         decryptionPvk: params.decryption.privateKey,
         privateKey: params.signing?.privateKey
       },
-      (profile: Profile | null | undefined, done: VerifiedCallback) => {
-        return done(null)
+      (profile: Profile | null | undefined, done: VerifiedCallback): void => {
+        // dummy
       }
     )
     return strategy.generateServiceProviderMetadata(
