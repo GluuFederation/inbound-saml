@@ -33,4 +33,18 @@ describe('Metadatagenerator - integration', () => {
     const result = await sut.generate(validRequest)
     expect(result).toContain(loadedCert)
   })
+  it('should contain certificate even if no signing is sent', async () => {
+    const newRequest = Object.assign({}, validRequest)
+    delete newRequest.signing
+    const sut = new MetadataGenerator()
+    const result = await sut.generate(validRequest)
+    expect(result).toContain(loadedCert)
+  })
+  it('should contain callback url', async () => {
+    const sut = new MetadataGenerator()
+    const result = await sut.generate(validRequest)
+    const expected =
+      '<AssertionConsumerService index="1" isDefault="true" Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://my.super.cool/callback"/>'
+    expect(result).toContain(expected)
+  })
 })
