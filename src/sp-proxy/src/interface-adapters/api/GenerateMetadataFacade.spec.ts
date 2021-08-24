@@ -73,4 +73,11 @@ describe('GenerateMetadataFacade', () => {
     const { sut } = makeSut()
     expect(await sut.generateMetadata()).toEqual(fakeUseCaseResponse.response)
   })
+  it('should throw if controller throws', async () => {
+    const { controllerStub, sut } = makeSut()
+    jest.spyOn(controllerStub, 'handle').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    await expect(sut.generateMetadata()).rejects.toThrow()
+  })
 })
