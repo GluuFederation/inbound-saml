@@ -1,6 +1,6 @@
 export class InvalidRequestError extends Error {
   constructor(msg: string) {
-    super(msg)
+    super(`InvalidRequestError: ${msg}`)
     this.name = 'InvalidRequestError'
   }
 }

@@ -7,7 +7,12 @@ import request from 'supertest'
 const app = express()
 app.use(routes)
 describe('metadataRoute', () => {
-  it('should return 400 if controller throws InvalidRequest', async () => {
+  beforeAll(async () => {
+    // setup app for testing this route
+    const app = express()
+    app.use(routes)
+  })
+  it('should return 400 if controller throws InvalidRequestError', async () => {
     jest
       .spyOn(GenerateMetadataController.prototype, 'handle')
       .mockImplementationOnce(() => {
@@ -15,7 +20,15 @@ describe('metadataRoute', () => {
       })
     await request(app).get('/sp/metadata').expect(400)
   })
-  // it('should receive 200', async () => {
-  //   await request(app).get('/sp/metadata').expect(200)
-  // })
+  it('should return InvalidRequestError message in body', async () => {
+    jest
+      .spyOn(GenerateMetadataController.prototype, 'handle')
+      .mockImplementationOnce(() => {
+        throw new InvalidRequestError('Invalid request on controller')
+      })
+    await request(app)
+      .get('/sp/metadata')
+      .expect(400)
+      .expect('InvalidRequestError: Invalid request on controller')
+  })
 })

@@ -12,9 +12,8 @@ const adaptFacade = () => {
       await facade.generateMetadata()
       response.sendStatus(200)
     } catch (err) {
-      console.log('entered catch')
       if (err instanceof InvalidRequestError) {
-        response.sendStatus(400)
+        response.status(400).send(err.message)
       }
     }
   }
