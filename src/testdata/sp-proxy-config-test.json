@@ -4,11 +4,11 @@
   "authnContextIdentifierFormat": "",
   "skipRequestCompression" : true,
   "decryption" : {
-    "publicCertPath": "cert/decryption.crt",
-    "privateKeyPath": "cert/decryption.p12"
+    "publicCertPath": "./testdata/cert.pem",
+    "privateKeyPath": "./testdata/key.pem"
   },
   "signing": {
-    "publicCertPath": "cert/signing.crt",
-    "privateKeyPath": "cert/signing.p12"
+    "publicCertPath": "./cestdata/cert.pem",
+    "privateKeyPath": "./testdata/key.pem"
   }
 }
