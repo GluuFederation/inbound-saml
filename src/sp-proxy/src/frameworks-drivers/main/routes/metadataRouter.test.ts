@@ -31,4 +31,13 @@ describe('metadataRoute', () => {
       .expect(400)
       .expect('InvalidRequestError: Invalid request on controller')
   })
+  it('should return 500 if any other error is thrown', async () => {
+    class AnyOtherError extends Error {}
+    jest
+      .spyOn(GenerateMetadataController.prototype, 'handle')
+      .mockImplementationOnce(() => {
+        throw new AnyOtherError('Any other error ocurred')
+      })
+    await request(app).get('/sp/metadata').expect(500)
+  })
 })

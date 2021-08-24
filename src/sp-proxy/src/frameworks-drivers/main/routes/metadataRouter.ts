@@ -14,6 +14,8 @@ const adaptFacade = () => {
     } catch (err) {
       if (err instanceof InvalidRequestError) {
         response.status(400).send(err.message)
+      } else if (err instanceof Error) {
+        response.sendStatus(500)
       }
     }
   }
