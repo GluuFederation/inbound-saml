@@ -6,13 +6,13 @@ import {
   IMetadataGenerator,
   IMetadataGeneratorParams
 } from '@sp-proxy/use-cases/ports/IMetadataGenerator'
-import { IResponseModel } from '@get-saml-metadata/use-cases/IResponseModel'
 import { IMapper } from '@sp-proxy/use-cases/protocols/IMapper'
 import { GenerateMetadataResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/GenerateMetadataResponseUseCaseParams'
 import { IXmlData } from '@sp-proxy/use-cases/protocols/IXmlData'
 import { GenerateMetadataRequestUseCaseParams } from '@sp-proxy/use-cases/io-models/GenerateMetadataRequestUseCaseParams'
 import { ITransformer } from '@sp-proxy/use-cases/ports/ITransformer'
 import { SpProxyConfigProps } from '@sp-proxy/entities/protocols/SpProxyConfigProps'
+import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'
 
 export class GenerateSpMetadataInteractor
   implements InputBoundary<GenerateMetadataRequestUseCaseParams>

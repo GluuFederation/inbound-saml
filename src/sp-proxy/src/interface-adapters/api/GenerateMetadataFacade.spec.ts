@@ -1,11 +1,11 @@
-import { IController } from '@get-saml-metadata/interface-adapters/delivery/protocols/IController'
-import { IRequest } from '@get-saml-metadata/interface-adapters/delivery/protocols/IRequest'
-import { IResponseModel } from '@get-saml-metadata/use-cases/IResponseModel'
 import { GenerateMetadataFacade } from '@sp-proxy/interface-adapters/api/GenerateMetadataFacade'
-import { GenerateMetadataRequestUseCaseParams } from '@sp-proxy/use-cases/io-models/GenerateMetadataRequestUseCaseParams'
-import { GenerateMetadataResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/GenerateMetadataResponseUseCaseParams'
 import { EventEmitter } from 'stream'
 import * as crypto from 'crypto'
+import { IGenerateMetadataRequest } from '@sp-proxy/interface-adapters/delivery/dtos/IGenerateMetadataRequest'
+import { IController } from '@sp-proxy/interface-adapters/protocols/IController'
+import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'
+import { IResponse } from '@sp-proxy/interface-adapters/protocols/IResponse'
+import { IGenerateMetadataResponse } from '@sp-proxy/interface-adapters/delivery/dtos/IGenerateMetadataResponse'
 jest.mock('crypto')
 
 const makeController = (): IController => {
@@ -22,24 +22,22 @@ interface SutTypes {
   eventBusStub: EventEmitter
 }
 
-const fakeRequest: IRequest<GenerateMetadataRequestUseCaseParams> = {
+const fakeRequest: IRequest<IGenerateMetadataRequest> = {
   id: 'mocked request id',
-  request: 'GenerateSpMetadata'
+  body: 'generate metadata request'
 }
 
-const fakeUseCaseResponse: IResponseModel<GenerateMetadataResponseUseCaseParams> =
-  {
-    requestId: fakeRequest.id,
-    response: {
-      xmldata: 'fake xml data from usecase response'
-    }
+const fakeDeliveryResponse: IResponse<IGenerateMetadataResponse> = {
+  requestId: fakeRequest.id,
+  body: {
+    metadata: 'valid metadata form fake delivery response'
   }
-
+}
 const makeSut = (): SutTypes => {
   const controllerStub = makeController()
   const eventBusStub = new EventEmitter()
   jest.spyOn(controllerStub as any, 'handle').mockImplementation(() => {
-    eventBusStub.emit(fakeRequest.id, fakeUseCaseResponse.response)
+    eventBusStub.emit(fakeRequest.id, fakeDeliveryResponse)
   })
   const sut = new GenerateMetadataFacade(controllerStub, eventBusStub)
   return {
@@ -71,7 +69,7 @@ describe('GenerateMetadataFacade', () => {
   })
   it('should return response body', async () => {
     const { sut } = makeSut()
-    expect(await sut.generateMetadata()).toEqual(fakeUseCaseResponse.response)
+    expect(await sut.generateMetadata()).toEqual(fakeDeliveryResponse.body)
   })
   it('should throw if controller throws', async () => {
     const { controllerStub, sut } = makeSut()
