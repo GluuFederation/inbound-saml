@@ -13,10 +13,11 @@
     "test:all": "npm test",
     "test:integration": "npm test -- --config jest-integration-config.js",
     "test:coverage": "jest --ci --coverage",
-    "test:behaviour": "cucumber-js src/get-saml-metadata",
+    "test:behaviour": "cucumber-js src/get-saml-metadata src/sp-proxy -p default --exit",
     "test:staged": "npm test -- --findRelatedTests",
     "prepare": "husky install",
-    "build": "tsc && tsc-alias"
+    "build": "tsc && tsc-alias",
+    "dev": "nodemon --watch 'src/' --exec 'ts-node -r tsconfig-paths/register src/sp-proxy/src/frameworks-drivers/main/server.ts' -e ts"
   },
   "author": {
     "name": "Christian Eland",
@@ -40,6 +41,7 @@
     "@typescript-eslint/eslint-plugin": "^4.28.2",
     "chai": "^4.3.4",
     "codecov": "^3.8.3",
+    "dotenv": "^10.0.0",
     "eslint": "^7.30.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-config-standard-with-typescript": "^20.0.0",
