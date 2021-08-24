@@ -55,4 +55,14 @@ describe('metadataRoute', () => {
       .expect(200)
       .expect('content-type', /xml/)
   })
+  it('should return xml containing config values', async () => {
+    // const mockedProps = mockedConfigProps
+    const res = await request(app).get('/sp/metadata').expect(200)
+    expect(res.text).toContain('sp/callback')
+    expect(res.text).toContain('KeyDescriptor use="encryption"')
+    expect(res.text).toContain('KeyDescriptor use="signing"')
+    expect(res.text).toContain(
+      'MIIFFjCCAv4CCQDFhyLx2QM/TTANBgkqhkiG9w0BAQsFADBNMQswCQYDVQQGEwJCUjELMAkGA1UECAwCU1AxCzAJBgNVBAcMAlNQMQ0wCwYDVQQKDARHbH'
+    )
+  })
 })

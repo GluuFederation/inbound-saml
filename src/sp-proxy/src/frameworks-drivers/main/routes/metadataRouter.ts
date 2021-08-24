@@ -9,11 +9,12 @@ const adaptFacade = () => {
   return async (request: Request, response: Response) => {
     try {
       const facade = makeGenerateMetadataFacade()
-      await facade.generateMetadata()
+      const metadataDto = await facade.generateMetadata()
+      const metadata = metadataDto.metadata
       response
         .setHeader('content-type', 'application/xml')
         .status(200)
-        .send('whatever')
+        .send(metadata)
     } catch (err) {
       if (err instanceof InvalidRequestError) {
         response.status(400).send(err.message)
