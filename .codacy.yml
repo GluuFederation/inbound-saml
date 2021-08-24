@@ -2,3 +2,4 @@
 exclude_paths:
   - "**.test.ts"
   - "**.spec.ts"
+  - "**.js"

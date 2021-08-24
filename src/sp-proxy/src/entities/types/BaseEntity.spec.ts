@@ -29,4 +29,10 @@ describe('BaseEntity', () => {
       expect(sut.equals(another)).toBeTruthy()
     })
   })
+  describe('get id', () => {
+    it('should return entity id', () => {
+      const sut = new AnyEntity({ validProp: 'validValue' }, 'valid id')
+      expect(sut.id).toBe('valid id')
+    })
+  })
 })

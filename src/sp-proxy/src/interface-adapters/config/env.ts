@@ -32,6 +32,12 @@ export default {
         remoteIdpUuid:
           process.env.LDAP_ATRIBUTE_REMOTE_IDP_UUID ?? 'documentIdentifier'
       }
+    },
+    file: {
+      proxyConfigPath:
+        process.env.PROXY_CFG_PATH ??
+        process.cwd() +
+          '/src/sp-proxy/src/frameworks-drivers/file-persistence/sp-proxy-config-dev.json'
     }
   }
 }

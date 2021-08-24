@@ -1,0 +1,14 @@
+{ 
+  "host": "localhost",
+  "requestedIdentifierFormat": "",
+  "authnContextIdentifierFormat": "",
+  "skipRequestCompression" : true,
+  "decryption" : {
+    "publicCertPath": "./testdata/cert.pem",
+    "privateKeyPath": "./testdata/key.pem"
+  },
+  "signing": {
+    "publicCertPath": "./cestdata/cert.pem",
+    "privateKeyPath": "./testdata/key.pem"
+  }
+}
