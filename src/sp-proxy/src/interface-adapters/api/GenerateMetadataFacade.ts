@@ -12,11 +12,14 @@ export class GenerateMetadataFacade implements IGenerateMetadataFacade {
 
   async generateMetadata(): Promise<IGenerateMetadataResponse> {
     const requestId = randomUUID()
-    this.eventBus.once(requestId, () => {
-      return ''
+    const response: IGenerateMetadataResponse[] = []
+    this.eventBus.once(requestId, (result: IGenerateMetadataResponse) => {
+      response.push(result)
     })
-    return {
-      metadata: ''
-    }
+    await this.controller.handle({
+      id: requestId,
+      request: 'GenerateSpMetadata'
+    })
+    return response[0]
   }
 }

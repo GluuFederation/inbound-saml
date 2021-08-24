@@ -23,13 +23,13 @@ interface SutTypes {
 }
 
 const fakeRequest: IRequest<GenerateMetadataRequestUseCaseParams> = {
-  id: 'fake request id',
+  id: 'mocked request id',
   request: 'GenerateSpMetadata'
 }
 
 const fakeUseCaseResponse: IResponseModel<GenerateMetadataResponseUseCaseParams> =
   {
-    requestId: 'fake request id from usecase response',
+    requestId: fakeRequest.id,
     response: {
       xmldata: 'fake xml data from usecase response'
     }
@@ -39,7 +39,7 @@ const makeSut = (): SutTypes => {
   const controllerStub = makeController()
   const eventBusStub = new EventEmitter()
   jest.spyOn(controllerStub as any, 'handle').mockImplementation(() => {
-    eventBusStub.emit(fakeRequest.id, fakeUseCaseResponse)
+    eventBusStub.emit(fakeRequest.id, fakeUseCaseResponse.response)
   })
   const sut = new GenerateMetadataFacade(controllerStub, eventBusStub)
   return {
@@ -61,5 +61,16 @@ describe('GenerateMetadataFacade', () => {
       'mocked request id',
       expect.any(Function)
     )
+  })
+  it('should call controller with request dto', async () => {
+    const { sut, controllerStub } = makeSut()
+    const handleSpy = jest.spyOn(controllerStub, 'handle')
+    await sut.generateMetadata()
+    expect(handleSpy).toHaveBeenCalledTimes(1)
+    expect(handleSpy).toHaveBeenCalledWith(fakeRequest)
+  })
+  it('should return response body', async () => {
+    const { sut } = makeSut()
+    expect(await sut.generateMetadata()).toEqual(fakeUseCaseResponse.response)
   })
 })
