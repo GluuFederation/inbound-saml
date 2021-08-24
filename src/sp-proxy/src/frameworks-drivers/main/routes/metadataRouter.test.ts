@@ -65,4 +65,13 @@ describe('metadataRoute', () => {
       'MIIFFjCCAv4CCQDFhyLx2QM/TTANBgkqhkiG9w0BAQsFADBNMQswCQYDVQQGEwJCUjELMAkGA1UECAwCU1AxCzAJBgNVBAcMAlNQMQ0wCwYDVQQKDARHbH'
     )
   })
+  it('should return 500 if exception as string is thrown', async () => {
+    jest
+      .spyOn(GenerateMetadataController.prototype, 'handle')
+      .mockImplementationOnce(() => {
+        // eslint-disable-next-line @typescript-eslint/no-throw-literal
+        throw 'Any other error ocurred'
+      })
+    await request(app).get('/sp/metadata').expect(500)
+  })
 })
