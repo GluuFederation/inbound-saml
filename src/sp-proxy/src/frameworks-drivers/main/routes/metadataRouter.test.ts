@@ -4,14 +4,19 @@ import { GenerateMetadataController } from '@sp-proxy/interface-adapters/deliver
 import express from 'express'
 import request from 'supertest'
 import { mockSpProxyConfig } from '@sp-proxy/frameworks-drivers/main/mocks/mockSpProxyConfig.mock'
+
 jest.mock('@sp-proxy/interface-adapters/data/FileReadProxyConfig')
 
+const app = express()
+
 describe('metadataRoute', () => {
-  const app = express()
   beforeAll(async () => {
     // setup app for testing this route
     app.use(routes)
     mockSpProxyConfig()
+  })
+  afterAll(async () => {
+    jest.clearAllMocks()
   })
   it('should return 400 if controller throws InvalidRequestError', async () => {
     jest
@@ -43,5 +48,11 @@ describe('metadataRoute', () => {
   })
   it('should return status 200', async () => {
     await request(app).get('/sp/metadata').expect(200)
+  })
+  it('should return with xml content-type', async () => {
+    await request(app)
+      .get('/sp/metadata')
+      .expect(200)
+      .expect('content-type', /xml/)
   })
 })

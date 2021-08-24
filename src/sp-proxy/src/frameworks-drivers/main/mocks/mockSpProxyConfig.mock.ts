@@ -24,5 +24,5 @@ export const mockSpProxyConfig = (): void => {
   const mockedConfig: SpProxyConfig = new SpProxyConfig(mockedProps)
   jest
     .spyOn(configRepo.FileReadProxyConfig.prototype, 'read')
-    .mockResolvedValueOnce(mockedConfig)
+    .mockResolvedValue(mockedConfig)
 }

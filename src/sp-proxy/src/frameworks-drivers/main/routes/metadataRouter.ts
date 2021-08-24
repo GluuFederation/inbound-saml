@@ -9,16 +9,18 @@ const adaptFacade = () => {
   return async (request: Request, response: Response) => {
     try {
       const facade = makeGenerateMetadataFacade()
-      const xmlMetadata = await facade.generateMetadata()
-      response.status(200).send(xmlMetadata)
+      await facade.generateMetadata()
+      response
+        .setHeader('content-type', 'application/xml')
+        .status(200)
+        .send('whatever')
     } catch (err) {
       if (err instanceof InvalidRequestError) {
         response.status(400).send(err.message)
       } else if (err instanceof Error) {
-        response.sendStatus(500)
+        response.status(500).send(err)
       } else if (!(err instanceof Error)) {
-        console.log(err)
-        response.sendStatus(500)
+        response.status(500).send(err)
       }
     }
   }
