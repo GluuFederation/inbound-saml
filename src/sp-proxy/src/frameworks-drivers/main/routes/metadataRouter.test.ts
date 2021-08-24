@@ -74,4 +74,16 @@ describe('metadataRoute', () => {
       })
     await request(app).get('/sp/metadata').expect(500)
   })
+  it('should return default message when error is 500', async () => {
+    jest
+      .spyOn(GenerateMetadataController.prototype, 'handle')
+      .mockImplementationOnce(() => {
+        // eslint-disable-next-line @typescript-eslint/no-throw-literal
+        throw 'Any other error ocurred'
+      })
+    await request(app)
+      .get('/sp/metadata')
+      .expect(500)
+      .expect('Internal Server Error')
+  })
 })
