@@ -12,11 +12,14 @@ export class MongoGetTrByHost implements IGetTrByHostGateway {
 
   async findByHost(host: string): Promise<TrustRelation> {
     try {
-      await this.collection.findOne({
+      const document = await this.collection.findOne({
         'trustRelation.props.singleSignOnService.props.location': new RegExp(
           host
         )
       })
+      if (document != null) {
+        await this.dataMapper.map(document)
+      }
       return '' as any
     } catch (err) {
       throw new PersistenceError(
