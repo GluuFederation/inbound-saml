@@ -28,6 +28,7 @@ export class GetTrByHostInteractor
     const trustRelation = await this.gateway.findByHost(
       requestModel.request.host
     )
-    this.mapper.map(trustRelation)
+    const responseModel = this.mapper.map(trustRelation)
+    await this.outputChannel.present(responseModel)
   }
 }
