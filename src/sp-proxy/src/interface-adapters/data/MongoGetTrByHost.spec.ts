@@ -9,6 +9,7 @@ import { IDataMapper } from '@sp-proxy/interface-adapters/protocols/IDataMapper'
 import { ITrustRelationProps } from '@sp-proxy/entities/protocols/ITrustRelationProps'
 import { makeRemoteIdpDataStub } from '@sp-proxy/interface-adapters/data/mocks/remoteIdpDataStub'
 import { makeSingleSignOnService } from '@sp-proxy/entities/factories/makeSingleSignOnService'
+import { PersistenceError } from '@sp-proxy/interface-adapters/data/errors/PersistenceError'
 
 interface SutTypes {
   sut: MongoGetTrByHost
@@ -60,5 +61,12 @@ describe('MongoGetTrByHost', () => {
     expect(findOneSpy).toHaveBeenCalledWith({
       'trustRelation.props.singleSignOnService.props.location': /valid host/
     })
+  })
+  it('should throw PersistenceError if findOne throws', async () => {
+    const { sut, collectionStub } = makeSut()
+    jest.spyOn(collectionStub, 'findOne').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    await expect(sut.findByHost('valid host')).rejects.toThrow(PersistenceError)
   })
 })
