@@ -48,7 +48,10 @@ const makeMapper = (): IMapper<
         requestId: 'mapped stubbed request id',
         response: {
           id: 'mapped stubbed TR id',
-          selectedSsoService: 'mapped stubbed selected sso service',
+          selectedSsoService: {
+            binding: 'mapped stubbed binding',
+            location: 'mapped stubbed location'
+          },
           remoteIdp: {
             id: 'valid entity id',
             name: 'valid name',
