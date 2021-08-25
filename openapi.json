@@ -1,0 +1,33 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "inbound-saml",
+    "version": "0.5.0",
+    "license": {
+      "name": "Apache-2.0"
+    },
+    "description": "Specification JSONs: [v2](/api-spec/v2), [v3](/api-spec/v3).\n\nGluu inbound-saml module"
+  },
+  "servers": [{
+    "url": "/inbound-saml"
+  }],
+  "paths": {
+    "/sp/metadata": {
+      "get": {
+        "summary": "/sp/metadata",
+        "responses": {
+          "200": {
+            "description": "xml metadata"
+          },
+          "304": {
+            "description": "not modified"
+          }
+        },
+        "tags": [
+          "Metadata"
+        ]
+      }
+    }
+  },
+  "tags": []
+}
