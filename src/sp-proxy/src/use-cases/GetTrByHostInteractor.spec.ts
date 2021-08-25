@@ -126,4 +126,13 @@ describe('GetTrByHostInteractor', () => {
     })
     await expect(sut.execute(fakeRequestModel)).rejects.toThrow()
   })
+  it('should call mapper with received entity', async () => {
+    const { sut, gatewayStub, mapperStub } = makeSut()
+    jest
+      .spyOn(gatewayStub, 'findByHost')
+      .mockResolvedValueOnce('received entity' as any)
+    const mapSpy = jest.spyOn(mapperStub, 'map')
+    await sut.execute(fakeRequestModel)
+    expect(mapSpy).toHaveBeenCalledTimes(1)
+  })
 })
