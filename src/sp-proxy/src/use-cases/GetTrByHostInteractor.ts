@@ -25,6 +25,9 @@ export class GetTrByHostInteractor
   async execute(
     requestModel: IRequestModel<GetTrByHostRequestUseCaseParams>
   ): Promise<void> {
-    await this.gateway.findByHost(requestModel.request.host)
+    const trustRelation = await this.gateway.findByHost(
+      requestModel.request.host
+    )
+    this.mapper.map(trustRelation)
   }
 }
