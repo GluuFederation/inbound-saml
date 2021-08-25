@@ -17,9 +17,12 @@ export class MongoGetTrByHost implements IGetTrByHostGateway {
           host
         )
       })
-      if (document != null) {
-        await this.dataMapper.map(document)
+      if (document == null) {
+        throw new PersistenceError(
+          `No trust relation containing host ${host} found`
+        )
       }
+      await this.dataMapper.map(document)
       return '' as any
     } catch (err) {
       throw new PersistenceError(

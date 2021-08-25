@@ -69,7 +69,7 @@ describe('MongoGetTrByHost', () => {
     })
     await expect(sut.findByHost('valid host')).rejects.toThrow(PersistenceError)
   })
-  it('calls mapper with mongo document', async () => {
+  it('should call mapper with mongo document', async () => {
     const { sut, collectionStub, dataMapperStub } = makeSut()
     jest
       .spyOn(collectionStub as any, 'findOne')
@@ -78,5 +78,12 @@ describe('MongoGetTrByHost', () => {
     await sut.findByHost('valid host')
     expect(mapSpy).toHaveBeenCalledTimes(1)
     expect(mapSpy).toHaveBeenCalledWith('valid document returned from findOne')
+  })
+  it('should throw PersistenceError if TR not found', async () => {
+    const { sut, collectionStub } = makeSut()
+    jest
+      .spyOn(collectionStub as any, 'findOne')
+      .mockResolvedValueOnce(undefined)
+    await expect(sut.findByHost('valid host')).rejects.toThrow(PersistenceError)
   })
 })
