@@ -1,7 +1,7 @@
 // receive request containing host
 // call gateway's (repository) findByHost that returns TR entity
 // map entity 2 response model
-// calls output channel (presenter)
+// calls output channel (presenter) w/ response model
 
 import { makeSingleSignOnService } from '@sp-proxy/entities/factories/makeSingleSignOnService'
 import { ITrustRelationProps } from '@sp-proxy/entities/protocols/ITrustRelationProps'
@@ -142,5 +142,15 @@ describe('GetTrByHostInteractor', () => {
       throw new Error()
     })
     await expect(sut.execute(fakeRequestModel)).rejects.toThrow()
+  })
+  it('should call presenter with mapped response model', async () => {
+    const { sut, presenterStub, mapperStub } = makeSut()
+    jest
+      .spyOn(mapperStub, 'map')
+      .mockReturnValueOnce('mapped response model' as any)
+    const presentSpy = jest.spyOn(presenterStub, 'present')
+    await sut.execute(fakeRequestModel)
+    expect(presentSpy).toHaveBeenCalledTimes(1)
+    expect(presentSpy).toHaveBeenCalledWith('mapped response model')
   })
 })
