@@ -112,11 +112,18 @@ const fakeRequestModel: IRequestModel<GetTrByHostRequestUseCaseParams> = {
 }
 
 describe('GetTrByHostInteractor', () => {
-  it('calls gateway findByHost with received host', async () => {
+  it('should call gateway findByHost with received host', async () => {
     const { sut, gatewayStub } = makeSut()
     const findByHostSpy = jest.spyOn(gatewayStub, 'findByHost')
     await sut.execute(fakeRequestModel)
     expect(findByHostSpy).toHaveBeenCalledTimes(1)
     expect(findByHostSpy).toHaveBeenCalledWith(fakeRequestModel.request.host)
+  })
+  it('should throw if gateway throws', async () => {
+    const { sut, gatewayStub } = makeSut()
+    jest.spyOn(gatewayStub, 'findByHost').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    await expect(sut.execute(fakeRequestModel)).rejects.toThrow()
   })
 })
