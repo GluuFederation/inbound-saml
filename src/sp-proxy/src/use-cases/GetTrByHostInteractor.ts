@@ -15,7 +15,7 @@ export class GetTrByHostInteractor
     private readonly gateway: IGetTrByHostGateway,
     private readonly mapper: IMapper<
       TrustRelation,
-      IResponseModel<GetTrByHostResponseUseCaseParams>
+      GetTrByHostResponseUseCaseParams
     >,
     private readonly outputChannel: OutputBoundary<
       IResponseModel<GetTrByHostResponseUseCaseParams>
@@ -28,7 +28,10 @@ export class GetTrByHostInteractor
     const trustRelation = await this.gateway.findByHost(
       requestModel.request.host
     )
-    const responseModel = this.mapper.map(trustRelation)
-    await this.outputChannel.present(responseModel)
+    const responseParams = this.mapper.map(trustRelation)
+    await this.outputChannel.present({
+      requestId: requestModel.requestId,
+      response: responseParams
+    })
   }
 }

@@ -35,31 +35,25 @@ const makeGateway = (): IGetTrByHostGateway => {
 
 const makeMapper = (): IMapper<
   TrustRelation,
-  IResponseModel<GetTrByHostResponseUseCaseParams>
+  GetTrByHostResponseUseCaseParams
 > => {
   class MapperStub
-    implements
-      IMapper<TrustRelation, IResponseModel<GetTrByHostResponseUseCaseParams>>
+    implements IMapper<TrustRelation, GetTrByHostResponseUseCaseParams>
   {
-    map(
-      trustRelation: TrustRelation
-    ): IResponseModel<GetTrByHostResponseUseCaseParams> {
+    map(trustRelation: TrustRelation): GetTrByHostResponseUseCaseParams {
       return {
-        requestId: 'mapped stubbed request id',
-        response: {
-          id: 'mapped stubbed TR id',
-          selectedSsoService: {
-            binding: 'mapped stubbed binding',
-            location: 'mapped stubbed location'
-          },
-          remoteIdp: {
-            id: 'valid entity id',
-            name: 'valid name',
-            singleSignOnService: [
-              { binding: 'valid binding', location: 'valid location' }
-            ],
-            signingCertificates: ['valid cert 1', 'valid cert 2']
-          }
+        id: 'mapped stubbed TR id',
+        selectedSsoService: {
+          binding: 'mapped stubbed binding',
+          location: 'mapped stubbed location'
+        },
+        remoteIdp: {
+          id: 'valid entity id',
+          name: 'valid name',
+          singleSignOnService: [
+            { binding: 'valid binding', location: 'valid location' }
+          ],
+          signingCertificates: ['valid cert 1', 'valid cert 2']
         }
       }
     }
@@ -85,10 +79,7 @@ const makePresenter = (): OutputBoundary<
 interface SutTypes {
   sut: GetTrByHostInteractor
   gatewayStub: IGetTrByHostGateway
-  mapperStub: IMapper<
-    TrustRelation,
-    IResponseModel<GetTrByHostResponseUseCaseParams>
-  >
+  mapperStub: IMapper<TrustRelation, GetTrByHostResponseUseCaseParams>
   presenterStub: OutputBoundary<
     IResponseModel<GetTrByHostResponseUseCaseParams>
   >
@@ -146,7 +137,7 @@ describe('GetTrByHostInteractor', () => {
     })
     await expect(sut.execute(fakeRequestModel)).rejects.toThrow()
   })
-  it('should call presenter with mapped response model', async () => {
+  it('should call presenter with mapped params', async () => {
     const { sut, presenterStub, mapperStub } = makeSut()
     jest
       .spyOn(mapperStub, 'map')
@@ -154,7 +145,10 @@ describe('GetTrByHostInteractor', () => {
     const presentSpy = jest.spyOn(presenterStub, 'present')
     await sut.execute(fakeRequestModel)
     expect(presentSpy).toHaveBeenCalledTimes(1)
-    expect(presentSpy).toHaveBeenCalledWith('mapped response model')
+    expect(presentSpy).toHaveBeenCalledWith({
+      requestId: fakeRequestModel.requestId,
+      response: 'mapped response model'
+    })
   })
   it('should throw if presenter throws', async () => {
     const { sut, presenterStub } = makeSut()
