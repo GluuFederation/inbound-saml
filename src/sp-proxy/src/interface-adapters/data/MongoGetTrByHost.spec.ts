@@ -86,4 +86,12 @@ describe('MongoGetTrByHost', () => {
       .mockResolvedValueOnce(undefined)
     await expect(sut.findByHost('valid host')).rejects.toThrow(PersistenceError)
   })
+  it('should return mapped entity', async () => {
+    const { sut, dataMapperStub, collectionStub } = makeSut()
+    jest.spyOn(collectionStub as any, 'findOne').mockResolvedValueOnce('')
+    jest
+      .spyOn(dataMapperStub, 'map')
+      .mockResolvedValueOnce('mapped entity' as any)
+    expect(await sut.findByHost('valid host')).toBe('mapped entity')
+  })
 })
