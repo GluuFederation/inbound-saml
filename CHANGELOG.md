@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.6.0](https://www.github.com/GluuFederation/inbound-saml/compare/v0.5.0...v0.6.0) (2021-08-25)
+
+
+### Features
+
+* add swagger file ([#53](https://www.github.com/GluuFederation/inbound-saml/issues/53)) ([88ed543](https://www.github.com/GluuFederation/inbound-saml/commit/88ed5439dc9311a511d6ff8e2d99f9fc2bca8c29))
+* **GenerateSpMetadata:** generate and expose sp metadata ([#51](https://www.github.com/GluuFederation/inbound-saml/issues/51)) ([37dcbde](https://www.github.com/GluuFederation/inbound-saml/commit/37dcbde1d7466fca93b05c4782623dc57e9f6895))
+
+
+### Miscellaneous Chores
+
+* release 0.6.0 ([63b289e](https://www.github.com/GluuFederation/inbound-saml/commit/63b289e635f6a366b14256e1d343f5668acbe812))
+
 ## [0.5.0](https://www.github.com/GluuFederation/inbound-saml/compare/v0.4.0...v0.5.0) (2021-08-18)
 
 
