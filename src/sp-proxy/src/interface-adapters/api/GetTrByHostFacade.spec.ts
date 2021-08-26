@@ -103,4 +103,11 @@ describe('GetTrByHostFacade', () => {
     })
     await expect(sut.getTrByHost('any valid host')).rejects.toThrow()
   })
+  it('should return response body listened by eventBus', async () => {
+    // mocked on makeSut()
+    const { sut } = makeSut()
+    expect(await sut.getTrByHost('any valid host')).toEqual(
+      fakeResponseDto.body
+    )
+  })
 })
