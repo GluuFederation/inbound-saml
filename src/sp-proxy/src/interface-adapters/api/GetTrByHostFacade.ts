@@ -13,6 +13,12 @@ export class GetTrByHostFacade implements IGetTrByHostFacade {
   async getTrByHost(host: string): Promise<IGetTrByHostResponse> {
     const requestId = randomUUID()
     this.eventBus.once(requestId, () => {})
+    await this.controller.handle({
+      id: requestId,
+      body: {
+        host: host
+      }
+    })
     return {
       id: '',
       selectedSsoService: {

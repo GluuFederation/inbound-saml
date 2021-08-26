@@ -89,4 +89,11 @@ describe('GetTrByHostFacade', () => {
       expect.any(Function)
     )
   })
+  it('should call controller handle with request dto', async () => {
+    const { sut, controllerStub } = makeSut()
+    const handleSpy = jest.spyOn(controllerStub, 'handle')
+    await sut.getTrByHost(fakeRequestDto.body.host)
+    expect(handleSpy).toHaveBeenCalledTimes(1)
+    expect(handleSpy).toHaveBeenCalledWith(fakeRequestDto)
+  })
 })
