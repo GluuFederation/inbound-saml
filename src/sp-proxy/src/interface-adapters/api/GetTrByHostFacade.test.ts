@@ -6,6 +6,7 @@ import { makeGetTrByHostComposite } from '@sp-proxy/interface-adapters/api/facto
 import { GetTrByHostFacade } from '@sp-proxy/interface-adapters/api/GetTrByHostFacade'
 import { makeRemoteIdpStub } from '@sp-proxy/interface-adapters/data/mocks/makeRemoteIdpStub.mock'
 import { IGetTrByHostResponse } from '@sp-proxy/interface-adapters/delivery/dtos/IGetTrByHostResponse'
+import { InvalidRequestError } from '@sp-proxy/interface-adapters/delivery/errors/InvalidRequestError'
 import { IService } from '@sp-proxy/interface-adapters/protocols/IService'
 import { Collection, MongoClient, Document as MongoDocument } from 'mongodb'
 import { EventEmitter } from 'stream'
@@ -70,5 +71,11 @@ describe('GetTrByHostFacade - integration', () => {
     const controller = makeGetTrByHostComposite(collection, eventBus)
     const sut = new GetTrByHostFacade(controller, eventBus)
     await expect(sut.getTrByHost('notexistant.co.uk')).rejects.toThrow()
+  })
+  it('should throw InvalidRequestError for invalid host', async () => {
+    const eventBus = new EventEmitter()
+    const controller = makeGetTrByHostComposite(collection, eventBus)
+    const sut = new GetTrByHostFacade(controller, eventBus)
+    await expect(sut.getTrByHost('')).rejects.toThrow(InvalidRequestError)
   })
 })
