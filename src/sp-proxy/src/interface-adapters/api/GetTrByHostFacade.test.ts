@@ -65,4 +65,10 @@ describe('GetTrByHostFacade - integration', () => {
     }
     expect(await sut.getTrByHost('valid.host.com')).toStrictEqual(expected)
   })
+  it('should throw for unexistant host', async () => {
+    const eventBus = new EventEmitter()
+    const controller = makeGetTrByHostComposite(collection, eventBus)
+    const sut = new GetTrByHostFacade(controller, eventBus)
+    await expect(sut.getTrByHost('notexistant.co.uk')).rejects.toThrow()
+  })
 })
