@@ -83,4 +83,11 @@ describe('GetByTrHostController', () => {
     expect(mapSpy).toHaveBeenCalledTimes(1)
     expect(mapSpy).toHaveBeenCalledWith(fakeRequest)
   })
+  it('should throw if mapper throws', async () => {
+    const { mapperStub, sut } = makeSut()
+    jest.spyOn(mapperStub, 'map').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    await expect(sut.handle(fakeRequest)).rejects.toThrow()
+  })
 })
