@@ -132,4 +132,11 @@ describe('GetByTrHostController', () => {
     expect(isValidSpy).toBeCalledTimes(1)
     expect(isValidSpy).toBeCalledWith(fakeRequest)
   })
+  it('should throw if validator throws', async () => {
+    const { sut, validatorStub } = makeSut()
+    jest.spyOn(validatorStub, 'isValid').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    await expect(sut.handle(fakeRequest)).rejects.toThrow()
+  })
 })
