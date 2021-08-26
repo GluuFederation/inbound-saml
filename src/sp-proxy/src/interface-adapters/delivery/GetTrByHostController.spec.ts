@@ -148,4 +148,13 @@ describe('GetByTrHostController', () => {
     await expect(sut.handle(fakeRequest)).rejects.toThrow()
     expect(mapSpy).not.toHaveBeenCalled()
   })
+  it('should not call interactor if validator throws', async () => {
+    const { sut, validatorStub, interactorStub } = makeSut()
+    const executeSpy = jest.spyOn(interactorStub, 'execute')
+    jest.spyOn(validatorStub, 'isValid').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    await expect(sut.handle(fakeRequest)).rejects.toThrow()
+    expect(executeSpy).not.toHaveBeenCalled()
+  })
 })
