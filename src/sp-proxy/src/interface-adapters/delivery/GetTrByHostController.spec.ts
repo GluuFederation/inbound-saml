@@ -1,4 +1,5 @@
 // receive request dto (IRequest)
+// validates request
 // maps to request model
 // dispatch to usecase interactor
 
@@ -6,6 +7,7 @@ import { IGetTrByHostRequest } from '@sp-proxy/interface-adapters/delivery/dtos/
 import { GetTrByHostController } from '@sp-proxy/interface-adapters/delivery/GetTrByHostController'
 import { IDeliveryMapper } from '@sp-proxy/interface-adapters/protocols/IDeliveryMapper'
 import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'
+import { IValidator } from '@sp-proxy/interface-adapters/protocols/IValidator'
 import { GetTrByHostRequestUseCaseParams } from '@sp-proxy/use-cases/io-models/GetTrByHostRequestUseCaseParams'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
 import { InputBoundary } from '@sp-proxy/use-cases/ports/InputBoundary'
@@ -48,6 +50,15 @@ const makeInteractor = (): InputBoundary<GetTrByHostRequestUseCaseParams> => {
   return new InteractorStub()
 }
 
+const makeValidator = (): IValidator => {
+  class ValidatorStub implements IValidator {
+    async isValid(request: any): Promise<boolean> {
+      return true
+    }
+  }
+  return new ValidatorStub()
+}
+
 interface SutTypes {
   sut: GetTrByHostController
   mapperStub: IDeliveryMapper<
@@ -55,16 +66,23 @@ interface SutTypes {
     IRequestModel<GetTrByHostRequestUseCaseParams>
   >
   interactorStub: InputBoundary<GetTrByHostRequestUseCaseParams>
+  validatorStub: IValidator
 }
 
 const makeSut = (): SutTypes => {
   const mapperStub = makeMapper()
   const interactorStub = makeInteractor()
-  const sut = new GetTrByHostController(mapperStub, interactorStub)
+  const validatorStub = makeValidator()
+  const sut = new GetTrByHostController(
+    mapperStub,
+    interactorStub,
+    validatorStub
+  )
   return {
     sut,
     mapperStub,
-    interactorStub
+    interactorStub,
+    validatorStub
   }
 }
 
@@ -106,5 +124,12 @@ describe('GetByTrHostController', () => {
       throw new Error()
     })
     await expect(sut.handle(fakeRequest)).rejects.toThrow()
+  })
+  it('should call validator with request dto', async () => {
+    const { sut, validatorStub } = makeSut()
+    const isValidSpy = jest.spyOn(validatorStub, 'isValid')
+    await sut.handle(fakeRequest)
+    expect(isValidSpy).toBeCalledTimes(1)
+    expect(isValidSpy).toBeCalledWith(fakeRequest)
   })
 })
