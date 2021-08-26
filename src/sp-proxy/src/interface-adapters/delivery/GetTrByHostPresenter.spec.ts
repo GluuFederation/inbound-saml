@@ -100,4 +100,11 @@ describe('GetTrByHostPresenter', () => {
     expect(mapSpy).toHaveBeenCalledTimes(1)
     expect(mapSpy).toHaveBeenCalledWith(fakeResponseModel)
   })
+  it('should throw if mapper throws', async () => {
+    const { sut, mapperStub } = makeSut()
+    jest.spyOn(mapperStub, 'map').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    await expect(sut.present(fakeResponseModel)).rejects.toThrow()
+  })
 })
