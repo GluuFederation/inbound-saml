@@ -1,3 +1,4 @@
+import { PersistenceError } from '@sp-proxy/interface-adapters/data/errors/PersistenceError'
 import { IGetTrByHostRequest } from '@sp-proxy/interface-adapters/delivery/dtos/IGetTrByHostRequest'
 import { GetTrByHostValidator } from '@sp-proxy/interface-adapters/delivery/validators/GetTrByHostValidator'
 import * as urlValidator from '@sp-proxy/interface-adapters/delivery/validators/singles/isValidUrl'
@@ -19,5 +20,12 @@ describe('GetTrByHostValidator', () => {
     expect(isValidUrlSpy).toHaveBeenCalledWith(
       `https://${fakeRequest.body.host}`
     )
+  })
+  it('should throw PersistenceError if isValidUrl throws', async () => {
+    jest.spyOn(urlValidator, 'isValidUrl').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    const sut = new GetTrByHostValidator()
+    await expect(sut.isValid(fakeRequest)).rejects.toThrow(PersistenceError)
   })
 })
