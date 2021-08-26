@@ -16,6 +16,7 @@ export class GetTrByHostController implements IController {
   ) {}
 
   async handle(request: IRequest<any>): Promise<void> {
-    this.requestMapper.map(request)
+    const requestModel = this.requestMapper.map(request)
+    await this.interactor.execute(requestModel)
   }
 }

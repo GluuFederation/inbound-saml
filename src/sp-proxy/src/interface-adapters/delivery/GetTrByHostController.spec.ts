@@ -90,4 +90,14 @@ describe('GetByTrHostController', () => {
     })
     await expect(sut.handle(fakeRequest)).rejects.toThrow()
   })
+  it('should call interactor with mapped resquest model', async () => {
+    const { sut, mapperStub, interactorStub } = makeSut()
+    jest
+      .spyOn(mapperStub, 'map')
+      .mockReturnValueOnce('mapped request model' as any)
+    const executeSpy = jest.spyOn(interactorStub, 'execute')
+    await sut.handle(fakeRequest)
+    expect(executeSpy).toHaveBeenCalledTimes(1)
+    expect(executeSpy).toHaveBeenCalledWith('mapped request model')
+  })
 })
