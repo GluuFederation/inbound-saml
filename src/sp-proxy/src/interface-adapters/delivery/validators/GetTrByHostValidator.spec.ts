@@ -1,5 +1,5 @@
-import { PersistenceError } from '@sp-proxy/interface-adapters/data/errors/PersistenceError'
 import { IGetTrByHostRequest } from '@sp-proxy/interface-adapters/delivery/dtos/IGetTrByHostRequest'
+import { InvalidRequestError } from '@sp-proxy/interface-adapters/delivery/errors/InvalidRequestError'
 import { GetTrByHostValidator } from '@sp-proxy/interface-adapters/delivery/validators/GetTrByHostValidator'
 import * as urlValidator from '@sp-proxy/interface-adapters/delivery/validators/singles/isValidUrl'
 import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'
@@ -26,6 +26,6 @@ describe('GetTrByHostValidator', () => {
       throw new Error()
     })
     const sut = new GetTrByHostValidator()
-    await expect(sut.isValid(fakeRequest)).rejects.toThrow(PersistenceError)
+    await expect(sut.isValid(fakeRequest)).rejects.toThrow(InvalidRequestError)
   })
 })
