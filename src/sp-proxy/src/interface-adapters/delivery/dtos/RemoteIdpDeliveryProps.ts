@@ -1,7 +1,7 @@
 /**
  * Shoud be independent from other layers
  */
-interface IDeliveryService {
+export interface IDeliveryService {
   binding: string
   location: string
 }
