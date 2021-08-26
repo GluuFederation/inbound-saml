@@ -25,14 +25,8 @@ export class GetTrByHostPresenterMapper
         remoteIdp: {
           id: responseModel.response.remoteIdp.id,
           name: responseModel.response.remoteIdp.name,
-          singleSignOnService: [
-            {
-              binding:
-                responseModel.response.remoteIdp.singleSignOnService[0].binding,
-              location:
-                responseModel.response.remoteIdp.singleSignOnService[0].location
-            }
-          ],
+          singleSignOnService:
+            responseModel.response.remoteIdp.singleSignOnService,
           signingCertificates:
             responseModel.response.remoteIdp.signingCertificates
         }
