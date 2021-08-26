@@ -20,6 +20,7 @@ export class GetTrByHostPresenter
   async present(
     responseModel: IResponseModel<GetTrByHostResponseUseCaseParams>
   ): Promise<void> {
-    this.dtoMapper.map(responseModel)
+    const mappedResponseDto = this.dtoMapper.map(responseModel)
+    this.eventBus.emit(responseModel.requestId, mappedResponseDto)
   }
 }

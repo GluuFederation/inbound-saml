@@ -107,4 +107,17 @@ describe('GetTrByHostPresenter', () => {
     })
     await expect(sut.present(fakeResponseModel)).rejects.toThrow()
   })
+  it('should call eventBus emit with mapped response DTO', async () => {
+    const { sut, eventBusStub, mapperStub } = makeSut()
+    jest
+      .spyOn(mapperStub, 'map')
+      .mockReturnValueOnce('mapped response DTO' as any)
+    const emitSpy = jest.spyOn(eventBusStub, 'emit')
+    await sut.present(fakeResponseModel)
+    expect(emitSpy).toHaveBeenCalledTimes(1)
+    expect(emitSpy).toHaveBeenCalledWith(
+      fakeResponseModel.requestId,
+      'mapped response DTO'
+    )
+  })
 })
