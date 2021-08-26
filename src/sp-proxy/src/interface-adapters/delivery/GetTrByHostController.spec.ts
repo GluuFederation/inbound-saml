@@ -139,4 +139,13 @@ describe('GetByTrHostController', () => {
     })
     await expect(sut.handle(fakeRequest)).rejects.toThrow()
   })
+  it('should not call mapper if validator throws', async () => {
+    const { sut, validatorStub, mapperStub } = makeSut()
+    const mapSpy = jest.spyOn(mapperStub, 'map')
+    jest.spyOn(validatorStub, 'isValid').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    await expect(sut.handle(fakeRequest)).rejects.toThrow()
+    expect(mapSpy).not.toHaveBeenCalled()
+  })
 })

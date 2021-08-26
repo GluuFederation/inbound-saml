@@ -18,8 +18,8 @@ export class GetTrByHostController implements IController {
   ) {}
 
   async handle(request: IRequest<any>): Promise<void> {
+    await this.validator.isValid(request)
     const requestModel = this.requestMapper.map(request)
     await this.interactor.execute(requestModel)
-    await this.validator.isValid(request)
   }
 }
