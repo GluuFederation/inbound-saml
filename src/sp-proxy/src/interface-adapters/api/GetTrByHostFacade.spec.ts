@@ -96,4 +96,11 @@ describe('GetTrByHostFacade', () => {
     expect(handleSpy).toHaveBeenCalledTimes(1)
     expect(handleSpy).toHaveBeenCalledWith(fakeRequestDto)
   })
+  it('should throw if controller throws', async () => {
+    const { sut, controllerStub } = makeSut()
+    jest.spyOn(controllerStub, 'handle').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    await expect(sut.getTrByHost('any valid host')).rejects.toThrow()
+  })
 })
