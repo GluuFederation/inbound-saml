@@ -18,14 +18,6 @@ describe('metadataRoute', () => {
   afterAll(async () => {
     jest.clearAllMocks()
   })
-  it('should return 400 if controller throws InvalidRequestError', async () => {
-    jest
-      .spyOn(GenerateMetadataController.prototype, 'handle')
-      .mockImplementationOnce(() => {
-        throw new InvalidRequestError('Invalid request on controller')
-      })
-    await request(app).get('/sp/metadata').expect(400)
-  })
   it('should return InvalidRequestError message in body', async () => {
     jest
       .spyOn(GenerateMetadataController.prototype, 'handle')
