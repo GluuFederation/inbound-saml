@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.7.0](https://www.github.com/GluuFederation/inbound-saml/compare/v0.6.0...v0.7.0) (2021-08-27)
+
+
+### Features
+
+* **GetTrByHost:** get Trust Relation by host ([#57](https://www.github.com/GluuFederation/inbound-saml/issues/57)) ([656011c](https://www.github.com/GluuFederation/inbound-saml/commit/656011c89f7afa8569a3dc8431bcfebd4d3c2243))
+
+
+### Bug Fixes
+
+* **security:** update passport-saml to fix vulnerability ([#64](https://www.github.com/GluuFederation/inbound-saml/issues/64)) ([e2e80a3](https://www.github.com/GluuFederation/inbound-saml/commit/e2e80a365917ad0275c93fa798c53e87f2bedaa4))
+
 ## [0.6.0](https://www.github.com/GluuFederation/inbound-saml/compare/v0.5.0...v0.6.0) (2021-08-25)
 
 
