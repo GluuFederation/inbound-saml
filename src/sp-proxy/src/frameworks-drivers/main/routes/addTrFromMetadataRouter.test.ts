@@ -39,4 +39,13 @@ describe('addTrFromMetadataRouter', () => {
       .expect(400)
       .expect('InvalidRequestError: Invalid request on controller')
   })
+  it('should return 500 if exception as string is thrown', async () => {
+    jest
+      .spyOn(AddTrFromMetadataController.prototype, 'handle')
+      .mockImplementationOnce(() => {
+        // eslint-disable-next-line @typescript-eslint/no-throw-literal
+        throw 'Any other error ocurred'
+      })
+    await request(app).post(endpoint).expect(500)
+  })
 })
