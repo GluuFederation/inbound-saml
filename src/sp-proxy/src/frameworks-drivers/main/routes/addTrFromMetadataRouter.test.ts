@@ -48,4 +48,13 @@ describe('addTrFromMetadataRouter', () => {
       })
     await request(app).post(endpoint).expect(500)
   })
+  it('should return 500 if any other error is thrown', async () => {
+    class AnyOtherError extends Error {}
+    jest
+      .spyOn(AddTrFromMetadataController.prototype, 'handle')
+      .mockImplementationOnce(() => {
+        throw new AnyOtherError('Any other error ocurred')
+      })
+    await request(app).post(endpoint).expect(500)
+  })
 })
