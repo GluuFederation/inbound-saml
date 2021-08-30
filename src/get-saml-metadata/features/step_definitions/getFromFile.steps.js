@@ -11,7 +11,9 @@ const getIdpSigningCerts = (keyDescriptorList) => {
   for (const keyDescriptor of keyDescriptorList) {
     if (keyDescriptor['@_use'] === 'signing') {
       idpSigningCert.push(
-        keyDescriptor['ds:KeyInfo']['ds:X509Data']['ds:X509Certificate']
+        keyDescriptor['ds:KeyInfo']['ds:X509Data'][
+          'ds:X509Certificate'
+        ].replace(/(\r\n|\n|\r)/gm, '')
       )
     }
   }

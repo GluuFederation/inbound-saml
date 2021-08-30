@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { makeGenerateMetadataFacade } from '@sp-proxy/frameworks-drivers/main/factories/makeGenerateMetadataFacade'
-import { InvalidRequestError } from '@sp-proxy/interface-adapters/delivery/errors/InvalidRequestError'
+import { errorHandler } from '@sp-proxy/frameworks-drivers/main/utils/errorHandler'
 import { Request, Response, Router } from 'express'
 
 const metadataRouter = Router()
@@ -16,13 +16,7 @@ const adaptFacade = () => {
         .status(200)
         .send(metadata)
     } catch (err) {
-      if (err instanceof InvalidRequestError) {
-        response.status(400).send(err.message)
-      } else if (err instanceof Error) {
-        response.sendStatus(500)
-      } else {
-        response.sendStatus(500)
-      }
+      errorHandler(response, err)
     }
   }
 }
