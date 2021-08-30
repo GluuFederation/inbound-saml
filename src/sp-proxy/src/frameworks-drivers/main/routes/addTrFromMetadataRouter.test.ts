@@ -4,11 +4,15 @@ import request from 'supertest'
 import { mockSpProxyConfig } from '@sp-proxy/frameworks-drivers/main/mocks/mockSpProxyConfig.mock'
 import { AddTrFromMetadataController } from '@sp-proxy/interface-adapters/delivery/AddTrFromMetadataController'
 import { InvalidRequestError } from '@sp-proxy/interface-adapters/delivery/errors/InvalidRequestError'
+import { mockValidXmlDataEndpoint } from '@sp-proxy/frameworks-drivers/main/mocks/externalMetadataUrl.mock'
+import nock from 'nock'
+// import app from '@sp-proxy/frameworks-drivers/main/server'
 
 jest.mock('@sp-proxy/interface-adapters/data/FileReadProxyConfig')
 
 const app = express()
 
+app.use(express.json())
 describe('addTrFromMetadataRouter', () => {
   beforeAll(async () => {
     // setup app for testing this route
@@ -17,6 +21,7 @@ describe('addTrFromMetadataRouter', () => {
   })
   afterAll(async () => {
     jest.clearAllMocks()
+    nock.cleanAll()
   })
   const endpoint = '/inbound-saml/trust-relation/metadata'
 
@@ -56,5 +61,16 @@ describe('addTrFromMetadataRouter', () => {
         throw new AnyOtherError('Any other error ocurred')
       })
     await request(app).post(endpoint).expect(500)
+  })
+  it('should return 201 if success', async () => {
+    mockValidXmlDataEndpoint()
+    await request(app)
+      .post(endpoint)
+      .send({
+        name: 'valid name integration',
+        url: 'https://remoteIdp.com/metadata'
+      })
+      .expect(201)
+    nock.cleanAll()
   })
 })

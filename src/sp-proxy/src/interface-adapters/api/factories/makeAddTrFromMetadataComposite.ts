@@ -15,7 +15,8 @@ import { EventEmitter } from 'stream'
 import config from '@sp-proxy/interface-adapters/config/env'
 
 export const makeAddTrFromMetadataComposite = (
-  eventBus: EventEmitter
+  eventBus: EventEmitter,
+  connection: MongoClient
 ): IController => {
   const presenterMapper = new AddTrFromMetadataPresenterMapper()
   const presenter = new AddTrFromMetadataPresenter(presenterMapper, eventBus)
@@ -23,8 +24,7 @@ export const makeAddTrFromMetadataComposite = (
   const externalDataGateway = new GetSamlFetchExternalData()
   const remoteIdpFromExtDataFactory = new RemoteIdpFromExternalDataFactory()
 
-  const client = new MongoClient(config.database.mongo.uri)
-  const dataBase = client.db(config.database.mongo.dbName)
+  const dataBase = connection.db(config.database.mongo.dbName)
   const remoteIdpCollection = dataBase.collection(
     config.database.mongo.collections.remoteIdps
   )
