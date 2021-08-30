@@ -25,7 +25,12 @@ export class ExternalDataMapper implements IExternalDataMapper {
     const allCerts = []
     for (const keyDescriptorItem of keyDescriptors) {
       if (keyDescriptorItem.use === 'signing') {
-        allCerts.push(keyDescriptorItem.keyInfo.x509Data.x509Certificate)
+        allCerts.push(
+          keyDescriptorItem.keyInfo.x509Data.x509Certificate.replace(
+            /(\r\n|\n|\r)/gm,
+            ''
+          )
+        )
       }
     }
     return allCerts
