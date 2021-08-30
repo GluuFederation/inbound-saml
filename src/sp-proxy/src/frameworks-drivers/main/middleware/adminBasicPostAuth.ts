@@ -1,4 +1,5 @@
 import serverConfig from '@sp-proxy/frameworks-drivers/main/config/env'
+import { decodeCredentials } from '@sp-proxy/frameworks-drivers/main/helpers/decodeCredentials'
 import { NextFunction, Request, Response } from 'express'
 
 /**
@@ -11,13 +12,10 @@ export const adminBasicPostAuth = () => {
     if (encoded == null) {
       response.sendStatus(401)
     } else {
-      const string = Buffer.from(encoded?.toString(), 'base64').toString()
-      const credentials = string.split(':')
-      const username = credentials[0]
-      const password = credentials[1]
+      const credentials = decodeCredentials(encoded)
       if (
-        username === serverConfig.adminUser &&
-        password === serverConfig.adminPassword
+        credentials.user === serverConfig.adminUser &&
+        credentials.password === serverConfig.adminPassword
       ) {
         next()
       } else {
