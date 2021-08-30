@@ -5,27 +5,11 @@ import { json, NextFunction, Request, Response, Router } from 'express'
 import { MongoClient } from 'mongodb'
 import { EventEmitter } from 'stream'
 import cfg from '@sp-proxy/interface-adapters/config/env'
-import serverConfig from '@sp-proxy/frameworks-drivers/main/config/env'
+import { adminBasicPostAuth } from '@sp-proxy/frameworks-drivers/main/middleware/adminBasicPostAuth'
 
 const addTrFromMetadataRouter = Router()
 addTrFromMetadataRouter.use(json())
-const basicPostAuth = () => {
-  return (request: Request, response: Response, next: NextFunction) => {
-    const encoded = request.headers.authorization?.replace('Basic ', '')
-    if (encoded != null) {
-      const string = Buffer.from(encoded?.toString(), 'base64').toString()
-      const array = string.split(':')
-      const username = array[0]
-      // const password = array[1]
-      if (username !== serverConfig.adminUser) {
-        response.sendStatus(401)
-        response.end()
-      } else {
-        next()
-      }
-    }
-  }
-}
+
 const adaptFacade = () => {
   return async (request: Request, response: Response, next: NextFunction) => {
     const eventBus = new EventEmitter()
@@ -49,6 +33,6 @@ const adaptFacade = () => {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-misused-promises
-addTrFromMetadataRouter.post('/metadata', basicPostAuth(), adaptFacade())
+addTrFromMetadataRouter.post('/metadata', adminBasicPostAuth(), adaptFacade())
 
 export default addTrFromMetadataRouter
