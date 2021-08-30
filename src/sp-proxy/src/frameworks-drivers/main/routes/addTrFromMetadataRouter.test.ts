@@ -8,9 +8,18 @@ import { mockValidXmlDataEndpoint } from '@sp-proxy/frameworks-drivers/main/mock
 import nock from 'nock'
 import { Collection, MongoClient } from 'mongodb'
 import config from '@sp-proxy/interface-adapters/config/env'
+import serverConfig from '@sp-proxy/frameworks-drivers/main/config/env'
+
 jest.mock('@sp-proxy/interface-adapters/data/FileReadProxyConfig')
 
 const app = express()
+const encodeCredentials = (user: string, password: string): string => {
+  return Buffer.from(`${user}:${password}`).toString('base64')
+}
+const validCredentials = encodeCredentials(
+  serverConfig.adminUser,
+  serverConfig.adminPassword
+)
 
 app.use(express.json())
 describe('addTrFromMetadataRouter', () => {
@@ -40,7 +49,11 @@ describe('addTrFromMetadataRouter', () => {
       .mockImplementationOnce(() => {
         throw new InvalidRequestError('Invalid request on controller')
       })
-    await request(app).post(endpoint).send({ any: 'data' }).expect(400)
+    await request(app)
+      .post(endpoint)
+      .set('authorization', validCredentials)
+      .send({ any: 'data' })
+      .expect(400)
   })
   it('should return InvalidRequestError message in body', async () => {
     jest
@@ -50,6 +63,7 @@ describe('addTrFromMetadataRouter', () => {
       })
     await request(app)
       .post(endpoint)
+      .set('authorization', validCredentials)
       .expect(400)
       .expect('InvalidRequestError: Invalid request on controller')
   })
@@ -60,7 +74,10 @@ describe('addTrFromMetadataRouter', () => {
         // eslint-disable-next-line @typescript-eslint/no-throw-literal
         throw 'Any other error ocurred'
       })
-    await request(app).post(endpoint).expect(500)
+    await request(app)
+      .post(endpoint)
+      .set('authorization', validCredentials)
+      .expect(500)
   })
   it('should return 500 if any other error is thrown', async () => {
     class AnyOtherError extends Error {}
@@ -69,12 +86,16 @@ describe('addTrFromMetadataRouter', () => {
       .mockImplementationOnce(() => {
         throw new AnyOtherError('Any other error ocurred')
       })
-    await request(app).post(endpoint).expect(500)
+    await request(app)
+      .post(endpoint)
+      .set('authorization', validCredentials)
+      .expect(500)
   })
   it('should return 201 if success', async () => {
     mockValidXmlDataEndpoint()
     await request(app)
       .post(endpoint)
+      .set('authorization', validCredentials)
       .send({
         name: 'valid name integration',
         url: 'https://remoteIdp.com/metadata'
@@ -85,6 +106,7 @@ describe('addTrFromMetadataRouter', () => {
     mockValidXmlDataEndpoint()
     await request(app)
       .post(endpoint)
+      .set('authorization', validCredentials)
       .send({
         name: 'valid name integration',
         url: 'https://remoteIdp.com/metadata'
@@ -95,6 +117,7 @@ describe('addTrFromMetadataRouter', () => {
     mockValidXmlDataEndpoint()
     await request(app)
       .post(endpoint)
+      .set('authorization', validCredentials)
       .send({
         name: 'valid name integration',
         url: 'https://remoteIdp.com/metadata'
@@ -106,6 +129,7 @@ describe('addTrFromMetadataRouter', () => {
     mockValidXmlDataEndpoint()
     await request(app)
       .post(endpoint)
+      .set('authorization', validCredentials)
       .send({
         name: 'valid name integration',
         url: 'https://remoteIdp.com/metadata'
@@ -120,4 +144,19 @@ describe('addTrFromMetadataRouter', () => {
       )
     }
   })
+  it('should return 401 if wrong credentials', async () => {
+    const wrongUser = 'wronguser'
+    const wrongPwd = 'wrongpwd'
+    const encoded = Buffer.from(`${wrongUser}:${wrongPwd}`).toString('base64')
+
+    await request(app)
+      .post(endpoint)
+      .set('authorization', encoded)
+      .send({
+        name: 'valid name integration',
+        url: 'https://remoteIdp.com/metadata'
+      })
+      .expect(401)
+  })
+  it('should return expected if valid credentials', async () => {})
 })
