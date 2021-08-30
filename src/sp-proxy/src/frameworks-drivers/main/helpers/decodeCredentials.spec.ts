@@ -20,4 +20,13 @@ describe('decodeCredentials', () => {
     expect(splitSpy).toHaveBeenCalledTimes(1)
     expect(splitSpy).toHaveBeenCalledWith(':')
   })
+  it('return expected values', () => {
+    jest
+      .spyOn(String.prototype, 'split')
+      .mockReturnValueOnce(['validUser', 'validPassword'])
+    expect(decodeCredentials('any creds')).toStrictEqual({
+      user: 'validUser',
+      password: 'validPassword'
+    })
+  })
 })
