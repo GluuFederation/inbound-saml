@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.8.0](https://www.github.com/GluuFederation/inbound-saml/compare/v0.7.0...v0.8.0) (2021-08-30)
+
+
+### Features
+
+* **AddTrFromMetadata:** add protected endpoint for executing action ([#66](https://www.github.com/GluuFederation/inbound-saml/issues/66)) ([4900954](https://www.github.com/GluuFederation/inbound-saml/commit/490095417e39186be5275e1f3ebc92ce46bc45c6))
+
 ## [0.7.0](https://www.github.com/GluuFederation/inbound-saml/compare/v0.6.0...v0.7.0) (2021-08-27)
 
 
