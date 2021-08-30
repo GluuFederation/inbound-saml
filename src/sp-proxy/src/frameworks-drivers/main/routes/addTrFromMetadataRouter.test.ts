@@ -171,4 +171,14 @@ describe('addTrFromMetadataRouter', () => {
       })
       .expect(401)
   })
+  it('should return 401 if no credentials', async () => {
+    await request(app)
+      .post(endpoint)
+      // .set('authorization', encoded)
+      .send({
+        name: 'valid name integration',
+        url: 'https://remoteIdp.com/metadata'
+      })
+      .expect(401)
+  })
 })

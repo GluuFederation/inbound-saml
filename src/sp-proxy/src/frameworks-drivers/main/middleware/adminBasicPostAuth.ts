@@ -21,6 +21,8 @@ export const adminBasicPostAuth = () => {
       } else {
         next()
       }
+    } else {
+      response.sendStatus(401)
     }
   }
 }
