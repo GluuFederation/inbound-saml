@@ -14,4 +14,10 @@ describe('decodeCredentials', () => {
     decodeCredentials('any credentials')
     expect(toStringSpy).toHaveBeenCalledTimes(1)
   })
+  it('should call split from returned string', () => {
+    const splitSpy = jest.spyOn(String.prototype, 'split')
+    decodeCredentials('any credentials')
+    expect(splitSpy).toHaveBeenCalledTimes(1)
+    expect(splitSpy).toHaveBeenCalledWith(':')
+  })
 })

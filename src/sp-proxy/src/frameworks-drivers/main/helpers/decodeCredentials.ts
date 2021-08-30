@@ -3,7 +3,7 @@ import { ISimpleCredentials } from '@sp-proxy/frameworks-drivers/main/protocols/
 export const decodeCredentials = (
   encodedCredentials: string
 ): ISimpleCredentials => {
-  Buffer.from(encodedCredentials, 'base64')
+  Buffer.from(encodedCredentials, 'base64').toString().split(':')
   return {
     user: '',
     password: ''
