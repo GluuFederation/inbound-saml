@@ -144,9 +144,9 @@ describe('addTrFromMetadataRouter', () => {
       )
     }
   })
-  it('should return 401 if wrong credentials', async () => {
+  it('should return 401 if wrong username', async () => {
     const wrongUser = 'wronguser'
-    const wrongPwd = 'wrongpwd'
+    const wrongPwd = serverConfig.adminPassword
     const encoded = Buffer.from(`${wrongUser}:${wrongPwd}`).toString('base64')
 
     await request(app)
