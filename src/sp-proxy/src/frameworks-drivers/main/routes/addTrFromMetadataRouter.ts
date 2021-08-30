@@ -21,8 +21,8 @@ const adaptFacade = () => {
         name: request.body.name,
         url: request.body.url
       })
-      // TODO: return created object
-      response.status(201).send({ any: 'any' })
+      // TODO: return created object or link to, according to HTTP specs
+      response.status(201).send({ creation: 'success' })
     } catch (err) {
       errorHandler(response, err)
     } finally {

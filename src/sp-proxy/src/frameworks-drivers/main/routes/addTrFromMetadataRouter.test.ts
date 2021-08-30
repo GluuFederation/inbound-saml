@@ -71,9 +71,8 @@ describe('addTrFromMetadataRouter', () => {
         url: 'https://remoteIdp.com/metadata'
       })
       .expect(201)
-    nock.cleanAll()
   })
-  it('should return json success', async () => {
+  it('should return json content type', async () => {
     mockValidXmlDataEndpoint()
     await request(app)
       .post(endpoint)
@@ -82,5 +81,15 @@ describe('addTrFromMetadataRouter', () => {
         url: 'https://remoteIdp.com/metadata'
       })
       .expect('Content-Type', /json/)
+  })
+  it('should return success message', async () => {
+    mockValidXmlDataEndpoint()
+    await request(app)
+      .post(endpoint)
+      .send({
+        name: 'valid name integration',
+        url: 'https://remoteIdp.com/metadata'
+      })
+      .expect({ creation: 'success' })
   })
 })
