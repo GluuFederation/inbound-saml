@@ -1,3 +1,4 @@
+import { adminBasicPostAuth } from '@sp-proxy/frameworks-drivers/main/middleware/adminBasicPostAuth'
 import { errorHandler } from '@sp-proxy/frameworks-drivers/main/utils/errorHandler'
 import { AddTrFromMetadataFacade } from '@sp-proxy/interface-adapters/api/AddTrFromMetadataFacade'
 import { makeAddTrFromMetadataComposite } from '@sp-proxy/interface-adapters/api/factories/makeAddTrFromMetadataComposite'
@@ -5,7 +6,6 @@ import { json, NextFunction, Request, Response, Router } from 'express'
 import { MongoClient } from 'mongodb'
 import { EventEmitter } from 'stream'
 import cfg from '@sp-proxy/interface-adapters/config/env'
-import { adminBasicPostAuth } from '@sp-proxy/frameworks-drivers/main/middleware/adminBasicPostAuth'
 
 const addTrFromMetadataRouter = Router()
 addTrFromMetadataRouter.use(json())
