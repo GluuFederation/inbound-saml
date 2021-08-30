@@ -7,4 +7,11 @@ describe('decodeCredentials', () => {
     expect(fromSpy).toHaveBeenCalledTimes(1)
     expect(fromSpy).toHaveBeenCalledWith('any credentials', 'base64')
   })
+  it('should call toString from returned value', () => {
+    const returnedValue = Buffer.from('returned value')
+    jest.spyOn(Buffer, 'from').mockReturnValueOnce(returnedValue)
+    const toStringSpy = jest.spyOn(returnedValue, 'toString')
+    decodeCredentials('any credentials')
+    expect(toStringSpy).toHaveBeenCalledTimes(1)
+  })
 })
