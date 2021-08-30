@@ -146,8 +146,8 @@ describe('addTrFromMetadataRouter', () => {
   })
   it('should return 401 if wrong username', async () => {
     const wrongUser = 'wronguser'
-    const wrongPwd = serverConfig.adminPassword
-    const encoded = Buffer.from(`${wrongUser}:${wrongPwd}`).toString('base64')
+    const validPwd = serverConfig.adminPassword
+    const encoded = encodeCredentials(wrongUser, validPwd)
 
     await request(app)
       .post(endpoint)
@@ -158,5 +158,17 @@ describe('addTrFromMetadataRouter', () => {
       })
       .expect(401)
   })
-  it('should return expected if valid credentials', async () => {})
+  it('should return 401 if wrong pwd', async () => {
+    const validUser = serverConfig.adminUser
+    const wrongPwd = 'wrongpwd'
+    const encoded = encodeCredentials(validUser, wrongPwd)
+    await request(app)
+      .post(endpoint)
+      .set('authorization', encoded)
+      .send({
+        name: 'valid name integration',
+        url: 'https://remoteIdp.com/metadata'
+      })
+      .expect(401)
+  })
 })

@@ -10,11 +10,14 @@ export const adminBasicPostAuth = () => {
     const encoded = request.headers.authorization?.replace('Basic ', '')
     if (encoded != null) {
       const string = Buffer.from(encoded?.toString(), 'base64').toString()
-      const array = string.split(':')
-      const username = array[0]
+      const credentials = string.split(':')
+      const username = credentials[0]
+      const password = credentials[1]
       if (username !== serverConfig.adminUser) {
         response.sendStatus(401)
         response.end()
+      } else if (password !== serverConfig.adminPassword) {
+        response.sendStatus(401)
       } else {
         next()
       }
