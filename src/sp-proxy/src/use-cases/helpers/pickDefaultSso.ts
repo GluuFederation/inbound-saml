@@ -12,10 +12,13 @@ export const pickDefaultSso = (
   ssoServices: SingleSignOnService[]
 ): SingleSignOnService => {
   const httpPost = ssoServices.find(
-    (service) => service.props.binding === 'HTTP-POST'
+    (service) =>
+      service.props.binding === 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST'
   )
   const httpRedirect = ssoServices.find(
-    (service) => service.props.binding === 'HTTP-Redirect'
+    (service) =>
+      service.props.binding ===
+      'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect'
   )
   if (httpPost !== undefined) {
     return httpPost

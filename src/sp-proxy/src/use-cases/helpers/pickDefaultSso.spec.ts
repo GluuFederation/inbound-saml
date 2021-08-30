@@ -5,15 +5,15 @@ import { IService } from '@sp-proxy/use-cases/protocols/IService'
 
 describe('helper - pickDefaultSso', () => {
   const httpPost: IService = {
-    binding: 'HTTP-POST',
+    binding: 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST',
     location: 'any post location'
   }
   const httpRedirect: IService = {
-    binding: 'HTTP-Redirect',
+    binding: 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect',
     location: 'any redirexct location'
   }
   const httpPostSimplesign: IService = {
-    binding: 'HTTP-POST-SimpleSign',
+    binding: 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST-SimpleSign',
     location: 'any simpleSign location'
   }
   const anyOtherService: IService = {
