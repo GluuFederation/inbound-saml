@@ -1,0 +1,9 @@
+# up integration tests services for local
+version: '3'
+services:
+  mongo:
+    container_name: mongo-container-test
+    image: mongo:4
+    restart: unless-stopped
+    ports:
+      - '27017:27017'
