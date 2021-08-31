@@ -14,5 +14,6 @@ export class LogControllerDecorator implements IController {
         this.controller.constructor.name
       }: called handle method with ${JSON.stringify(request)}`
     )
+    await this.controller.handle(request)
   }
 }

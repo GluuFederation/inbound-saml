@@ -56,4 +56,15 @@ describe('LogControllerDecorator', () => {
       `ControllerStub: called handle method with ${JSON.stringify(request)}`
     )
   })
+  it('should call controller handle with request', async () => {
+    const { sut, controllerStub } = makeSut()
+    const handleSpy = jest.spyOn(controllerStub, 'handle')
+    const request = {
+      id: 'valid id',
+      body: 'valid body'
+    }
+    await sut.handle(request)
+    expect(handleSpy).toHaveBeenCalledTimes(1)
+    expect(handleSpy).toHaveBeenCalledWith(request)
+  })
 })
