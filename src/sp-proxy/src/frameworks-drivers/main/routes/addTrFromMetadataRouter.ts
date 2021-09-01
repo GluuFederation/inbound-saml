@@ -6,6 +6,8 @@ import { json, NextFunction, Request, Response, Router } from 'express'
 import { MongoClient } from 'mongodb'
 import { EventEmitter } from 'stream'
 import cfg from '@sp-proxy/interface-adapters/config/env'
+import { makeLogControllerDecorator } from '@sp-proxy/interface-adapters/delivery/factories/makeLogControllerDecorator'
+import { WinstonLogger } from '@sp-proxy/frameworks-drivers/main/logger/WinstonLogger'
 
 const addTrFromMetadataRouter = Router()
 addTrFromMetadataRouter.use(json())
@@ -16,7 +18,10 @@ const adaptFacade = () => {
     const client = new MongoClient(cfg.database.mongo.uri)
     const connection = await client.connect()
     try {
-      const controller = makeAddTrFromMetadataComposite(eventBus, connection)
+      const controller = makeLogControllerDecorator(
+        WinstonLogger.getInstance(),
+        makeAddTrFromMetadataComposite(eventBus, connection)
+      )
       const facade = new AddTrFromMetadataFacade(controller, eventBus)
       await facade.addTrFromMetadata({
         name: request.body.name,
