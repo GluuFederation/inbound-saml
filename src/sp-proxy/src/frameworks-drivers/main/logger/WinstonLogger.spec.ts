@@ -36,5 +36,13 @@ describe('WinstonLogger', () => {
       expect(warnSpy).toHaveBeenCalledWith('expected param')
     })
   })
-  describe('error', () => {})
+  describe('error', () => {
+    it('should call winston error with received param', () => {
+      const sut = WinstonLogger.getInstance()
+      const errorSpy = jest.spyOn(defaultLogger, 'error')
+      sut.error('expected param')
+      expect(errorSpy).toHaveBeenCalledTimes(1)
+      expect(errorSpy).toHaveBeenCalledWith('expected param')
+    })
+  })
 })

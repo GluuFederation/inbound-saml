@@ -27,5 +27,7 @@ export class WinstonLogger implements ILogger {
     this.winstonLogger.warn(stack)
   }
 
-  error(stack: string): void {}
+  error(stack: string): void {
+    this.winstonLogger.error(stack)
+  }
 }
