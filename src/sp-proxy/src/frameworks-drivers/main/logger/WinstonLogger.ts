@@ -6,8 +6,7 @@ import { ILogger } from '@sp-proxy/interface-adapters/protocols/ILogger'
  */
 export class WinstonLogger implements ILogger {
   private static instance: WinstonLogger
-  private constructor() {}
-  private readonly winstonLogger = defaultLogger
+  private constructor(private readonly winstonLogger = defaultLogger) {}
 
   public static getInstance(): WinstonLogger {
     if (WinstonLogger.instance == null) {
@@ -20,7 +19,10 @@ export class WinstonLogger implements ILogger {
     this.winstonLogger.debug(stack)
   }
 
-  info(stack: string): void {}
+  info(stack: string): void {
+    this.winstonLogger.info(stack)
+  }
+
   warn(stack: string): void {}
   error(stack: string): void {}
 }
