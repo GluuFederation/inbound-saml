@@ -1,7 +1,9 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 import { makeGenerateMetadataFacade } from '@sp-proxy/frameworks-drivers/main/factories/makeGenerateMetadataFacade'
-import { errorHandler } from '@sp-proxy/frameworks-drivers/main/utils/errorHandler'
+import { ExpressErrorHandler } from '@sp-proxy/frameworks-drivers/main/utils/ExpressErrorHandler'
 import { Request, Response, Router } from 'express'
+
+const errorHandler = ExpressErrorHandler.getInstance()
 
 const metadataRouter = Router()
 
@@ -16,7 +18,7 @@ const adaptFacade = () => {
         .status(200)
         .send(metadata)
     } catch (err) {
-      errorHandler(response, err)
+      errorHandler.handle(response, err)
     }
   }
 }
