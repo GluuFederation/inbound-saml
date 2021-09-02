@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.9.0](https://www.github.com/GluuFederation/inbound-saml/compare/v0.8.0...v0.9.0) (2021-09-02)
+
+
+### Features
+
+* **controllerLogger:** add log decorator to controllers used by routes ([#70](https://www.github.com/GluuFederation/inbound-saml/issues/70)) ([9e93862](https://www.github.com/GluuFederation/inbound-saml/commit/9e93862efdc18250295e848c01164eb9aad4d65a))
+* **errorLogger:** add error logger decorator to error handler ([#76](https://www.github.com/GluuFederation/inbound-saml/issues/76)) ([7ff687e](https://www.github.com/GluuFederation/inbound-saml/commit/7ff687ef466323f02899d908c440021a6c0f1e3d))
+
 ## [0.8.0](https://www.github.com/GluuFederation/inbound-saml/compare/v0.7.0...v0.8.0) (2021-08-30)
 
 
