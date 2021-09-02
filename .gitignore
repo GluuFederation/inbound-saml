@@ -2,3 +2,10 @@ node_modules
 dist
 coverage
 .eslintcache
+.yarn
+.vscode/settings.json
+.vscode/extensions.json
+*.bak
+*.bak.*
+.DS_Store
+schemas/
