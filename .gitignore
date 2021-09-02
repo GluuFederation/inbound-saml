@@ -2,7 +2,12 @@ node_modules
 dist
 coverage
 .eslintcache
-.yarn
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
 .vscode/settings.json
 .vscode/extensions.json
 *.bak
