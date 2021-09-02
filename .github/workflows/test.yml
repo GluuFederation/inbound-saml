@@ -26,8 +26,8 @@ jobs:
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - run: npm ci
-      - run: npm run test:all
-      - run: npm run test:coverage
+      - run: yarn install
+      - run: yarn run test:all
+      - run: yarn run test:coverage
       - name: Upload Coverage
         uses: codecov/codecov-action@v2
