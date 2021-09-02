@@ -19,7 +19,7 @@ module.exports = {
   default: [
     '--require-module tsconfig-paths/register',
     '--require-module ts-node/register',
-    '--require ./src/get-saml-metadata/features/step_definitions/*.js',
-    '--require ./src/sp-proxy/features/step_definitions/*.js'
+    '--require ./packages/get-saml-metadata/features/step_definitions/*.js',
+    '--require ./packages/sp-proxy/features/step_definitions/*.js'
   ].join(' ')
 }

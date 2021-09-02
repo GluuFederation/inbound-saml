@@ -3,7 +3,7 @@ Feature: Get data from metadata file
 
   Scenario Outline: Sucessfully get data from Metadata file
 
-    Given "src/testdata/shibIdpMetadata.xml" exists in local file system
+    Given "packages/testdata/shibIdpMetadata.xml" exists in local file system
       And XML data is valid
     When client call getFromFile with the valid file path
     Then It should return a valid object with metadata values
@@ -16,7 +16,7 @@ Feature: Get data from metadata file
 
   Scenario: Try to get data from an unparsable XML file
 
-    Given "src/testdata/shibIdpMetadata.xml" exists in local file system
+    Given "packages/testdata/shibIdpMetadata.xml" exists in local file system
       And XML data is invalid
     When client call getFromFile with the valid file path
     Then It should throw Error
