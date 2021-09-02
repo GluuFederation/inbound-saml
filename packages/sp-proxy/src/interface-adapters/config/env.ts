@@ -37,7 +37,7 @@ export default {
       proxyConfigPath:
         process.env.PROXY_CFG_PATH ??
         process.cwd() +
-          '/src/sp-proxy/src/frameworks-drivers/file-persistence/sp-proxy-config-dev.json'
+          '/packages/sp-proxy/src/frameworks-drivers/file-persistence/sp-proxy-config-dev.json'
     }
   }
 }
