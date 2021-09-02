@@ -192,9 +192,10 @@ module.exports = {
   // Whether to use watchman for file crawling
   // watchman: true,
   moduleNameMapper: {
-    '@get-saml-metadata/(.*)': '<rootDir>/src/get-saml-metadata/src/$1',
-    '@sp-proxy/(.*)': '<rootDir>/src/sp-proxy/src/$1',
-    '@/tests/(.*)': '<rootDir>/tests/$1'
+    '@get-saml-metadata/(.*)': '<rootDir>/packages/get-saml-metadata/src/$1',
+    '@sp-proxy/(.*)': '<rootDir>/packages/sp-proxy/src/$1',
+    '@/tests/(.*)': '<rootDir>/packages/$1',
+    '@test-data/(.*)': '<rootDir>/packages/testdata/$1'
     // '@get-saml-metadata/(.*)': '<rootDir>/src/get-saml-metadata/src/$1'
   }
   // resolver: undefined

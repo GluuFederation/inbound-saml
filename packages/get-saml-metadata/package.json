@@ -1,0 +1,5 @@
+{
+  "name": "@inbound-saml/get-saml-metadata",
+  "packageManager": "yarn@3.0.1",
+  "version": "1.0.0"
+}

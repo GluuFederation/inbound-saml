@@ -6,6 +6,9 @@
     "type": "git",
     "url": "git@github.com:GluuFederation/inbound-saml.git"
   },
+  "workspaces": [
+    "packages/*"
+  ],
   "main": "index.js",
   "scripts": {
     "start": "node ./dist/sp-proxy/src/frameworks-drivers/main/server.js",
@@ -41,6 +44,7 @@
     "@types/uuid": "^8.3.1",
     "@types/xml2js": "^0.4.9",
     "@typescript-eslint/eslint-plugin": "^4.28.2",
+    "@typescript-eslint/parser": "^4.30.0",
     "chai": "^4.3.4",
     "codecov": "^3.8.3",
     "dotenv": "^10.0.0",
@@ -54,6 +58,7 @@
     "husky": "^7.0.1",
     "intermock": "^0.2.5",
     "jest": "^27.0.6",
+    "lerna": "^4.0.0",
     "lint-staged": "^11.1.1",
     "nock": "^13.1.1",
     "nodemon": "^2.0.12",

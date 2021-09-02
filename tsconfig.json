@@ -15,7 +15,7 @@
     "sourceMap": true,                           /* Generates corresponding '.map' file. */
     // "outFile": "./",                             /* Concatenate and emit output to single file. */
     "outDir": "./dist",                              /* Redirect output structure to the directory. */
-    "rootDir": "./src",                             /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
+    "rootDir": "./packages",                             /* Specify the root directory of input files. Use to control the output directory structure with --outDir. */
     // "composite": true,                           /* Enable project compilation */
     // "tsBuildInfoFile": "./",                     /* Specify file to store incremental compilation information */
     // "removeComments": true,                      /* Do not emit comments to output. */
@@ -45,11 +45,12 @@
 
     /* Module Resolution Options */
     // "moduleResolution": "node",                  /* Specify module resolution strategy: 'node' (Node.js) or 'classic' (TypeScript pre-1.6). */
-    "baseUrl": "./src",
+    "baseUrl": "./packages",
     "paths": {
       // "@/*": ["*"],
       "@get-saml-metadata/*" : ["get-saml-metadata/src/*"],
-      "@sp-proxy/*": ["sp-proxy/src/*"]
+      "@sp-proxy/*": ["sp-proxy/src/*"],
+      "@test-data/*": ["testdata/*"]
     },           
 
     // "rootDirs": [],                              /* List of root folders whose combined content represents the structure of the project at runtime. */
