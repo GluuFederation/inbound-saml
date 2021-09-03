@@ -1,4 +1,4 @@
-import { GenerateMetadataFormatter } from '@sp-proxy/interface-adapters/utils/GenerateMetadataFormatter'
+import { GenerateMetadataFormatter } from '@sp-proxy/interface-adapters/utils/formatters/GenerateMetadataFormatter'
 import { readFileSync } from 'fs'
 
 const loadedCert = readFileSync(
