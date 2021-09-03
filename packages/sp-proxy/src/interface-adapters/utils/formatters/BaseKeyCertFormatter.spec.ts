@@ -1,10 +1,11 @@
-import { GenerateMetadataFormatter } from '@sp-proxy/interface-adapters/utils/formatters/GenerateMetadataFormatter'
+import { BaseKeyCertFormatter } from '@sp-proxy/interface-adapters/utils/formatters/BaseKeyCertFormatter'
 
-describe('GenerateMetadataTransformer', () => {
+describe('BaseKeyCertFormatter', () => {
   it('should call replace with correct values', async () => {
     const fakeString = 'any string'
     const replaceSpy = jest.spyOn(String.prototype, 'replace')
-    const sut = new GenerateMetadataFormatter()
+    class ConcreteKeyCertFormater extends BaseKeyCertFormatter {}
+    const sut = new ConcreteKeyCertFormater()
     await sut.format(fakeString)
     expect(replaceSpy).toHaveBeenCalledTimes(5)
     expect(replaceSpy).toHaveBeenCalledWith(/(\r\n|\n|\r)/gm, '')
