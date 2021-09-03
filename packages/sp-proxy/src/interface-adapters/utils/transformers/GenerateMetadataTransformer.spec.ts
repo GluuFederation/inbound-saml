@@ -4,7 +4,7 @@
 import { SpProxyConfigProps } from '@sp-proxy/entities/protocols/SpProxyConfigProps'
 import { IKeyCertLoader } from '@sp-proxy/interface-adapters/protocols/IKeyCertLoader'
 import { IKeyCertFormatter } from '@sp-proxy/interface-adapters/protocols/IKeySetFormatter'
-import { GenerateMetadataTransformer } from '@sp-proxy/interface-adapters/transformers/GenerateMetadataTransformer'
+import { GenerateMetadataTransformer } from '@sp-proxy/interface-adapters/utils/transformers/GenerateMetadataTransformer'
 
 const fakeConfigProps: SpProxyConfigProps = {
   host: 'valid hostname',

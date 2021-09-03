@@ -5,7 +5,7 @@ import { GenerateMetadataControllerMapper } from '@sp-proxy/interface-adapters/d
 import { GenerateMetadataPresenterMapper } from '@sp-proxy/interface-adapters/delivery/mappers/GenerateMetadataPresenterMapper'
 import { KeyCertLoader } from '@sp-proxy/interface-adapters/external-services/KeyCertLoader'
 import { MetadataGenerator } from '@sp-proxy/interface-adapters/external-services/MetadataGenerator'
-import { GenerateMetadataTransformer } from '@sp-proxy/interface-adapters/transformers/GenerateMetadataTransformer'
+import { GenerateMetadataTransformer } from '@sp-proxy/interface-adapters/utils/transformers/GenerateMetadataTransformer'
 import { GenerateMetadataFormatter } from '@sp-proxy/interface-adapters/utils/GenerateMetadataFormatter'
 import { GenerateSpMetadataInteractor } from '@sp-proxy/use-cases/GenerateMetadataInteractor'
 import { GenerateMetadataUseCaseMapper } from '@sp-proxy/use-cases/mappers/GenerateMetadataUseCaseMapper'
