@@ -7,13 +7,13 @@ import { GenerateMetadataPresenterMapper } from '@sp-proxy/interface-adapters/de
 import { KeyCertLoader } from '@sp-proxy/interface-adapters/external-services/KeyCertLoader'
 import { MetadataGenerator } from '@sp-proxy/interface-adapters/external-services/MetadataGenerator'
 import { GenerateMetadataTransformer } from '@sp-proxy/interface-adapters/utils/transformers/GenerateMetadataTransformer'
-import { GenerateMetadataFormatter } from '@sp-proxy/interface-adapters/utils/GenerateMetadataFormatter'
 import { GenerateSpMetadataInteractor } from '@sp-proxy/use-cases/GenerateMetadataInteractor'
 import { GenerateMetadataUseCaseMapper } from '@sp-proxy/use-cases/mappers/GenerateMetadataUseCaseMapper'
 import { EventEmitter } from 'stream'
 import cfg from '@sp-proxy/interface-adapters/config/env'
 import { SpProxyConfig } from '@sp-proxy/entities/SpProxyConfig'
 import { SpProxyConfigProps } from '@sp-proxy/entities/protocols/SpProxyConfigProps'
+import { GenerateMetadataFormatter } from '@sp-proxy/interface-adapters/utils/formatters/GenerateMetadataFormatter'
 jest.mock('@sp-proxy/interface-adapters/data/FileReadProxyConfig')
 describe('GenerateMetadataFacade - integration', () => {
   beforeAll(async () => {
