@@ -83,4 +83,12 @@ describe('ReadSpProxyController', () => {
     })
     await expect(sut.handle(fakeRequestDto)).rejects.toThrow()
   })
+  it('should call interactor with mapped response', async () => {
+    const { sut, mapperStub, interactorStub } = makeSut()
+    jest.spyOn(mapperStub, 'map').mockReturnValueOnce('mapped response' as any)
+    const executeSpy = jest.spyOn(interactorStub, 'execute')
+    await sut.handle(fakeRequestDto)
+    expect(executeSpy).toBeCalledTimes(1)
+    expect(executeSpy).toBeCalledWith('mapped response')
+  })
 })

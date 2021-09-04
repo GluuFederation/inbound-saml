@@ -16,7 +16,7 @@ export class ReadSpProxyConfigController implements IController {
   ) {}
 
   async handle(request: IRequest<IReadSpProxyConfigRequest>): Promise<void> {
-    this.mapper.map(request)
-    // dispatch
+    const requestModel = this.mapper.map(request)
+    await this.interactor.execute(requestModel)
   }
 }
