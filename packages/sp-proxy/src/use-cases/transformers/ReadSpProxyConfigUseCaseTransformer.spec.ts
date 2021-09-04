@@ -73,17 +73,22 @@ describe('ReadSpProxyConfigUseCaseTransformer', () => {
         publicCertPath: 'fake /valid-signing/cert/path.pem'
       }
     }
-    const propsWithSigning = Object.assign(spProxyConfigProps, optionalSigning)
-    const spProxyConfig = new SpProxyConfig(propsWithSigning)
+
+    const propsCopy = Object.assign({}, spProxyConfigProps)
+    const spConfigPropsWithSigning = Object.assign(propsCopy, optionalSigning)
+
+    const fakeSpProxyConfigWithSigning = new SpProxyConfig(
+      spConfigPropsWithSigning
+    )
     const { sut, loaderStub } = makeSut()
     const loadSpy = jest.spyOn(loaderStub, 'load')
-    await sut.transform(spProxyConfig)
+    await sut.transform(fakeSpProxyConfigWithSigning)
     expect(loadSpy).toHaveBeenCalledTimes(4)
     expect(loadSpy).toHaveBeenCalledWith(
-      spProxyConfig.props.signing?.publicCertPath
+      fakeSpProxyConfigWithSigning.props.signing?.publicCertPath
     )
     expect(loadSpy).toHaveBeenCalledWith(
-      spProxyConfig.props.signing?.privateKeyPath
+      fakeSpProxyConfigWithSigning.props.signing?.privateKeyPath
     )
   })
   it('should call formatter with loaded decryption cert and key', async () => {
@@ -97,5 +102,29 @@ describe('ReadSpProxyConfigUseCaseTransformer', () => {
     expect(formatSpy).toHaveBeenCalledTimes(2)
     expect(formatSpy).toHaveBeenCalledWith('loaded decryption cert')
     expect(formatSpy).toHaveBeenCalledWith('loaded decryption private key')
+  })
+  it('should call formatter with loaded signing cert and key', async () => {
+    const optionalSigning = {
+      signing: {
+        privateKeyPath: 'fake /valid-signing/pvk/path.pem',
+        publicCertPath: 'fake /valid-signing/cert/path.pem'
+      }
+    }
+    const propsCopy = Object.assign({}, spProxyConfigProps)
+    const spConfigPropsWithSigning = Object.assign(propsCopy, optionalSigning)
+
+    const fakeSpProxyConfigWithSigning = new SpProxyConfig(
+      spConfigPropsWithSigning
+    )
+    const { sut, formatterStub, loaderStub } = makeSut()
+    const formatSpy = jest.spyOn(formatterStub, 'format')
+    jest
+      .spyOn(loaderStub, 'load')
+      .mockResolvedValueOnce('loaded signing cert')
+      .mockResolvedValueOnce('loaded signing private key')
+    await sut.transform(fakeSpProxyConfigWithSigning)
+    expect(formatSpy).toHaveBeenCalledTimes(4)
+    expect(formatSpy).toHaveBeenCalledWith('loaded signing cert')
+    expect(formatSpy).toHaveBeenCalledWith('loaded signing private key')
   })
 })
