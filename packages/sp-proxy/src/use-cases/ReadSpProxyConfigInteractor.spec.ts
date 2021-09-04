@@ -131,4 +131,11 @@ describe('ReadSpProxyConfigInteractor', () => {
     expect(transformSpy).toHaveBeenCalledTimes(1)
     expect(transformSpy).toHaveBeenCalledWith('received entity')
   })
+  it('should throw if gateway thows', async () => {
+    const { gatewayStub, sut } = makeSut()
+    jest.spyOn(gatewayStub, 'read').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    await expect(sut.execute(fakeRequestModel)).rejects.toThrow()
+  })
 })
