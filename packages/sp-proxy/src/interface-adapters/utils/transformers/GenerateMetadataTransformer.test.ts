@@ -1,10 +1,10 @@
 import { SpProxyConfigProps } from '@sp-proxy/entities/protocols/SpProxyConfigProps'
 import { KeyCertLoader } from '@sp-proxy/interface-adapters/external-services/KeyCertLoader'
-import { IKeyCertLoader } from '@sp-proxy/interface-adapters/protocols/IKeyCertLoader'
-import { IKeyCertFormatter } from '@sp-proxy/interface-adapters/protocols/IKeySetFormatter'
+import { IKeyCertLoader } from '@sp-proxy/use-cases/protocols/IKeyCertLoader'
 import { GenerateMetadataFormatter } from '@sp-proxy/interface-adapters/utils/formatters/GenerateMetadataFormatter'
 import { GenerateMetadataTransformer } from '@sp-proxy/interface-adapters/utils/transformers/GenerateMetadataTransformer'
 import { IMetadataGeneratorParams } from '@sp-proxy/use-cases/ports/IMetadataGenerator'
+import { IKeyCertFormatter } from '@sp-proxy/use-cases/protocols/IKeySetFormatter'
 
 const makeLoader = (): IKeyCertLoader => {
   return new KeyCertLoader()

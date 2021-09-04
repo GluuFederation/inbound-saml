@@ -1,4 +1,4 @@
-import { BaseKeyCertFormatter } from '@sp-proxy/interface-adapters/utils/formatters/BaseKeyCertFormatter'
+import { BaseKeyCertFormatter } from '@sp-proxy/use-cases/protocols/BaseKeyCertFormatter'
 
 describe('BaseKeyCertFormatter', () => {
   it('should call replace with correct values', async () => {

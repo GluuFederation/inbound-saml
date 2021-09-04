@@ -1,4 +1,4 @@
-import { IKeyCertLoader } from '@sp-proxy/interface-adapters/protocols/IKeyCertLoader'
+import { IKeyCertLoader } from '@sp-proxy/use-cases/protocols/IKeyCertLoader'
 import { readFileSync } from 'fs'
 
 export class KeyCertLoader implements IKeyCertLoader {
