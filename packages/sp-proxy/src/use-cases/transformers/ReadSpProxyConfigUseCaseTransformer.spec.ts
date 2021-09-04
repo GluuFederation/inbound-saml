@@ -66,4 +66,24 @@ describe('ReadSpProxyConfigUseCaseTransformer', () => {
       fakeSpProxyConfig.props.decryption.privateKeyPath
     )
   })
+  it('should call loader with signing key and cert path', async () => {
+    const optionalSigning = {
+      signing: {
+        privateKeyPath: 'fake /valid-signing/pvk/path.pem',
+        publicCertPath: 'fake /valid-signing/cert/path.pem'
+      }
+    }
+    const propsWithSigning = Object.assign(spProxyConfigProps, optionalSigning)
+    const spProxyConfig = new SpProxyConfig(propsWithSigning)
+    const { sut, loaderStub } = makeSut()
+    const loadSpy = jest.spyOn(loaderStub, 'load')
+    await sut.transform(spProxyConfig)
+    expect(loadSpy).toHaveBeenCalledTimes(4)
+    expect(loadSpy).toHaveBeenCalledWith(
+      spProxyConfig.props.signing?.publicCertPath
+    )
+    expect(loadSpy).toHaveBeenCalledWith(
+      spProxyConfig.props.signing?.privateKeyPath
+    )
+  })
 })

@@ -28,6 +28,10 @@ export class ReadSpProxyConfigUseCaseTransformer
   ): Promise<IResponseModel<ReadSpProxyConfigResponseUseCaseParams>> {
     await this.loader.load(spProxyConfig.props.decryption.publicCertPath)
     await this.loader.load(spProxyConfig.props.decryption.privateKeyPath)
+    if (spProxyConfig.props.signing != null) {
+      await this.loader.load(spProxyConfig.props.signing?.privateKeyPath)
+      await this.loader.load(spProxyConfig.props.signing?.publicCertPath)
+    }
     return {
       requestId: '',
       response: {
