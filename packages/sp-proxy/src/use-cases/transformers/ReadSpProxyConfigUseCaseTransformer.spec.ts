@@ -86,4 +86,16 @@ describe('ReadSpProxyConfigUseCaseTransformer', () => {
       spProxyConfig.props.signing?.privateKeyPath
     )
   })
+  it('should call formatter with loaded decryption cert and key', async () => {
+    const { sut, formatterStub, loaderStub } = makeSut()
+    const formatSpy = jest.spyOn(formatterStub, 'format')
+    jest
+      .spyOn(loaderStub, 'load')
+      .mockResolvedValueOnce('loaded decryption cert')
+      .mockResolvedValueOnce('loaded decryption private key')
+    await sut.transform(fakeSpProxyConfig)
+    expect(formatSpy).toHaveBeenCalledTimes(2)
+    expect(formatSpy).toHaveBeenCalledWith('loaded decryption cert')
+    expect(formatSpy).toHaveBeenCalledWith('loaded decryption private key')
+  })
 })
