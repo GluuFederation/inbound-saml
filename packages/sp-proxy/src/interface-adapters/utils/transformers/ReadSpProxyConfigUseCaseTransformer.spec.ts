@@ -5,9 +5,9 @@
 
 import { SpProxyConfigProps } from '@sp-proxy/entities/protocols/SpProxyConfigProps'
 import { SpProxyConfig } from '@sp-proxy/entities/SpProxyConfig'
+import { ReadSpProxyConfigUseCaseTransformer } from '@sp-proxy/interface-adapters/utils/transformers/ReadSpProxyConfigUseCaseTransformer'
 import { IKeyCertLoader } from '@sp-proxy/use-cases/protocols/IKeyCertLoader'
 import { IKeyCertFormatter } from '@sp-proxy/use-cases/protocols/IKeySetFormatter'
-import { ReadSpProxyConfigUseCaseTransformer } from '@sp-proxy/use-cases/transformers/ReadSpProxyConfigUseCaseTransformer'
 
 const makeLoader = (): IKeyCertLoader => {
   class LoaderStub implements IKeyCertLoader {
