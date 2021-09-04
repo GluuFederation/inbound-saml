@@ -1,8 +1,8 @@
 import { SpProxyConfigProps } from '@sp-proxy/entities/protocols/SpProxyConfigProps'
-import { IKeyCertLoader } from '@sp-proxy/interface-adapters/protocols/IKeyCertLoader'
-import { IKeyCertFormatter } from '@sp-proxy/interface-adapters/protocols/IKeySetFormatter'
+import { IKeyCertLoader } from '@sp-proxy/use-cases/protocols/IKeyCertLoader'
 import { IMetadataGeneratorParams } from '@sp-proxy/use-cases/ports/IMetadataGenerator'
 import { ITransformer } from '@sp-proxy/use-cases/ports/ITransformer'
+import { IKeyCertFormatter } from '@sp-proxy/use-cases/protocols/IKeySetFormatter'
 
 /**
  *

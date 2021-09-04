@@ -1,4 +1,4 @@
-import { IKeyCertFormatter } from '@sp-proxy/interface-adapters/protocols/IKeySetFormatter'
+import { IKeyCertFormatter } from '@sp-proxy/use-cases/protocols/IKeySetFormatter'
 
 /**
  * Formats Keys and Certificates strings

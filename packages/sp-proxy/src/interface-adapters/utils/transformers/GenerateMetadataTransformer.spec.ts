@@ -2,9 +2,9 @@
 // format strings to passport config requirements (online, without spaces, etc)
 
 import { SpProxyConfigProps } from '@sp-proxy/entities/protocols/SpProxyConfigProps'
-import { IKeyCertLoader } from '@sp-proxy/interface-adapters/protocols/IKeyCertLoader'
-import { IKeyCertFormatter } from '@sp-proxy/interface-adapters/protocols/IKeySetFormatter'
+import { IKeyCertLoader } from '@sp-proxy/use-cases/protocols/IKeyCertLoader'
 import { GenerateMetadataTransformer } from '@sp-proxy/interface-adapters/utils/transformers/GenerateMetadataTransformer'
+import { IKeyCertFormatter } from '@sp-proxy/use-cases/protocols/IKeySetFormatter'
 
 const fakeConfigProps: SpProxyConfigProps = {
   host: 'valid hostname',
