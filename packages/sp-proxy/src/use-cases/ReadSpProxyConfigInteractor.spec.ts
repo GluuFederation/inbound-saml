@@ -121,4 +121,14 @@ describe('ReadSpProxyConfigInteractor', () => {
     expect(readSpy).toHaveBeenCalledTimes(1)
     expect(readSpy).toHaveBeenCalledWith()
   })
+  it('should call transformer once with received entity', async () => {
+    const { gatewayStub, sut, transformerStub } = makeSut()
+    const transformSpy = jest.spyOn(transformerStub, 'transform')
+    jest
+      .spyOn(gatewayStub, 'read')
+      .mockResolvedValueOnce('received entity' as any)
+    await sut.execute(fakeRequestModel)
+    expect(transformSpy).toHaveBeenCalledTimes(1)
+    expect(transformSpy).toHaveBeenCalledWith('received entity')
+  })
 })

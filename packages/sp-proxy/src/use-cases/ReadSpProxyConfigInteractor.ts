@@ -23,6 +23,7 @@ export class ReadSpProxyConfigInteractor
   async execute(
     request: IRequestModel<ReadSpProxyConfigRequestUseCaseParams>
   ): Promise<void> {
-    await this.gateway.read()
+    const spProxyConfig = await this.gateway.read()
+    await this.transformer.transform(spProxyConfig)
   }
 }
