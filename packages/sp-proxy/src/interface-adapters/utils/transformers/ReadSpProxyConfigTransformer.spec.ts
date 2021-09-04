@@ -5,7 +5,7 @@
 
 import { SpProxyConfigProps } from '@sp-proxy/entities/protocols/SpProxyConfigProps'
 import { SpProxyConfig } from '@sp-proxy/entities/SpProxyConfig'
-import { ReadSpProxyConfigUseCaseTransformer } from '@sp-proxy/interface-adapters/utils/transformers/ReadSpProxyConfigUseCaseTransformer'
+import { ReadSpProxyConfigTransformer } from '@sp-proxy/interface-adapters/utils/transformers/ReadSpProxyConfigTransformer'
 import { IKeyCertLoader } from '@sp-proxy/use-cases/protocols/IKeyCertLoader'
 import { IKeyCertFormatter } from '@sp-proxy/use-cases/protocols/IKeySetFormatter'
 
@@ -28,7 +28,7 @@ const makeFormatter = (): IKeyCertFormatter => {
 }
 
 interface SutTypes {
-  sut: ReadSpProxyConfigUseCaseTransformer
+  sut: ReadSpProxyConfigTransformer
   loaderStub: IKeyCertLoader
   formatterStub: IKeyCertFormatter
 }
@@ -36,7 +36,7 @@ interface SutTypes {
 const makeSut = (): SutTypes => {
   const loaderStub = makeLoader()
   const formatterStub = makeFormatter()
-  const sut = new ReadSpProxyConfigUseCaseTransformer(loaderStub, formatterStub)
+  const sut = new ReadSpProxyConfigTransformer(loaderStub, formatterStub)
   return { sut, loaderStub, formatterStub }
 }
 
@@ -64,7 +64,7 @@ const spConfigPropsWithSigning = Object.assign(propsCopy, optionalSigning)
 
 const fakeSpProxyConfigWithSigning = new SpProxyConfig(spConfigPropsWithSigning)
 
-describe('ReadSpProxyConfigUseCaseTransformer', () => {
+describe('ReadSpProxyConfigTransformer', () => {
   it('should call loader with decryption key and cert path', async () => {
     const { sut, loaderStub } = makeSut()
     const loadSpy = jest.spyOn(loaderStub, 'load')

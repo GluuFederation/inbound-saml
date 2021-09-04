@@ -4,7 +4,7 @@ import { ReadSpProxyConfigResponseUseCaseParams } from '@sp-proxy/use-cases/io-m
 import { ITransformer } from '@sp-proxy/use-cases/ports/ITransformer'
 import { IKeyCertFormatter } from '@sp-proxy/use-cases/protocols/IKeySetFormatter'
 
-export class ReadSpProxyConfigUseCaseTransformer
+export class ReadSpProxyConfigTransformer
   implements
     ITransformer<SpProxyConfig, ReadSpProxyConfigResponseUseCaseParams>
 {

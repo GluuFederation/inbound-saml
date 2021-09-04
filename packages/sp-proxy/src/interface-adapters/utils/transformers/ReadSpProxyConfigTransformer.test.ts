@@ -2,7 +2,7 @@ import { SpProxyConfigProps } from '@sp-proxy/entities/protocols/SpProxyConfigPr
 import { SpProxyConfig } from '@sp-proxy/entities/SpProxyConfig'
 import { KeyCertLoader } from '@sp-proxy/interface-adapters/external-services/KeyCertLoader'
 import { ReadSpProxyConfigFormatter } from '@sp-proxy/interface-adapters/utils/formatters/ReadSpProxyConfigFormatter'
-import { ReadSpProxyConfigUseCaseTransformer } from '@sp-proxy/interface-adapters/utils/transformers/ReadSpProxyConfigUseCaseTransformer'
+import { ReadSpProxyConfigTransformer } from '@sp-proxy/interface-adapters/utils/transformers/ReadSpProxyConfigTransformer'
 import { IKeyCertLoader } from '@sp-proxy/use-cases/protocols/IKeyCertLoader'
 import { IKeyCertFormatter } from '@sp-proxy/use-cases/protocols/IKeySetFormatter'
 
@@ -36,10 +36,7 @@ const fakeSpProxyConfigWithSigning = new SpProxyConfig(spConfigPropsWithSigning)
 
 const makeLoader = (): IKeyCertLoader => new KeyCertLoader()
 const makeFormatter = (): IKeyCertFormatter => new ReadSpProxyConfigFormatter()
-const sut = new ReadSpProxyConfigUseCaseTransformer(
-  makeLoader(),
-  makeFormatter()
-)
+const sut = new ReadSpProxyConfigTransformer(makeLoader(), makeFormatter())
 
 describe('ReadSpProxyTransformer', () => {
   describe('transform SpProxyConfig in Response Model ReadSpProxyConfigUseCaseParams', () => {
