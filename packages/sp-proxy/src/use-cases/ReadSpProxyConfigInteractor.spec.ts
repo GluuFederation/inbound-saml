@@ -138,4 +138,11 @@ describe('ReadSpProxyConfigInteractor', () => {
     })
     await expect(sut.execute(fakeRequestModel)).rejects.toThrow()
   })
+  it('should throw if transformer throws', async () => {
+    const { sut, transformerStub } = makeSut()
+    jest.spyOn(transformerStub, 'transform').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    await expect(sut.execute(fakeRequestModel)).rejects.toThrow()
+  })
 })
