@@ -1,4 +1,4 @@
-import { GenerateMetadataFormatter } from '@sp-proxy/interface-adapters/utils/formatters/GenerateMetadataFormatter'
+import { BaseKeyCertFormatter } from '@sp-proxy/interface-adapters/utils/formatters/BaseKeyCertFormatter'
 import { readFileSync } from 'fs'
 
 const loadedCert = readFileSync(
@@ -8,9 +8,11 @@ const loadedPvk = readFileSync(
   process.cwd() + '/packages/testdata/key.pem'
 ).toString()
 
+class ConcreteKeyCertFormatter extends BaseKeyCertFormatter {}
+
 describe('GenerateMetadataFormatter - integration', () => {
   it('should return correct pvk', async () => {
-    const sut = new GenerateMetadataFormatter()
+    const sut = new ConcreteKeyCertFormatter()
     const expected = loadedPvk
       .replace(/(\r\n|\n|\r)/gm, '')
       .replace('-----END ENCRYPTED PRIVATE KEY-----', '')
@@ -18,7 +20,7 @@ describe('GenerateMetadataFormatter - integration', () => {
     expect(await sut.format(loadedPvk)).toBe(expected)
   })
   it('should return correct cert', async () => {
-    const sut = new GenerateMetadataFormatter()
+    const sut = new ConcreteKeyCertFormatter()
     const expected = loadedCert
       .replace(/(\r\n|\n|\r)/gm, '')
       .replace('-----BEGIN CERTIFICATE-----', '')
