@@ -91,4 +91,11 @@ describe('ReadSpProxyController', () => {
     expect(executeSpy).toBeCalledTimes(1)
     expect(executeSpy).toBeCalledWith('mapped response')
   })
+  it('should throw if interactor throws', async () => {
+    const { sut, interactorStub } = makeSut()
+    jest.spyOn(interactorStub, 'execute').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    await expect(sut.handle(fakeRequestDto)).rejects.toThrow()
+  })
 })
