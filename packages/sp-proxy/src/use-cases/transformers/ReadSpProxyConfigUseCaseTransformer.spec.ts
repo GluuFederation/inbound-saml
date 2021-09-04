@@ -53,6 +53,17 @@ const spProxyConfigProps: SpProxyConfigProps = {
 
 const fakeSpProxyConfig = new SpProxyConfig(spProxyConfigProps)
 
+const optionalSigning = {
+  signing: {
+    privateKeyPath: 'fake /valid-signing/pvk/path.pem',
+    publicCertPath: 'fake /valid-signing/cert/path.pem'
+  }
+}
+const propsCopy = Object.assign({}, spProxyConfigProps)
+const spConfigPropsWithSigning = Object.assign(propsCopy, optionalSigning)
+
+const fakeSpProxyConfigWithSigning = new SpProxyConfig(spConfigPropsWithSigning)
+
 describe('ReadSpProxyConfigUseCaseTransformer', () => {
   it('should call loader with decryption key and cert path', async () => {
     const { sut, loaderStub } = makeSut()
@@ -67,19 +78,6 @@ describe('ReadSpProxyConfigUseCaseTransformer', () => {
     )
   })
   it('should call loader with signing key and cert path', async () => {
-    const optionalSigning = {
-      signing: {
-        privateKeyPath: 'fake /valid-signing/pvk/path.pem',
-        publicCertPath: 'fake /valid-signing/cert/path.pem'
-      }
-    }
-
-    const propsCopy = Object.assign({}, spProxyConfigProps)
-    const spConfigPropsWithSigning = Object.assign(propsCopy, optionalSigning)
-
-    const fakeSpProxyConfigWithSigning = new SpProxyConfig(
-      spConfigPropsWithSigning
-    )
     const { sut, loaderStub } = makeSut()
     const loadSpy = jest.spyOn(loaderStub, 'load')
     await sut.transform(fakeSpProxyConfigWithSigning)
@@ -104,18 +102,6 @@ describe('ReadSpProxyConfigUseCaseTransformer', () => {
     expect(formatSpy).toHaveBeenCalledWith('loaded decryption private key')
   })
   it('should call formatter with loaded signing cert and key', async () => {
-    const optionalSigning = {
-      signing: {
-        privateKeyPath: 'fake /valid-signing/pvk/path.pem',
-        publicCertPath: 'fake /valid-signing/cert/path.pem'
-      }
-    }
-    const propsCopy = Object.assign({}, spProxyConfigProps)
-    const spConfigPropsWithSigning = Object.assign(propsCopy, optionalSigning)
-
-    const fakeSpProxyConfigWithSigning = new SpProxyConfig(
-      spConfigPropsWithSigning
-    )
     const { sut, formatterStub, loaderStub } = makeSut()
     const formatSpy = jest.spyOn(formatterStub, 'format')
     jest
@@ -126,5 +112,49 @@ describe('ReadSpProxyConfigUseCaseTransformer', () => {
     expect(formatSpy).toHaveBeenCalledTimes(4)
     expect(formatSpy).toHaveBeenCalledWith('loaded signing cert')
     expect(formatSpy).toHaveBeenCalledWith('loaded signing private key')
+  })
+  it('return should contain formatted decryption key and cert', async () => {
+    const { formatterStub, sut } = makeSut()
+    jest
+      .spyOn(formatterStub, 'format')
+      .mockResolvedValueOnce('formatted key or cert 1')
+      .mockResolvedValueOnce('formatted key or cert 2')
+    expect(await sut.transform(fakeSpProxyConfig)).toStrictEqual({
+      host: fakeSpProxyConfig.props.host,
+      requestedIdentifierFormat:
+        fakeSpProxyConfig.props.requestedIdentifierFormat,
+      authnContextIdentifierFormat:
+        fakeSpProxyConfig.props.authnContextIdentifierFormat,
+      skipRequestCompression: fakeSpProxyConfig.props.skipRequestCompression,
+      decryption: {
+        privateKey: 'formatted key or cert 2',
+        cert: 'formatted key or cert 1'
+      }
+    })
+  })
+  it('should return params with formatted signing key and cert', async () => {
+    const { formatterStub, sut } = makeSut()
+    jest
+      .spyOn(formatterStub, 'format')
+      .mockResolvedValueOnce('formatted key or cert 1')
+      .mockResolvedValueOnce('formatted key or cert 2')
+      .mockResolvedValueOnce('formatted key or cert 3')
+      .mockResolvedValueOnce('formatted key or cert 4')
+    expect(await sut.transform(fakeSpProxyConfigWithSigning)).toStrictEqual({
+      host: fakeSpProxyConfig.props.host,
+      requestedIdentifierFormat:
+        fakeSpProxyConfig.props.requestedIdentifierFormat,
+      authnContextIdentifierFormat:
+        fakeSpProxyConfig.props.authnContextIdentifierFormat,
+      skipRequestCompression: fakeSpProxyConfig.props.skipRequestCompression,
+      decryption: {
+        privateKey: 'formatted key or cert 2',
+        cert: 'formatted key or cert 1'
+      },
+      signing: {
+        privateKey: 'formatted key or cert 4',
+        cert: 'formatted key or cert 3'
+      }
+    })
   })
 })

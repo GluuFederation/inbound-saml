@@ -1,16 +1,12 @@
 import { SpProxyConfig } from '@sp-proxy/entities/SpProxyConfig'
 import { IKeyCertLoader } from '@sp-proxy/use-cases/protocols/IKeyCertLoader'
-import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'
 import { ReadSpProxyConfigResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/ReadSpProxyConfigResponseUseCaseParams'
 import { ITransformer } from '@sp-proxy/use-cases/ports/ITransformer'
 import { IKeyCertFormatter } from '@sp-proxy/use-cases/protocols/IKeySetFormatter'
 
 export class ReadSpProxyConfigUseCaseTransformer
   implements
-    ITransformer<
-      SpProxyConfig,
-      IResponseModel<ReadSpProxyConfigResponseUseCaseParams>
-    >
+    ITransformer<SpProxyConfig, ReadSpProxyConfigResponseUseCaseParams>
 {
   /**
    * Creates an instance of GenerateMetadataTransformer.
@@ -25,33 +21,34 @@ export class ReadSpProxyConfigUseCaseTransformer
 
   async transform(
     spProxyConfig: SpProxyConfig
-  ): Promise<IResponseModel<ReadSpProxyConfigResponseUseCaseParams>> {
-    await this.formatter.format(
+  ): Promise<ReadSpProxyConfigResponseUseCaseParams> {
+    const decryptionCert = await this.formatter.format(
       await this.loader.load(spProxyConfig.props.decryption.publicCertPath)
     )
-    await this.formatter.format(
+    const decryptionPrivateKey = await this.formatter.format(
       await this.loader.load(spProxyConfig.props.decryption.privateKeyPath)
     )
-    if (spProxyConfig.props.signing != null) {
-      await this.formatter.format(
-        await this.loader.load(spProxyConfig.props.signing?.privateKeyPath)
-      )
-      await this.formatter.format(
-        await this.loader.load(spProxyConfig.props.signing?.publicCertPath)
-      )
-    }
-    return {
-      requestId: '',
-      response: {
-        host: 'string',
-        requestedIdentifierFormat: 'string',
-        authnContextIdentifierFormat: 'string',
-        skipRequestCompression: true,
-        decryption: {
-          privateKey: 'string',
-          cert: 'string'
-        }
+    const useCaseParams: ReadSpProxyConfigResponseUseCaseParams = {
+      host: spProxyConfig.props.host,
+      requestedIdentifierFormat: spProxyConfig.props.requestedIdentifierFormat,
+      authnContextIdentifierFormat:
+        spProxyConfig.props.authnContextIdentifierFormat,
+      skipRequestCompression: spProxyConfig.props.skipRequestCompression,
+      decryption: {
+        privateKey: decryptionPrivateKey,
+        cert: decryptionCert
       }
     }
+    if (spProxyConfig.props.signing != null) {
+      useCaseParams.signing = {
+        cert: await this.formatter.format(
+          await this.loader.load(spProxyConfig.props.signing.publicCertPath)
+        ),
+        privateKey: await this.formatter.format(
+          await this.loader.load(spProxyConfig.props.signing.privateKeyPath)
+        )
+      }
+    }
+    return useCaseParams
   }
 }
