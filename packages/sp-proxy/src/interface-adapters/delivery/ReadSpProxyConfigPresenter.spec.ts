@@ -1,6 +1,6 @@
 // is called with ResponseModel
-// maps ResponseModel to IRequest dto
-// call eventbus emit with IRequest
+// maps ResponseModel to IResponse dto
+// call eventbus emit with IResponse
 
 import { IReadSpProxyConfigResponse } from '@sp-proxy/interface-adapters/delivery/dtos/IReadSpProxyConfigResponse'
 import { ReadSpProxyConfigPresenter } from '@sp-proxy/interface-adapters/delivery/ReadSpProxyConfigPresenter'
@@ -95,5 +95,20 @@ describe('ReadSpProxyConfigPresenter', () => {
       throw new Error()
     })
     await expect(sut.present(fakeResponseModel)).rejects.toThrow()
+  })
+  it('should call eventBus emit with mapped IResponse DTO', async () => {
+    const { mapperStub, sut, eventBusStub } = makeSut()
+    const mappedResponseDto = {
+      requestId: 'mapped request id',
+      body: 'mapped body'
+    }
+    jest.spyOn(mapperStub, 'map').mockReturnValueOnce(mappedResponseDto as any)
+    const emitSpy = jest.spyOn(eventBusStub, 'emit')
+    await sut.present(fakeResponseModel)
+    expect(emitSpy).toHaveBeenCalledTimes(1)
+    expect(emitSpy).toHaveBeenCalledWith(
+      mappedResponseDto.requestId,
+      mappedResponseDto
+    )
   })
 })

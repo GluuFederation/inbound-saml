@@ -21,6 +21,7 @@ export class ReadSpProxyConfigPresenter
   async present(
     responseModel: IResponseModel<ReadSpProxyConfigResponseUseCaseParams>
   ): Promise<void> {
-    this.mapper.map(responseModel)
+    const responseDto = this.mapper.map(responseModel)
+    this.eventBus.emit(responseDto.requestId, responseDto)
   }
 }
