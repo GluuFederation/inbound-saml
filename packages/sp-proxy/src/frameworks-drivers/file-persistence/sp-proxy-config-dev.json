@@ -1,6 +1,6 @@
 { 
   "host": "localhost",
-  "requestedIdentifierFormat": "",
+  "requestedIdentifierFormat": "urn:oasis:names:tc:SAML:2.0:nameid-format:transient",
   "authnContextIdentifierFormat": "",
   "skipRequestCompression" : true,
   "decryption" : {
