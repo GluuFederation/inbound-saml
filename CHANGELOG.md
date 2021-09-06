@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.10.0](https://www.github.com/GluuFederation/inbound-saml/compare/v0.9.0...v0.10.0) (2021-09-06)
+
+
+### Features
+
+* **readProxyCfg:** add controller to dispatch request ([#84](https://www.github.com/GluuFederation/inbound-saml/issues/84)) ([8b1d8d4](https://www.github.com/GluuFederation/inbound-saml/commit/8b1d8d4e61a60f5e6db8b0b18df0b4d649067cdd))
+* **readProxySpConfig:** add sync facade ([#87](https://www.github.com/GluuFederation/inbound-saml/issues/87)) ([36edf54](https://www.github.com/GluuFederation/inbound-saml/commit/36edf54de0955b6ca3cb91141b39cfd431588f49))
+* **readSpProxyConfig:** add controller mapper ([#86](https://www.github.com/GluuFederation/inbound-saml/issues/86)) ([57cc69d](https://www.github.com/GluuFederation/inbound-saml/commit/57cc69d983bf7959ba9d3f3d361810fe78724342))
+* **readSpProxyConfig:** add result dispatcher ([#85](https://www.github.com/GluuFederation/inbound-saml/issues/85)) ([0a9f95f](https://www.github.com/GluuFederation/inbound-saml/commit/0a9f95f209de7032eda92eecfae0da312a31f018))
+* **readSpProxyConfig:** add use case interactor ([#81](https://www.github.com/GluuFederation/inbound-saml/issues/81)) ([3642582](https://www.github.com/GluuFederation/inbound-saml/commit/364258265106275125c2358f018f7dd5e4faf8f3))
+* **transformer:** transform cfg entity into response model ([#83](https://www.github.com/GluuFederation/inbound-saml/issues/83)) ([f24a271](https://www.github.com/GluuFederation/inbound-saml/commit/f24a271cf55c6d5768d808318a97e7065d93a1e6))
+
 ## [0.9.0](https://www.github.com/GluuFederation/inbound-saml/compare/v0.8.0...v0.9.0) (2021-09-02)
 
 
