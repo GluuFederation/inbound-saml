@@ -29,6 +29,10 @@ interface SutTypes {
 const makeSut = (): SutTypes => {
   const controllerStub = makeController()
   const eventBusStub = new EventEmitter()
+  // mock controller to call eventBus (in the full impl event is triggered by presenter)
+  jest.spyOn(controllerStub as any, 'handle').mockImplementation(() => {
+    eventBusStub.emit('mocked request id', { body: 'stubbed request dto' })
+  })
   const sut = new ReadSpProxyConfigFacade(eventBusStub, controllerStub)
   return { sut, controllerStub, eventBusStub }
 }
@@ -66,5 +70,9 @@ describe('ReadSpProxyConfigFacade', () => {
       throw new Error()
     })
     await expect(sut.do()).rejects.toThrow()
+  })
+  it('should return response body listened', async () => {
+    const { sut } = makeSut()
+    expect(await sut.do()).toEqual('stubbed request dto')
   })
 })
