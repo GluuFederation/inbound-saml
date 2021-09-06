@@ -22,8 +22,8 @@
     "test:staged": "npm test -- --findRelatedTests",
     "prepare": "husky install",
     "build": "tsc && tsc-alias",
-    "dev": "nodemon --watch 'src/' --exec 'ts-node -r tsconfig-paths/register src/sp-proxy/src/frameworks-drivers/main/server.ts' -e ts",
-    "dev:debug": "nodemon --inspect 'src/' --exec 'ts-node -r tsconfig-paths/register src/sp-proxy/src/frameworks-drivers/main/server.ts' -e ts"
+    "dev": "nodemon --watch 'src/' --exec 'ts-node -r tsconfig-paths/register packages/sp-proxy/src/frameworks-drivers/main/server.ts' -e ts",
+    "dev:debug": "nodemon --inspect 'src/' --exec 'ts-node -r tsconfig-paths/register packages/sp-proxy/src/frameworks-drivers/main/server.ts' -e ts"
   },
   "author": {
     "name": "Christian Eland",
