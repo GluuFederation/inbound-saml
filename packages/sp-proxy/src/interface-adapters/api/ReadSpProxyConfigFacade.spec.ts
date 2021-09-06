@@ -8,6 +8,7 @@ import { IController } from '@sp-proxy/interface-adapters/protocols/IController'
 import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'
 import { EventEmitter } from 'stream'
 import * as crypto from 'crypto'
+import { IReadSpProxyConfigRequest } from '@sp-proxy/interface-adapters/delivery/dtos/IReadSpProxyConfigRequest'
 jest.mock('crypto')
 
 const makeController = (): IController => {
@@ -47,5 +48,16 @@ describe('ReadSpProxyConfigFacade', () => {
       'mocked request id',
       expect.any(Function)
     )
+  })
+  it('should call controller handle with request dto', async () => {
+    const { sut, controllerStub } = makeSut()
+    const handleSpy = jest.spyOn(controllerStub, 'handle')
+    const expectedDto: IRequest<IReadSpProxyConfigRequest> = {
+      id: 'mocked request id',
+      body: null
+    }
+    await sut.do()
+    expect(handleSpy).toHaveBeenCalledTimes(1)
+    expect(handleSpy).toHaveBeenCalledWith(expectedDto)
   })
 })

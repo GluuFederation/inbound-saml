@@ -16,6 +16,10 @@ export class ReadSpProxyConfigFacade
   async do(): Promise<IReadSpProxyConfigResponse> {
     const requestId = randomUUID()
     this.eventBus.once(requestId, () => {})
+    await this.controller.handle({
+      id: requestId,
+      body: null
+    })
     return 'not impl' as any
   }
 }
