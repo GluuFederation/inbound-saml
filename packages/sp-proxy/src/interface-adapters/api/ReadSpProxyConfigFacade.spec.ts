@@ -60,4 +60,11 @@ describe('ReadSpProxyConfigFacade', () => {
     expect(handleSpy).toHaveBeenCalledTimes(1)
     expect(handleSpy).toHaveBeenCalledWith(expectedDto)
   })
+  it('should throw if controller throws', async () => {
+    const { sut, controllerStub } = makeSut()
+    jest.spyOn(controllerStub, 'handle').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    await expect(sut.do()).rejects.toThrow()
+  })
 })
