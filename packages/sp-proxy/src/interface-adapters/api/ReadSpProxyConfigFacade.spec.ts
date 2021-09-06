@@ -1,0 +1,51 @@
+// receive request with no param
+// register listener
+// calls controller (await..)
+// (after event triggered) return response from listener
+
+import { ReadSpProxyConfigFacade } from '@sp-proxy/interface-adapters/api/ReadSpProxyConfigFacade'
+import { IController } from '@sp-proxy/interface-adapters/protocols/IController'
+import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'
+import { EventEmitter } from 'stream'
+import * as crypto from 'crypto'
+jest.mock('crypto')
+
+const makeController = (): IController => {
+  class ControllerStub implements IController {
+    async handle(request: IRequest<any>): Promise<void> {
+      // dispatch request
+    }
+  }
+  return new ControllerStub()
+}
+
+interface SutTypes {
+  sut: ReadSpProxyConfigFacade
+  controllerStub: IController
+  eventBusStub: EventEmitter
+}
+
+const makeSut = (): SutTypes => {
+  const controllerStub = makeController()
+  const eventBusStub = new EventEmitter()
+  const sut = new ReadSpProxyConfigFacade(eventBusStub, controllerStub)
+  return { sut, controllerStub, eventBusStub }
+}
+describe('ReadSpProxyConfigFacade', () => {
+  beforeAll(async () => {
+    jest.spyOn(crypto, 'randomUUID').mockReturnValue('mocked request id')
+  })
+  afterAll(async () => {
+    jest.clearAllMocks()
+  })
+  it('should register listener with generated request id', async () => {
+    const { sut, eventBusStub } = makeSut()
+    const onceSpy = jest.spyOn(eventBusStub, 'once')
+    await sut.do()
+    expect(onceSpy).toHaveBeenCalledTimes(1)
+    expect(onceSpy).toHaveBeenCalledWith(
+      'mocked request id',
+      expect.any(Function)
+    )
+  })
+})
