@@ -67,12 +67,15 @@ describe('ReadSpProxyConfigFacade - integration', () => {
   beforeAll(async () => {
     jest
       .spyOn(configRepo.FileReadProxyConfig.prototype, 'read')
-      .mockResolvedValueOnce(mockedConfig)
+      .mockResolvedValue(mockedConfig)
 
     cfg.database.file.proxyConfigPath =
       process.cwd() + '/packages/testdata/sp-proxy-config-test.json'
   })
-  it('should return expected configuration props', async () => {
+  afterAll(async () => {
+    jest.clearAllMocks()
+  })
+  it('should return configuration props with signing', async () => {
     const expected: IReadSpProxyConfigResponse = {
       host: mockedProps.host,
       requestedIdentifierFormat: mockedProps.requestedIdentifierFormat,
@@ -88,5 +91,24 @@ describe('ReadSpProxyConfigFacade - integration', () => {
       }
     }
     expect(await sut.do()).toStrictEqual(expected)
+  })
+  it('should return configuration props without signing props', async () => {
+    const mockedConfigCopy = Object.assign({}, mockedConfig)
+    delete mockedConfigCopy.props.signing
+
+    jest
+      .spyOn(configRepo.FileReadProxyConfig.prototype, 'read')
+      .mockResolvedValue(mockedConfigCopy)
+    const expectedWithoutSigning: IReadSpProxyConfigResponse = {
+      host: mockedProps.host,
+      requestedIdentifierFormat: mockedProps.requestedIdentifierFormat,
+      authnContextIdentifierFormat: mockedProps.authnContextIdentifierFormat,
+      skipRequestCompression: mockedProps.skipRequestCompression,
+      decryption: {
+        privateKey: loadedPvk,
+        cert: loadedCert
+      }
+    }
+    expect(await sut.do()).toStrictEqual(expectedWithoutSigning)
   })
 })
