@@ -36,30 +36,24 @@ const makeGateway = (): IReadProxyConfigGateway => {
 
 const makeTransformer = (): ITransformer<
   SpProxyConfig,
-  IResponseModel<ReadSpProxyConfigResponseUseCaseParams>
+  ReadSpProxyConfigResponseUseCaseParams
 > => {
   class TransformerStub
     implements
-      ITransformer<
-        SpProxyConfig,
-        IResponseModel<ReadSpProxyConfigResponseUseCaseParams>
-      >
+      ITransformer<SpProxyConfig, ReadSpProxyConfigResponseUseCaseParams>
   {
     async transform(
       from: SpProxyConfig
-    ): Promise<IResponseModel<ReadSpProxyConfigResponseUseCaseParams>> {
+    ): Promise<ReadSpProxyConfigResponseUseCaseParams> {
       return {
-        requestId: 'request id transform stub',
-        response: {
-          host: 'transform stubbed host',
-          requestedIdentifierFormat: 'transform stubbed identifier format',
-          authnContextIdentifierFormat:
-            'transform stubbed authn context identifier format',
-          skipRequestCompression: true,
-          decryption: {
-            privateKey: 'valid stunbbed pvk string',
-            cert: 'valid stubbed cert string'
-          }
+        host: 'transform stubbed host',
+        requestedIdentifierFormat: 'transform stubbed identifier format',
+        authnContextIdentifierFormat:
+          'transform stubbed authn context identifier format',
+        skipRequestCompression: true,
+        decryption: {
+          privateKey: 'valid stunbbed pvk string',
+          cert: 'valid stubbed cert string'
         }
       }
     }
@@ -87,7 +81,7 @@ interface SutTypes {
   gatewayStub: IReadProxyConfigGateway
   transformerStub: ITransformer<
     SpProxyConfig,
-    IResponseModel<ReadSpProxyConfigResponseUseCaseParams>
+    ReadSpProxyConfigResponseUseCaseParams
   >
   presenterStub: OutputBoundary<
     IResponseModel<ReadSpProxyConfigResponseUseCaseParams>
@@ -154,10 +148,15 @@ describe('ReadSpProxyConfigInteractor', () => {
     const presentSpy = jest.spyOn(presenterStub, 'present')
     jest
       .spyOn(transformerStub, 'transform')
-      .mockResolvedValueOnce('valid response model' as any)
+      .mockResolvedValueOnce('valid response body' as any)
     await sut.execute(fakeRequestModel)
     expect(presentSpy).toHaveBeenCalledTimes(1)
-    expect(presentSpy).toHaveBeenCalledWith('valid response model')
+    const expectedResponseModel: IResponseModel<ReadSpProxyConfigResponseUseCaseParams> =
+      {
+        requestId: fakeRequestModel.requestId,
+        response: 'valid response body' as any
+      }
+    expect(presentSpy).toHaveBeenCalledWith(expectedResponseModel)
   })
   it('should throw if presenter throws', async () => {
     const { sut, presenterStub } = makeSut()
