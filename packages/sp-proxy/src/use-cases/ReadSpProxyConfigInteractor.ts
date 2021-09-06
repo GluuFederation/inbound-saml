@@ -15,7 +15,7 @@ export class ReadSpProxyConfigInteractor
     private readonly gateway: IReadProxyConfigGateway,
     private readonly transformer: ITransformer<
       SpProxyConfig,
-      IResponseModel<ReadSpProxyConfigResponseUseCaseParams>
+      ReadSpProxyConfigResponseUseCaseParams
     >,
     private readonly outputBoundary: OutputBoundary<
       IResponseModel<ReadSpProxyConfigResponseUseCaseParams>
@@ -26,7 +26,10 @@ export class ReadSpProxyConfigInteractor
     request: IRequestModel<ReadSpProxyConfigRequestUseCaseParams>
   ): Promise<void> {
     const spProxyConfig = await this.gateway.read()
-    const responseModel = await this.transformer.transform(spProxyConfig)
-    await this.outputBoundary.present(responseModel)
+    const responseModelProps = await this.transformer.transform(spProxyConfig)
+    await this.outputBoundary.present({
+      requestId: request.requestId,
+      response: responseModelProps
+    })
   }
 }
