@@ -61,7 +61,7 @@ TDD is recommended
 98% coverage should be maintained
   - `*.spec.ts`: unit tests
   - `*.test.ts`: integration tests
-- Run `docker-compose up -f docker-compose-test.yml -d` to start services needed for (integration) tests
+- Run `docker-compose -f docker-compose-test.yml up -d` to start services needed for (integration) tests
 - You can turn on test watch mode while you develop using `yarn test:watch`
 - To run all tests `yarn test`
 
