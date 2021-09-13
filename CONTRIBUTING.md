@@ -53,11 +53,17 @@ Documentation is required for breaking changes or new features.
 
 Take some time to check our Architecture Decision Records in our wiki.
 
+## Package Manager
+Lerna for publishing and yarn (workspaces) for package manager
+
 ## Tests
 TDD is recommended
 98% coverage should be maintained
   - `*.spec.ts`: unit tests
   - `*.test.ts`: integration tests
+- Run `docker-compose up -f docker-compose-test.yml -d` to start services needed for (integration) tests
+- You can turn on test watch mode while you develop using `yarn test:watch`
+- To run all tests `yarn test`
 
 ## Pull Requests
 
@@ -65,3 +71,6 @@ Submit your PR, all checks must pass. Code will be reviewed.
 
 ### Interfaces / Protocols
 There are some generic interfaces that may be implemented
+
+## Tools and Tips
+
