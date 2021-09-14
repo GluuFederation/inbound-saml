@@ -20,10 +20,10 @@ export const pickDefaultSso = (
       service.props.binding ===
       'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect'
   )
-  if (httpPost !== undefined) {
-    return httpPost
-  } else if (httpRedirect !== undefined) {
+  if (httpRedirect !== undefined) {
     return httpRedirect
+  } else if (httpPost !== undefined) {
+    return httpPost
   } else {
     return ssoServices[0]
   }
