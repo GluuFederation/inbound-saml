@@ -1,8 +1,9 @@
 import { MetadataGenerator } from '@sp-proxy/interface-adapters/external-services/MetadataGenerator'
 import { IMetadataGeneratorParams } from '@sp-proxy/use-cases/ports/IMetadataGenerator'
+import * as fs from 'fs'
 import * as passportSaml from 'passport-saml'
 jest.mock('passport-saml')
-
+jest.mock('fs')
 // receive receive configuration props needed to setup strategy
 // create strategy
 // generate metadata
@@ -25,6 +26,9 @@ const fakeRequestParams: IMetadataGeneratorParams = {
 
 describe('MetadataGeneratorSpec', () => {
   it('should strategy once with correct options', async () => {
+    jest
+      .spyOn(fs, 'readFileSync')
+      .mockReturnValueOnce('decryption formatted private key')
     const strategySpy = jest.spyOn(passportSaml, 'Strategy')
     const sut = new MetadataGenerator()
     const strategyConfig: passportSaml.SamlConfig = {
@@ -45,6 +49,10 @@ describe('MetadataGeneratorSpec', () => {
   })
   it('should call generateServiceProviderMetadata w/ decryption cert', async () => {
     const newParams = Object.assign({}, fakeRequestParams)
+    jest
+      .spyOn(fs, 'readFileSync')
+      .mockReturnValueOnce(fakeRequestParams.decryption.privateKey)
+      .mockReturnValueOnce(fakeRequestParams.decryption.publicCert)
     delete newParams.signing
     const generateSpy = jest.spyOn(
       passportSaml.Strategy.prototype,
@@ -59,6 +67,10 @@ describe('MetadataGeneratorSpec', () => {
     )
   })
   it('should call generateServiceProviderMetadata w/ decryption and signing cert', async () => {
+    jest
+      .spyOn(fs, 'readFileSync')
+      .mockReturnValueOnce(fakeRequestParams.decryption.privateKey)
+      .mockReturnValueOnce(fakeRequestParams.decryption.publicCert)
     const generateSpy = jest.spyOn(
       passportSaml.Strategy.prototype,
       'generateServiceProviderMetadata'
@@ -72,6 +84,10 @@ describe('MetadataGeneratorSpec', () => {
     )
   })
   it('should return value returned by passport-saml generator', async () => {
+    jest
+      .spyOn(fs, 'readFileSync')
+      .mockReturnValueOnce(fakeRequestParams.decryption.privateKey)
+      .mockReturnValueOnce(fakeRequestParams.decryption.publicCert)
     jest
       .spyOn(passportSaml.Strategy.prototype, 'generateServiceProviderMetadata')
       .mockReturnValueOnce('valid mocked generated metadata')
