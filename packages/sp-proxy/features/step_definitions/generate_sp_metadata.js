@@ -3,7 +3,7 @@ const { default: axios } = require('axios')
 const assert = require('assert')
 
 Given('server is running', function (done) {
-  process.env['NODE_TLS_REJECT_UNAUTHORIZED'] = 0
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0
   require('../../src/frameworks-drivers/main/server')
   axios
     .get('https://localhost/inbound-saml/sp/metadata')
