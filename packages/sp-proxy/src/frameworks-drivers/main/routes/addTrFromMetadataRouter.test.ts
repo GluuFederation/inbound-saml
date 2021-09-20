@@ -37,6 +37,7 @@ describe('addTrFromMetadataRouter', () => {
     mockSpProxyConfig()
   })
   afterAll(async () => {
+    await collection.drop()
     await connection.close()
     jest.clearAllMocks()
     nock.cleanAll()

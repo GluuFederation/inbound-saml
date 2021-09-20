@@ -32,6 +32,7 @@ describe('AddTrFromMetadataFacade - integration', () => {
     mockXmlEndpoints()
   })
   afterAll(async () => {
+    await trustRelationsCollection.drop()
     await connection.close()
     nock.cleanAll()
   })

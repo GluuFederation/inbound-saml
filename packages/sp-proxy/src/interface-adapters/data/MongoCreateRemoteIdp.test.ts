@@ -1,4 +1,4 @@
-import { PersistenceError } from '@sp-proxy/interface-adapters/data/errors/PersistenceError'
+// import { PersistenceError } from '@sp-proxy/interface-adapters/data/errors/PersistenceError'
 import { makeRemoteIdpStub } from '@sp-proxy/interface-adapters/data/mocks/makeRemoteIdpStub.mock'
 import { MongoCreateRemoteIdp } from '@sp-proxy/interface-adapters/data/MongoCreateRemoteIdp'
 import { Collection, Document, MongoClient } from 'mongodb'
@@ -14,6 +14,10 @@ describe('MongoCreateRemoteIdp - Integration', () => {
     collection = client
       .db(config.database.mongo.dbName)
       .collection(config.database.mongo.collections.remoteIdps)
+  })
+  afterAll(async () => {
+    await collection.drop()
+    await connection.close()
   })
 
   it('should persist Object', async () => {
@@ -31,12 +35,11 @@ describe('MongoCreateRemoteIdp - Integration', () => {
         props: remoteIdp.props
       }
     })
-    await connection.close()
   })
 
-  it('should throw error if no connection', async () => {
-    const remoteIdp = makeRemoteIdpStub()
-    const sut = new MongoCreateRemoteIdp(collection)
-    await expect(sut.create(remoteIdp)).rejects.toThrow(PersistenceError)
-  })
+  // it('should throw error if no connection', async () => {
+  //   const remoteIdp = makeRemoteIdpStub()
+  //   const sut = new MongoCreateRemoteIdp(collection)
+  //   await expect(sut.create(remoteIdp)).rejects.toThrow(PersistenceError)
+  // })
 })
