@@ -12,7 +12,7 @@ import config from '@sp-proxy/interface-adapters/config/env'
 
 const app = express()
 app.use(routes)
-const eut = '/sp/authenticate'
+const eut = '/inbound-saml/sp/authenticate'
 describe('authenticateRouter', () => {
   let mongoClient: MongoClient
   let connection: MongoClient
@@ -88,6 +88,7 @@ describe('authenticateRouter', () => {
     app.use(routes)
   })
   afterAll(async () => {
+    await collection.drop()
     await connection.close()
     jest.clearAllMocks()
     nock.cleanAll()

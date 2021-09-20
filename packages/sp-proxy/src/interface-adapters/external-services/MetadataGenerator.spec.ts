@@ -2,7 +2,6 @@ import { MetadataGenerator } from '@sp-proxy/interface-adapters/external-service
 import { IMetadataGeneratorParams } from '@sp-proxy/use-cases/ports/IMetadataGenerator'
 import * as passportSaml from 'passport-saml'
 jest.mock('passport-saml')
-
 // receive receive configuration props needed to setup strategy
 // create strategy
 // generate metadata

@@ -9,6 +9,8 @@ jest.mock('@sp-proxy/interface-adapters/data/FileReadProxyConfig')
 
 const app = express()
 
+const endpoint = '/inbound-saml/sp/metadata'
+
 describe('metadataRoute', () => {
   beforeAll(async () => {
     // setup app for testing this route
@@ -25,7 +27,7 @@ describe('metadataRoute', () => {
         throw new InvalidRequestError('Invalid request on controller')
       })
     await request(app)
-      .get('/sp/metadata')
+      .get(endpoint)
       .expect(400)
       .expect('InvalidRequestError: Invalid request on controller')
   })
@@ -36,20 +38,17 @@ describe('metadataRoute', () => {
       .mockImplementationOnce(() => {
         throw new AnyOtherError('Any other error ocurred')
       })
-    await request(app).get('/sp/metadata').expect(500)
+    await request(app).get(endpoint).expect(500)
   })
   it('should return status 200', async () => {
-    await request(app).get('/sp/metadata').expect(200)
+    await request(app).get(endpoint).expect(200)
   })
   it('should return with xml content-type', async () => {
-    await request(app)
-      .get('/sp/metadata')
-      .expect(200)
-      .expect('content-type', /xml/)
+    await request(app).get(endpoint).expect(200).expect('content-type', /xml/)
   })
   it('should return xml containing config values', async () => {
     // const mockedProps = mockedConfigProps
-    const res = await request(app).get('/sp/metadata').expect(200)
+    const res = await request(app).get(endpoint).expect(200)
     expect(res.text).toContain('sp/callback')
     expect(res.text).toContain('KeyDescriptor use="encryption"')
     expect(res.text).toContain('KeyDescriptor use="signing"')
@@ -64,7 +63,7 @@ describe('metadataRoute', () => {
         // eslint-disable-next-line @typescript-eslint/no-throw-literal
         throw 'Any other error ocurred'
       })
-    await request(app).get('/sp/metadata').expect(500)
+    await request(app).get(endpoint).expect(500)
   })
   it('should return default message when error is 500', async () => {
     jest
@@ -73,9 +72,6 @@ describe('metadataRoute', () => {
         // eslint-disable-next-line @typescript-eslint/no-throw-literal
         throw 'Any other error ocurred'
       })
-    await request(app)
-      .get('/sp/metadata')
-      .expect(500)
-      .expect('Internal Server Error')
+    await request(app).get(endpoint).expect(500).expect('Internal Server Error')
   })
 })
