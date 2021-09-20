@@ -78,7 +78,7 @@ describe('GenerateMetadataTransfromer', () => {
       fakeConfigProps.signing?.privateKeyPath
     )
   })
-  it('should call formatter for each cert/key received from loader', async () => {
+  it('should call formatter for each SIGNING cert/key received from loader', async () => {
     const { sut, loaderStub, formatterStub } = makeSut()
     const formatSpy = jest.spyOn(formatterStub, 'format')
     jest
@@ -88,9 +88,7 @@ describe('GenerateMetadataTransfromer', () => {
       .mockResolvedValueOnce('loaded mocked value 3')
       .mockResolvedValueOnce('loaded mocked value 4')
     await sut.transform(fakeConfigProps)
-    expect(formatSpy).toHaveBeenCalledTimes(4)
-    expect(formatSpy).toHaveBeenCalledWith('loaded mocked value 1')
-    expect(formatSpy).toHaveBeenCalledWith('loaded mocked value 2')
+    expect(formatSpy).toHaveBeenCalledTimes(2)
     expect(formatSpy).toHaveBeenCalledWith('loaded mocked value 3')
     expect(formatSpy).toHaveBeenCalledWith('loaded mocked value 4')
   })
@@ -102,37 +100,12 @@ describe('GenerateMetadataTransfromer', () => {
     await sut.transform(propsCopy)
     expect(loadspy).toHaveBeenCalledTimes(2)
   })
-  it('should call formatter 2 times no signing', async () => {
+  it('should NOT call formatter times if no signing', async () => {
     const propsCopy = Object.assign({}, fakeConfigProps)
     delete propsCopy.signing
     const { sut, formatterStub } = makeSut()
     const formatSpy = jest.spyOn(formatterStub, 'format')
     await sut.transform(propsCopy)
-    expect(formatSpy).toHaveBeenCalledTimes(2)
-  })
-  it('should return params with formatted strings', async () => {
-    const { sut, formatterStub } = makeSut()
-    const formatedValues = [
-      'formated value 1',
-      'formated value 2',
-      'formated value 3',
-      'formated value 4'
-    ]
-    jest
-      .spyOn(formatterStub, 'format')
-      .mockResolvedValueOnce(formatedValues[0])
-      .mockResolvedValueOnce(formatedValues[1])
-      .mockResolvedValueOnce(formatedValues[2])
-      .mockResolvedValueOnce(formatedValues[3])
-
-    const result = await sut.transform(fakeConfigProps)
-    const keyAndCerts = []
-    keyAndCerts.push(result.decryption.privateKey)
-    keyAndCerts.push(result.decryption.publicCert)
-    keyAndCerts.push(result.signing?.privateKey)
-    keyAndCerts.push(result.signing?.publicCert)
-
-    // eslint-disable-next-line @typescript-eslint/require-array-sort-compare
-    expect(keyAndCerts.sort()).toEqual(formatedValues.sort())
+    expect(formatSpy).toHaveBeenCalledTimes(0)
   })
 })

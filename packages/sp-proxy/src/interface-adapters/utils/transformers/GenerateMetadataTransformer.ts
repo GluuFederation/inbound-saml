@@ -7,7 +7,7 @@ import { IKeyCertFormatter } from '@sp-proxy/use-cases/protocols/IKeySetFormatte
 /**
  *
  * Responsible for trnasforming configuration props to passport metadata generator
- * Loads files from paths and format strings accordingly
+ * Loads signing cert from path and format string accordingly
  * @export
  * @class GenerateMetadataTransformer
  * @implements {ITransformer<SpProxyConfigProps, IMetadataGeneratorParams>}
@@ -31,11 +31,12 @@ export class GenerateMetadataTransformer
   async transform(
     spProxyConfigProps: SpProxyConfigProps
   ): Promise<IMetadataGeneratorParams> {
-    const decryptionCert = await this.formatter.format(
-      await this.loader.load(spProxyConfigProps.decryption.publicCertPath)
+    const decryptionCert = await this.loader.load(
+      spProxyConfigProps.decryption.publicCertPath
     )
-    const decryptionPvk = await this.formatter.format(
-      await this.loader.load(spProxyConfigProps.decryption.privateKeyPath)
+
+    const decryptionPvk = await this.loader.load(
+      spProxyConfigProps.decryption.privateKeyPath
     )
 
     const generatorParams: IMetadataGeneratorParams = {

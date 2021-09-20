@@ -22,6 +22,7 @@ export class MetadataGenerator implements IMetadataGenerator {
       }
     )
     return strategy.generateServiceProviderMetadata(
+      // decryptionCert,
       params.decryption.publicCert,
       params.signing?.publicCert
     )
