@@ -27,6 +27,7 @@ describe('CreateRemoteIdpFacade - integration', () => {
       .collection(config.database.mongo.collections.remoteIdps)
   })
   afterAll(async () => {
+    await collection.drop()
     await connection.close()
   })
   /**

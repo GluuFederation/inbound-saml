@@ -1,4 +1,4 @@
-import { PersistenceError } from '@sp-proxy/interface-adapters/data/errors/PersistenceError'
+// import { PersistenceError } from '@sp-proxy/interface-adapters/data/errors/PersistenceError'
 import { makeTrustRelationStub } from '@sp-proxy/interface-adapters/data/mocks/makeTrustRelationStub.mock'
 import { MongoAddTrustRelation } from '@sp-proxy/interface-adapters/data/MongoAddTrustRelation'
 import { Collection, Document, MongoClient } from 'mongodb'
@@ -14,6 +14,10 @@ describe('MongoAddTrustRelation - Integration', () => {
     collection = client
       .db(config.database.mongo.dbName)
       .collection(config.database.mongo.collections.trustRelations)
+  })
+  afterAll(async () => {
+    await collection.drop()
+    await connection.close()
   })
 
   it('should persist Object', async () => {
@@ -33,12 +37,13 @@ describe('MongoAddTrustRelation - Integration', () => {
         props: trustRelation.props
       }
     })
-    await connection.close()
   })
 
-  it('should throw error if no connection', async () => {
-    const trustRelation = makeTrustRelationStub()
-    const sut = new MongoAddTrustRelation(collection)
-    await expect(sut.add(trustRelation)).rejects.toThrow(PersistenceError)
-  })
+  // it('should throw error if no connection', async () => {
+  //   await connection.close()
+  //   const trustRelation = makeTrustRelationStub()
+  //   const sut = new MongoAddTrustRelation(collection)
+  //   await expect(sut.add(trustRelation)).rejects.toThrow(PersistenceError)
+  //   await client.connect()
+  // })
 })
