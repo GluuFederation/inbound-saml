@@ -1,0 +1,109 @@
+<!-- The entity describing the SAMLtest IdP, named by the entityID below --> 
+
+<EntityDescriptor xmlns="urn:oasis:names:tc:SAML:2.0:metadata" ID="SAMLtestIdP" xmlns:ds="http://www.w3.org/2000/09/xmldsig#" xmlns:shibmd="urn:mace:shibboleth:metadata:1.0" xmlns:xml="http://www.w3.org/XML/1998/namespace" xmlns:mdui="urn:oasis:names:tc:SAML:metadata:ui" validUntil="2100-01-01T00:00:42Z" entityID="https://samltest.id/saml/idp">
+
+    <IDPSSODescriptor protocolSupportEnumeration="urn:oasis:names:tc:SAML:2.0:protocol urn:oasis:names:tc:SAML:1.1:protocol urn:mace:shibboleth:1.0">
+
+        <Extensions>
+<!-- An enumeration of the domains this IdP is able to assert scoped attributes, which are
+typically those with a @ delimiter, like mail.  Most IdP's serve only a single domain.  It's crucial
+for the SP to check received attribute values match permitted domains to prevent a recognized IdP from 
+sending attribute values for which a different recognized IdP is authoritative. -->
+            <shibmd:Scope regexp="false">samltest.id</shibmd:Scope>
+
+<!-- Display information about this IdP that can be used by SP's and discovery
+services to identify the IdP meaningfully for end users --> 
+            <mdui:UIInfo>
+                <mdui:DisplayName xml:lang="en">SAMLtest IdP</mdui:DisplayName>
+                <mdui:Description xml:lang="en">A free and basic IdP for testing SAML deployments</mdui:Description>
+                <mdui:Logo height="90" width="225">https://samltest.id/saml/logo.png</mdui:Logo>
+            </mdui:UIInfo>
+        </Extensions>
+
+        
+        <KeyDescriptor use="signing">
+            <ds:KeyInfo>
+                    <ds:X509Data>
+                        <ds:X509Certificate>
+MIIFazCCA1OgAwIBAgIUWTwsoJ1C56f2MFbinktEcvzn2DYwDQYJKoZIhvcNAQEL
+BQAwRTELMAkGA1UEBhMCQVUxEzARBgNVBAgMClNvbWUtU3RhdGUxITAfBgNVBAoM
+GEludGVybmV0IFdpZGdpdHMgUHR5IEx0ZDAeFw0yMTA5MDcwMzU4MDRaFw0yMjA5
+MDcwMzU4MDRaMEUxCzAJBgNVBAYTAkFVMRMwEQYDVQQIDApTb21lLVN0YXRlMSEw
+HwYDVQQKDBhJbnRlcm5ldCBXaWRnaXRzIFB0eSBMdGQwggIiMA0GCSqGSIb3DQEB
+AQUAA4ICDwAwggIKAoICAQDBliPpIffU+C2c3NRAcoJYqEGMEp7RwjWCzZWYYNFf
+zNr86/Vn5uezbn6frAtGeK37XJaJ2aVK9cf2Zwl9Z6+3lNIfD7sFZMziXoj9YAuq
+5znrAZ0uZsiU/Fdrbs5FNfKYfu9e2wtQxjj9ayw/WfCaG5hNBAyAF1ntARp9nBaH
+qdkAv98Ia2WqaB4jsAkl1BceSMdZ/emwx3uN2hflh3nJpZnInMCxj9hXDuqZa3C5
+ef+2haI/N91138T331aWE3aO8jT7wTanX+YcuBg7f09t8y15Qp4y3sdbHGgrMLGv
+82TwLktOG1Xo1NEKnrgJ4VkGZPmosklshOHBswJk3srK6ck2ViZQHYbAp+YJWab8
+HgZ0qXrMsuEmkWSRdloupkKvC4Bv/Mxrw62lkpg3m1ECAVgDlSDx0wT5hR53qFYz
+dwze7IPf8poWyYHP+KIKmST9xYe4y9XDlVkhcwCIjNsrVXloQBKHSRHli+l5NarA
+lNyV5OaaPapn80yT8zF4qswoXifZy7EeZY9nHuAzvhaCmyIhPvalNfPsEm28lp7C
+72xotX1PRfdML23yykqOwZsj2Fq0kMKTM3kyZ3h6P1RhjUMN/RzBSdiRzxm96SGA
+xdATZt0z/ertdD4QebOGJxBDqpN8bPWMKocQfgTD7phbfwGA/xq1+APGvL7d9Ff0
+iQIDAQABo1MwUTAdBgNVHQ4EFgQU9c2hH027izNHZdftOvr7HQPYQvkwHwYDVR0j
+BBgwFoAU9c2hH027izNHZdftOvr7HQPYQvkwDwYDVR0TAQH/BAUwAwEB/zANBgkq
+hkiG9w0BAQsFAAOCAgEAiC0dUZuCPZuQO675nMjbOgLemKTZojKyL8NVR5DDeFIJ
+Ga4SiQVIzw3W4T6dCrVKCL9vuCte2NQrhQsivd3hoarS1Ou0I9YAjruxdRZtjEHL
+L8PMKrrfjN4I2jBlDSt43tJdM0QL58+u/48Tk2gQXUuFrUqahIVmcknTguZvZoK3
+pWw5T+1b2FKiSKiUgRxTEp5dkb8jAmS+o1ywcneb3gcBp2KHMIDN+8iIxDPfNZ2P
+5m1Ob3/QtOp0lEOS6VI/JMxlti25oOw0/D8zamvd4ZU0qojLog0SkrATTqzOhG+p
+L9y2wz2x5bKjrdKMvMCotCMGQkHCbbnh7H4upV72nsjO1RWU6pHMODsg3K3MtXha
+h8EaVST3AHemo2tyAqCpwg7vSdccJt94twl/4d5g/a/FXzR/6JSBmaw4mChea7bk
+UDOG+oEnW2KqDUmfppzl8yGH01ctzd96ypMQlhdkD8GdjMiintCiz3RY5bVWB7xM
+2KUr7ijHLVnHFnMS7ikjSFRwjNTs8ZdAck6KtBmaKzkY6IaNs9s2KNMW0ZLsefQK
+VhINjub+qAsMLoGKn520EGbvLj1NcEHd3fOFxs5EEb0j6Eb9plp3ZoE5hxzjeKyf
+ZVXo942uF+SA+OXXFWIJhFd1hg64QpFNALqDrCv2pwktffaZoTZddXQBomPOzFM=
+                        </ds:X509Certificate>
+                    </ds:X509Data>
+            </ds:KeyInfo>
+
+        </KeyDescriptor>
+        <KeyDescriptor use="encryption">
+            <ds:KeyInfo>
+                    <ds:X509Data>
+                        <ds:X509Certificate>
+MIIDEjCCAfqgAwIBAgIVAPVbodo8Su7/BaHXUHykx0Pi5CFaMA0GCSqGSIb3DQEB
+CwUAMBYxFDASBgNVBAMMC3NhbWx0ZXN0LmlkMB4XDTE4MDgyNDIxMTQwOVoXDTM4
+MDgyNDIxMTQwOVowFjEUMBIGA1UEAwwLc2FtbHRlc3QuaWQwggEiMA0GCSqGSIb3
+DQEBAQUAA4IBDwAwggEKAoIBAQCQb+1a7uDdTTBBFfwOUun3IQ9nEuKM98SmJDWa
+MwM877elswKUTIBVh5gB2RIXAPZt7J/KGqypmgw9UNXFnoslpeZbA9fcAqqu28Z4
+sSb2YSajV1ZgEYPUKvXwQEmLWN6aDhkn8HnEZNrmeXihTFdyr7wjsLj0JpQ+VUlc
+4/J+hNuU7rGYZ1rKY8AA34qDVd4DiJ+DXW2PESfOu8lJSOteEaNtbmnvH8KlwkDs
+1NvPTsI0W/m4SK0UdXo6LLaV8saIpJfnkVC/FwpBolBrRC/Em64UlBsRZm2T89ca
+uzDee2yPUvbBd5kLErw+sC7i4xXa2rGmsQLYcBPhsRwnmBmlAgMBAAGjVzBVMB0G
+A1UdDgQWBBRZ3exEu6rCwRe5C7f5QrPcAKRPUjA0BgNVHREELTArggtzYW1sdGVz
+dC5pZIYcaHR0cHM6Ly9zYW1sdGVzdC5pZC9zYW1sL2lkcDANBgkqhkiG9w0BAQsF
+AAOCAQEABZDFRNtcbvIRmblnZItoWCFhVUlq81ceSQddLYs8DqK340//hWNAbYdj
+WcP85HhIZnrw6NGCO4bUipxZXhiqTA/A9d1BUll0vYB8qckYDEdPDduYCOYemKkD
+dmnHMQWs9Y6zWiYuNKEJ9mf3+1N8knN/PK0TYVjVjXAf2CnOETDbLtlj6Nqb8La3
+sQkYmU+aUdopbjd5JFFwbZRaj6KiHXHtnIRgu8sUXNPrgipUgZUOVhP0C0N5OfE4
+JW8ZBrKgQC/6vJ2rSa9TlzI6JAa5Ww7gMXMP9M+cJUNQklcq+SBnTK8G+uBHgPKR
+zBDsMIEzRtQZm4GIoHJae4zmnCekkQ==
+                        </ds:X509Certificate>
+                    </ds:X509Data>
+            </ds:KeyInfo>
+
+        </KeyDescriptor>
+
+<!-- An endpoint for artifact resolution.  Please see Wikipedia for more details about SAML
+     artifacts and when you may find them useful. -->
+
+        <ArtifactResolutionService Binding="urn:oasis:names:tc:SAML:2.0:bindings:SOAP" Location="https://samltest.id/idp/profile/SAML2/SOAP/ArtifactResolution" index="1" />
+
+<!-- A set of endpoints where the IdP can receive logout messages. These must match the public
+facing addresses if this IdP is hosted behind a reverse proxy.  --> 
+        <SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://samltest.id/idp/profile/SAML2/Redirect/SLO"/>
+        <SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://samltest.id/idp/profile/SAML2/POST/SLO"/>
+        <SingleLogoutService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST-SimpleSign" Location="https://samltest.id/idp/profile/SAML2/POST-SimpleSign/SLO"/>
+
+<!-- A set of endpoints the SP can send AuthnRequests to in order to trigger user authentication. -->
+        <SingleSignOnService Binding="urn:mace:shibboleth:1.0:profiles:AuthnRequest" Location="https://samltest.id/idp/profile/Shibboleth/SSO"/>
+        <SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST" Location="https://samltest.id/idp/profile/SAML2/POST/SSO"/>
+        <SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST-SimpleSign" Location="https://samltest.id/idp/profile/SAML2/POST-SimpleSign/SSO"/>
+        <SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect" Location="https://samltest.id/idp/profile/SAML2/Redirect/SSO"/>
+        <SingleSignOnService Binding="urn:oasis:names:tc:SAML:2.0:bindings:SOAP" Location="https://samltest.id/idp/profile/SAML2/SOAP/ECP"/>
+
+    </IDPSSODescriptor>
+
+</EntityDescriptor>

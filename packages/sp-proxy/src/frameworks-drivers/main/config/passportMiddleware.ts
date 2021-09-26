@@ -5,7 +5,6 @@ import { IReadSpProxyConfigResponse } from '@sp-proxy/interface-adapters/deliver
 import { Request } from 'express'
 import { MongoClient } from 'mongodb'
 import passport from 'passport'
-
 import {
   MultiSamlStrategy,
   Profile,
@@ -15,6 +14,16 @@ import {
 } from 'passport-saml/lib/passport-saml'
 import cfg from '@sp-proxy/interface-adapters/config/env'
 import { SamlOptionsCallback } from 'passport-saml/lib/passport-saml/types'
+import { WinstonLogger } from '../logger/WinstonLogger'
+const logger = WinstonLogger.getInstance()
+
+passport.serializeUser((user: Express.User, done) => {
+  done(null, user)
+})
+
+passport.deserializeUser((user: Express.User, done) => {
+  done(null, user)
+})
 
 const makePassportConfig = (
   proxyConfig: IReadSpProxyConfigResponse,
@@ -27,19 +36,21 @@ const makePassportConfig = (
       : trustRelation.selectedSsoService.binding
   return {
     callbackUrl: `https://${proxyConfig.host}/inbound-saml/sp/callback`,
-    authnContext: [proxyConfig.authnContextIdentifierFormat],
+    // authnContext: [proxyConfig.authnContextIdentifierFormat],
     skipRequestCompression: proxyConfig.skipRequestCompression,
     identifierFormat:
       proxyConfig.requestedIdentifierFormat ??
       'urn:oasis:names:tc:SAML:1.1:nameid-format:emailAddress',
     // remote idp
     cert: trustRelation.remoteIdp.signingCertificates,
+    decryptionPvk: proxyConfig.decryption.privateKey,
     authnRequestBinding: authnRequestBinding,
     entryPoint: trustRelation.selectedSsoService.location
   }
 }
 
-export const getSamlConfig = () => {
+export const getSamlConfig = (): any => {
+  logger.debug('Entered getSamlConfig')
   return async (request: Request, done: SamlOptionsCallback) => {
     let connected: MongoClient
     try {
@@ -51,18 +62,26 @@ export const getSamlConfig = () => {
         .db(cfg.database.mongo.dbName)
         .collection(cfg.database.mongo.collections.trustRelations)
       const trGetter = makeMongoGetTrByHostFacade(collection)
+      let providerHost: string
       if (
         request.query.providerHost != null &&
         typeof request.query.providerHost === 'string'
       ) {
-        const trustRelation = await trGetter.getTrByHost(
-          request.query.providerHost
-        )
-        await connected.close()
-        return done(null, makePassportConfig(proxyConfig, trustRelation))
+        providerHost = request.query.providerHost
+      } else if (request.headers.origin != null) {
+        console.log(request.headers.origin)
+        providerHost = request.headers.origin
       } else {
         throw new Error('Provider Not Found in QS')
       }
+      const trustRelation = await trGetter.getTrByHost(providerHost)
+      await connected.close()
+      const passportConfig = makePassportConfig(proxyConfig, trustRelation)
+      logger.debug(
+        `passportConfig = ${JSON.stringify(passportConfig, null, 4)}`
+      )
+      // return done?
+      done(null, makePassportConfig(proxyConfig, trustRelation))
     } catch (err) {
       done(err as Error)
     }
@@ -74,8 +93,10 @@ const verifyCallback: VerifyWithRequest = (
   profile: Profile | null | undefined,
   done: VerifiedCallback
 ): void => {
+  logger.debug('Entered verifyCallback')
   // if error, call done(err)
   if (profile != null) {
+    logger.debug(`profile = ${JSON.stringify(profile, null, 4)}`)
     return done(null, profile)
   } else {
     return done(new Error('profile not found'))
