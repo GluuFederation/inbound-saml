@@ -39,7 +39,6 @@ const adaptFacade = () => {
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-misused-promises
 addTrFromMetadataRouter.post('/metadata', adminBasicPostAuth(), adaptFacade())
 
 export default addTrFromMetadataRouter
