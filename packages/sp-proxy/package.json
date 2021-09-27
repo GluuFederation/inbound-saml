@@ -2,9 +2,11 @@
   "name": "@inbound-saml/sp-proxy",
   "packageManager": "yarn@3.0.1",
   "dependencies": {
-    "express-session": "^1.17.2"
+    "express-session": "^1.17.2",
+    "morgan": "^1.10.0"
   },
   "devDependencies": {
-    "@types/express-session": "^1.17.4"
+    "@types/express-session": "^1.17.4",
+    "@types/morgan": "^1.9.3"
   }
 }
