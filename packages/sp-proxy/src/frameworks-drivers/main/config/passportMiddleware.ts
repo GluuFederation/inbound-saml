@@ -15,6 +15,7 @@ import {
 import cfg from '@sp-proxy/interface-adapters/config/env'
 import { SamlOptionsCallback } from 'passport-saml/lib/passport-saml/types'
 import { WinstonLogger } from '../logger/WinstonLogger'
+
 const logger = WinstonLogger.getInstance()
 
 passport.serializeUser((user: Express.User, done) => {
@@ -83,6 +84,11 @@ export const getSamlConfig = (): any => {
       // return done?
       done(null, makePassportConfig(proxyConfig, trustRelation))
     } catch (err) {
+      const error = err as Error
+      logger.error(error.message)
+      if (error.stack != null) {
+        logger.error(error.stack)
+      }
       done(err as Error)
     }
   }
