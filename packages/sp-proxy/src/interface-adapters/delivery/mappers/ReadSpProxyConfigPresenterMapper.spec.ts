@@ -20,7 +20,8 @@ const fakeResponseModel: IResponseModel<ReadSpProxyConfigResponseUseCaseParams> 
       signing: {
         privateKey: 'fake signing pvt key',
         cert: 'fake signing cert'
-      }
+      },
+      postProfileUrl: 'https://valid.url/path'
     }
   }
 
@@ -43,26 +44,29 @@ describe('ReadSpProxyConfigPresenterMapper', () => {
         signing: {
           privateKey: 'fake signing pvt key',
           cert: 'fake signing cert'
-        }
+        },
+        postProfileUrl: fakeResponseModel.response.postProfileUrl
       }
     }
     const sut = new ReadSpProxyConfigPresenterMapper()
     expect(sut.map(fakeResponseModel)).toStrictEqual(expected)
   })
   it('should map without signing opt props', () => {
-    const responseModelWithoutSigning = {
-      requestId: 'fake requestId',
-      response: {
-        host: 'fake host',
-        requestedIdentifierFormat: 'fake req id format',
-        authnContextIdentifierFormat: 'fake authnContext id format',
-        skipRequestCompression: true,
-        decryption: {
-          privateKey: 'fake decryption pvt key',
-          cert: 'fake decryption cert'
+    const responseModelWithoutSigning: IResponseModel<ReadSpProxyConfigResponseUseCaseParams> =
+      {
+        requestId: 'fake requestId',
+        response: {
+          host: 'fake host',
+          requestedIdentifierFormat: 'fake req id format',
+          authnContextIdentifierFormat: 'fake authnContext id format',
+          skipRequestCompression: true,
+          decryption: {
+            privateKey: 'fake decryption pvt key',
+            cert: 'fake decryption cert'
+          },
+          postProfileUrl: 'https://fake.url/path'
         }
       }
-    }
     const expected = {
       requestId: responseModelWithoutSigning.requestId,
       body: {
@@ -77,7 +81,8 @@ describe('ReadSpProxyConfigPresenterMapper', () => {
           privateKey:
             responseModelWithoutSigning.response.decryption.privateKey,
           cert: responseModelWithoutSigning.response.decryption.cert
-        }
+        },
+        postProfileUrl: responseModelWithoutSigning.response.postProfileUrl
       }
     }
     const sut = new ReadSpProxyConfigPresenterMapper()

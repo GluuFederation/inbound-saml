@@ -48,7 +48,8 @@ const spProxyConfigProps: SpProxyConfigProps = {
   decryption: {
     privateKeyPath: 'fake /valid-decryption/pvk/path.pem',
     publicCertPath: 'fake /valid-decryption/cert/path.pem'
-  }
+  },
+  postProfileUrl: 'valid.stubbed.url/path'
 }
 
 const fakeSpProxyConfig = new SpProxyConfig(spProxyConfigProps)
@@ -129,7 +130,8 @@ describe('ReadSpProxyConfigTransformer', () => {
       decryption: {
         privateKey: 'formatted key or cert 2',
         cert: 'formatted key or cert 1'
-      }
+      },
+      postProfileUrl: fakeSpProxyConfig.props.postProfileUrl
     })
   })
   it('should return params with formatted signing key and cert', async () => {
@@ -154,7 +156,8 @@ describe('ReadSpProxyConfigTransformer', () => {
       signing: {
         privateKey: 'formatted key or cert 4',
         cert: 'formatted key or cert 3'
-      }
+      },
+      postProfileUrl: fakeSpProxyConfig.props.postProfileUrl
     })
   })
 })

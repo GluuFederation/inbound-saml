@@ -11,4 +11,5 @@ export interface ReadSpProxyConfigResponseUseCaseParams {
     privateKey: string
     cert: string
   }
+  postProfileUrl: string
 }
