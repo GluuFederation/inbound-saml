@@ -13,6 +13,7 @@ Given('server is running', function (done) {
     })
     .catch((err) => {
       console.log(err)
+      assert.fail()
       done()
     })
 })
@@ -25,6 +26,7 @@ Given('proxy have valid configuration', function (done) {
     })
     .catch((err) => {
       console.log(err)
+      assert.fail()
       done()
     })
 })
