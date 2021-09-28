@@ -6,7 +6,7 @@ Given('server is running', function (done) {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0
   require('../../src/frameworks-drivers/main/server')
   axios
-    .get('https://localhost/inbound-saml/sp/metadata')
+    .get('https://localhost:5000/inbound-saml/sp/metadata')
     .then((result) => {
       assert(result.status === 200)
       done()
@@ -18,7 +18,7 @@ Given('server is running', function (done) {
 })
 Given('proxy have valid configuration', function (done) {
   axios
-    .get('https://localhost/inbound-saml/sp/metadata')
+    .get('https://localhost:5000/inbound-saml/sp/metadata')
     .then((result) => {
       assert(result.status === 200)
       done()
