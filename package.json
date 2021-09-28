@@ -18,7 +18,7 @@
     "test:integration": "npm test -- --config jest-integration-config.js",
     "test:integration:docker": "docker-compose -f docker-compose-test.yml up -d && npm test -- --config jest-integration-config.js && docker-compose -f docker-compose-test.yml down",
     "test:coverage": "jest --ci --coverage",
-    "test:behaviour": "cucumber-js packages/get-saml-metadata packages/sp-proxy -p default --exit",
+    "test:behaviour": "NODE_ENV=test cucumber-js packages/get-saml-metadata packages/sp-proxy -p default --exit",
     "test:staged": "npm test -- --findRelatedTests",
     "prepare": "husky install",
     "build": "tsc && tsc-alias",
