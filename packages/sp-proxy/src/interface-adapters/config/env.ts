@@ -1,3 +1,17 @@
+const getConfigFilePath = (): any => {
+  if (process.env.NODE_ENV === 'test') {
+    return (
+      process.cwd() +
+      '/packages/sp-proxy/src/frameworks-drivers/file-persistence/sp-proxy-config-test.json'
+    )
+  } else if (process.env.NODE_ENV === 'dev') {
+    return (
+      process.cwd() +
+      '/packages/sp-proxy/src/frameworks-drivers/file-persistence/sp-proxy-config-dev.json'
+    )
+  }
+}
+
 export default {
   database: {
     mongo: {
@@ -34,10 +48,7 @@ export default {
       }
     },
     file: {
-      proxyConfigPath:
-        process.env.PROXY_CFG_PATH ??
-        process.cwd() +
-          '/packages/sp-proxy/src/frameworks-drivers/file-persistence/sp-proxy-config-dev.json'
+      proxyConfigPath: process.env.PROXY_CFG_PATH ?? getConfigFilePath()
     }
   }
 }
