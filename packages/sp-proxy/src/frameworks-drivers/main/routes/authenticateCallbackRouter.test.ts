@@ -8,7 +8,6 @@ import serverConfig from '@sp-proxy/frameworks-drivers/main/config/env'
 import { Collection, MongoClient } from 'mongodb'
 import config from '@sp-proxy/interface-adapters/config/env'
 import { mockAuthXmlEndpoint } from '@sp-proxy/frameworks-drivers/main/mocks/externalMetadataUrl.mock'
-import wtf from 'wtfnode'
 
 const app = express()
 app.use(routes)
@@ -133,7 +132,6 @@ describe('authenticateCallbackRouter', () => {
   let collection: Collection
 
   beforeAll(async () => {
-    wtf.init()
     mongoClient = new MongoClient(config.database.mongo.uri)
     connection = await mongoClient.connect()
     collection = connection
@@ -179,22 +177,22 @@ describe('authenticateCallbackRouter', () => {
       .send({ SAMLResponse: 'a very invalid samlresponse' })
     expect(res.statusCode).toBeGreaterThanOrEqual(400)
   })
-  // it('should return auto-submit form', async () => {
-  //   await createTrustRelationMock()
-  //   const signedXml = signXmlResponse(xml, {
-  //     privateKey: idpPrivateSigningKey
-  //   })
+  it('should return auto-submit form', async () => {
+    await createTrustRelationMock()
+    const signedXml = signXmlResponse(xml, {
+      privateKey: idpPrivateSigningKey
+    })
 
-  //   const base64xml = Buffer.from(signedXml).toString('base64')
-  //   const body = { SAMLResponse: base64xml }
+    const base64xml = Buffer.from(signedXml).toString('base64')
+    const body = { SAMLResponse: base64xml }
 
-  //   const res = await request(app)
-  //     .post(eut)
-  //     .set('origin', 'samltest.id')
-  //     .set('content-type', 'application/x-www-form-urlencoded')
-  //     .send(body)
+    const res = await request(app)
+      .post(eut)
+      .set('origin', 'samltest.id')
+      .set('content-type', 'application/x-www-form-urlencoded')
+      .send(body)
 
-  //   console.log(res.text)
-  //   expect(res.statusCode).not.toBeGreaterThanOrEqual(400)
-  // })
+    console.log(res.text)
+    expect(res.statusCode).not.toBeGreaterThanOrEqual(400)
+  })
 })
