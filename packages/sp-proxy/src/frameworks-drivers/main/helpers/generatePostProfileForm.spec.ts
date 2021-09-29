@@ -14,7 +14,7 @@ describe('generatePostProfileForm', () => {
   it('should contain post to postProfileUrl action', () => {
     const validUrl = 'valid postProfileUrl'
     const res = generatePostProfileForm(validUrl, '' as any)
-    const postAction = `<form action=${validUrl} method="post">`
+    const postAction = `<form action="${validUrl}" method="post">`
     expect(res).toContain(postAction)
   })
   it('should start with propper html', () => {
@@ -57,7 +57,7 @@ describe('generatePostProfileForm', () => {
       </p>
     </noscript>
 
-    <form action=${postProfileUrl} method="post">
+    <form action="${postProfileUrl}" method="post">
       <div> 
         ${block}
             <noscript>

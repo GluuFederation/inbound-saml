@@ -18,7 +18,7 @@ export const generatePostProfileForm = (
       </p>
     </noscript>
 
-    <form action=${postProfileUrl} method="post">
+    <form action="${postProfileUrl}" method="post">
       <div> 
         ${inputsBlock}
             <noscript>
