@@ -1,14 +1,19 @@
-interface IFormInput {
-  name: string
-  value: string
-}
+import { IFormInput } from '@sp-proxy/frameworks-drivers/main/protocols/IFormInput'
+
 /**
  * Generate form inputs block as string, to be used by generatePostProfileForm
- * @param formInputs 
- * @returns 
+ * @param formInputs
+ * @returns
  */
 export const generateFormInputsBlock = (formInputs: IFormInput[]): string => {
-  const formInputString = `<input type="hidden" name="${formInputs[0].name}" value="${formInputs[0].value}"/>`
-  return formInputString
+  let formInputsBlock: string = ''
+  for (const formInput of formInputs) {
+    const line = `<input type="hidden" name="${formInput.name}" value="${formInput.value}"/>`
+    if (formInputsBlock === '') {
+      formInputsBlock = line
+    } else {
+      formInputsBlock += `\n${line}`
+    }
+  }
+  return formInputsBlock
 }
-
