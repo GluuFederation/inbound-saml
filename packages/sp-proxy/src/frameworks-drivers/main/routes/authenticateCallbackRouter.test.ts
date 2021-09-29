@@ -40,7 +40,6 @@ describe('authenticateCallbackRouter', () => {
   let collection: Collection
 
   beforeAll(async () => {
-    //   mockSpProxyConfig()
     mongoClient = new MongoClient(config.database.mongo.uri)
     connection = await mongoClient.connect()
     collection = connection
@@ -52,6 +51,14 @@ describe('authenticateCallbackRouter', () => {
     await collection.drop()
     await connection.close()
     jest.clearAllMocks()
+  })
+  it('should return error if no origin header', async () => {
+    await createTrustRelationMock()
+    const res = await request(app)
+      .post(eut)
+      .set('content-type', 'application/x-www-form-urlencoded')
+      .send('SAMLwhateverinvalid body')
+    expect(res.statusCode).toBeGreaterThanOrEqual(400)
   })
   it('should not return error for signed response', async () => {
     // lets add a mocked TR
@@ -169,5 +176,13 @@ describe('authenticateCallbackRouter', () => {
       .send(body)
 
     expect(res.statusCode).not.toBeGreaterThanOrEqual(400)
+  })
+  it('should return error if invalid SAMLResponse', async () => {
+    const res = await request(app)
+      .post(eut)
+      .set('origin', 'samltest.id')
+      .set('content-type', 'application/x-www-form-urlencoded')
+      .send({ SAMLResponse: 'a very invalid samlresponse' })
+    expect(res.statusCode).toBeGreaterThanOrEqual(400)
   })
 })
