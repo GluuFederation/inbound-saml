@@ -37,7 +37,8 @@ export class ReadSpProxyConfigTransformer
       decryption: {
         privateKey: decryptionPrivateKey,
         cert: decryptionCert
-      }
+      },
+      postProfileUrl: spProxyConfig.props.postProfileUrl
     }
     if (spProxyConfig.props.signing != null) {
       useCaseParams.signing = {

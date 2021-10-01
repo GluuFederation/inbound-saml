@@ -1,6 +1,7 @@
 type HostType = string
 type NameIdentifierFormatType = string
 type FilePathType = string
+type PostProfileUrlType = string
 
 interface CertKeySetPath {
   publicCertPath: FilePathType
@@ -14,4 +15,5 @@ export interface SpProxyConfigProps {
   skipRequestCompression: boolean
   decryption: CertKeySetPath
   signing?: CertKeySetPath
+  postProfileUrl: PostProfileUrlType
 }

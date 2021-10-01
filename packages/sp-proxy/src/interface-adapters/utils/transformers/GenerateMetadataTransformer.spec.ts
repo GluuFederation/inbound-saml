@@ -18,7 +18,8 @@ const fakeConfigProps: SpProxyConfigProps = {
   signing: {
     publicCertPath: '/valid/path/to/signing/cert.crt',
     privateKeyPath: '/valid/path/to/signing/private.pem'
-  }
+  },
+  postProfileUrl: 'https://valid.postprofile.com/path'
 }
 
 const makeLoader = (): IKeyCertLoader => {

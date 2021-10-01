@@ -26,7 +26,8 @@ export class ReadSpProxyConfigPresenterMapper
         decryption: {
           privateKey: responseModel.response.decryption.privateKey,
           cert: responseModel.response.decryption.cert
-        }
+        },
+        postProfileUrl: responseModel.response.postProfileUrl
       }
     }
     if (responseModel.response.signing != null) {

@@ -26,7 +26,8 @@ const makeGateway = (): IReadProxyConfigGateway => {
         decryption: {
           privateKeyPath: 'gtw /valid/pvk/path.pem',
           publicCertPath: 'gtw /valid/cert/path.pem'
-        }
+        },
+        postProfileUrl: 'gtw.valid.url/path'
       }
       return new SpProxyConfig(spProxyConfigProps)
     }
@@ -54,7 +55,8 @@ const makeTransformer = (): ITransformer<
         decryption: {
           privateKey: 'valid stunbbed pvk string',
           cert: 'valid stubbed cert string'
-        }
+        },
+        postProfileUrl: 'https://stubbed.transform.url/path'
       }
     }
   }

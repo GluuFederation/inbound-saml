@@ -38,7 +38,8 @@ const makeMapper = (): IDeliveryMapper<
           signing: {
             privateKey: 'stubbed mapped signing pvt key',
             cert: 'stubbed mapped signing cert'
-          }
+          },
+          postProfileUrl: 'https://stubbed.mapped.url/path'
         }
       }
     }
@@ -77,7 +78,8 @@ const fakeResponseModel: IResponseModel<ReadSpProxyConfigResponseUseCaseParams> 
       signing: {
         privateKey: 'fake signing pvt key',
         cert: 'fake signing cert'
-      }
+      },
+      postProfileUrl: 'https://fake.mapped.url/path'
     }
   }
 

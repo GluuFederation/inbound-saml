@@ -36,7 +36,8 @@ const fakeConfigProps = {
   signing: {
     publicCertPath: '/valid/path/to/signing/cert.crt',
     privateKeyPath: '/valid/path/to/signing/private.pem'
-  }
+  },
+  postProfileUrl: 'valid.url/path'
 }
 
 const makeConfigGateway = (): IReadProxyConfigGateway => {

@@ -14,7 +14,8 @@ const spProxyConfigProps: SpProxyConfigProps = {
   decryption: {
     privateKeyPath: process.cwd() + '/packages/testdata/key.pem',
     publicCertPath: process.cwd() + '/packages/testdata/cert.pem'
-  }
+  },
+  postProfileUrl: 'fake stubbed postProfileUrl'
 }
 
 const fakeSpProxyConfig = new SpProxyConfig(spProxyConfigProps)
@@ -51,7 +52,8 @@ describe('ReadSpProxyTransformer', () => {
         },
         host: 'fake stubbed host',
         requestedIdentifierFormat: 'fake stubbed identifier format',
-        skipRequestCompression: true
+        skipRequestCompression: true,
+        postProfileUrl: 'fake stubbed postProfileUrl'
       }
       expect(await sut.transform(fakeSpProxyConfig)).toStrictEqual(expected)
     })
@@ -71,7 +73,8 @@ describe('ReadSpProxyTransformer', () => {
         },
         host: 'fake stubbed host',
         requestedIdentifierFormat: 'fake stubbed identifier format',
-        skipRequestCompression: true
+        skipRequestCompression: true,
+        postProfileUrl: 'fake stubbed postProfileUrl'
       }
       expect(await sut.transform(fakeSpProxyConfigWithSigning)).toStrictEqual(
         expected

@@ -29,7 +29,8 @@ describe('GenerateMetadataFacade - integration', () => {
       signing: {
         publicCertPath: process.cwd() + '/packages/testdata/cert.pem',
         privateKeyPath: process.cwd() + '/packages/testdata/key.pem'
-      }
+      },
+      postProfileUrl: 'https://valid.url/path'
     }
     const mockedConfig: SpProxyConfig = new SpProxyConfig(mockedProps)
     jest
