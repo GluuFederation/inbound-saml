@@ -29,7 +29,6 @@ const authenticateCallback = (
 
 function callbackAction() {
   return async (req: Request, res: Response) => {
-    console.log('ENTEDER CALLBACKACTION')
     const proxyConfigReader = makeReadSpProxyConfigFacade()
     const proxyConfig = await proxyConfigReader.do(null)
     const postProfileUrl = proxyConfig.postProfileUrl

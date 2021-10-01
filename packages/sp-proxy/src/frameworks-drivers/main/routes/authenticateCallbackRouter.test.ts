@@ -8,6 +8,7 @@ import serverConfig from '@sp-proxy/frameworks-drivers/main/config/env'
 import { Collection, MongoClient } from 'mongodb'
 import config from '@sp-proxy/interface-adapters/config/env'
 import { mockAuthXmlEndpoint } from '@sp-proxy/frameworks-drivers/main/mocks/externalMetadataUrl.mock'
+import * as generator from '@sp-proxy/frameworks-drivers/main/helpers/generatePostProfileForm'
 
 const app = express()
 app.use(routes)
@@ -186,13 +187,16 @@ describe('authenticateCallbackRouter', () => {
     const base64xml = Buffer.from(signedXml).toString('base64')
     const body = { SAMLResponse: base64xml }
 
+    jest
+      .spyOn(generator, 'generatePostProfileForm')
+      .mockReturnValueOnce('auto-submit form')
     const res = await request(app)
       .post(eut)
       .set('origin', 'samltest.id')
       .set('content-type', 'application/x-www-form-urlencoded')
       .send(body)
 
-    console.log(res.text)
     expect(res.statusCode).not.toBeGreaterThanOrEqual(400)
+    expect(res.text).toBe('auto-submit form')
   })
 })

@@ -70,7 +70,6 @@ export const getSamlConfig = (): any => {
         ) {
           providerHost = request.query.providerHost
         } else if (request.headers.origin != null) {
-          console.log(request.headers.origin)
           providerHost = request.headers.origin
         } else {
           throw new Error('Provider Not Found in QS')
@@ -87,7 +86,6 @@ export const getSamlConfig = (): any => {
         await connected.close()
       }
     } catch (err) {
-      console.log('entered outter CATCH!!!!!!!!!!!!!!!!!!!!!!')
       const error = err as Error
       logger.error(error.message)
       if (error.stack != null) {
