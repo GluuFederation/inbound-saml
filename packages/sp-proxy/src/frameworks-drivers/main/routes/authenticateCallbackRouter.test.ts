@@ -138,7 +138,6 @@ describe('authenticateCallbackRouter', () => {
     collection = connection
       .db(config.database.mongo.dbName)
       .collection(config.database.mongo.collections.trustRelations)
-    // app.use(routes)
     await createTrustRelationMock()
   })
   afterAll(async () => {
@@ -155,6 +154,7 @@ describe('authenticateCallbackRouter', () => {
   })
   it('should not return error for signed response', async () => {
     // lets add a mocked TR
+    await createTrustRelationMock()
     const signedXml = signXmlResponse(xml, {
       privateKey: idpPrivateSigningKey
     })

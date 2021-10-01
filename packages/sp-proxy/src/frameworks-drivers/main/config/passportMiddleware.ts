@@ -96,7 +96,7 @@ export const getSamlConfig = (): any => {
   }
 }
 
-const verifyCallback: VerifyWithRequest = (
+export const verifyCallback: VerifyWithRequest = (
   req: Request,
   profile: Profile | null | undefined,
   done: VerifiedCallback
