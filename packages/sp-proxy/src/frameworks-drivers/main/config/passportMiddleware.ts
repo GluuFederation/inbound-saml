@@ -53,37 +53,41 @@ const makePassportConfig = (
 export const getSamlConfig = (): any => {
   logger.debug('Entered getSamlConfig')
   return async (request: Request, done: SamlOptionsCallback) => {
-    let connected: MongoClient
     try {
-      const proxyConfigReader = makeReadSpProxyConfigFacade()
-      const proxyConfig = await proxyConfigReader.do(null)
       const mongoClient = new MongoClient(cfg.database.mongo.uri)
-      connected = await mongoClient.connect()
+      const connected = await mongoClient.connect()
       const collection = connected
         .db(cfg.database.mongo.dbName)
         .collection(cfg.database.mongo.collections.trustRelations)
-      const trGetter = makeMongoGetTrByHostFacade(collection)
-      let providerHost: string
-      if (
-        request.query.providerHost != null &&
-        typeof request.query.providerHost === 'string'
-      ) {
-        providerHost = request.query.providerHost
-      } else if (request.headers.origin != null) {
-        console.log(request.headers.origin)
-        providerHost = request.headers.origin
-      } else {
-        throw new Error('Provider Not Found in QS')
+      try {
+        const proxyConfigReader = makeReadSpProxyConfigFacade()
+        const proxyConfig = await proxyConfigReader.do(null)
+        const trGetter = makeMongoGetTrByHostFacade(collection)
+        let providerHost: string
+        if (
+          request.query.providerHost != null &&
+          typeof request.query.providerHost === 'string'
+        ) {
+          providerHost = request.query.providerHost
+        } else if (request.headers.origin != null) {
+          console.log(request.headers.origin)
+          providerHost = request.headers.origin
+        } else {
+          throw new Error('Provider Not Found in QS')
+        }
+        const trustRelation = await trGetter.getTrByHost(providerHost)
+
+        const passportConfig = makePassportConfig(proxyConfig, trustRelation)
+        logger.debug(
+          `passportConfig = ${JSON.stringify(passportConfig, null, 4)}`
+        )
+        // return done?
+        done(null, makePassportConfig(proxyConfig, trustRelation))
+      } finally {
+        await connected.close()
       }
-      const trustRelation = await trGetter.getTrByHost(providerHost)
-      await connected.close()
-      const passportConfig = makePassportConfig(proxyConfig, trustRelation)
-      logger.debug(
-        `passportConfig = ${JSON.stringify(passportConfig, null, 4)}`
-      )
-      // return done?
-      done(null, makePassportConfig(proxyConfig, trustRelation))
     } catch (err) {
+      console.log('entered outter CATCH!!!!!!!!!!!!!!!!!!!!!!')
       const error = err as Error
       logger.error(error.message)
       if (error.stack != null) {

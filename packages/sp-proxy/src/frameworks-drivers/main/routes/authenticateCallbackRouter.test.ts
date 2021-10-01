@@ -137,7 +137,7 @@ describe('authenticateCallbackRouter', () => {
     collection = connection
       .db(config.database.mongo.dbName)
       .collection(config.database.mongo.collections.trustRelations)
-    app.use(routes)
+    // app.use(routes)
     await createTrustRelationMock()
   })
   afterAll(async () => {
