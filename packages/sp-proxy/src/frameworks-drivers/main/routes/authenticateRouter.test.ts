@@ -97,8 +97,6 @@ describe('authenticateRouter', () => {
     const res = await request(app)
       .get(eut)
       .query({ providerHost: 'pocidp.techno24x7.com' })
-    //  .expect(200)
-    // console.log(res)
     expect(res.text).toContain('SAMLRequest')
     expect(res.text).toContain('method="post"')
     expect(res.text).toContain('pocidp.techno24x7.com')

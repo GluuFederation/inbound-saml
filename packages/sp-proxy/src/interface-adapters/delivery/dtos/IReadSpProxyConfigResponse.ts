@@ -11,4 +11,5 @@ export interface IReadSpProxyConfigResponse {
     privateKey: string
     cert: string
   }
+  postProfileUrl: string
 }

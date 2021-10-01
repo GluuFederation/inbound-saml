@@ -13,3 +13,21 @@ export const mockValidXmlDataEndpoint = (): void => {
     })
     .persist()
 }
+
+/**
+ * Metadata to be used in tests integration, initially to test callback endpoint
+ */
+export const mockAuthXmlEndpoint = (): void => {
+  const authXmlData = fs
+    .readFileSync(
+      process.cwd() +
+        '/packages/sp-proxy/src/frameworks-drivers/main/mocks/mockAuthMetadata.xml'
+    )
+    .toString()
+  nock('https://auth-remote-idp')
+    .get('/metadata')
+    .reply(200, authXmlData, {
+      'Content-Type': 'application/xml;charset=utf-8'
+    })
+    .persist()
+}

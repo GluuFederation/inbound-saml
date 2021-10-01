@@ -1,0 +1,14 @@
+{ 
+  "host": "localhost",
+  "requestedIdentifierFormat": "urn:oasis:names:tc:SAML:2.0:nameid-format:transient",
+  "authnContextIdentifierFormat": "",
+  "skipRequestCompression" : true,
+  "decryption" : {
+    "publicCertPath": "packages/testdata/cert.pem",
+    "privateKeyPath": "packages/testdata/key.pem"
+  },
+  "signing": {
+    "publicCertPath": "packages/testdata/cert.pem",
+    "privateKeyPath": "packages/testdata/key.pem"
+  }
+}

@@ -60,7 +60,8 @@ describe('ReadSpProxyConfigFacade - integration', () => {
     signing: {
       publicCertPath: process.cwd() + '/packages/testdata/cert.pem',
       privateKeyPath: process.cwd() + '/packages/testdata/key.pem'
-    }
+    },
+    postProfileUrl: 'https://valid.url/path'
   }
   const mockedConfig: SpProxyConfig = new SpProxyConfig(mockedProps)
 
@@ -88,7 +89,8 @@ describe('ReadSpProxyConfigFacade - integration', () => {
       signing: {
         privateKey: loadedPvk,
         cert: loadedCert
-      }
+      },
+      postProfileUrl: 'https://valid.url/path'
     }
     expect(await sut.do()).toStrictEqual(expected)
   })
@@ -107,7 +109,8 @@ describe('ReadSpProxyConfigFacade - integration', () => {
       decryption: {
         privateKey: loadedPvk,
         cert: loadedCert
-      }
+      },
+      postProfileUrl: mockedProps.postProfileUrl
     }
     expect(await sut.do()).toStrictEqual(expectedWithoutSigning)
   })
