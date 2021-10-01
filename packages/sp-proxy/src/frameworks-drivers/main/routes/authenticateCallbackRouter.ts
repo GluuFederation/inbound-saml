@@ -16,9 +16,6 @@ authenticateCallbackRouter.use(session(sessionOptions))
 authenticateCallbackRouter.use(passport.initialize())
 authenticateCallbackRouter.use(passport.session())
 
-authenticateCallbackRouter.get('/isauth', (req: Request, res: Response) => {
-  res.send(req.isAuthenticated())
-})
 const authenticateCallback = (
   req: Request,
   res: Response,
