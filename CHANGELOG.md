@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.11.0](https://www.github.com/GluuFederation/inbound-saml/compare/v0.10.0...v0.11.0) (2021-10-12)
+
+
+### Features
+
+* **pickDefaultSso.ts:** change default sso binding to HTTP-Redirect ([#92](https://www.github.com/GluuFederation/inbound-saml/issues/92)) ([80bbf65](https://www.github.com/GluuFederation/inbound-saml/commit/80bbf6543db9654677b628bb81967d838a046b7a)), closes [#90](https://www.github.com/GluuFederation/inbound-saml/issues/90)
+* **SpInitAuthn:** return auto-submit form ([fc92f23](https://www.github.com/GluuFederation/inbound-saml/commit/fc92f231b8b1b9576ba94a3f7604bbedfe4c4cf9))
+* **SpInitiatedAuthn:** ACS / callback route ([#95](https://www.github.com/GluuFederation/inbound-saml/issues/95)) ([52fe457](https://www.github.com/GluuFederation/inbound-saml/commit/52fe457a0b1a4117dee5077ee209ce1947a3bcbc))
+
+
+### Bug Fixes
+
+* **MetadataGenerator:** passport adapter use well formatted `pem` format ([#94](https://www.github.com/GluuFederation/inbound-saml/issues/94)) ([458f18f](https://www.github.com/GluuFederation/inbound-saml/commit/458f18f83ef4b98220e077a553e7817d2265c69d))
+* **spInitAuthn:** remove quote-marks from auto-submit form ([#100](https://www.github.com/GluuFederation/inbound-saml/issues/100)) ([81960d2](https://www.github.com/GluuFederation/inbound-saml/commit/81960d23ddb6eec30d9dae69b690fe8bc57591e7))
+
 ## [0.10.0](https://www.github.com/GluuFederation/inbound-saml/compare/v0.9.0...v0.10.0) (2021-09-06)
 
 
