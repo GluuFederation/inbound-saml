@@ -36,7 +36,9 @@ describe('generateFormInputsBlock', () => {
         value: 'valid input value'
       }
     ]
-    const expected = `<input type="hidden" name="${inputs[0].name}" value="${inputs[0].value}"/>`
+    const expected = `<input type="hidden" name="${
+      inputs[0].name
+    }" value=${encodeURIComponent(inputs[0].value)}>`
     const res = generateFormInputsBlock(inputs)
     expect(getLineCount(res)).toEqual(1)
     expect(res).toEqual(expected)
