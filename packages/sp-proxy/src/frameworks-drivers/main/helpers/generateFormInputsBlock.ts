@@ -8,7 +8,9 @@ import { IFormInput } from '@sp-proxy/frameworks-drivers/main/protocols/IFormInp
 export const generateFormInputsBlock = (formInputs: IFormInput[]): string => {
   let formInputsBlock: string = ''
   for (const formInput of formInputs) {
-    const line = `<input type="hidden" name="${formInput.name}" value="${formInput.value}"/>`
+    const line = `<input type="hidden" name="${
+      formInput.name
+    }" value=${encodeURIComponent(formInput.value)}>`
     if (formInputsBlock === '') {
       formInputsBlock = line
     } else {
