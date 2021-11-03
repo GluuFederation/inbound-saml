@@ -66,33 +66,39 @@ const makeGatewayStub = (): IListTRsGateway => {
 
 const makeMapperStub = (): IMapper<
   TrustRelation[],
-  ListTRsResponseUseCaseParams
+  IResponseModel<ListTRsResponseUseCaseParams>
 > => {
   class MapperStub
-    implements IMapper<TrustRelation[], ListTRsResponseUseCaseParams>
+    implements
+      IMapper<TrustRelation[], IResponseModel<ListTRsResponseUseCaseParams>>
   {
-    map(trustRelations: TrustRelation[]): ListTRsResponseUseCaseParams {
-      return [
-        {
-          id: 'valid mapped id',
-          remoteIdp: {
-            id: 'mapped remoteIdp id',
-            name: 'mapped remoteIdp name',
-            metadataEndpoint: 'mapped remoteIdp metadata endpoint',
-            singleSignOnService: [
-              {
-                binding: 'mapped remoteIdp binding',
-                location: 'mapped remoteIdp location'
-              }
-            ],
-            signingCertificates: ['cert 1', 'cert 2']
-          },
-          selectedSsoService: {
-            binding: 'valid mapped binding',
-            location: 'valid mapped location'
+    map(
+      trustRelations: TrustRelation[]
+    ): IResponseModel<ListTRsResponseUseCaseParams> {
+      return {
+        requestId: 'mapped requestId',
+        response: [
+          {
+            id: 'valid mapped id',
+            remoteIdp: {
+              id: 'mapped remoteIdp id',
+              name: 'mapped remoteIdp name',
+              metadataEndpoint: 'mapped remoteIdp metadata endpoint',
+              singleSignOnService: [
+                {
+                  binding: 'mapped remoteIdp binding',
+                  location: 'mapped remoteIdp location'
+                }
+              ],
+              signingCertificates: ['cert 1', 'cert 2']
+            },
+            selectedSsoService: {
+              binding: 'valid mapped binding',
+              location: 'valid mapped location'
+            }
           }
-        }
-      ]
+        ]
+      }
     }
   }
   return new MapperStub()
@@ -115,7 +121,10 @@ const makePresenterStub = (): OutputBoundary<
 
 interface SutTypes {
   gatewayStub: IListTRsGateway
-  mapperStub: IMapper<TrustRelation[], ListTRsResponseUseCaseParams>
+  mapperStub: IMapper<
+    TrustRelation[],
+    IResponseModel<ListTRsResponseUseCaseParams>
+  >
   presenterStub: OutputBoundary<IResponseModel<ListTRsResponseUseCaseParams>>
   sut: ListTRsInteractor
 }
@@ -154,5 +163,15 @@ describe('ListTRsInteractor', () => {
     await sut.execute(fakeRequestModel)
     expect(mapSpy).toHaveBeenCalledTimes(1)
     expect(mapSpy).toHaveBeenCalledWith('valid entities list')
+  })
+  it('should call presenter with response model', async () => {
+    const { mapperStub, sut, presenterStub } = makeSut()
+    const presentSpy = jest.spyOn(presenterStub, 'present')
+    jest
+      .spyOn(mapperStub, 'map')
+      .mockReturnValueOnce('valid responseModel' as any)
+    await sut.execute(fakeRequestModel)
+    expect(presentSpy).toHaveBeenCalledTimes(1)
+    expect(presentSpy).toHaveBeenCalledWith('valid responseModel')
   })
 })

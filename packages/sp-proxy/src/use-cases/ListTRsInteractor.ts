@@ -15,7 +15,7 @@ export class ListTRsInteractor
     private readonly gateway: IListTRsGateway,
     private readonly mapper: IMapper<
       TrustRelation[],
-      ListTRsResponseUseCaseParams
+      IResponseModel<ListTRsResponseUseCaseParams>
     >,
     private readonly outputChannel: OutputBoundary<
       IResponseModel<ListTRsResponseUseCaseParams>
@@ -26,6 +26,6 @@ export class ListTRsInteractor
     requestModel: IRequestModel<ListTRsRequestUseCaseParams>
   ): Promise<void> {
     const trustRelations = await this.gateway.findAll()
-    this.mapper.map(trustRelations)
+    await this.outputChannel.present(this.mapper.map(trustRelations))
   }
 }
