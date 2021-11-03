@@ -174,4 +174,11 @@ describe('ListTRsInteractor', () => {
     expect(presentSpy).toHaveBeenCalledTimes(1)
     expect(presentSpy).toHaveBeenCalledWith('valid responseModel')
   })
+  it('should throw if gateway throws', async () => {
+    const { sut, gatewayStub } = makeSut()
+    jest.spyOn(gatewayStub, 'findAll').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    await expect(sut.execute(fakeRequestModel)).rejects.toThrow()
+  })
 })
