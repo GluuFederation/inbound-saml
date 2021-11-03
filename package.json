@@ -19,7 +19,7 @@
     "test:all": "yarn test:unit && yarn test:integration",
     "test:integration:docker": "docker-compose -f docker-compose-test.yml up -d && yarn test:integration && docker-compose -f docker-compose-test.yml down",
     "test:coverage": "jest --ci --coverage",
-    "test:behaviour": "NODE_ENV=test cucumber-js packages/get-saml-metadata packages/sp-proxy -p default --exit",
+    "test:behaviour": "yarn build && NODE_ENV=test cucumber-js packages/get-saml-metadata packages/sp-proxy -p default --exit",
     "test:staged": "yarn test:all --no-cache --findRelatedTests",
     "prepare": "husky install",
     "build": "rimraf dist && tsc && tsc-alias",
