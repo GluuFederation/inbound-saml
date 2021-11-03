@@ -9,11 +9,11 @@ import { IDataMapper } from '../protocols/IDataMapper'
 import { PersistenceError } from './errors/PersistenceError'
 import { MongoListTRs } from './MongoListTRs'
 
-const makeDataMapper = (): IDataMapper<mongodb.Document, TrustRelation[]> => {
+const makeDataMapper = (): IDataMapper<mongodb.Document[], TrustRelation[]> => {
   class DataMapperStub
-    implements IDataMapper<mongodb.Document, TrustRelation[]>
+    implements IDataMapper<mongodb.Document[], TrustRelation[]>
   {
-    async map(mappedFrom: mongodb.Document): Promise<TrustRelation[]> {
+    async map(mappedFrom: mongodb.Document[]): Promise<TrustRelation[]> {
       return 'valid TRs list' as any
     }
   }
@@ -24,7 +24,7 @@ const client = new mongodb.MongoClient('mongodb://validurl')
 
 interface SutTypes {
   mongoCollectionStub: mongodb.Collection
-  dataMapperStub: IDataMapper<mongodb.Document, TrustRelation[]>
+  dataMapperStub: IDataMapper<mongodb.Document[], TrustRelation[]>
   sut: MongoListTRs
 }
 
@@ -43,7 +43,11 @@ describe('MongoListTRs', () => {
     const { sut, mongoCollectionStub } = makeSut()
     const findSpy = jest
       .spyOn(mongoCollectionStub as any, 'find')
-      .mockReturnValueOnce('')
+      .mockReturnValueOnce({
+        toArray: async (): Promise<mongodb.Document[]> => {
+          return 'valid mongo document list' as any
+        }
+      })
     await sut.findAll()
     expect(findSpy).toHaveBeenCalledTimes(1)
     expect(findSpy).toHaveBeenCalledWith()
@@ -62,11 +66,13 @@ describe('MongoListTRs', () => {
   it('should call dataMapper once with received document', async () => {
     const { sut, mongoCollectionStub, dataMapperStub } = makeSut()
     const mapSpy = jest.spyOn(dataMapperStub, 'map')
-    jest
-      .spyOn(mongoCollectionStub as any, 'find')
-      .mockReturnValueOnce('valid documents')
+    jest.spyOn(mongoCollectionStub as any, 'find').mockReturnValueOnce({
+      toArray: async (): Promise<mongodb.Document[]> => {
+        return 'valid mongo document list' as any
+      }
+    })
     await sut.findAll()
     expect(mapSpy).toHaveBeenCalledTimes(1)
-    expect(mapSpy).toHaveBeenCalledWith('valid documents')
+    expect(mapSpy).toHaveBeenCalledWith('valid mongo document list')
   })
 })

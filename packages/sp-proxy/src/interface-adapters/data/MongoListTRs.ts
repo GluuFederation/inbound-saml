@@ -7,13 +7,16 @@ import { PersistenceError } from './errors/PersistenceError'
 export class MongoListTRs implements IListTRsGateway {
   constructor(
     private readonly mongoCollection: Collection,
-    private readonly dataMapper: IDataMapper<MongoDocument, TrustRelation[]>
+    private readonly dataMapper: IDataMapper<MongoDocument[], TrustRelation[]>
   ) {}
 
   async findAll(): Promise<TrustRelation[]> {
     try {
-      await this.dataMapper.map(this.mongoCollection.find())
+      const document = this.mongoCollection.find()
+      const documentList = await document.toArray()
+      await this.dataMapper.map(documentList)
     } catch (err) {
+      console.log(err)
       throw new PersistenceError(
         'An error ocurred while fetching all TRs from persistence'
       )
