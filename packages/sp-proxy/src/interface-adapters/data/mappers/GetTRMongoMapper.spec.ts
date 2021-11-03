@@ -3,7 +3,7 @@ import { IRemoteIdpProps } from '@sp-proxy/entities/IRemoteIdp'
 import { ITrustRelationProps } from '@sp-proxy/entities/protocols/ITrustRelationProps'
 import { RemoteIdp } from '@sp-proxy/entities/RemoteIdp'
 import { TrustRelation } from '@sp-proxy/entities/TrustRelation'
-import { GetTrByHostMongoMapper } from '@sp-proxy/interface-adapters/data/mappers/GetTrByHostMongoMapper'
+import { GetTRMongoMapper } from '@sp-proxy/interface-adapters/data/mappers/GetTRMongoMapper'
 import { IService } from '@sp-proxy/interface-adapters/protocols/IService'
 import { makeSingleSignOnServices } from '@sp-proxy/use-cases/factories/makeSingleSignOnServices'
 
@@ -16,7 +16,7 @@ const getCollectionSsoServices = (document: any): IService[] => {
   return ssoServices
 }
 
-describe('GetTrByHostMongoMapper.spec.ts', () => {
+describe('GetTRMongoMapper.spec.ts', () => {
   it('should map document to TrustRelation entity', async () => {
     const documentSample = {
       _id: '6126cfd2630b0dffea68f01c',
@@ -49,7 +49,7 @@ describe('GetTrByHostMongoMapper.spec.ts', () => {
         }
       }
     }
-    const sut = new GetTrByHostMongoMapper()
+    const sut = new GetTRMongoMapper()
 
     const expectedRemoteIdpProps: IRemoteIdpProps = {
       name: documentSample.trustRelation.props.remoteIdp.props.name,

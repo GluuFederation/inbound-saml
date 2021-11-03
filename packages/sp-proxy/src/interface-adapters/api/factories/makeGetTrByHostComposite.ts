@@ -1,4 +1,4 @@
-import { GetTrByHostMongoMapper } from '@sp-proxy/interface-adapters/data/mappers/GetTrByHostMongoMapper'
+import { GetTRMongoMapper } from '@sp-proxy/interface-adapters/data/mappers/GetTRMongoMapper'
 import { MongoGetTrByHost } from '@sp-proxy/interface-adapters/data/MongoGetTrByHost'
 import { GetTrByHostController } from '@sp-proxy/interface-adapters/delivery/GetTrByHostController'
 import { GetTrByHostPresenter } from '@sp-proxy/interface-adapters/delivery/GetTrByHostPresenter'
@@ -26,7 +26,7 @@ export const makeGetTrByHostComposite = (
   const presenter = new GetTrByHostPresenter(presenterMapper, eventBus)
 
   // interactor...
-  const dataMapper = new GetTrByHostMongoMapper()
+  const dataMapper = new GetTRMongoMapper()
   const gateway = new MongoGetTrByHost(collection, dataMapper)
   const entityMapper = new GetTrByHostUseCaseMapper()
   const interactor = new GetTrByHostInteractor(gateway, entityMapper, presenter)
