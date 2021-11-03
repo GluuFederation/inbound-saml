@@ -22,7 +22,7 @@
     "test:behaviour": "NODE_ENV=test cucumber-js packages/get-saml-metadata packages/sp-proxy -p default --exit",
     "test:staged": "yarn test:all --no-cache --findRelatedTests",
     "prepare": "husky install",
-    "build": "tsc && tsc-alias",
+    "build": "rimraf dist && tsc && tsc-alias",
     "dev": "nodemon --watch 'src/' --exec 'ts-node -r tsconfig-paths/register packages/sp-proxy/src/frameworks-drivers/main/server.ts' -e ts",
     "dev:debug": "nodemon --inspect 'src/' --exec 'ts-node -r tsconfig-paths/register packages/sp-proxy/src/frameworks-drivers/main/server.ts' -e ts",
     "postinstall": "husky install",
