@@ -43,7 +43,7 @@ describe('MongoListTRs', () => {
     const { sut, mongoCollectionStub } = makeSut()
     const findSpy = jest
       .spyOn(mongoCollectionStub as any, 'find')
-      .mockResolvedValueOnce('')
+      .mockReturnValueOnce('')
     await sut.findAll()
     expect(findSpy).toHaveBeenCalledTimes(1)
     expect(findSpy).toHaveBeenCalledWith()
@@ -58,5 +58,15 @@ describe('MongoListTRs', () => {
         'An error ocurred while fetching all TRs from persistence'
       )
     )
+  })
+  it('should call dataMapper once with received document', async () => {
+    const { sut, mongoCollectionStub, dataMapperStub } = makeSut()
+    const mapSpy = jest.spyOn(dataMapperStub, 'map')
+    jest
+      .spyOn(mongoCollectionStub as any, 'find')
+      .mockReturnValueOnce('valid documents')
+    await sut.findAll()
+    expect(mapSpy).toHaveBeenCalledTimes(1)
+    expect(mapSpy).toHaveBeenCalledWith('valid documents')
   })
 })
