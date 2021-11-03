@@ -2,6 +2,7 @@ import { TrustRelation } from '@sp-proxy/entities/TrustRelation'
 import { IListTRsGateway } from '@sp-proxy/use-cases/ports/IListTRsGateway'
 import { Collection, Document as MongoDocument } from 'mongodb'
 import { IDataMapper } from '../protocols/IDataMapper'
+import { PersistenceError } from './errors/PersistenceError'
 
 export class MongoListTRs implements IListTRsGateway {
   constructor(
@@ -10,7 +11,13 @@ export class MongoListTRs implements IListTRsGateway {
   ) {}
 
   async findAll(): Promise<TrustRelation[]> {
-    this.mongoCollection.find()
+    try {
+      this.mongoCollection.find()
+    } catch (err) {
+      throw new PersistenceError(
+        'An error ocurred while fetching all TRs from persistence'
+      )
+    }
     return '' as any
   }
 }

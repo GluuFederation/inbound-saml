@@ -6,6 +6,7 @@
 import { TrustRelation } from '@sp-proxy/entities/TrustRelation'
 import * as mongodb from 'mongodb'
 import { IDataMapper } from '../protocols/IDataMapper'
+import { PersistenceError } from './errors/PersistenceError'
 import { MongoListTRs } from './MongoListTRs'
 
 const makeDataMapper = (): IDataMapper<mongodb.Document, TrustRelation[]> => {
@@ -46,5 +47,16 @@ describe('MongoListTRs', () => {
     await sut.findAll()
     expect(findSpy).toHaveBeenCalledTimes(1)
     expect(findSpy).toHaveBeenCalledWith()
+  })
+  it('should throw PersistenceError if find throws', async () => {
+    const { sut, mongoCollectionStub } = makeSut()
+    jest.spyOn(mongoCollectionStub, 'find').mockImplementationOnce(() => {
+      throw new Error('the message')
+    })
+    await expect(sut.findAll()).rejects.toThrow(
+      new PersistenceError(
+        'An error ocurred while fetching all TRs from persistence'
+      )
+    )
   })
 })
