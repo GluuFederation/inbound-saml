@@ -10,9 +10,8 @@ export class ListTRsMongoMapper
     const getTRMongoMapper = new GetTRMongoMapper()
     const trustRelations: TrustRelation[] = []
     for (const document of mappedFrom) {
-      trustRelations.push(await getTRMongoMapper.map(document as any))
-      /// console.log(trustRelations)
+      trustRelations.push(await getTRMongoMapper.map(document))
     }
-    return '' as any
+    return trustRelations
   }
 }
