@@ -145,4 +145,14 @@ describe('ListTRsInteractor', () => {
     expect(findAllSpy).toHaveBeenCalledTimes(1)
     expect(findAllSpy).toHaveBeenCalledWith()
   })
+  it('should call mapper with received entities', async () => {
+    const { gatewayStub, sut, mapperStub } = makeSut()
+    const mapSpy = jest.spyOn(mapperStub, 'map')
+    jest
+      .spyOn(gatewayStub, 'findAll')
+      .mockResolvedValueOnce('valid entities list' as any)
+    await sut.execute(fakeRequestModel)
+    expect(mapSpy).toHaveBeenCalledTimes(1)
+    expect(mapSpy).toHaveBeenCalledWith('valid entities list')
+  })
 })

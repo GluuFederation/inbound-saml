@@ -25,6 +25,7 @@ export class ListTRsInteractor
   async execute(
     requestModel: IRequestModel<ListTRsRequestUseCaseParams>
   ): Promise<void> {
-    await this.gateway.findAll()
+    const trustRelations = await this.gateway.findAll()
+    this.mapper.map(trustRelations)
   }
 }
