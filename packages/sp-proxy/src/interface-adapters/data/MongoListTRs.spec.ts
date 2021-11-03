@@ -75,4 +75,16 @@ describe('MongoListTRs', () => {
     expect(mapSpy).toHaveBeenCalledTimes(1)
     expect(mapSpy).toHaveBeenCalledWith('valid mongo document list')
   })
+  it('should return mapped list of entities', async () => {
+    const { sut, mongoCollectionStub, dataMapperStub } = makeSut()
+    jest.spyOn(mongoCollectionStub as any, 'find').mockReturnValueOnce({
+      toArray: async (): Promise<mongodb.Document[]> => {
+        return 'valid mongo document list' as any
+      }
+    })
+    jest
+      .spyOn(dataMapperStub as any, 'map')
+      .mockResolvedValueOnce('valid TrustRelation list')
+    expect(await sut.findAll()).toEqual('valid TrustRelation list')
+  })
 })

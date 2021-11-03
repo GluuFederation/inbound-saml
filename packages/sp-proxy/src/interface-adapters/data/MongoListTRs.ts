@@ -13,12 +13,12 @@ export class MongoListTRs implements IListTRsGateway {
   async findAll(): Promise<TrustRelation[]> {
     try {
       const documents = await this.mongoCollection.find().toArray()
-      await this.dataMapper.map(documents)
+      const trustRelations = await this.dataMapper.map(documents)
+      return trustRelations
     } catch (err) {
       throw new PersistenceError(
         'An error ocurred while fetching all TRs from persistence'
       )
     }
-    return '' as any
   }
 }
