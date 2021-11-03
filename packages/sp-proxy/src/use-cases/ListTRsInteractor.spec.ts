@@ -181,4 +181,11 @@ describe('ListTRsInteractor', () => {
     })
     await expect(sut.execute(fakeRequestModel)).rejects.toThrow()
   })
+  it('should throw if mapper throws', async () => {
+    const { sut, mapperStub } = makeSut()
+    jest.spyOn(mapperStub, 'map').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    await expect(sut.execute(fakeRequestModel)).rejects.toThrow()
+  })
 })
