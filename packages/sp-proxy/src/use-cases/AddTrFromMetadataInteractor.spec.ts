@@ -16,7 +16,7 @@ import { AddTrFromMetadataUseCaseParams } from '@sp-proxy/use-cases/io-models/Ad
 import { ExternalUseCaseParams } from '@sp-proxy/use-cases/io-models/ExternalUseCaseParams'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
 import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'
-import { SuccessResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/SuccessResponseUseCaseParams'
+import { SuccessResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/response/SuccessResponseUseCaseParams'
 import { IAddTrGateway } from '@sp-proxy/use-cases/ports/IAddTrGateway'
 import { ICreateRemoteIdpGateway } from '@sp-proxy/use-cases/ports/ICreateRemoteIdpGateway'
 import { IFetchExternalDataGateway } from '@sp-proxy/use-cases/ports/IFetchExternalDataGateway'

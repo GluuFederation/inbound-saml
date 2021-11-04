@@ -5,7 +5,7 @@ import { IGenerateMetadataResponse } from '@sp-proxy/interface-adapters/delivery
 import { GenerateMetadataPresenter } from '@sp-proxy/interface-adapters/delivery/GenerateMetadataPresenter'
 import { IDeliveryMapper } from '@sp-proxy/interface-adapters/protocols/IDeliveryMapper'
 import { IResponse } from '@sp-proxy/interface-adapters/protocols/IResponse'
-import { GenerateMetadataResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/GenerateMetadataResponseUseCaseParams'
+import { GenerateMetadataResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/response/GenerateMetadataResponseUseCaseParams'
 import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'
 import { EventEmitter } from 'stream'
 

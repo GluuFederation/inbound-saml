@@ -1,6 +1,6 @@
 import { CreateRemoteIdpPresenter } from '@sp-proxy/interface-adapters/delivery/CreateRemoteIdpPresenter'
 import { IResponse } from '@sp-proxy/interface-adapters/protocols/IResponse'
-import { SuccessResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/SuccessResponseUseCaseParams'
+import { SuccessResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/response/SuccessResponseUseCaseParams'
 import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'
 import { EventEmitter } from 'stream'
 import { ICreateRemoteIdpResponse } from '@sp-proxy/interface-adapters/delivery/dtos/ICreateRemoteIdpResponse'

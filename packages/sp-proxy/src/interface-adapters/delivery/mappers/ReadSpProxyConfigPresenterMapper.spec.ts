@@ -3,7 +3,7 @@
 
 import { ReadSpProxyConfigPresenterMapper } from '@sp-proxy/interface-adapters/delivery/mappers/ReadSpProxyConfigPresenterMapper'
 import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'
-import { ReadSpProxyConfigResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/ReadSpProxyConfigResponseUseCaseParams'
+import { ReadSpProxyConfigResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/response/ReadSpProxyConfigResponseUseCaseParams'
 
 const fakeResponseModel: IResponseModel<ReadSpProxyConfigResponseUseCaseParams> =
   {

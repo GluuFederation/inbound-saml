@@ -1,5 +1,5 @@
 import { RemoteIdp } from '@sp-proxy/entities/RemoteIdp'
-import { SuccessResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/SuccessResponseUseCaseParams'
+import { SuccessResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/response/SuccessResponseUseCaseParams'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
 import { ICreateRemoteIdpGateway } from '@sp-proxy/use-cases/ports/ICreateRemoteIdpGateway'
 import { IMapper } from '@sp-proxy/use-cases/protocols/IMapper'

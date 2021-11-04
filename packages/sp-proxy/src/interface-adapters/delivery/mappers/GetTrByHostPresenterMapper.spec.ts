@@ -1,8 +1,8 @@
 import { IGetTrByHostResponse } from '@sp-proxy/interface-adapters/delivery/dtos/IGetTrByHostResponse'
 import { GetTrByHostPresenterMapper } from '@sp-proxy/interface-adapters/delivery/mappers/GetTrByHostPresenterMapper'
 import { IResponse } from '@sp-proxy/interface-adapters/protocols/IResponse'
-import { GetTrByHostResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/GetTrByHostResponseUseCaseParams'
 import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'
+import { GetTrByHostResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/response/GetTrByHostResponseUseCaseParams'
 
 describe('GetTrByHostPresenterMapper', () => {
   it('should map response model to DTO', () => {

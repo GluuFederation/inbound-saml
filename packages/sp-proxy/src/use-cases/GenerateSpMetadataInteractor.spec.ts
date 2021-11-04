@@ -7,7 +7,7 @@
 import { SpProxyConfigProps } from '@sp-proxy/entities/protocols/SpProxyConfigProps'
 import { SpProxyConfig } from '@sp-proxy/entities/SpProxyConfig'
 import { GenerateSpMetadataInteractor } from '@sp-proxy/use-cases/GenerateMetadataInteractor'
-import { GenerateMetadataResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/GenerateMetadataResponseUseCaseParams'
+import { GenerateMetadataResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/response/GenerateMetadataResponseUseCaseParams'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
 import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'
 import {

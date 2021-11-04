@@ -8,7 +8,7 @@ import { CreateRemoteIdpInteractor } from '@sp-proxy/use-cases/CreateRemoteIdpIn
 import { makeSingleSignOnServices } from '@sp-proxy/use-cases/factories/makeSingleSignOnServices'
 import { OutputBoundary } from '@sp-proxy/use-cases/ports/OutputBoundary'
 import { AddRemoteIdpUseCaseParams } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseParams'
-import { SuccessResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/SuccessResponseUseCaseParams'
+import { SuccessResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/response/SuccessResponseUseCaseParams'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
 import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'
 import { ICreateRemoteIdpGateway } from '@sp-proxy/use-cases/ports/ICreateRemoteIdpGateway'

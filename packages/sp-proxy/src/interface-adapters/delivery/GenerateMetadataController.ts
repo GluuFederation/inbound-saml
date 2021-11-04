@@ -2,7 +2,7 @@ import { IGenerateMetadataRequest } from '@sp-proxy/interface-adapters/delivery/
 import { IController } from '@sp-proxy/interface-adapters/protocols/IController'
 import { IDeliveryMapper } from '@sp-proxy/interface-adapters/protocols/IDeliveryMapper'
 import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'
-import { GenerateMetadataRequestUseCaseParams } from '@sp-proxy/use-cases/io-models/GenerateMetadataRequestUseCaseParams'
+import { GenerateMetadataRequestUseCaseParams } from '@sp-proxy/use-cases/io-models/request/GenerateMetadataRequestUseCaseParams'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
 import { InputBoundary } from '@sp-proxy/use-cases/ports/InputBoundary'
 

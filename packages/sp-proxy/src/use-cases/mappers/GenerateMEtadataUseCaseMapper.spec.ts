@@ -1,4 +1,4 @@
-import { GenerateMetadataResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/GenerateMetadataResponseUseCaseParams'
+import { GenerateMetadataResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/response/GenerateMetadataResponseUseCaseParams'
 import { GenerateMetadataUseCaseMapper } from '@sp-proxy/use-cases/mappers/GenerateMetadataUseCaseMapper'
 
 describe('GenerateMetadataUseCaseMapper', () => {

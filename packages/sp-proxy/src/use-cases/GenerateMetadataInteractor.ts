@@ -7,9 +7,9 @@ import {
   IMetadataGeneratorParams
 } from '@sp-proxy/use-cases/ports/IMetadataGenerator'
 import { IMapper } from '@sp-proxy/use-cases/protocols/IMapper'
-import { GenerateMetadataResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/GenerateMetadataResponseUseCaseParams'
+import { GenerateMetadataResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/response/GenerateMetadataResponseUseCaseParams'
 import { IXmlData } from '@sp-proxy/use-cases/protocols/IXmlData'
-import { GenerateMetadataRequestUseCaseParams } from '@sp-proxy/use-cases/io-models/GenerateMetadataRequestUseCaseParams'
+import { GenerateMetadataRequestUseCaseParams } from '@sp-proxy/use-cases/io-models/request/GenerateMetadataRequestUseCaseParams'
 import { ITransformer } from '@sp-proxy/use-cases/ports/ITransformer'
 import { SpProxyConfigProps } from '@sp-proxy/entities/protocols/SpProxyConfigProps'
 import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'

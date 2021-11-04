@@ -1,8 +1,8 @@
 import { IGetTrByHostResponse } from '@sp-proxy/interface-adapters/delivery/dtos/IGetTrByHostResponse'
 import { IDeliveryMapper } from '@sp-proxy/interface-adapters/protocols/IDeliveryMapper'
 import { IResponse } from '@sp-proxy/interface-adapters/protocols/IResponse'
-import { GetTrByHostResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/GetTrByHostResponseUseCaseParams'
 import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'
+import { GetTrByHostResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/response/GetTrByHostResponseUseCaseParams'
 import { OutputBoundary } from '@sp-proxy/use-cases/ports/OutputBoundary'
 import { EventEmitter } from 'stream'
 

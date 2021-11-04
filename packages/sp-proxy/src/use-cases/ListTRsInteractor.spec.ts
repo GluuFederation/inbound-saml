@@ -13,11 +13,11 @@ import { SingleSignOnService } from '@sp-proxy/entities/value-objects/SingleSign
 import { IListTRsGateway } from './ports/IListTRsGateway'
 import { ListTRsInteractor } from './ListTRsInteractor'
 import { IMapper } from './protocols/IMapper'
-import { ListTRsResponseUseCaseParams } from './io-models/ListTRsResponseUseCaseParams'
+import { ListTRsResponseUseCaseParams } from './io-models/response/ListTRsResponseUseCaseParams'
 import { OutputBoundary } from './ports/OutputBoundary'
 import { IResponseModel } from './io-models/IResponseModel'
 import { IRequestModel } from './io-models/IRequestModel'
-import { ListTRsRequestUseCaseParams } from './io-models/ListTRsRequestUseCaseParams'
+import { ListTRsRequestUseCaseParams } from './io-models/request/ListTRsRequestUseCaseParams'
 
 const singleSignOnServices: SingleSignOnService[] = [
   makeSingleSignOnService({

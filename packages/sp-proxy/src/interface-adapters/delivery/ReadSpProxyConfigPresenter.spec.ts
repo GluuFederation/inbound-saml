@@ -7,7 +7,7 @@ import { ReadSpProxyConfigPresenter } from '@sp-proxy/interface-adapters/deliver
 import { IDeliveryMapper } from '@sp-proxy/interface-adapters/protocols/IDeliveryMapper'
 import { IResponse } from '@sp-proxy/interface-adapters/protocols/IResponse'
 import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'
-import { ReadSpProxyConfigResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/ReadSpProxyConfigResponseUseCaseParams'
+import { ReadSpProxyConfigResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/response/ReadSpProxyConfigResponseUseCaseParams'
 import { EventEmitter } from 'stream'
 
 const makeMapper = (): IDeliveryMapper<
