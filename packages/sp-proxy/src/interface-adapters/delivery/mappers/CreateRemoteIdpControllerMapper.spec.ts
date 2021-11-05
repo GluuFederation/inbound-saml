@@ -1,7 +1,7 @@
 import { CreateRemoteIdpControllerMapper } from '@sp-proxy/interface-adapters/delivery/mappers/CreateRemoteIdpControllerMapper'
 import { fakeCreateRemoteIdpRequest } from '@sp-proxy/interface-adapters/delivery/mocks/fakeCreateRemoteIdpRequest.mock'
-import { AddRemoteIdpUseCaseParams } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseParams'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
+import { AddRemoteIdpRequestUseCaseParams } from '@sp-proxy/use-cases/io-models/request/AddRemoteIdpRequestUseCaseParams'
 
 const fakeRequest = fakeCreateRemoteIdpRequest
 
@@ -9,7 +9,7 @@ describe('CreateRemoteIdpControllerMapper', () => {
   describe('map', () => {
     it('should map request correctly', () => {})
     const sut = new CreateRemoteIdpControllerMapper()
-    const expected: IRequestModel<AddRemoteIdpUseCaseParams> = {
+    const expected: IRequestModel<AddRemoteIdpRequestUseCaseParams> = {
       requestId: fakeRequest.id,
       request: {
         name: fakeRequest.body.name,

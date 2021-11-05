@@ -2,12 +2,12 @@ import { RemoteIdpDeliveryProps } from '@sp-proxy/interface-adapters/delivery/dt
 import { GetRemoteIdpPresenterMapper } from '@sp-proxy/interface-adapters/delivery/mappers/GetRemoteIdpPresenterMapper'
 import { IResponse } from '@sp-proxy/interface-adapters/protocols/IResponse'
 import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'
-import { RemoteIdpUseCaseParams } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseParams'
+import { RemoteIdpMainModel } from '@sp-proxy/use-cases/io-models/main-models/RemoteIdpMainModel'
 
 describe('GetRemoteIdpPresenterMapper', () => {
   it('should return mapped response dto', () => {
     const sut = new GetRemoteIdpPresenterMapper()
-    const fakeResponseModel: IResponseModel<RemoteIdpUseCaseParams> = {
+    const fakeResponseModel: IResponseModel<RemoteIdpMainModel> = {
       requestId: 'valid request id',
       response: {
         id: 'valid entity id',

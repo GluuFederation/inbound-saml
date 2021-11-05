@@ -1,10 +1,10 @@
 import { IService } from '../../protocols/IService'
-import { RemoteIdpUseCaseParams } from '../RemoteIdpUseCaseParams'
+import { RemoteIdpMainModel } from '../main-models/RemoteIdpMainModel'
 
 interface TRProps {
   id: string
   selectedSsoService: IService
-  remoteIdp: RemoteIdpUseCaseParams
+  remoteIdp: RemoteIdpMainModel
 }
 
 export type ListTRsResponseUseCaseParams = TRProps[]

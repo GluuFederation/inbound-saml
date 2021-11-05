@@ -11,20 +11,20 @@ import { AddTrFromMetadataInteractor } from '@sp-proxy/use-cases/AddTrFromMetada
 import { makeSingleSignOnServices } from '@sp-proxy/use-cases/factories/makeSingleSignOnServices'
 import { RemoteIdpFromExternalParams } from '@sp-proxy/use-cases/factories/RemoteIdpFromExternalDataFactory'
 import { TrustRelationWithDefaultsParams } from '@sp-proxy/use-cases/factories/TrustRelationWithDefaultFactory'
-import { OutputBoundary } from '@sp-proxy/use-cases/ports/OutputBoundary'
-import { AddTrFromMetadataUseCaseParams } from '@sp-proxy/use-cases/io-models/AddTrFromMetadataUseCaseParams'
-import { ExternalUseCaseParams } from '@sp-proxy/use-cases/io-models/ExternalUseCaseParams'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
 import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'
+import { ExternalDataMainModel } from '@sp-proxy/use-cases/io-models/main-models/ExternalDataMainModel'
+import { AddTrFromMetadataRequestUseCaseParams } from '@sp-proxy/use-cases/io-models/request/AddTrFromMetadataRequestUseCaseParams'
 import { SuccessResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/response/SuccessResponseUseCaseParams'
 import { IAddTrGateway } from '@sp-proxy/use-cases/ports/IAddTrGateway'
 import { ICreateRemoteIdpGateway } from '@sp-proxy/use-cases/ports/ICreateRemoteIdpGateway'
 import { IFetchExternalDataGateway } from '@sp-proxy/use-cases/ports/IFetchExternalDataGateway'
+import { OutputBoundary } from '@sp-proxy/use-cases/ports/OutputBoundary'
 import { IFactory } from '@sp-proxy/use-cases/protocols/IFactory'
 
 const makeFetchExternalDataGateway = (): IFetchExternalDataGateway => {
   class FetchExternalDataStub implements IFetchExternalDataGateway {
-    async fetch(url: string): Promise<ExternalUseCaseParams> {
+    async fetch(url: string): Promise<ExternalDataMainModel> {
       return {
         idpSigningCert: ['valid cert'],
         singleSignOnServices: [
@@ -147,7 +147,7 @@ const makeSut = (): SutTypes => {
   }
 }
 
-const fakeRequest: IRequestModel<AddTrFromMetadataUseCaseParams> = {
+const fakeRequest: IRequestModel<AddTrFromMetadataRequestUseCaseParams> = {
   requestId: 'valid request id',
   request: {
     url: 'valid url',
@@ -177,7 +177,7 @@ describe('AddTrFromMetadataInteractor', () => {
   it('should call remoteIdp factory with fetched data', async () => {
     const { sut, remoteIdpFromDataStub, fetchExternalDataGatewayStub } =
       makeSut()
-    const fetchedDataMock: ExternalUseCaseParams = {
+    const fetchedDataMock: ExternalDataMainModel = {
       idpSigningCert: ['valid cert'],
       singleSignOnServices: [
         { binding: 'any valid binding', location: 'any valid location' }

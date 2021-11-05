@@ -3,19 +3,19 @@
 // maps create IRequest to IRequestModel
 // calls interactor execute w/ request model
 
+import { GetByIdDTO } from '@sp-proxy/interface-adapters/delivery/dtos/GetByIdDTO'
 import { GetRemoteIdpController } from '@sp-proxy/interface-adapters/delivery/GetRemoteIdpController'
 import { IDeliveryMapper } from '@sp-proxy/interface-adapters/protocols/IDeliveryMapper'
 import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'
 import { IValidator } from '@sp-proxy/interface-adapters/protocols/IValidator'
-import { InputBoundary } from '@sp-proxy/use-cases/ports/InputBoundary'
-import { GetRemoteIdpUseCaseParams } from '@sp-proxy/use-cases/io-models/GetRemoteIdpUseCaseParams'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
-import { GetByIdDTO } from '@sp-proxy/interface-adapters/delivery/dtos/GetByIdDTO'
+import { GetRemoteIdpRequestUseCaseParams } from '@sp-proxy/use-cases/io-models/request/GetRemoteIdpRequestUseCaseParams'
+import { InputBoundary } from '@sp-proxy/use-cases/ports/InputBoundary'
 
 const makeValidator = (): IValidator => {
   class ValidatorStub implements IValidator {
     async isValid(
-      request: IRequestModel<GetRemoteIdpUseCaseParams>
+      request: IRequestModel<GetRemoteIdpRequestUseCaseParams>
     ): Promise<boolean> {
       return true
     }
@@ -25,16 +25,18 @@ const makeValidator = (): IValidator => {
 
 const makeDtoMapper = (): IDeliveryMapper<
   IRequest<GetByIdDTO>,
-  IRequestModel<GetRemoteIdpUseCaseParams>
+  IRequestModel<GetRemoteIdpRequestUseCaseParams>
 > => {
   class DtoMapperStub
     implements
       IDeliveryMapper<
         IRequest<GetByIdDTO>,
-        IRequestModel<GetRemoteIdpUseCaseParams>
+        IRequestModel<GetRemoteIdpRequestUseCaseParams>
       >
   {
-    map(dto: IRequest<GetByIdDTO>): IRequestModel<GetRemoteIdpUseCaseParams> {
+    map(
+      dto: IRequest<GetByIdDTO>
+    ): IRequestModel<GetRemoteIdpRequestUseCaseParams> {
       return {
         requestId: 'valid request id',
         request: {
@@ -46,10 +48,12 @@ const makeDtoMapper = (): IDeliveryMapper<
   return new DtoMapperStub()
 }
 
-const makeInteractor = (): InputBoundary<GetRemoteIdpUseCaseParams> => {
-  class InteractorStub implements InputBoundary<GetRemoteIdpUseCaseParams> {
+const makeInteractor = (): InputBoundary<GetRemoteIdpRequestUseCaseParams> => {
+  class InteractorStub
+    implements InputBoundary<GetRemoteIdpRequestUseCaseParams>
+  {
     async execute(
-      request: IRequestModel<GetRemoteIdpUseCaseParams>
+      request: IRequestModel<GetRemoteIdpRequestUseCaseParams>
     ): Promise<void> {
       // do something
     }
@@ -59,11 +63,11 @@ const makeInteractor = (): InputBoundary<GetRemoteIdpUseCaseParams> => {
 
 interface SutTypes {
   sut: GetRemoteIdpController
-  interactorStub: InputBoundary<GetRemoteIdpUseCaseParams>
+  interactorStub: InputBoundary<GetRemoteIdpRequestUseCaseParams>
   validatorStub: IValidator
   dtoMapperStub: IDeliveryMapper<
     IRequest<GetByIdDTO>,
-    IRequestModel<GetRemoteIdpUseCaseParams>
+    IRequestModel<GetRemoteIdpRequestUseCaseParams>
   >
 }
 

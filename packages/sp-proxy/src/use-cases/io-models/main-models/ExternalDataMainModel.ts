@@ -1,6 +1,6 @@
 import { IService } from '@sp-proxy/use-cases/protocols/IService'
 
-export interface ExternalUseCaseParams {
+export interface ExternalDataMainModel {
   idpSigningCert: string[]
   singleSignOnServices: IService[]
 }

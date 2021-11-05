@@ -1,15 +1,15 @@
 import { RemoteIdp } from '@sp-proxy/entities/RemoteIdp'
-import { SuccessResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/response/SuccessResponseUseCaseParams'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
+import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'
+import { AddRemoteIdpRequestUseCaseParams } from '@sp-proxy/use-cases/io-models/request/AddRemoteIdpRequestUseCaseParams'
+import { SuccessResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/response/SuccessResponseUseCaseParams'
 import { ICreateRemoteIdpGateway } from '@sp-proxy/use-cases/ports/ICreateRemoteIdpGateway'
-import { IMapper } from '@sp-proxy/use-cases/protocols/IMapper'
 import { InputBoundary } from '@sp-proxy/use-cases/ports/InputBoundary'
 import { OutputBoundary } from '@sp-proxy/use-cases/ports/OutputBoundary'
-import { AddRemoteIdpUseCaseParams } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseParams'
-import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'
+import { IMapper } from '@sp-proxy/use-cases/protocols/IMapper'
 
 export class CreateRemoteIdpInteractor
-  implements InputBoundary<AddRemoteIdpUseCaseParams>
+  implements InputBoundary<AddRemoteIdpRequestUseCaseParams>
 {
   constructor(
     private readonly gateway: ICreateRemoteIdpGateway,
@@ -17,13 +17,13 @@ export class CreateRemoteIdpInteractor
       IResponseModel<SuccessResponseUseCaseParams>
     >,
     private readonly entityMapper: IMapper<
-      IRequestModel<AddRemoteIdpUseCaseParams>,
+      IRequestModel<AddRemoteIdpRequestUseCaseParams>,
       RemoteIdp
     >
   ) {}
 
   async execute(
-    request: IRequestModel<AddRemoteIdpUseCaseParams>
+    request: IRequestModel<AddRemoteIdpRequestUseCaseParams>
   ): Promise<void> {
     const mapped = this.entityMapper.map(request)
     const success = await this.gateway.create(mapped)

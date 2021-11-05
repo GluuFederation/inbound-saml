@@ -1,8 +1,8 @@
 import { IService } from '@sp-proxy/use-cases/protocols/IService'
-import { RemoteIdpUseCaseParams } from '../RemoteIdpUseCaseParams'
+import { RemoteIdpMainModel } from './RemoteIdpMainModel'
 
 export interface TrustRelationMainModel {
   id: string
   selectedSsoService: IService
-  remoteIdp: RemoteIdpUseCaseParams
+  remoteIdp: RemoteIdpMainModel
 }

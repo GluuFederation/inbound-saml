@@ -8,24 +8,24 @@ import { IAddTrFromMetadataRequest } from '@sp-proxy/interface-adapters/delivery
 import { IDeliveryMapper } from '@sp-proxy/interface-adapters/protocols/IDeliveryMapper'
 import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'
 import { IValidator } from '@sp-proxy/interface-adapters/protocols/IValidator'
-import { InputBoundary } from '@sp-proxy/use-cases/ports/InputBoundary'
-import { AddTrFromMetadataUseCaseParams } from '@sp-proxy/use-cases/io-models/AddTrFromMetadataUseCaseParams'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
+import { AddTrFromMetadataRequestUseCaseParams } from '@sp-proxy/use-cases/io-models/request/AddTrFromMetadataRequestUseCaseParams'
+import { InputBoundary } from '@sp-proxy/use-cases/ports/InputBoundary'
 
 const makeMapper = (): IDeliveryMapper<
   IRequest<IAddTrFromMetadataRequest>,
-  IRequestModel<AddTrFromMetadataUseCaseParams>
+  IRequestModel<AddTrFromMetadataRequestUseCaseParams>
 > => {
   class MapperStub
     implements
       IDeliveryMapper<
         IRequest<IAddTrFromMetadataRequest>,
-        IRequestModel<AddTrFromMetadataUseCaseParams>
+        IRequestModel<AddTrFromMetadataRequestUseCaseParams>
       >
   {
     map(
       request: IRequest<IAddTrFromMetadataRequest>
-    ): IRequestModel<AddTrFromMetadataUseCaseParams> {
+    ): IRequestModel<AddTrFromMetadataRequestUseCaseParams> {
       return {
         requestId: 'valid request id',
         request: {
@@ -38,18 +38,19 @@ const makeMapper = (): IDeliveryMapper<
   return new MapperStub()
 }
 
-const makeInteractor = (): InputBoundary<AddTrFromMetadataUseCaseParams> => {
-  class InteractorStub
-    implements InputBoundary<AddTrFromMetadataUseCaseParams>
-  {
-    async execute(
-      request: IRequestModel<AddTrFromMetadataUseCaseParams>
-    ): Promise<void> {
-      // do something
+const makeInteractor =
+  (): InputBoundary<AddTrFromMetadataRequestUseCaseParams> => {
+    class InteractorStub
+      implements InputBoundary<AddTrFromMetadataRequestUseCaseParams>
+    {
+      async execute(
+        request: IRequestModel<AddTrFromMetadataRequestUseCaseParams>
+      ): Promise<void> {
+        // do something
+      }
     }
+    return new InteractorStub()
   }
-  return new InteractorStub()
-}
 
 const makeValidator = (): IValidator => {
   class ValidatorStub implements IValidator {
@@ -64,9 +65,9 @@ interface SutTypes {
   sut: AddTrFromMetadataController
   mapperStub: IDeliveryMapper<
     IRequest<IAddTrFromMetadataRequest>,
-    IRequestModel<AddTrFromMetadataUseCaseParams>
+    IRequestModel<AddTrFromMetadataRequestUseCaseParams>
   >
-  interactorStub: InputBoundary<AddTrFromMetadataUseCaseParams>
+  interactorStub: InputBoundary<AddTrFromMetadataRequestUseCaseParams>
   validatorStub: IValidator
 }
 
