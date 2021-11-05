@@ -2,7 +2,7 @@ import { AddTrFromMetadataPresenterMapper } from '@sp-proxy/interface-adapters/d
 import { IAddTrFromMetadataResponse } from '@sp-proxy/interface-adapters/delivery/dtos/IAddTrFromMetadataResponse'
 import { IResponse } from '@sp-proxy/interface-adapters/protocols/IResponse'
 import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'
-import { SuccessResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/SuccessResponseUseCaseParams'
+import { SuccessResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/response/SuccessResponseUseCaseParams'
 
 describe('AddTrFromMetadataPresenterMapper', () => {
   it('should return expected dto', () => {

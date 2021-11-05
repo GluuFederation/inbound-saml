@@ -6,8 +6,8 @@ import { IGetTrByHostResponse } from '@sp-proxy/interface-adapters/delivery/dtos
 import { GetTrByHostPresenter } from '@sp-proxy/interface-adapters/delivery/GetTrByHostPresenter'
 import { IDeliveryMapper } from '@sp-proxy/interface-adapters/protocols/IDeliveryMapper'
 import { IResponse } from '@sp-proxy/interface-adapters/protocols/IResponse'
-import { GetTrByHostResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/GetTrByHostResponseUseCaseParams'
 import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'
+import { GetTrByHostResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/response/GetTrByHostResponseUseCaseParams'
 import { EventEmitter } from 'stream'
 
 const makeMapper = (): IDeliveryMapper<

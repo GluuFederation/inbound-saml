@@ -1,19 +1,19 @@
+import { GetByIdDTO } from '@sp-proxy/interface-adapters/delivery/dtos/GetByIdDTO'
 import { IController } from '@sp-proxy/interface-adapters/protocols/IController'
 import { IDeliveryMapper } from '@sp-proxy/interface-adapters/protocols/IDeliveryMapper'
 import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'
 import { IValidator } from '@sp-proxy/interface-adapters/protocols/IValidator'
-import { InputBoundary } from '@sp-proxy/use-cases/ports/InputBoundary'
-import { GetRemoteIdpUseCaseParams } from '@sp-proxy/use-cases/io-models/GetRemoteIdpUseCaseParams'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
-import { GetByIdDTO } from '@sp-proxy/interface-adapters/delivery/dtos/GetByIdDTO'
+import { GetRemoteIdpRequestUseCaseParams } from '@sp-proxy/use-cases/io-models/request/GetRemoteIdpRequestUseCaseParams'
+import { InputBoundary } from '@sp-proxy/use-cases/ports/InputBoundary'
 
 export class GetRemoteIdpController implements IController {
   constructor(
-    private readonly interactor: InputBoundary<GetRemoteIdpUseCaseParams>,
+    private readonly interactor: InputBoundary<GetRemoteIdpRequestUseCaseParams>,
     private readonly validator: IValidator,
     private readonly mapper: IDeliveryMapper<
       IRequest<GetByIdDTO>,
-      IRequestModel<GetRemoteIdpUseCaseParams>
+      IRequestModel<GetRemoteIdpRequestUseCaseParams>
     >
   ) {}
 

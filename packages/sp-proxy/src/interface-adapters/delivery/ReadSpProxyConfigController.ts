@@ -3,7 +3,7 @@ import { IController } from '@sp-proxy/interface-adapters/protocols/IController'
 import { IDeliveryMapper } from '@sp-proxy/interface-adapters/protocols/IDeliveryMapper'
 import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
-import { ReadSpProxyConfigRequestUseCaseParams } from '@sp-proxy/use-cases/io-models/ReadSpProxyConfigRequestUseCaseParams'
+import { ReadSpProxyConfigRequestUseCaseParams } from '@sp-proxy/use-cases/io-models/request/ReadSpProxyConfigRequestUseCaseParams'
 import { InputBoundary } from '@sp-proxy/use-cases/ports/InputBoundary'
 
 export class ReadSpProxyConfigController implements IController {

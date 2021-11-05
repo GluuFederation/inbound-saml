@@ -8,7 +8,7 @@ import { makeSingleSignOnServices } from '@sp-proxy/use-cases/factories/makeSing
 import { IService } from '@sp-proxy/use-cases/protocols/IService'
 import { Document as MongoDocument } from 'mongodb'
 
-export class GetTrByHostMongoMapper
+export class GetTRMongoMapper
   implements IDataMapper<MongoDocument, TrustRelation>
 {
   getCollectionSsoServices = (document: MongoDocument): IService[] => {

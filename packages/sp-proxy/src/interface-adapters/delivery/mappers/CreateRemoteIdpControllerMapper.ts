@@ -1,19 +1,19 @@
-import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'
-import { AddRemoteIdpUseCaseParams } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseParams'
-import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
-import { IDeliveryMapper } from '@sp-proxy/interface-adapters/protocols/IDeliveryMapper'
 import { ICreateRemoteIdpRequest } from '@sp-proxy/interface-adapters/delivery/dtos/ICreateRemoteIdpRequest'
+import { IDeliveryMapper } from '@sp-proxy/interface-adapters/protocols/IDeliveryMapper'
+import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'
+import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
+import { AddRemoteIdpRequestUseCaseParams } from '@sp-proxy/use-cases/io-models/request/AddRemoteIdpRequestUseCaseParams'
 
 export class CreateRemoteIdpControllerMapper
   implements
     IDeliveryMapper<
       IRequest<ICreateRemoteIdpRequest>,
-      IRequestModel<AddRemoteIdpUseCaseParams>
+      IRequestModel<AddRemoteIdpRequestUseCaseParams>
     >
 {
   map(
     request: IRequest<ICreateRemoteIdpRequest>
-  ): IRequestModel<AddRemoteIdpUseCaseParams> {
+  ): IRequestModel<AddRemoteIdpRequestUseCaseParams> {
     return {
       requestId: request.id,
       request: {

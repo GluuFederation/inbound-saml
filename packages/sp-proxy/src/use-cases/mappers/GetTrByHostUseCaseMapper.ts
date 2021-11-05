@@ -1,6 +1,6 @@
 import { RemoteIdp } from '@sp-proxy/entities/RemoteIdp'
 import { TrustRelation } from '@sp-proxy/entities/TrustRelation'
-import { GetTrByHostResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/GetTrByHostResponseUseCaseParams'
+import { GetTrByHostResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/response/GetTrByHostResponseUseCaseParams'
 import { IMapper } from '@sp-proxy/use-cases/protocols/IMapper'
 import { IService } from '@sp-proxy/use-cases/protocols/IService'
 

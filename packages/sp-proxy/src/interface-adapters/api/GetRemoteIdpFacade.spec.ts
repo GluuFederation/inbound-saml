@@ -9,7 +9,7 @@ import { GetByIdDTO } from '@sp-proxy/interface-adapters/delivery/dtos/GetByIdDT
 import { IController } from '@sp-proxy/interface-adapters/protocols/IController'
 import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'
 import { IResponse } from '@sp-proxy/interface-adapters/protocols/IResponse'
-import { RemoteIdpUseCaseParams } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseParams'
+import { RemoteIdpMainModel } from '@sp-proxy/use-cases/io-models/main-models/RemoteIdpMainModel'
 import * as crypto from 'crypto'
 import { EventEmitter } from 'stream'
 jest.mock('crypto')
@@ -21,7 +21,7 @@ const fakeRequest: IRequest<GetByIdDTO> = {
   }
 }
 
-const fakeUseCaseResponse: IResponse<RemoteIdpUseCaseParams> = {
+const fakeUseCaseResponse: IResponse<RemoteIdpMainModel> = {
   requestId: 'valid request id',
   body: {
     id: 'entity id',

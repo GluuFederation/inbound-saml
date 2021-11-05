@@ -2,10 +2,10 @@ import { makeSingleSignOnService } from '@sp-proxy/entities/factories/makeSingle
 import { ITrustRelationProps } from '@sp-proxy/entities/protocols/ITrustRelationProps'
 import { RemoteIdp } from '@sp-proxy/entities/RemoteIdp'
 import { TrustRelation } from '@sp-proxy/entities/TrustRelation'
-import { GetTrByHostResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/GetTrByHostResponseUseCaseParams'
 import { GetTrByHostUseCaseMapper } from '@sp-proxy/use-cases/mappers/GetTrByHostUseCaseMapper'
 import { makeRemoteIdpUseCaseStub } from '@sp-proxy/use-cases/mocks/remoteIdpUseCaseStub'
 import { IService } from '@sp-proxy/use-cases/protocols/IService'
+import { GetTrByHostResponseUseCaseParams } from '../io-models/response/GetTrByHostResponseUseCaseParams'
 
 const fakeTrustRelationProps: ITrustRelationProps = {
   remoteIdp: makeRemoteIdpUseCaseStub(),

@@ -1,6 +1,6 @@
 import { SpProxyConfig } from '@sp-proxy/entities/SpProxyConfig'
 import { IKeyCertLoader } from '@sp-proxy/use-cases/protocols/IKeyCertLoader'
-import { ReadSpProxyConfigResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/ReadSpProxyConfigResponseUseCaseParams'
+import { ReadSpProxyConfigResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/response/ReadSpProxyConfigResponseUseCaseParams'
 import { ITransformer } from '@sp-proxy/use-cases/ports/ITransformer'
 import { IKeyCertFormatter } from '@sp-proxy/use-cases/protocols/IKeySetFormatter'
 
