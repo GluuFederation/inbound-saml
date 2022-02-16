@@ -9,18 +9,21 @@ const makeSut = (): IJwtSigner => {
   return new JwtSigner()
 }
 
+const fakeHeader: IJwtHeader = {
+  TYP: 'JWT',
+  alg: 'RS256',
+  kid: 'valid key id'
+}
+
+const fakePayload = 'valid payload' as unknown as IJwtPayload
+
+const fakeSecret = 'valid secret'
+
 describe('JwtSigner', () => {
   describe('sign', () => {
     it('should call jsonwebtoken sign once with correct params', () => {
       const sut = makeSut()
       const jwtSignSpy = jest.spyOn(jwt, 'sign')
-      const fakeHeader: IJwtHeader = {
-        TYP: 'JWT',
-        alg: 'RS256',
-        kid: 'valid key id'
-      }
-      const fakePayload = 'valid payload' as unknown as IJwtPayload
-      const fakeSecret = 'valid secret'
 
       const expectedJwtModuleOptions: jwt.SignOptions = {
         algorithm: fakeHeader.alg,
@@ -35,6 +38,16 @@ describe('JwtSigner', () => {
         fakeSecret,
         expectedJwtModuleOptions
       )
+    })
+
+    it('should return signed jwt', () => {
+      const expectedJwt = 'valid expected jwt'
+      jest.spyOn(jwt, 'sign').mockImplementationOnce(() => {
+        return expectedJwt
+      })
+      const sut = makeSut()
+      const result = sut.sign(fakeHeader, fakePayload, fakeSecret)
+      expect(result).toBe(expectedJwt)
     })
   })
 })
