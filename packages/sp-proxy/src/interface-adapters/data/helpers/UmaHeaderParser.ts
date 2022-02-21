@@ -12,9 +12,12 @@ export class UmaHeaderParser implements IUmaHeaderParser {
     if (umaRealm == null || hostId == null || asUri == null || ticket == null) {
       throw new UmaHeaderError('Missing values in www-authenticate header')
     } else {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const umaRealmValue = umaRealm.split('=')[1]
+      return {
+        umaRealm: umaRealm.split('=')[1],
+        hostId: hostId.split('=')[1],
+        asUri: asUri.split('=')[1],
+        ticket: ticket.split('=')[1]
+      }
     }
-    return '' as any
   }
 }
