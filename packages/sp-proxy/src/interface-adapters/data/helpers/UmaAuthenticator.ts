@@ -13,7 +13,9 @@ export class UmaAuthenticator implements IUmaAuthenticator {
     const response = await axios.get(endpoint)
     if (response.status !== 401) {
       throw new Error()
+    } else {
+      this.umaHeaderParser.parse(response.headers['WWW-Authenticate'])
+      return ''
     }
-    return ''
   }
 }

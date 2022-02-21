@@ -3,7 +3,7 @@
 // create client assertion
 // use ticket to retrieve token
 
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import { IJwtSigner } from '../protocols/IJwtSigner'
 import { IUmaAuthenticator } from '../protocols/IUmaAuthenticator'
 import { IUmaHeaderParser } from '../protocols/IUmaHeaderParser'
@@ -37,11 +37,20 @@ const makeSut = (): SutTypes => {
   }
 }
 
+const validResponse: AxiosResponse = {
+  data: null,
+  status: 401,
+  statusText: 'Unauthorized',
+  headers: {
+    'WWW-Authenticate':
+      'UMA realm="Authorization required", host_id=apitest.techno24x7.com, as_uri=https://apitest.techno24x7.com/.well-known/uma2-configuration, ticket=e72ae32f-ad6d-458d-bf18-d34cd5081fb3'
+  },
+  config: undefined as any
+}
+
 describe('UmaAuthenticator', () => {
   it('should request a valid endpoint', async () => {
-    const getSpy = jest.spyOn(axios, 'get').mockResolvedValueOnce({
-      status: 401
-    })
+    const getSpy = jest.spyOn(axios, 'get').mockResolvedValueOnce(validResponse)
     const { sut } = makeSut()
     await sut.authenticate('valid endpoint')
     expect(getSpy).toHaveBeenCalledWith('valid endpoint')
@@ -52,5 +61,14 @@ describe('UmaAuthenticator', () => {
     })
     const { sut } = makeSut()
     await expect(sut.authenticate('valid endpoint')).rejects.toThrow()
+  })
+  it('should call umaHeaderParser with wwwwAuthenticate value', async () => {
+    jest.spyOn(axios, 'get').mockResolvedValueOnce(validResponse)
+    const { sut, umaHeaderParser } = makeSut()
+    const parserSpy = jest.spyOn(umaHeaderParser, 'parse')
+    await sut.authenticate('valid endpoint')
+    expect(parserSpy).toHaveBeenCalledWith(
+      'UMA realm="Authorization required", host_id=apitest.techno24x7.com, as_uri=https://apitest.techno24x7.com/.well-known/uma2-configuration, ticket=e72ae32f-ad6d-458d-bf18-d34cd5081fb3'
+    )
   })
 })
