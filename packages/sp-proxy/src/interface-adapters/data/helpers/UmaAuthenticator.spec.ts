@@ -6,6 +6,8 @@
 
 import axios, { AxiosResponse } from 'axios'
 import crypto from 'crypto'
+import { Agent } from 'https'
+import { stringify } from 'querystring'
 import { UmaHeaderError } from '../errors/UmaHeaderError'
 import { IJwtHeader } from '../protocols/IJwtHeader'
 import { IJwtPayload } from '../protocols/IJwtPayload'
@@ -17,7 +19,7 @@ import { IUmaHeaderParser } from '../protocols/IUmaHeaderParser'
 import { IUmaTokenRequest } from '../protocols/IUmaTokenRequest'
 import { IWwwAuthenticate } from '../protocols/IWwwAuthenticate'
 import { UmaAuthenticator } from './UmaAuthenticator'
-jest.mock('axios')
+// jest.mock('axios')
 jest.mock('crypto')
 
 const makeOxTrustApiSettings = (): IOxTrustApiSettings => {
@@ -98,7 +100,7 @@ const makeSut = (): SutTypes => {
   }
 }
 
-const validResponse: AxiosResponse = {
+const valid401Response: AxiosResponse = {
   data: null,
   status: 401,
   statusText: 'Unauthorized',
@@ -109,9 +111,30 @@ const validResponse: AxiosResponse = {
   config: undefined as any
 }
 
+const validPostResponse: AxiosResponse = {
+  data: {
+    access_token: 'valid access token stub',
+    token_type: 'Bearer',
+    pct: 'valid pct stub',
+    upgraded: false
+  },
+  status: 200,
+  statusText: 'OK',
+  headers: {
+    'content-type': 'application/json'
+  },
+  config: undefined as any
+}
+
+// mock default stub answer for axios.get and post to token endpoint
+jest.spyOn(axios, 'get').mockResolvedValue(valid401Response)
+jest.spyOn(axios, 'post').mockResolvedValue(validPostResponse)
+
 describe('UmaAuthenticator', () => {
   it('should request a valid endpoint', async () => {
-    const getSpy = jest.spyOn(axios, 'get').mockResolvedValueOnce(validResponse)
+    const getSpy = jest
+      .spyOn(axios, 'get')
+      .mockResolvedValueOnce(valid401Response)
     const { sut } = makeSut()
     await sut.authenticate('valid endpoint')
     expect(getSpy).toHaveBeenCalledWith('valid endpoint')
@@ -124,7 +147,6 @@ describe('UmaAuthenticator', () => {
     await expect(sut.authenticate('valid endpoint')).rejects.toThrow()
   })
   it('should call umaHeaderParser with wwwwAuthenticate value', async () => {
-    jest.spyOn(axios, 'get').mockResolvedValueOnce(validResponse)
     const { sut, umaHeaderParser } = makeSut()
     const parserSpy = jest.spyOn(umaHeaderParser, 'parse')
     await sut.authenticate('valid endpoint')
@@ -140,7 +162,6 @@ describe('UmaAuthenticator', () => {
     await expect(sut.authenticate('valid endpoint')).rejects.toThrow()
   })
   it('should call jwtSigner with correct params', async () => {
-    jest.spyOn(axios, 'get').mockResolvedValueOnce(validResponse)
     const { sut, jwtSigner, oxTrustApiSettings } = makeSut()
     const signSpy = jest.spyOn(jwtSigner, 'sign')
     const expectedHeader: IJwtHeader = {
@@ -168,7 +189,6 @@ describe('UmaAuthenticator', () => {
     )
   })
   it('should call TokenRequestFactory with correct params', async () => {
-    jest.spyOn(axios, 'get').mockResolvedValueOnce(validResponse)
     const { sut, tokenRequestFactory } = makeSut()
     const makeSpy = jest.spyOn(tokenRequestFactory, 'make')
     await sut.authenticate('valid endpoint')
@@ -176,6 +196,23 @@ describe('UmaAuthenticator', () => {
       'valid parsed ticket # stub',
       'valid client id',
       'signed jwt stub'
+    )
+  })
+  it('should call axios post once with RPT request', async () => {
+    const { sut, tokenRequestFactory, oxTrustApiSettings } = makeSut()
+    const requestBodyStub = tokenRequestFactory.make('any', 'any', 'any')
+    const expectedUrl = oxTrustApiSettings.tokenUrl
+    const expectedBody = stringify(requestBodyStub)
+    const postSpy = jest.spyOn(axios, 'post')
+    await sut.authenticate('valid endpoint')
+    expect(postSpy.mock.calls[0][2]).toEqual({
+      httpsAgent: expect.any(Agent),
+      validateStatus: expect.any(Function)
+    })
+    expect(postSpy).toHaveBeenCalledWith(
+      expectedUrl,
+      expectedBody,
+      expect.anything() // already checked above
     )
   })
 })

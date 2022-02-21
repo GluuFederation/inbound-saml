@@ -1,5 +1,7 @@
-import axios from 'axios'
+import axios, { AxiosRequestConfig } from 'axios'
 import { randomUUID } from 'crypto'
+import { Agent } from 'https'
+import { stringify } from 'querystring'
 import { IJwtHeader } from '../protocols/IJwtHeader'
 import { IJwtPayload } from '../protocols/IJwtPayload'
 import { IJwtSigner } from '../protocols/IJwtSigner'
@@ -9,6 +11,15 @@ import { IUmaAuthenticator } from '../protocols/IUmaAuthenticator'
 import { IUmaHeaderParser } from '../protocols/IUmaHeaderParser'
 
 export class UmaAuthenticator implements IUmaAuthenticator {
+  private readonly AXIOS_CONFIG: AxiosRequestConfig = {
+    httpsAgent: new Agent({
+      rejectUnauthorized: false
+    }),
+    validateStatus: (status: number): boolean => {
+      return status <= 401 // if >401, throws
+    }
+  }
+
   constructor(
     private readonly umaHeaderParser: IUmaHeaderParser,
     private readonly jwtSigner: IJwtSigner,
@@ -39,12 +50,17 @@ export class UmaAuthenticator implements IUmaAuthenticator {
       }
       const pvkOrSecret = this.oxTrustSettings.pvkOrSecret
       const clientAssertion = this.jwtSigner.sign(header, payload, pvkOrSecret)
-      this.requestFactory.make(
+      const umaTokenRequestBody = this.requestFactory.make(
         wwwAuthenticate.ticket,
         this.oxTrustSettings.clientId,
         clientAssertion
       )
 
+      await axios.post(
+        this.oxTrustSettings.tokenUrl,
+        stringify(umaTokenRequestBody),
+        this.AXIOS_CONFIG
+      )
       return ''
     }
   }

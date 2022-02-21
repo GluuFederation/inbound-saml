@@ -1,4 +1,5 @@
-export interface IUmaTokenRequest {
+// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+export type IUmaTokenRequest = {
   grant_type: 'urn:ietf:params:oauth:grant-type:uma-ticket'
   ticket: string
   client_id: string
