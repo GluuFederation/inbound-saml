@@ -8,7 +8,8 @@ export class UmaHeaderParser implements IUmaHeaderParser {
     const umaRealm = splittedValues.find((item) => item.includes('UMA'))
     const hostId = splittedValues.find((item) => item.includes('host_id'))
     const asUri = splittedValues.find((item) => item.includes('as_uri'))
-    if (umaRealm == null || hostId == null || asUri == null) {
+    const ticket = splittedValues.find((item) => item.includes('ticket'))
+    if (umaRealm == null || hostId == null || asUri == null || ticket == null) {
       throw new UmaHeaderError('Missing values in www-authenticate header')
     } else {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
