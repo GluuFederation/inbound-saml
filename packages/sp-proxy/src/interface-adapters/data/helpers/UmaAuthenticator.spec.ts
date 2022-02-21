@@ -32,7 +32,7 @@ const makeOxTrustApiSettings = (): IOxTrustApiSettings => {
 const makeJwtSigner = (): IJwtSigner => {
   class JwtSignerStub implements IJwtSigner {
     sign(header: IJwtHeader, payload: IJwtPayload, secret: string): string {
-      return 'signed jwt'
+      return 'signed jwt stub'
     }
   }
   return new JwtSignerStub()
@@ -61,6 +61,7 @@ const makeTokenRequestFactory = (): ITokenRequestFactory => {
         client_id: 'factory stub id',
         client_assertion_type:
           'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
+        client_assertion: 'factory stub client assertion',
         scope: 'oxtrust-api-read oxtrust-api-write'
       }
       return validRequest
@@ -173,7 +174,8 @@ describe('UmaAuthenticator', () => {
     await sut.authenticate('valid endpoint')
     expect(makeSpy).toHaveBeenCalledWith(
       'valid parsed ticket # stub',
-      'valid client id'
+      'valid client id',
+      'signed jwt stub'
     )
   })
 })

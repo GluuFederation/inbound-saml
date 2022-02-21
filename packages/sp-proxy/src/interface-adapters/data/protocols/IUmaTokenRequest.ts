@@ -3,5 +3,6 @@ export interface IUmaTokenRequest {
   ticket: string
   client_id: string
   client_assertion_type: 'urn:ietf:params:oauth:client-assertion-type:jwt-bearer'
+  client_assertion: string
   scope: 'oxtrust-api-read oxtrust-api-write'
 }

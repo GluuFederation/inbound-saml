@@ -10,8 +10,11 @@ describe('TokenRequestFactory', () => {
       client_id: 'valid client id',
       client_assertion_type:
         'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
+      client_assertion: 'valid assertion',
       scope: 'oxtrust-api-read oxtrust-api-write'
     }
-    expect(sut.make('valid ticket', 'valid client id')).toEqual(expected)
+    expect(
+      sut.make('valid ticket', 'valid client id', 'valid assertion')
+    ).toEqual(expected)
   })
 })

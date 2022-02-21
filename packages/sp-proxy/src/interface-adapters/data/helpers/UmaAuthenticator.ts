@@ -37,12 +37,14 @@ export class UmaAuthenticator implements IUmaAuthenticator {
         jti: randomUUID(),
         aud: this.oxTrustSettings.tokenUrl
       }
-      const secret = this.oxTrustSettings.pvkOrSecret
-      this.jwtSigner.sign(header, payload, secret)
+      const pvkOrSecret = this.oxTrustSettings.pvkOrSecret
+      const clientAssertion = this.jwtSigner.sign(header, payload, pvkOrSecret)
       this.requestFactory.make(
         wwwAuthenticate.ticket,
-        this.oxTrustSettings.clientId
+        this.oxTrustSettings.clientId,
+        clientAssertion
       )
+
       return ''
     }
   }
