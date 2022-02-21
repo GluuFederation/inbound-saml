@@ -6,7 +6,7 @@
 
 import axios, { AxiosResponse } from 'axios'
 import crypto from 'crypto'
-import { Agent } from 'https'
+import https, { Agent } from 'https'
 import { stringify } from 'querystring'
 import { UmaHeaderError } from '../errors/UmaHeaderError'
 import { IJwtHeader } from '../protocols/IJwtHeader'
@@ -214,5 +214,11 @@ describe('UmaAuthenticator', () => {
       expectedBody,
       expect.anything() // already checked above
     )
+  })
+  it('should call https Agent once with correct params', async () => {
+    const agentSpy = jest.spyOn(https, 'Agent')
+    const { sut } = makeSut()
+    await sut.authenticate('valid endpoint')
+    expect(agentSpy).toHaveBeenCalledWith({ rejectUnauthorized: false })
   })
 })
