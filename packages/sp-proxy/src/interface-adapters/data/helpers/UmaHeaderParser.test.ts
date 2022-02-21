@@ -16,5 +16,13 @@ describe('UMAHeaderParser', () => {
         sut.parse(invalidHeader)
       }).toThrowError(UmaHeaderError)
     })
+    it('should throw if no host_id in header', () => {
+      const invalidHeader =
+        'UMA realm="Authorization required", as_uri=https://apitest.techno24x7.com/.well-known/uma2-configuration, ticket=e72ae32f-ad6d-458d-bf18-d34cd5081fb3'
+      const sut = makesut()
+      expect(() => {
+        sut.parse(invalidHeader)
+      }).toThrowError(UmaHeaderError)
+    })
   })
 })
