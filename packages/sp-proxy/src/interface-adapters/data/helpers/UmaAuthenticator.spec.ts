@@ -4,6 +4,7 @@
 // use ticket to retrieve token
 
 import axios, { AxiosResponse } from 'axios'
+import { UmaHeaderError } from '../errors/UmaHeaderError'
 import { IJwtSigner } from '../protocols/IJwtSigner'
 import { IUmaAuthenticator } from '../protocols/IUmaAuthenticator'
 import { IUmaHeaderParser } from '../protocols/IUmaHeaderParser'
@@ -70,5 +71,12 @@ describe('UmaAuthenticator', () => {
     expect(parserSpy).toHaveBeenCalledWith(
       'UMA realm="Authorization required", host_id=apitest.techno24x7.com, as_uri=https://apitest.techno24x7.com/.well-known/uma2-configuration, ticket=e72ae32f-ad6d-458d-bf18-d34cd5081fb3'
     )
+  })
+  it('should throw if parser throws', async () => {
+    const { sut, umaHeaderParser } = makeSut()
+    jest.spyOn(umaHeaderParser, 'parse').mockImplementationOnce(() => {
+      throw new UmaHeaderError('any error')
+    })
+    await expect(sut.authenticate('valid endpoint')).rejects.toThrow()
   })
 })
