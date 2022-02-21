@@ -1,6 +1,6 @@
 export interface IWwwAuthenticate {
   umaRealm: string
-  host_id: string
-  as_uri: string
+  hostId: string
+  asUri: string
   ticket: string
 }
