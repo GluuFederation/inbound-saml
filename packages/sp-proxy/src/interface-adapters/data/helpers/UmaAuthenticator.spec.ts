@@ -4,36 +4,71 @@
 // use ticket to retrieve token
 
 import axios, { AxiosResponse } from 'axios'
+import crypto from 'crypto'
 import { UmaHeaderError } from '../errors/UmaHeaderError'
+import { IJwtHeader } from '../protocols/IJwtHeader'
+import { IJwtPayload } from '../protocols/IJwtPayload'
 import { IJwtSigner } from '../protocols/IJwtSigner'
+import { IOxTrustApiSettings } from '../protocols/IOxTrustApiSettings'
 import { IUmaAuthenticator } from '../protocols/IUmaAuthenticator'
 import { IUmaHeaderParser } from '../protocols/IUmaHeaderParser'
-import { JwtSigner } from './JwtSigner'
+import { IWwwAuthenticate } from '../protocols/IWwwAuthenticate'
 import { UmaAuthenticator } from './UmaAuthenticator'
-import { UmaHeaderParser } from './UmaHeaderParser'
 jest.mock('axios')
+jest.mock('crypto')
+
+const makeOxTrustApiSettings = (): IOxTrustApiSettings => {
+  return {
+    clientId: 'valid client id',
+    tokenUrl: 'valid token url',
+    kid: 'a valid kid',
+    pvkOrSecret: 'valid secret'
+  }
+}
 
 const makeJwtSigner = (): IJwtSigner => {
-  return new JwtSigner()
+  class JwtSignerStub implements IJwtSigner {
+    sign(header: IJwtHeader, payload: IJwtPayload, secret: string): string {
+      return 'signed jwt'
+    }
+  }
+  return new JwtSignerStub()
 }
 
 const makeUmaHeaderParser = (): IUmaHeaderParser => {
-  return new UmaHeaderParser()
+  class UmaHeaderParserStub implements IUmaHeaderParser {
+    parse(wwwAuthenticateValue: string): IWwwAuthenticate {
+      return {
+        umaRealm: 'valid uma realm stub',
+        hostId: 'valid.host.id.stub',
+        asUri: 'valid asUri stub',
+        ticket: 'valid ticket # stub'
+      }
+    }
+  }
+  return new UmaHeaderParserStub()
 }
 
 interface SutTypes {
   jwtSigner: IJwtSigner
   umaHeaderParser: IUmaHeaderParser
+  oxTrustApiSettings: IOxTrustApiSettings
   sut: IUmaAuthenticator
 }
 
 const makeSut = (): SutTypes => {
   const jwtSigner = makeJwtSigner()
   const umaHeaderParser = makeUmaHeaderParser()
-  const sut = new UmaAuthenticator(umaHeaderParser, jwtSigner)
+  const oxTrustApiSettings = makeOxTrustApiSettings()
+  const sut = new UmaAuthenticator(
+    umaHeaderParser,
+    jwtSigner,
+    oxTrustApiSettings
+  )
   return {
     jwtSigner,
     umaHeaderParser,
+    oxTrustApiSettings,
     sut
   }
 }
@@ -78,5 +113,33 @@ describe('UmaAuthenticator', () => {
       throw new UmaHeaderError('any error')
     })
     await expect(sut.authenticate('valid endpoint')).rejects.toThrow()
+  })
+  it('should call jwtSigner with correct params', async () => {
+    jest.spyOn(axios, 'get').mockResolvedValueOnce(validResponse)
+    const { sut, jwtSigner, oxTrustApiSettings } = makeSut()
+    const signSpy = jest.spyOn(jwtSigner, 'sign')
+    const expectedHeader: IJwtHeader = {
+      TYP: 'JWT',
+      alg: 'RS256',
+      kid: oxTrustApiSettings.kid
+    }
+
+    jest.spyOn(crypto, 'randomUUID').mockReturnValueOnce('valid UUID')
+    const expectedPayload: IJwtPayload = {
+      iss: oxTrustApiSettings.clientId,
+      sub: oxTrustApiSettings.clientId,
+      iat: Date.now(),
+      exp: Math.floor(Date.now() / 1000 + 30),
+      jti: 'valid UUID',
+      aud: oxTrustApiSettings.tokenUrl
+    }
+    const expectedSecret = oxTrustApiSettings.pvkOrSecret
+
+    await sut.authenticate('valid endpoint')
+    expect(signSpy).toHaveBeenCalledWith(
+      expectedHeader,
+      expectedPayload,
+      expectedSecret
+    )
   })
 })
