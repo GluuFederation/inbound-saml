@@ -21,7 +21,9 @@ export class UmaAuthenticator implements IUmaAuthenticator {
     if (response.status !== 401) {
       throw new Error()
     } else {
-      this.umaHeaderParser.parse(response.headers['WWW-Authenticate'])
+      const wwwAuthenticate = this.umaHeaderParser.parse(
+        response.headers['WWW-Authenticate']
+      )
       const header: IJwtHeader = {
         TYP: 'JWT',
         alg: 'RS256',
@@ -37,6 +39,10 @@ export class UmaAuthenticator implements IUmaAuthenticator {
       }
       const secret = this.oxTrustSettings.pvkOrSecret
       this.jwtSigner.sign(header, payload, secret)
+      this.requestFactory.make(
+        wwwAuthenticate.ticket,
+        this.oxTrustSettings.clientId
+      )
       return ''
     }
   }

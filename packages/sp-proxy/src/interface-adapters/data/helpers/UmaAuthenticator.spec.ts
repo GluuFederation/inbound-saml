@@ -1,6 +1,7 @@
 // request to a valid endpoint
 // receive 401 and ticket #
 // create client assertion
+// create uma token request
 // use ticket to retrieve token
 
 import axios, { AxiosResponse } from 'axios'
@@ -41,10 +42,10 @@ const makeUmaHeaderParser = (): IUmaHeaderParser => {
   class UmaHeaderParserStub implements IUmaHeaderParser {
     parse(wwwAuthenticateValue: string): IWwwAuthenticate {
       return {
-        umaRealm: 'valid uma realm stub',
-        hostId: 'valid.host.id.stub',
-        asUri: 'valid asUri stub',
-        ticket: 'valid ticket # stub'
+        umaRealm: 'valid parsed uma realm stub',
+        hostId: 'valid.parsed.host.id.stub',
+        asUri: 'valid parsed asUri stub',
+        ticket: 'valid parsed ticket # stub'
       }
     }
   }
@@ -165,5 +166,14 @@ describe('UmaAuthenticator', () => {
       expectedSecret
     )
   })
-  it('', async () => {})
+  it('should call TokenRequestFactory with correct params', async () => {
+    jest.spyOn(axios, 'get').mockResolvedValueOnce(validResponse)
+    const { sut, tokenRequestFactory } = makeSut()
+    const makeSpy = jest.spyOn(tokenRequestFactory, 'make')
+    await sut.authenticate('valid endpoint')
+    expect(makeSpy).toHaveBeenCalledWith(
+      'valid parsed ticket # stub',
+      'valid client id'
+    )
+  })
 })
