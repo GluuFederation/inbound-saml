@@ -4,6 +4,7 @@ import { IJwtHeader } from '../protocols/IJwtHeader'
 import { IJwtPayload } from '../protocols/IJwtPayload'
 import { IJwtSigner } from '../protocols/IJwtSigner'
 import { IOxTrustApiSettings } from '../protocols/IOxTrustApiSettings'
+import { ITokenRequestFactory } from '../protocols/ITokenRequestFactory'
 import { IUmaAuthenticator } from '../protocols/IUmaAuthenticator'
 import { IUmaHeaderParser } from '../protocols/IUmaHeaderParser'
 
@@ -11,7 +12,8 @@ export class UmaAuthenticator implements IUmaAuthenticator {
   constructor(
     private readonly umaHeaderParser: IUmaHeaderParser,
     private readonly jwtSigner: IJwtSigner,
-    private readonly oxTrustSettings: IOxTrustApiSettings
+    private readonly oxTrustSettings: IOxTrustApiSettings,
+    private readonly requestFactory: ITokenRequestFactory
   ) {}
 
   async authenticate(endpoint: string): Promise<string> {

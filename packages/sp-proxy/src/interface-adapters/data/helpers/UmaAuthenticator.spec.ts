@@ -10,8 +10,10 @@ import { IJwtHeader } from '../protocols/IJwtHeader'
 import { IJwtPayload } from '../protocols/IJwtPayload'
 import { IJwtSigner } from '../protocols/IJwtSigner'
 import { IOxTrustApiSettings } from '../protocols/IOxTrustApiSettings'
+import { ITokenRequestFactory } from '../protocols/ITokenRequestFactory'
 import { IUmaAuthenticator } from '../protocols/IUmaAuthenticator'
 import { IUmaHeaderParser } from '../protocols/IUmaHeaderParser'
+import { IUmaTokenRequest } from '../protocols/IUmaTokenRequest'
 import { IWwwAuthenticate } from '../protocols/IWwwAuthenticate'
 import { UmaAuthenticator } from './UmaAuthenticator'
 jest.mock('axios')
@@ -49,10 +51,28 @@ const makeUmaHeaderParser = (): IUmaHeaderParser => {
   return new UmaHeaderParserStub()
 }
 
+const makeTokenRequestFactory = (): ITokenRequestFactory => {
+  class TokenRequestFactoryStub implements ITokenRequestFactory {
+    make(ticket: string, clientId: string): IUmaTokenRequest {
+      const validRequest: IUmaTokenRequest = {
+        grant_type: 'urn:ietf:params:oauth:grant-type:uma-ticket',
+        ticket: 'factory stub ticket',
+        client_id: 'factory stub id',
+        client_assertion_type:
+          'urn:ietf:params:oauth:client-assertion-type:jwt-bearer',
+        scope: 'oxtrust-api-read oxtrust-api-write'
+      }
+      return validRequest
+    }
+  }
+  return new TokenRequestFactoryStub()
+}
+
 interface SutTypes {
   jwtSigner: IJwtSigner
   umaHeaderParser: IUmaHeaderParser
   oxTrustApiSettings: IOxTrustApiSettings
+  tokenRequestFactory: ITokenRequestFactory
   sut: IUmaAuthenticator
 }
 
@@ -60,15 +80,18 @@ const makeSut = (): SutTypes => {
   const jwtSigner = makeJwtSigner()
   const umaHeaderParser = makeUmaHeaderParser()
   const oxTrustApiSettings = makeOxTrustApiSettings()
+  const tokenRequestFactory = makeTokenRequestFactory()
   const sut = new UmaAuthenticator(
     umaHeaderParser,
     jwtSigner,
-    oxTrustApiSettings
+    oxTrustApiSettings,
+    tokenRequestFactory
   )
   return {
     jwtSigner,
     umaHeaderParser,
     oxTrustApiSettings,
+    tokenRequestFactory,
     sut
   }
 }
@@ -142,4 +165,5 @@ describe('UmaAuthenticator', () => {
       expectedSecret
     )
   })
+  it('', async () => {})
 })
