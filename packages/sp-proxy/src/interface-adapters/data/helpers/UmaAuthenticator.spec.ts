@@ -221,4 +221,10 @@ describe('UmaAuthenticator', () => {
     await sut.authenticate('valid endpoint')
     expect(agentSpy).toHaveBeenCalledWith({ rejectUnauthorized: false })
   })
+  it('should return bearer token', async () => {
+    const { sut } = makeSut()
+    expect(await sut.authenticate('valid endpoint')).toEqual(
+      validPostResponse.data.access_token
+    )
+  })
 })

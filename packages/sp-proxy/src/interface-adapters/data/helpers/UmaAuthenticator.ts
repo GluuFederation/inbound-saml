@@ -28,12 +28,12 @@ export class UmaAuthenticator implements IUmaAuthenticator {
   ) {}
 
   async authenticate(endpoint: string): Promise<string> {
-    const response = await axios.get(endpoint, this.AXIOS_CONFIG)
-    if (response.status !== 401) {
+    const endpointResponse = await axios.get(endpoint, this.AXIOS_CONFIG)
+    if (endpointResponse.status !== 401) {
       throw new Error()
     } else {
       const wwwAuthenticate = this.umaHeaderParser.parse(
-        response.headers['www-authenticate']
+        endpointResponse.headers['www-authenticate']
       )
       const header: IJwtHeader = {
         TYP: 'JWT',
@@ -56,12 +56,12 @@ export class UmaAuthenticator implements IUmaAuthenticator {
         clientAssertion
       )
 
-      await axios.post(
+      const tokenResponse = await axios.post(
         this.oxTrustSettings.tokenUrl,
         stringify(umaTokenRequestBody),
         this.AXIOS_CONFIG
       )
-      return ''
+      return tokenResponse.data.access_token
     }
   }
 }
