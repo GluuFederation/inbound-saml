@@ -105,7 +105,7 @@ const valid401Response: AxiosResponse = {
   status: 401,
   statusText: 'Unauthorized',
   headers: {
-    'WWW-Authenticate':
+    'www-authenticate':
       'UMA realm="Authorization required", host_id=apitest.techno24x7.com, as_uri=https://apitest.techno24x7.com/.well-known/uma2-configuration, ticket=e72ae32f-ad6d-458d-bf18-d34cd5081fb3'
   },
   config: undefined as any
@@ -137,7 +137,7 @@ describe('UmaAuthenticator', () => {
       .mockResolvedValueOnce(valid401Response)
     const { sut } = makeSut()
     await sut.authenticate('valid endpoint')
-    expect(getSpy).toHaveBeenCalledWith('valid endpoint')
+    expect(getSpy).toHaveBeenCalledWith('valid endpoint', expect.anything())
   })
   it('should throw if status code is not 401', async () => {
     jest.spyOn(axios, 'get').mockResolvedValueOnce({
