@@ -24,6 +24,8 @@ jest.mock('crypto')
 
 const makeOxTrustApiSettings = (): IOxTrustApiSettings => {
   return {
+    host: 'valid host',
+    completePath: '/complete/api/path/v1',
     clientId: 'valid client id',
     tokenUrl: 'valid token url',
     kid: 'a valid kid',

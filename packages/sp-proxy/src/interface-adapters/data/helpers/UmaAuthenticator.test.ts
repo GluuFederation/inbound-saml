@@ -32,12 +32,15 @@ const mockTokenEndpoint = (): void => {
 const testPrivateKey = readFileSync('packages/testdata/rs256pvk.pem', 'utf-8')
 
 const makeOxTrustApiSettings = (): IOxTrustApiSettings => {
-  return {
-    clientId: 'valid client id',
+  const settings: IOxTrustApiSettings = {
+    host: 'mock.com',
+    clientId: 'any client id',
+    completePath: 'valid-complete-path',
     tokenUrl: 'https://mock.com/valid/token-endpoint',
-    kid: 'a valid kid',
+    kid: 'valid-kid',
     pvkOrSecret: testPrivateKey
   }
+  return settings
 }
 
 const sut = new UmaAuthenticator(
