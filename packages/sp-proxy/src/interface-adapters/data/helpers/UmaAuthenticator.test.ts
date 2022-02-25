@@ -6,6 +6,11 @@ import { JwtSigner } from './JwtSigner'
 import { TokenRequestFactory } from './TokenRequestFactory'
 import { UmaAuthenticator } from './UmaAuthenticator'
 import { UmaHeaderParser } from './UmaHeaderParser'
+// request to a valid endpoint
+// receive 401 and ticket #
+// create client assertion
+// create uma token request
+// retrieve token
 
 const unauthorizedEndpoint = '/valid/endpoint'
 const tokenEndpoint = '/valid/token-endpoint'

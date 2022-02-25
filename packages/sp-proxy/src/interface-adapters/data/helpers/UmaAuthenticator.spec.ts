@@ -2,7 +2,7 @@
 // receive 401 and ticket #
 // create client assertion
 // create uma token request
-// use ticket to retrieve token
+//  retrieve token
 
 import axios, { AxiosResponse } from 'axios'
 import crypto from 'crypto'
