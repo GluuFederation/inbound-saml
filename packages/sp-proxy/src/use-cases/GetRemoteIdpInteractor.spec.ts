@@ -1,12 +1,12 @@
 import { RemoteIdp } from '@sp-proxy/entities/RemoteIdp'
 import { GetRemoteIdpInteractor } from '@sp-proxy/use-cases/GetRemoteIdpInteractor'
-import { OutputBoundary } from '@sp-proxy/use-cases/ports/OutputBoundary'
 import { GetRemoteIdpUseCaseParams } from '@sp-proxy/use-cases/io-models/GetRemoteIdpUseCaseParams'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
 import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'
 import { RemoteIdpUseCaseParams } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseParams'
 import { makeRemoteIdpUseCaseStub } from '@sp-proxy/use-cases/mocks/remoteIdpUseCaseStub'
 import { IGetRemoteIdpGateway } from '@sp-proxy/use-cases/ports/IGetRemoteIdpGateway'
+import { OutputBoundary } from '@sp-proxy/use-cases/ports/OutputBoundary'
 import { IMapper } from '@sp-proxy/use-cases/protocols/IMapper'
 
 // Receives request w/ IRequestModel
@@ -45,6 +45,7 @@ const makeEntityMapper = (): IMapper<RemoteIdp, RemoteIdpUseCaseParams> => {
       return {
         id: 'valid entity id',
         name: 'valid name',
+        host: 'valid host',
         singleSignOnService: [
           { binding: 'valid binding', location: 'valid location' }
         ],
@@ -126,6 +127,7 @@ describe('GetRemoteIdpInteractor', () => {
       response: {
         id: 'vakud entity id',
         name: 'valid entity name for this test',
+        host: 'valid entity host for this test',
         singleSignOnService: [
           {
             binding: 'valid binding',

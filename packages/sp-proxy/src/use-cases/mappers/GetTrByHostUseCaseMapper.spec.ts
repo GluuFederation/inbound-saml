@@ -35,6 +35,7 @@ describe('GetTrByHostUseCaseMapper', () => {
       remoteIdp: {
         id: fakeTrustRelation.props.remoteIdp.id,
         name: fakeTrustRelation.props.remoteIdp.props.name,
+        host: fakeTrustRelation.props.remoteIdp.props.host,
         singleSignOnService: getSsoServices(fakeTrustRelation.props.remoteIdp),
         signingCertificates:
           fakeTrustRelation.props.remoteIdp.props.signingCertificates

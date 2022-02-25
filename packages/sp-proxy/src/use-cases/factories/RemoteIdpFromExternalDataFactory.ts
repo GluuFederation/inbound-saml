@@ -5,6 +5,7 @@ import { IFactory } from '@sp-proxy/use-cases/protocols/IFactory'
 
 export interface RemoteIdpFromExternalParams {
   externalData: ExternalUseCaseParams
+  host: string
   name: string
   id?: string
 }
@@ -15,6 +16,7 @@ export class RemoteIdpFromExternalDataFactory
   async make(params: RemoteIdpFromExternalParams): Promise<RemoteIdp> {
     return new RemoteIdp({
       name: params.name,
+      host: params.host,
       signingCertificates: params.externalData.idpSigningCert,
       supportedSingleSignOnServices: makeSingleSignOnServices(
         params.externalData.singleSignOnServices

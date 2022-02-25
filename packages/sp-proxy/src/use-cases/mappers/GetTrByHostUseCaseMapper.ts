@@ -22,6 +22,7 @@ export class GetTrByHostUseCaseMapper
       remoteIdp: {
         id: trustRelation.props.remoteIdp.id,
         name: trustRelation.props.remoteIdp.props.name,
+        host: trustRelation.props.remoteIdp.props.host,
         singleSignOnService: this.getSsoServices(trustRelation.props.remoteIdp),
         signingCertificates:
           trustRelation.props.remoteIdp.props.signingCertificates

@@ -26,6 +26,7 @@ const fakeUseCaseResponse: IResponse<RemoteIdpUseCaseParams> = {
   body: {
     id: 'entity id',
     name: 'entity name',
+    host: 'entity host',
     signingCertificates: ['valid cert'],
     singleSignOnService: [{ binding: 'binding', location: 'location' }]
   }

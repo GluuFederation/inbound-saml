@@ -5,6 +5,7 @@ export const fakeCreateRemoteIdpRequest: IRequest<ICreateRemoteIdpRequest> = {
   id: 'valid request id',
   body: {
     name: 'valid name',
+    host: 'valid host',
     singleSignOnService: [
       {
         binding: 'valid binding 1',

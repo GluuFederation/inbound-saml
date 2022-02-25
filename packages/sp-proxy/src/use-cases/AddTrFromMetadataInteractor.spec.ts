@@ -11,7 +11,6 @@ import { AddTrFromMetadataInteractor } from '@sp-proxy/use-cases/AddTrFromMetada
 import { makeSingleSignOnServices } from '@sp-proxy/use-cases/factories/makeSingleSignOnServices'
 import { RemoteIdpFromExternalParams } from '@sp-proxy/use-cases/factories/RemoteIdpFromExternalDataFactory'
 import { TrustRelationWithDefaultsParams } from '@sp-proxy/use-cases/factories/TrustRelationWithDefaultFactory'
-import { OutputBoundary } from '@sp-proxy/use-cases/ports/OutputBoundary'
 import { AddTrFromMetadataUseCaseParams } from '@sp-proxy/use-cases/io-models/AddTrFromMetadataUseCaseParams'
 import { ExternalUseCaseParams } from '@sp-proxy/use-cases/io-models/ExternalUseCaseParams'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
@@ -20,6 +19,7 @@ import { SuccessResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/Succ
 import { IAddTrGateway } from '@sp-proxy/use-cases/ports/IAddTrGateway'
 import { ICreateRemoteIdpGateway } from '@sp-proxy/use-cases/ports/ICreateRemoteIdpGateway'
 import { IFetchExternalDataGateway } from '@sp-proxy/use-cases/ports/IFetchExternalDataGateway'
+import { OutputBoundary } from '@sp-proxy/use-cases/ports/OutputBoundary'
 import { IFactory } from '@sp-proxy/use-cases/protocols/IFactory'
 
 const makeFetchExternalDataGateway = (): IFetchExternalDataGateway => {
@@ -78,6 +78,7 @@ const makeRemoteIdpFactory = (): IFactory<
     async make(props: RemoteIdpFromExternalParams): Promise<RemoteIdp> {
       return new RemoteIdp({
         name: 'any vaid remote idp name',
+        host: 'any valid remote idp host',
         signingCertificates: ['any valid certificate'],
         supportedSingleSignOnServices: makeSingleSignOnServices([
           { binding: 'a valid binding', location: 'a valid location' }
@@ -151,6 +152,7 @@ const fakeRequest: IRequestModel<AddTrFromMetadataUseCaseParams> = {
   requestId: 'valid request id',
   request: {
     url: 'valid url',
+    host: 'valid host',
     name: 'valid remote idp name'
   }
 }
@@ -158,6 +160,7 @@ const fakeRequest: IRequestModel<AddTrFromMetadataUseCaseParams> = {
 const fakeRemoteIdp = new RemoteIdp(
   {
     name: fakeRequest.request.name,
+    host: 'valid host',
     signingCertificates: ['valid cert'],
     supportedSingleSignOnServices: makeSingleSignOnServices([
       { binding: 'valid binding', location: 'valid location' }

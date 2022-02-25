@@ -3,15 +3,15 @@
 // calls interactor execute() w/ IRequestModel
 
 import { CreateRemoteIdpController } from '@sp-proxy/interface-adapters/delivery/CreateRemoteIdpController'
+import { ICreateRemoteIdpRequest } from '@sp-proxy/interface-adapters/delivery/dtos/ICreateRemoteIdpRequest'
 import { InvalidRequestError } from '@sp-proxy/interface-adapters/delivery/errors/InvalidRequestError'
 import { fakeCreateRemoteIdpRequest } from '@sp-proxy/interface-adapters/delivery/mocks/fakeCreateRemoteIdpRequest.mock'
+import { IDeliveryMapper } from '@sp-proxy/interface-adapters/protocols/IDeliveryMapper'
 import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'
 import { IValidator } from '@sp-proxy/interface-adapters/protocols/IValidator'
-import { InputBoundary } from '@sp-proxy/use-cases/ports/InputBoundary'
-import { AddRemoteIdpUseCaseParams } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseParams'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
-import { IDeliveryMapper } from '@sp-proxy/interface-adapters/protocols/IDeliveryMapper'
-import { ICreateRemoteIdpRequest } from '@sp-proxy/interface-adapters/delivery/dtos/ICreateRemoteIdpRequest'
+import { AddRemoteIdpUseCaseParams } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseParams'
+import { InputBoundary } from '@sp-proxy/use-cases/ports/InputBoundary'
 
 const makeMapper = (): IDeliveryMapper<
   IRequest<ICreateRemoteIdpRequest>,
@@ -31,6 +31,7 @@ const makeMapper = (): IDeliveryMapper<
         requestId: 'valid id',
         request: {
           name: 'valid name',
+          host: 'valid host',
           signingCertificates: ['valid cert 1', 'valid cert 2'],
           singleSignOnService: [
             { binding: 'valid binding', location: 'valid location' }

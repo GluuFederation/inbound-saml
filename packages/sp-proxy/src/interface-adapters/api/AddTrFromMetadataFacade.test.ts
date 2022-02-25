@@ -11,7 +11,7 @@ import { mockXmlEndpoints } from '@sp-proxy/interface-adapters/mocks/xmlEndpoint
 import { AddTrFromMetadataInteractor } from '@sp-proxy/use-cases/AddTrFromMetadataInteractor'
 import { RemoteIdpFromExternalDataFactory } from '@sp-proxy/use-cases/factories/RemoteIdpFromExternalDataFactory'
 import { TrustRelationWithDefaultFactory } from '@sp-proxy/use-cases/factories/TrustRelationWithDefaultFactory'
-import { Collection, MongoClient, Document as MongoDocument } from 'mongodb'
+import { Collection, Document as MongoDocument, MongoClient } from 'mongodb'
 import nock from 'nock'
 import { EventEmitter } from 'stream'
 import config from '../config/env'
@@ -67,6 +67,7 @@ describe('AddTrFromMetadataFacade - integration', () => {
     const sut = new AddTrFromMetadataFacade(controller, eventBus)
     const result = await sut.addTrFromMetadata({
       name: 'tr name',
+      host: 'tr host',
       url: 'https://remoteIdp.com/metadata'
     })
     expect(result).toStrictEqual({ success: true })
