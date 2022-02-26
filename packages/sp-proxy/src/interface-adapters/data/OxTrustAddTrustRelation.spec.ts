@@ -84,4 +84,9 @@ describe('OxTrustAddTrustRelation', () => {
     await sut.add('valid trust relation' as any)
     expect(postSpy.mock.calls[0][1]).toEqual('valid mapped data model')
   })
+  it('should throw if axios throws', async () => {
+    jest.spyOn(axios, 'post').mockRejectedValueOnce(new Error())
+    const { sut } = makeSut()
+    await expect(sut.add('valid tr entity' as any)).rejects.toThrow()
+  })
 })
