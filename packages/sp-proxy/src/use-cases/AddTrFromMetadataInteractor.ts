@@ -60,8 +60,6 @@ export class AddTrFromMetadataInteractor
       host: request.request.host
     })
 
-    await this.createRemoteIdpGateway.create(remoteIdp)
-
     const trustRelation = await this.trWithDefaultFactory.make({
       remoteIdp: remoteIdp
     })
