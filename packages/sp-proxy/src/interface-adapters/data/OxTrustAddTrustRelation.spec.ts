@@ -73,6 +73,15 @@ describe('OxTrustAddTrustRelation', () => {
     await sut.add('valid trust relation' as any)
     expect(postSpy).toHaveBeenCalledTimes(1)
     const expectedArg = `https://${oxTrustApiSettings.host}/${oxTrustApiSettings.completePath}/trusted-idp`
-    expect(postSpy).toHaveBeenCalledWith(expectedArg)
+    expect(postSpy.mock.calls[0][0]).toEqual(expectedArg)
+  })
+  it('should call post with mapped data model', async () => {
+    const postSpy = jest.spyOn(axios, 'post').mockResolvedValue('success')
+    const { sut, dataModelMapperStub } = makeSut()
+    jest
+      .spyOn(dataModelMapperStub, 'map')
+      .mockResolvedValueOnce('valid mapped data model' as any)
+    await sut.add('valid trust relation' as any)
+    expect(postSpy.mock.calls[0][1]).toEqual('valid mapped data model')
   })
 })

@@ -20,8 +20,10 @@ export class OxTrustAddTrustRelation implements IAddTrGateway {
   }
 
   async add(trustRelation: TrustRelation): Promise<boolean> {
-    await this.addTrustRelationOxTrustMapper.map(trustRelation)
-    await axios.post(this.postUrl)
+    const trustRelationDataModel = await this.addTrustRelationOxTrustMapper.map(
+      trustRelation
+    )
+    await axios.post(this.postUrl, trustRelationDataModel)
     return true
   }
 }
