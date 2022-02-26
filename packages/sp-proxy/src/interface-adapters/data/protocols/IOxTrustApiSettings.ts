@@ -4,5 +4,5 @@ export interface IOxTrustApiSettings {
   completePath: string
   tokenUrl: string
   kid: string
-  pvkOrSecret: string
+  pvkPath: string
 }

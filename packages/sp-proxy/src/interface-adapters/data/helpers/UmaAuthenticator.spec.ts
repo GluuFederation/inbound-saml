@@ -6,6 +6,7 @@
 
 import axios, { AxiosResponse } from 'axios'
 import crypto from 'crypto'
+import fs from 'fs'
 import https, { Agent } from 'https'
 import { stringify } from 'querystring'
 import { UmaHeaderError } from '../errors/UmaHeaderError'
@@ -21,6 +22,7 @@ import { IWwwAuthenticate } from '../protocols/IWwwAuthenticate'
 import { UmaAuthenticator } from './UmaAuthenticator'
 // jest.mock('axios')
 jest.mock('crypto')
+jest.mock('fs')
 
 const makeOxTrustApiSettings = (): IOxTrustApiSettings => {
   return {
@@ -29,7 +31,7 @@ const makeOxTrustApiSettings = (): IOxTrustApiSettings => {
     clientId: 'valid client id',
     tokenUrl: 'valid token url',
     kid: 'a valid kid',
-    pvkOrSecret: 'valid secret'
+    pvkPath: 'valid pvk path'
   }
 }
 
@@ -131,7 +133,7 @@ const validPostResponse: AxiosResponse = {
 // mock default stub answer for axios.get and post to token endpoint
 jest.spyOn(axios, 'get').mockResolvedValue(valid401Response)
 jest.spyOn(axios, 'post').mockResolvedValue(validPostResponse)
-
+jest.spyOn(fs, 'readFileSync').mockReturnValue('pvk loaded from file')
 describe('UmaAuthenticator', () => {
   it('should request a valid endpoint', async () => {
     const getSpy = jest
@@ -163,6 +165,16 @@ describe('UmaAuthenticator', () => {
     })
     await expect(sut.authenticate('valid endpoint')).rejects.toThrow()
   })
+  it('should call readFileSync with pvkPath', async () => {
+    const { sut, oxTrustApiSettings } = makeSut()
+    const readFileSyncSpy = jest.spyOn(fs, 'readFileSync')
+    await sut.authenticate('valid endpoint')
+    expect(readFileSyncSpy).toHaveBeenCalled()
+    expect(readFileSyncSpy).toHaveBeenCalledWith(
+      oxTrustApiSettings.pvkPath,
+      'utf-8'
+    )
+  })
   it('should call jwtSigner with correct params', async () => {
     const { sut, jwtSigner, oxTrustApiSettings } = makeSut()
     const signSpy = jest.spyOn(jwtSigner, 'sign')
@@ -181,7 +193,7 @@ describe('UmaAuthenticator', () => {
       jti: 'valid UUID',
       aud: oxTrustApiSettings.tokenUrl
     }
-    const expectedSecret = oxTrustApiSettings.pvkOrSecret
+    const expectedSecret = 'pvk loaded from file'
 
     await sut.authenticate('valid endpoint')
     expect(signSpy).toHaveBeenCalledWith(

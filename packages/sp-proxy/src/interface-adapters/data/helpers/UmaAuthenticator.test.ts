@@ -1,5 +1,4 @@
 // ensure it does not throw when 401
-import { readFileSync } from 'fs'
 import nock from 'nock'
 import { IOxTrustApiSettings } from '../protocols/IOxTrustApiSettings'
 import { JwtSigner } from './JwtSigner'
@@ -29,7 +28,8 @@ const mockUnauthorizedEndpoint = (): void => {
 const mockTokenEndpoint = (): void => {
   nock('https://mock.com').post(tokenEndpoint).reply(200)
 }
-const testPrivateKey = readFileSync('packages/testdata/rs256pvk.pem', 'utf-8')
+
+const testPvkPath = 'packages/testdata/rs256pvk.pem'
 
 const makeOxTrustApiSettings = (): IOxTrustApiSettings => {
   const settings: IOxTrustApiSettings = {
@@ -38,7 +38,7 @@ const makeOxTrustApiSettings = (): IOxTrustApiSettings => {
     completePath: 'valid-complete-path',
     tokenUrl: 'https://mock.com/valid/token-endpoint',
     kid: 'valid-kid',
-    pvkOrSecret: testPrivateKey
+    pvkPath: testPvkPath
   }
   return settings
 }

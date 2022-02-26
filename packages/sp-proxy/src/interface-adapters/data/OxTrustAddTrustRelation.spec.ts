@@ -20,7 +20,7 @@ const makeSettings = (): IOxTrustApiSettings => {
     completePath: 'valid/path/v1',
     tokenUrl: 'valid token url',
     kid: 'valid kid',
-    pvkOrSecret: 'valid pvt or secret'
+    pvkPath: 'valid pvk path'
   }
   return settings
 }

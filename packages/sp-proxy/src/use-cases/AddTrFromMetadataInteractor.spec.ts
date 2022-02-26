@@ -113,7 +113,6 @@ interface SutTypes {
   sut: AddTrFromMetadataInteractor
   fetchExternalDataGatewayStub: IFetchExternalDataGateway
   remoteIdpFromDataStub: IFactory<RemoteIdpFromExternalParams, RemoteIdp>
-  // createRemoteIdpGatewayStub: ICreateRemoteIdpGateway
   trustRelationFactoryStub: IFactory<
     TrustRelationWithDefaultsParams,
     TrustRelation
@@ -141,7 +140,6 @@ const makeSut = (): SutTypes => {
     sut,
     fetchExternalDataGatewayStub,
     remoteIdpFromDataStub,
-    // createRemoteIdpGatewayStub,
     trustRelationFactoryStub,
     addTrGatewayStub,
     presenterStub
@@ -193,16 +191,6 @@ describe('AddTrFromMetadataInteractor', () => {
     await sut.execute(fakeRequest)
     expect(makeSpy).toHaveBeenCalledTimes(1)
   })
-  // it('should call remoteidp gateway create with object returned from remoteIdpFactory', async () => {
-  //   const { sut, remoteIdpFromDataStub, createRemoteIdpGatewayStub } = makeSut()
-  //   const createSpy = jest.spyOn(createRemoteIdpGatewayStub, 'create')
-  //   jest
-  //     .spyOn(remoteIdpFromDataStub, 'make')
-  //     .mockResolvedValueOnce(fakeRemoteIdp)
-  //   await sut.execute(fakeRequest)
-  //   expect(createSpy).toHaveBeenCalledTimes(1)
-  //   expect(createSpy).toHaveBeenCalledWith(fakeRemoteIdp)
-  // })
   it('should call TrustRelationFactory with remote Idp returned by remoteIdpFactory', async () => {
     const { sut, remoteIdpFromDataStub, trustRelationFactoryStub } = makeSut()
     const makeSpy = jest.spyOn(trustRelationFactoryStub, 'make')
@@ -246,15 +234,6 @@ describe('AddTrFromMetadataInteractor', () => {
       })
     await expect(sut.execute(fakeRequest)).rejects.toThrow()
   })
-  // it('should throw if remote idp creation throws', async () => {
-  //   const { sut, createRemoteIdpGatewayStub } = makeSut()
-  //   jest
-  //     .spyOn(createRemoteIdpGatewayStub, 'create')
-  //     .mockImplementationOnce(() => {
-  //       throw new Error()
-  //     })
-  //   await expect(sut.execute(fakeRequest)).rejects.toThrow()
-  // })
   it('should throw if remoteIdp factory throws', async () => {
     const { sut, remoteIdpFromDataStub } = makeSut()
     jest.spyOn(remoteIdpFromDataStub, 'make').mockImplementationOnce(() => {
