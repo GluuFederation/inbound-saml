@@ -24,6 +24,7 @@ export class OxTrustAddTrustRelation implements IAddTrGateway {
       trustRelation
     )
     await axios.post(this.postUrl, trustRelationDataModel)
+
     return true
   }
 }

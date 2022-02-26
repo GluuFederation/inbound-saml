@@ -17,7 +17,6 @@ import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
 import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'
 import { SuccessResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/SuccessResponseUseCaseParams'
 import { IAddTrGateway } from '@sp-proxy/use-cases/ports/IAddTrGateway'
-import { ICreateRemoteIdpGateway } from '@sp-proxy/use-cases/ports/ICreateRemoteIdpGateway'
 import { IFetchExternalDataGateway } from '@sp-proxy/use-cases/ports/IFetchExternalDataGateway'
 import { OutputBoundary } from '@sp-proxy/use-cases/ports/OutputBoundary'
 import { IFactory } from '@sp-proxy/use-cases/protocols/IFactory'
@@ -34,14 +33,6 @@ const makeFetchExternalDataGateway = (): IFetchExternalDataGateway => {
     }
   }
   return new FetchExternalDataStub()
-}
-const makeCreateRemoteIdpGateway = (): ICreateRemoteIdpGateway => {
-  class CreateRemoteIdpStub implements ICreateRemoteIdpGateway {
-    async create(remoteIdp: RemoteIdp): Promise<boolean> {
-      return true
-    }
-  }
-  return new CreateRemoteIdpStub()
 }
 
 const makeAddTrGateway = (): IAddTrGateway => {
@@ -124,14 +115,12 @@ interface SutTypes {
 const makeSut = (): SutTypes => {
   const fetchExternalDataGatewayStub = makeFetchExternalDataGateway()
   const remoteIdpFromDataStub = makeRemoteIdpFactory()
-  const createRemoteIdpGatewayStub = makeCreateRemoteIdpGateway()
   const trustRelationFactoryStub = makeTrustRelationFactory()
   const addTrGatewayStub = makeAddTrGateway()
   const presenterStub = makePresenter()
   const sut = new AddTrFromMetadataInteractor(
     fetchExternalDataGatewayStub,
     remoteIdpFromDataStub,
-    createRemoteIdpGatewayStub,
     trustRelationFactoryStub,
     addTrGatewayStub,
     presenterStub

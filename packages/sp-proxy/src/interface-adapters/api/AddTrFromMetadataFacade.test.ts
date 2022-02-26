@@ -1,7 +1,5 @@
 import { AddTrFromMetadataFacade } from '@sp-proxy/interface-adapters/api/AddTrFromMetadataFacade'
 import { GetSamlFetchExternalData } from '@sp-proxy/interface-adapters/data/GetSamlFetchExternalData'
-import { MongoAddTrustRelation } from '@sp-proxy/interface-adapters/data/MongoAddTrustRelation'
-import { MongoCreateRemoteIdp } from '@sp-proxy/interface-adapters/data/MongoCreateRemoteIdp'
 import { AddTrFromMetadataController } from '@sp-proxy/interface-adapters/delivery/AddTrFromMetadataController'
 import { AddTrFromMetadataPresenter } from '@sp-proxy/interface-adapters/delivery/AddTrFromMetadataPresenter'
 import { AddTrFromMetadataControllerMapper } from '@sp-proxy/interface-adapters/delivery/mappers/AddTrFromMetadataControllerMapper'
@@ -11,29 +9,24 @@ import { mockXmlEndpoints } from '@sp-proxy/interface-adapters/mocks/xmlEndpoint
 import { AddTrFromMetadataInteractor } from '@sp-proxy/use-cases/AddTrFromMetadataInteractor'
 import { RemoteIdpFromExternalDataFactory } from '@sp-proxy/use-cases/factories/RemoteIdpFromExternalDataFactory'
 import { TrustRelationWithDefaultFactory } from '@sp-proxy/use-cases/factories/TrustRelationWithDefaultFactory'
-import { Collection, Document as MongoDocument, MongoClient } from 'mongodb'
 import nock from 'nock'
 import { EventEmitter } from 'stream'
 import config from '../config/env'
+import { AddTrustRelationOxTrustMapper } from '../data/mappers/AddTrustRelationOxTrustMapper'
+import { OxTrustAddTrustRelation } from '../data/OxTrustAddTrustRelation'
+
+const mockAddTrEndpoint = (): void => {
+  nock(`https://${config.oxTrustApi.host}`)
+    .post(`/${config.oxTrustApi.completePath}/trusted-idp`)
+    .reply(201, 'created')
+}
 
 describe('AddTrFromMetadataFacade - integration', () => {
-  const client = new MongoClient(config.database.mongo.uri)
-  let connection: MongoClient
-  let remoteIdpsCollection: Collection<MongoDocument>
-  let trustRelationsCollection: Collection<MongoDocument>
   beforeAll(async () => {
-    connection = await client.connect()
-    remoteIdpsCollection = client
-      .db(config.database.mongo.dbName)
-      .collection(config.database.mongo.collections.remoteIdps)
-    trustRelationsCollection = client
-      .db(config.database.mongo.dbName)
-      .collection(config.database.mongo.collections.trustRelations)
+    mockAddTrEndpoint()
     mockXmlEndpoints()
   })
   afterAll(async () => {
-    await trustRelationsCollection.drop()
-    await connection.close()
     nock.cleanAll()
   })
   it('should return success message', async () => {
@@ -43,15 +36,16 @@ describe('AddTrFromMetadataFacade - integration', () => {
 
     const externalDataGateway = new GetSamlFetchExternalData()
     const remoteIdpFromExtDataFactory = new RemoteIdpFromExternalDataFactory()
-    const createRemoteIdpGateway = new MongoCreateRemoteIdp(
-      remoteIdpsCollection
-    )
     const trWithDefaultFactory = new TrustRelationWithDefaultFactory()
-    const addTrGateway = new MongoAddTrustRelation(trustRelationsCollection)
+    const dataMapper = new AddTrustRelationOxTrustMapper()
+    const addTrGateway = new OxTrustAddTrustRelation(
+      config.oxTrustApi,
+      dataMapper
+    )
+    // const addTrGateway = new MongoAddTrustRelation(trustRelationsCollection)
     const interactor = new AddTrFromMetadataInteractor(
       externalDataGateway,
       remoteIdpFromExtDataFactory,
-      createRemoteIdpGateway,
       trWithDefaultFactory,
       addTrGateway,
       presenter

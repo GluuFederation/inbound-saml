@@ -7,7 +7,6 @@ import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
 import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'
 import { SuccessResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/SuccessResponseUseCaseParams'
 import { IAddTrGateway } from '@sp-proxy/use-cases/ports/IAddTrGateway'
-import { ICreateRemoteIdpGateway } from '@sp-proxy/use-cases/ports/ICreateRemoteIdpGateway'
 import { IFetchExternalDataGateway } from '@sp-proxy/use-cases/ports/IFetchExternalDataGateway'
 import { InputBoundary } from '@sp-proxy/use-cases/ports/InputBoundary'
 import { OutputBoundary } from '@sp-proxy/use-cases/ports/OutputBoundary'
@@ -29,7 +28,6 @@ export class AddTrFromMetadataInteractor
       RemoteIdpFromExternalParams,
       RemoteIdp
     >,
-    private readonly createRemoteIdpGateway: ICreateRemoteIdpGateway,
     private readonly trWithDefaultFactory: IFactory<
       TrustRelationWithDefaultsParams,
       TrustRelation
@@ -53,7 +51,6 @@ export class AddTrFromMetadataInteractor
     const externalData = await this.externalDataGateway.fetch(
       request.request.url
     )
-
     const remoteIdp = await this.remoteIdpFromExtDataFactory.make({
       externalData: externalData,
       name: request.request.name,
@@ -63,9 +60,7 @@ export class AddTrFromMetadataInteractor
     const trustRelation = await this.trWithDefaultFactory.make({
       remoteIdp: remoteIdp
     })
-
     await this.addTrGateeay.add(trustRelation)
-
     await this.outputChannel.present({
       requestId: request.requestId,
       response: {
