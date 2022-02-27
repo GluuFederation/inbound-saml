@@ -26,13 +26,22 @@ export class OxTrustAddTrustRelation implements IAddTrGateway {
       trustRelation
     )
     try {
-      await axios.post(this.postUrl, trustRelationDataModel)
+      const response = await axios.post(this.postUrl, trustRelationDataModel)
+      if (response.status !== 201) {
+        throw new Error(
+          `Trust relation creation emndpoind responded with ${response.status}`
+        )
+      }
     } catch (error) {
       if (axios.isAxiosError(error)) {
         if (error.response?.status === 401) {
           await this.authenticator.authenticate(this.postUrl)
           return true
         } else {
+          throw new Error(error.message)
+        }
+      } else {
+        if (error instanceof Error) {
           throw new Error(error.message)
         }
       }

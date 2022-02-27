@@ -74,16 +74,27 @@ const makeSut = (): SutTypes => {
   }
 }
 
+const validResponseStub: AxiosResponse = {
+  data: {},
+  status: 201,
+  statusText: 'Created',
+  headers: undefined,
+  config: {}
+}
+
+jest.spyOn(axios, 'post').mockResolvedValue(validResponseStub)
+
 describe('OxTrustAddTrustRelation', () => {
   it('should call data model mapper with entity', async () => {
-    jest.spyOn(axios, 'post').mockResolvedValue('success')
     const { dataModelMapperStub, sut } = makeSut()
     const mapSpy = jest.spyOn(dataModelMapperStub, 'map')
     await sut.add('valid trust relation entity' as any)
     expect(mapSpy).toHaveBeenCalledWith('valid trust relation entity')
   })
   it('should call post with api uri and path', async () => {
-    const postSpy = jest.spyOn(axios, 'post').mockResolvedValue('success')
+    const postSpy = jest
+      .spyOn(axios, 'post')
+      .mockResolvedValue(validResponseStub)
     const { sut, oxTrustApiSettings } = makeSut()
     await sut.add('valid trust relation' as any)
     expect(postSpy).toHaveBeenCalledTimes(1)
@@ -91,7 +102,9 @@ describe('OxTrustAddTrustRelation', () => {
     expect(postSpy.mock.calls[0][0]).toEqual(expectedArg)
   })
   it('should call post with mapped data model', async () => {
-    const postSpy = jest.spyOn(axios, 'post').mockResolvedValue('success')
+    const postSpy = jest
+      .spyOn(axios, 'post')
+      .mockResolvedValue(validResponseStub)
     const { sut, dataModelMapperStub } = makeSut()
     jest
       .spyOn(dataModelMapperStub, 'map')
@@ -137,5 +150,17 @@ describe('OxTrustAddTrustRelation', () => {
     const authenticateSpy = jest.spyOn(authenticatorStub, 'authenticate')
     await sut.add('valid tr' as any)
     expect(authenticateSpy).toHaveBeenCalled()
+  })
+  it('should throw if status is not 201', async () => {
+    const mockedResponse: AxiosResponse = {
+      data: undefined,
+      status: 200,
+      statusText: 'OK',
+      headers: {},
+      config: {}
+    }
+    jest.spyOn(axios, 'post').mockResolvedValueOnce(mockedResponse)
+    const { sut } = makeSut()
+    await expect(sut.add('valid trust relation' as any)).rejects.toThrow()
   })
 })
