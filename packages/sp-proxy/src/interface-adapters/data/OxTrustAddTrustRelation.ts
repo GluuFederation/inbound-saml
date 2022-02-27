@@ -4,6 +4,7 @@ import axios from 'axios'
 import { IDataMapper } from '../protocols/IDataMapper'
 import { TrustRelationDataModel } from './models/TrustRelationDataModel'
 import { IOxTrustApiSettings } from './protocols/IOxTrustApiSettings'
+import { IUmaAuthenticator } from './protocols/IUmaAuthenticator'
 
 export class OxTrustAddTrustRelation implements IAddTrGateway {
   private readonly postUrl: string
@@ -13,7 +14,8 @@ export class OxTrustAddTrustRelation implements IAddTrGateway {
     private readonly addTrustRelationOxTrustMapper: IDataMapper<
       TrustRelation,
       TrustRelationDataModel
-    >
+    >,
+    private readonly authenticator: IUmaAuthenticator
   ) {
     const trustRelationEndpoint = 'trusted-idp'
     this.postUrl = `https://${oxTrustApiSettings.host}/${oxTrustApiSettings.completePath}/${trustRelationEndpoint}`
@@ -23,8 +25,18 @@ export class OxTrustAddTrustRelation implements IAddTrGateway {
     const trustRelationDataModel = await this.addTrustRelationOxTrustMapper.map(
       trustRelation
     )
-    await axios.post(this.postUrl, trustRelationDataModel)
-
+    try {
+      await axios.post(this.postUrl, trustRelationDataModel)
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        if (error.response?.status === 401) {
+          await this.authenticator.authenticate(this.postUrl)
+          return true
+        } else {
+          throw new Error(error.message)
+        }
+      }
+    }
     return true
   }
 }

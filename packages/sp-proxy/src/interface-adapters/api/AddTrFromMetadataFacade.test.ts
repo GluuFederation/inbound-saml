@@ -12,6 +12,10 @@ import { TrustRelationWithDefaultFactory } from '@sp-proxy/use-cases/factories/T
 import nock from 'nock'
 import { EventEmitter } from 'stream'
 import config from '../config/env'
+import { JwtSigner } from '../data/helpers/JwtSigner'
+import { TokenRequestFactory } from '../data/helpers/TokenRequestFactory'
+import { UmaAuthenticator } from '../data/helpers/UmaAuthenticator'
+import { UmaHeaderParser } from '../data/helpers/UmaHeaderParser'
 import { AddTrustRelationOxTrustMapper } from '../data/mappers/AddTrustRelationOxTrustMapper'
 import { OxTrustAddTrustRelation } from '../data/OxTrustAddTrustRelation'
 
@@ -38,9 +42,16 @@ describe('AddTrFromMetadataFacade - integration', () => {
     const remoteIdpFromExtDataFactory = new RemoteIdpFromExternalDataFactory()
     const trWithDefaultFactory = new TrustRelationWithDefaultFactory()
     const dataMapper = new AddTrustRelationOxTrustMapper()
+    const umaAuthenticator = new UmaAuthenticator(
+      new UmaHeaderParser(),
+      new JwtSigner(),
+      config.oxTrustApi,
+      new TokenRequestFactory()
+    )
     const addTrGateway = new OxTrustAddTrustRelation(
       config.oxTrustApi,
-      dataMapper
+      dataMapper,
+      umaAuthenticator
     )
     // const addTrGateway = new MongoAddTrustRelation(trustRelationsCollection)
     const interactor = new AddTrFromMetadataInteractor(

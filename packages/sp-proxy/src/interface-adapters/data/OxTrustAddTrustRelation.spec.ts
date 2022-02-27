@@ -2,16 +2,19 @@
 
 import { TrustRelation } from '@sp-proxy/entities/TrustRelation'
 import { IAddTrGateway } from '@sp-proxy/use-cases/ports/IAddTrGateway'
-import axios from 'axios'
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
 import { IDataMapper } from '../protocols/IDataMapper'
 import { TrustRelationDataModel } from './models/TrustRelationDataModel'
 import { OxTrustAddTrustRelation } from './OxTrustAddTrustRelation'
 import { IOxTrustApiSettings } from './protocols/IOxTrustApiSettings'
+import { IUmaAuthenticator } from './protocols/IUmaAuthenticator'
 
 // receives trust relation entity
 // maps entity to data model
 // calls axios post with data model
-// validate response (throw error if error)
+// call uma authenticator if not authorized
+// throw AuthenticationError if uma throws
+// validate response (throw error if axios error)
 
 const makeSettings = (): IOxTrustApiSettings => {
   const settings: IOxTrustApiSettings = {
@@ -39,22 +42,34 @@ const makeDataModelMapper = (): IDataMapper<
   return new DataModelMapperStub()
 }
 
+const makeAuthenticator = (): IUmaAuthenticator => {
+  class UmaAuthenticatorStub implements IUmaAuthenticator {
+    async authenticate(endpoint: string): Promise<string> {
+      return 'valid bearer token'
+    }
+  }
+  return new UmaAuthenticatorStub()
+}
 interface SutTypes {
   oxTrustApiSettings: IOxTrustApiSettings
   dataModelMapperStub: IDataMapper<TrustRelation, TrustRelationDataModel>
+  authenticatorStub: IUmaAuthenticator
   sut: IAddTrGateway
 }
 
 const makeSut = (): SutTypes => {
   const oxTrustApiSettings = makeSettings()
   const dataModelMapperStub = makeDataModelMapper()
+  const authenticatorStub = makeAuthenticator()
   const sut = new OxTrustAddTrustRelation(
     oxTrustApiSettings,
-    dataModelMapperStub
+    dataModelMapperStub,
+    authenticatorStub
   )
   return {
     oxTrustApiSettings,
     dataModelMapperStub,
+    authenticatorStub,
     sut
   }
 }
@@ -85,8 +100,42 @@ describe('OxTrustAddTrustRelation', () => {
     expect(postSpy.mock.calls[0][1]).toEqual('valid mapped data model')
   })
   it('should throw if axios throws', async () => {
-    jest.spyOn(axios, 'post').mockRejectedValueOnce(new Error())
+    const axiosError: AxiosError = {
+      config: {},
+      isAxiosError: true,
+      toJSON: function (): object {
+        throw new Error('Function not implemented.')
+      },
+      name: '',
+      message: ''
+    }
+    jest.spyOn(axios, 'post').mockRejectedValueOnce(axiosError)
     const { sut } = makeSut()
     await expect(sut.add('valid tr entity' as any)).rejects.toThrow()
+  })
+  it('should call authenticator if 401', async () => {
+    const config: AxiosRequestConfig = {}
+    const unauthorizeedResponse: AxiosResponse = {
+      data: {},
+      status: 401,
+      statusText: 'Unauthrorized',
+      headers: {},
+      config: {}
+    }
+    const error: AxiosError = {
+      response: unauthorizeedResponse,
+      config: config,
+      isAxiosError: true,
+      toJSON: function (): object {
+        throw new Error('Function not implemented.')
+      },
+      name: 'AxiosError',
+      message: 'Request failed with status code 401'
+    }
+    jest.spyOn(axios, 'post').mockRejectedValueOnce(error)
+    const { sut, authenticatorStub } = makeSut()
+    const authenticateSpy = jest.spyOn(authenticatorStub, 'authenticate')
+    await sut.add('valid tr' as any)
+    expect(authenticateSpy).toHaveBeenCalled()
   })
 })
