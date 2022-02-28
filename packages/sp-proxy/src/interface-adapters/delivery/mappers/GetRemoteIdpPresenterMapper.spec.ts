@@ -12,6 +12,7 @@ describe('GetRemoteIdpPresenterMapper', () => {
       response: {
         id: 'valid entity id',
         name: 'valid name',
+        host: 'valid host',
         singleSignOnService: [
           {
             binding: 'valid binding',

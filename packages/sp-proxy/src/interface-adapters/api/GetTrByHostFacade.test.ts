@@ -8,7 +8,7 @@ import { makeRemoteIdpStub } from '@sp-proxy/interface-adapters/data/mocks/makeR
 import { IGetTrByHostResponse } from '@sp-proxy/interface-adapters/delivery/dtos/IGetTrByHostResponse'
 import { InvalidRequestError } from '@sp-proxy/interface-adapters/delivery/errors/InvalidRequestError'
 import { IService } from '@sp-proxy/interface-adapters/protocols/IService'
-import { Collection, MongoClient, Document as MongoDocument } from 'mongodb'
+import { Collection, Document as MongoDocument, MongoClient } from 'mongodb'
 import { EventEmitter } from 'stream'
 import config from '../config/env'
 
@@ -59,6 +59,7 @@ describe('GetTrByHostFacade - integration', () => {
       remoteIdp: {
         id: trustRelation.props.remoteIdp.id,
         name: trustRelation.props.remoteIdp.props.name,
+        host: trustRelation.props.remoteIdp.props.host,
         singleSignOnService: getSsoServices(trustRelation.props.remoteIdp),
         signingCertificates:
           trustRelation.props.remoteIdp.props.signingCertificates

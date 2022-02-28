@@ -1,5 +1,6 @@
 import axios, { AxiosRequestConfig } from 'axios'
 import { randomUUID } from 'crypto'
+import { readFileSync } from 'fs'
 import { Agent } from 'https'
 import { stringify } from 'querystring'
 import { IJwtHeader } from '../protocols/IJwtHeader'
@@ -48,7 +49,7 @@ export class UmaAuthenticator implements IUmaAuthenticator {
         jti: randomUUID(),
         aud: this.oxTrustSettings.tokenUrl
       }
-      const pvkOrSecret = this.oxTrustSettings.pvkOrSecret
+      const pvkOrSecret = readFileSync(this.oxTrustSettings.pvkPath, 'utf-8')
       const clientAssertion = this.jwtSigner.sign(header, payload, pvkOrSecret)
       const umaTokenRequestBody = this.requestFactory.make(
         wwwAuthenticate.ticket,

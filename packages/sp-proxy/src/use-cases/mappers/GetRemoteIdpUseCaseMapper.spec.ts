@@ -1,6 +1,6 @@
 import { RemoteIdpUseCaseParams } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseParams'
-import { makeRemoteIdpUseCaseStub } from '@sp-proxy/use-cases/mocks/remoteIdpUseCaseStub'
 import { GetRemoteIdpUseCaseMapper } from '@sp-proxy/use-cases/mappers/GetRemoteIdpUseCaseMapper'
+import { makeRemoteIdpUseCaseStub } from '@sp-proxy/use-cases/mocks/remoteIdpUseCaseStub'
 
 describe('GetRemoteIdpUseCaseMapper', () => {
   it('should map RemoteIdp entity to usecase props', () => {
@@ -16,7 +16,8 @@ describe('GetRemoteIdpUseCaseMapper', () => {
         }
       ],
       signingCertificates: fakeRemoteIdp.props.signingCertificates,
-      name: fakeRemoteIdp.props.name
+      name: fakeRemoteIdp.props.name,
+      host: fakeRemoteIdp.props.host
     }
     const sut = new GetRemoteIdpUseCaseMapper()
     expect(sut.map(fakeRemoteIdp)).toStrictEqual(expectedResponseModel)

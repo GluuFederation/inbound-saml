@@ -5,8 +5,8 @@
 // return result emitted to eventBus
 
 import { AddTrFromMetadataFacade } from '@sp-proxy/interface-adapters/api/AddTrFromMetadataFacade'
-import { IAddTrFromMetadataRequest } from '@sp-proxy/interface-adapters/delivery/dtos/IAddTrFromMetadataRequest'
 import { IAddTrFromMetadataResponse } from '@sp-proxy/interface-adapters/delivery/dtos//IAddTrFromMetadataResponse'
+import { IAddTrFromMetadataRequest } from '@sp-proxy/interface-adapters/delivery/dtos/IAddTrFromMetadataRequest'
 import { IController } from '@sp-proxy/interface-adapters/protocols/IController'
 import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'
 import { IResponse } from '@sp-proxy/interface-adapters/protocols/IResponse'
@@ -31,6 +31,7 @@ interface SutTypes {
 
 const fakeParams: IAddTrFromMetadataRequest = {
   name: 'valid fake name param',
+  host: 'valid fake host param',
   url: 'valid fake url param'
 }
 

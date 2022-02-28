@@ -40,6 +40,7 @@ const fakeResponseDto: IResponse<IGetTrByHostResponse> = {
     remoteIdp: {
       id: 'fake response remoteIdp id',
       name: 'fake response remoteIdp name',
+      host: 'fake response remoteIdp host',
       singleSignOnService: [
         {
           binding: 'fake response remoteIdp binding',

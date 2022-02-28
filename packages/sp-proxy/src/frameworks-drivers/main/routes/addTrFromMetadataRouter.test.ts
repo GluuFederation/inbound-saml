@@ -1,14 +1,13 @@
-import routes from '@sp-proxy/frameworks-drivers/main/routes'
-import express from 'express'
-import request from 'supertest'
+import serverConfig from '@sp-proxy/frameworks-drivers/main/config/env'
+import { mockValidXmlDataEndpoint } from '@sp-proxy/frameworks-drivers/main/mocks/externalMetadataUrl.mock'
 import { mockSpProxyConfig } from '@sp-proxy/frameworks-drivers/main/mocks/mockSpProxyConfig.mock'
+import routes from '@sp-proxy/frameworks-drivers/main/routes'
 import { AddTrFromMetadataController } from '@sp-proxy/interface-adapters/delivery/AddTrFromMetadataController'
 import { InvalidRequestError } from '@sp-proxy/interface-adapters/delivery/errors/InvalidRequestError'
-import { mockValidXmlDataEndpoint } from '@sp-proxy/frameworks-drivers/main/mocks/externalMetadataUrl.mock'
+import express from 'express'
 import nock from 'nock'
-import { Collection, MongoClient } from 'mongodb'
-import config from '@sp-proxy/interface-adapters/config/env'
-import serverConfig from '@sp-proxy/frameworks-drivers/main/config/env'
+import request from 'supertest'
+import { mockAddTrEndpoint } from '../mocks/mockAddTrEndpoint'
 
 jest.mock('@sp-proxy/interface-adapters/data/FileReadProxyConfig')
 
@@ -22,23 +21,14 @@ const validCredentials = encodeCredentials(
 )
 
 app.use(express.json())
+
 describe('addTrFromMetadataRouter', () => {
-  let mongoClient: MongoClient
-  let connection: MongoClient
-  let collection: Collection
   beforeAll(async () => {
     // setup app and db for testing this route
-    mongoClient = new MongoClient(config.database.mongo.uri)
-    connection = await mongoClient.connect()
-    collection = connection
-      .db(config.database.mongo.dbName)
-      .collection(config.database.mongo.collections.trustRelations)
     app.use(routes)
     mockSpProxyConfig()
   })
   afterAll(async () => {
-    await collection.drop()
-    await connection.close()
     jest.clearAllMocks()
     nock.cleanAll()
   })
@@ -94,6 +84,7 @@ describe('addTrFromMetadataRouter', () => {
   })
   it('should return 201 if success', async () => {
     mockValidXmlDataEndpoint()
+    mockAddTrEndpoint()
     await request(app)
       .post(endpoint)
       .set('authorization', validCredentials)
@@ -104,6 +95,7 @@ describe('addTrFromMetadataRouter', () => {
       .expect(201)
   })
   it('should return json content type', async () => {
+    mockAddTrEndpoint()
     mockValidXmlDataEndpoint()
     await request(app)
       .post(endpoint)
@@ -115,6 +107,7 @@ describe('addTrFromMetadataRouter', () => {
       .expect('Content-Type', /json/)
   })
   it('should return success message', async () => {
+    mockAddTrEndpoint()
     mockValidXmlDataEndpoint()
     await request(app)
       .post(endpoint)
@@ -124,26 +117,6 @@ describe('addTrFromMetadataRouter', () => {
         url: 'https://remoteIdp.com/metadata'
       })
       .expect({ creation: 'success' })
-  })
-  it('should persist object with expected data', async () => {
-    await collection.drop()
-    mockValidXmlDataEndpoint()
-    await request(app)
-      .post(endpoint)
-      .set('authorization', validCredentials)
-      .send({
-        name: 'valid name integration',
-        url: 'https://remoteIdp.com/metadata'
-      })
-      .expect({ creation: 'success' })
-    expect(await collection.countDocuments()).toEqual(1)
-    const found = await collection.findOne()
-    expect(found).not.toBeNull()
-    if (found != null) {
-      expect(found.trustRelation.props.remoteIdp.props.name).toEqual(
-        'valid name integration'
-      )
-    }
   })
   it('should return 401 if wrong username', async () => {
     const wrongUser = 'wronguser'

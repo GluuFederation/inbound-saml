@@ -35,6 +35,7 @@ const makeMapper = (): IDeliveryMapper<
           remoteIdp: {
             id: 'stubbed remoteIdp id',
             name: 'stubbed remoteIdp name',
+            host: 'stubbed remoteIdp host',
             singleSignOnService: [
               {
                 binding: 'stubbed remoteIdp binding',
@@ -80,6 +81,7 @@ const fakeResponseModel: IResponseModel<GetTrByHostResponseUseCaseParams> = {
     },
     remoteIdp: {
       id: 'fake responseModel remoteIdp id',
+      host: 'fake responseModel remodeIdp host',
       name: 'fake responseModel remoteIdp name',
       singleSignOnService: [
         {

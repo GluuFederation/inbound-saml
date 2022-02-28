@@ -7,6 +7,7 @@ type SigningCertificates = string[]
 export interface IRemoteIdp {
   id: UuidType
   name: RemoteIdpName
+  host: string
   supportedSingleSignOnServices: SingleSignOnService[]
   signingCertificates: SigningCertificates
 }

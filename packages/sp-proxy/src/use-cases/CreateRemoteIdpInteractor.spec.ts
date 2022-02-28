@@ -6,12 +6,12 @@
 import { RemoteIdp } from '@sp-proxy/entities/RemoteIdp'
 import { CreateRemoteIdpInteractor } from '@sp-proxy/use-cases/CreateRemoteIdpInteractor'
 import { makeSingleSignOnServices } from '@sp-proxy/use-cases/factories/makeSingleSignOnServices'
-import { OutputBoundary } from '@sp-proxy/use-cases/ports/OutputBoundary'
-import { AddRemoteIdpUseCaseParams } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseParams'
-import { SuccessResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/SuccessResponseUseCaseParams'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
 import { IResponseModel } from '@sp-proxy/use-cases/io-models/IResponseModel'
+import { AddRemoteIdpUseCaseParams } from '@sp-proxy/use-cases/io-models/RemoteIdpUseCaseParams'
+import { SuccessResponseUseCaseParams } from '@sp-proxy/use-cases/io-models/SuccessResponseUseCaseParams'
 import { ICreateRemoteIdpGateway } from '@sp-proxy/use-cases/ports/ICreateRemoteIdpGateway'
+import { OutputBoundary } from '@sp-proxy/use-cases/ports/OutputBoundary'
 import { IMapper } from '@sp-proxy/use-cases/protocols/IMapper'
 
 const makePresenter = (): OutputBoundary<
@@ -43,6 +43,7 @@ const fakeRequestDto: IRequestModel<AddRemoteIdpUseCaseParams> = {
   requestId: 'valid id',
   request: {
     name: 'valid name',
+    host: 'valid host',
     signingCertificates: ['valid cert 1', 'valid cert 2'],
     singleSignOnService: [
       {
@@ -63,6 +64,7 @@ const makeMapper = (): IMapper<
     map(requestModel: IRequestModel<any>): RemoteIdp {
       return new RemoteIdp({
         name: fakeRequestDto.request.name,
+        host: fakeRequestDto.request.host,
         signingCertificates: fakeRequestDto.request.signingCertificates,
         supportedSingleSignOnServices: makeSingleSignOnServices(
           fakeRequestDto.request.singleSignOnService

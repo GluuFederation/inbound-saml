@@ -23,6 +23,7 @@ export class GetTrByHostMongoMapper
   async map(document: MongoDocument): Promise<TrustRelation> {
     const remoteIdpProps: IRemoteIdpProps = {
       name: document.trustRelation.props.remoteIdp.props.name,
+      host: document.trustRelation.props.remoteIdp.props.host,
       supportedSingleSignOnServices: makeSingleSignOnServices(
         this.getCollectionSsoServices(document)
       ),
