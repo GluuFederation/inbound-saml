@@ -3,10 +3,8 @@ import { adminBasicPostAuth } from '@sp-proxy/frameworks-drivers/main/middleware
 import { ExpressErrorHandler } from '@sp-proxy/frameworks-drivers/main/utils/ExpressErrorHandler'
 import { AddTrFromMetadataFacade } from '@sp-proxy/interface-adapters/api/AddTrFromMetadataFacade'
 import { makeAddTrFromMetadataComposite } from '@sp-proxy/interface-adapters/api/factories/makeAddTrFromMetadataComposite'
-import cfg from '@sp-proxy/interface-adapters/config/env'
 import { makeLogControllerDecorator } from '@sp-proxy/interface-adapters/delivery/factories/makeLogControllerDecorator'
 import { json, NextFunction, Request, Response, Router } from 'express'
-import { MongoClient } from 'mongodb'
 import { EventEmitter } from 'stream'
 
 const handler = ExpressErrorHandler.getInstance()
@@ -17,12 +15,10 @@ addTrFromMetadataRouter.use(json())
 const adaptFacade = () => {
   return async (request: Request, response: Response, next: NextFunction) => {
     const eventBus = new EventEmitter()
-    const client = new MongoClient(cfg.database.mongo.uri)
-    const connection = await client.connect()
     try {
       const controller = makeLogControllerDecorator(
         WinstonLogger.getInstance(),
-        makeAddTrFromMetadataComposite(eventBus, connection)
+        makeAddTrFromMetadataComposite(eventBus)
       )
       const facade = new AddTrFromMetadataFacade(controller, eventBus)
       await facade.addTrFromMetadata({
@@ -35,8 +31,6 @@ const adaptFacade = () => {
       response.status(201).send({ creation: 'success' })
     } catch (err) {
       handler.handle(response, err)
-    } finally {
-      await connection.close()
     }
   }
 }
