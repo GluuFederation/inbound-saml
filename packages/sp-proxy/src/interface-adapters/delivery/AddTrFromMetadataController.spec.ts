@@ -8,9 +8,9 @@ import { IAddTrFromMetadataRequest } from '@sp-proxy/interface-adapters/delivery
 import { IDeliveryMapper } from '@sp-proxy/interface-adapters/protocols/IDeliveryMapper'
 import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'
 import { IValidator } from '@sp-proxy/interface-adapters/protocols/IValidator'
-import { InputBoundary } from '@sp-proxy/use-cases/ports/InputBoundary'
 import { AddTrFromMetadataUseCaseParams } from '@sp-proxy/use-cases/io-models/AddTrFromMetadataUseCaseParams'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
+import { InputBoundary } from '@sp-proxy/use-cases/ports/InputBoundary'
 
 const makeMapper = (): IDeliveryMapper<
   IRequest<IAddTrFromMetadataRequest>,
@@ -30,6 +30,7 @@ const makeMapper = (): IDeliveryMapper<
         requestId: 'valid request id',
         request: {
           name: 'valid name',
+          host: 'valid host',
           url: 'valid url'
         }
       }
@@ -91,6 +92,7 @@ const fakeRequestDto: IRequest<IAddTrFromMetadataRequest> = {
   id: 'another valid request id',
   body: {
     name: 'another valid name',
+    host: 'another valid host',
     url: 'another valid url'
   }
 }

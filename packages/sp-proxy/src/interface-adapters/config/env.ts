@@ -1,3 +1,5 @@
+import { IOxTrustApiSettings } from '../data/protocols/IOxTrustApiSettings'
+
 const getConfigFilePath = (): any => {
   if (process.env.NODE_ENV === 'test') {
     return (
@@ -12,7 +14,19 @@ const getConfigFilePath = (): any => {
   }
 }
 
+const oxTrustApiSettings: IOxTrustApiSettings = {
+  host: process.env.INBOUND_SAML_OXTRUST_API_HOST ?? 'myhosta.com',
+  clientId: process.env.INBOUND_SAML_OXTRUST_CLIENT_ID ?? 'valid client id',
+  completePath:
+    process.env.INBOUND_SAML_OXTRUST_API_COMPLETE_PATH ??
+    'identity/restv1/api/v1',
+  tokenUrl: process.env.INBOUND_SAML_OXTRUST_API_TOKEN_URL ?? 'valid token url',
+  kid: process.env.INBOUND_SAML_OXTRUST_API_KID ?? 'valid pvk kid',
+  pvkPath: process.env.INBOUND_SAML_OXTRUST_API_PVK_PATH ?? 'valid path'
+}
+
 export default {
+  oxTrustApi: oxTrustApiSettings,
   database: {
     mongo: {
       uri: process.env.MONGO_URI ?? 'mongodb://localhost',

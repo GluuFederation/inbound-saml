@@ -49,6 +49,7 @@ const makeMapper = (): IMapper<
         },
         remoteIdp: {
           id: 'valid entity id',
+          host: 'valid host',
           name: 'valid name',
           singleSignOnService: [
             { binding: 'valid binding', location: 'valid location' }

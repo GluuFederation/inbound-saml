@@ -1,5 +1,5 @@
-import { AddTrFromMetadataControllerMapper } from '@sp-proxy/interface-adapters/delivery/mappers/AddTrFromMetadataControllerMapper'
 import { IAddTrFromMetadataRequest } from '@sp-proxy/interface-adapters/delivery/dtos/IAddTrFromMetadataRequest'
+import { AddTrFromMetadataControllerMapper } from '@sp-proxy/interface-adapters/delivery/mappers/AddTrFromMetadataControllerMapper'
 import { IRequest } from '@sp-proxy/interface-adapters/protocols/IRequest'
 import { AddTrFromMetadataUseCaseParams } from '@sp-proxy/use-cases/io-models/AddTrFromMetadataUseCaseParams'
 import { IRequestModel } from '@sp-proxy/use-cases/io-models/IRequestModel'
@@ -10,7 +10,8 @@ describe('AddTrFromMetadataControllerMapper', () => {
     const fakeDto: IRequest<IAddTrFromMetadataRequest> = {
       id: 'fake request id',
       body: {
-        name: 'fake TR name',
+        name: 'fake idp name',
+        host: 'fake host',
         url: 'fake url'
       }
     }

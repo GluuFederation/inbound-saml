@@ -7,6 +7,7 @@ describe('TrustRelation', () => {
     it('should return TR id', () => {
       const remoteIdp = new RemoteIdp({
         name: 'valid name',
+        host: 'valid host',
         signingCertificates: ['valid cert'],
         supportedSingleSignOnServices: [
           makeSingleSignOnService({ binding: 'bindinbg', location: 'location' })

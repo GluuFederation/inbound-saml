@@ -29,6 +29,7 @@ const makeDtoMapper = (): IDeliveryMapper<
         body: {
           id: 'valid remote idp id',
           name: 'valid remote idp name',
+          host: 'valid remote idp host',
           singleSignOnService: [
             {
               binding: 'valid binding',
@@ -68,6 +69,7 @@ const fakeResponse: IResponseModel<RemoteIdpUseCaseParams> = {
   response: {
     id: 'valid entity id',
     name: 'valid RemoteIdp name',
+    host: 'valid host',
     singleSignOnService: [
       {
         binding: 'valid binding',

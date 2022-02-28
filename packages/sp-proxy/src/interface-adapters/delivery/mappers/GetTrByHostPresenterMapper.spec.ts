@@ -18,6 +18,7 @@ describe('GetTrByHostPresenterMapper', () => {
           remoteIdp: {
             id: 'fake responseModel remoteIdp id',
             name: 'fake responseModel remoteIdp name',
+            host: 'fake responseModel remoteIdp host',
             singleSignOnService: [
               {
                 binding: 'fake responseModel remoteIdp binding',
@@ -39,6 +40,7 @@ describe('GetTrByHostPresenterMapper', () => {
         remoteIdp: {
           id: fakeResponseModel.response.remoteIdp.id,
           name: fakeResponseModel.response.remoteIdp.name,
+          host: fakeResponseModel.response.remoteIdp.host,
           singleSignOnService: [
             {
               binding:
@@ -70,6 +72,7 @@ describe('GetTrByHostPresenterMapper', () => {
           remoteIdp: {
             id: 'fake responseModel remoteIdp id',
             name: 'fake responseModel remoteIdp name',
+            host: 'fake responseModel remoteIdp host',
             singleSignOnService: [
               {
                 binding: 'fake responseModel remoteIdp binding 1',
@@ -98,6 +101,7 @@ describe('GetTrByHostPresenterMapper', () => {
         remoteIdp: {
           id: fakeResponseModel.response.remoteIdp.id,
           name: fakeResponseModel.response.remoteIdp.name,
+          host: fakeResponseModel.response.remoteIdp.host,
           singleSignOnService: [
             {
               binding:

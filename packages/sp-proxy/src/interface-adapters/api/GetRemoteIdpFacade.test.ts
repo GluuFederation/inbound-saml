@@ -3,23 +3,23 @@
 // create controller with interactor
 // create facade with controller and same eventBus from 1
 
-import config from '../config/env'
-import { Collection, MongoClient, Document as MongoDocument } from 'mongodb'
-import { EventEmitter } from 'stream'
-import { GetRemoteIdpPresenter } from '@sp-proxy/interface-adapters/delivery/GetRemoteIdpPresenter'
-import { GetRemoteIdpPresenterMapper } from '@sp-proxy/interface-adapters/delivery/mappers/GetRemoteIdpPresenterMapper'
-import { MongoGetRemoteIdp } from '@sp-proxy/interface-adapters/data/MongoGetRemoteIdp'
+import { RemoteIdp } from '@sp-proxy/entities/RemoteIdp'
+import { GetRemoteIdpFacade } from '@sp-proxy/interface-adapters/api/GetRemoteIdpFacade'
 import { GetRemoteIdpMongoMapper } from '@sp-proxy/interface-adapters/data/mappers/GetRemoteIdpMongoMapper'
+import { makeRemoteIdpStub } from '@sp-proxy/interface-adapters/data/mocks/makeRemoteIdpStub.mock'
+import { MongoGetRemoteIdp } from '@sp-proxy/interface-adapters/data/MongoGetRemoteIdp'
+import { RemoteIdpDeliveryProps } from '@sp-proxy/interface-adapters/delivery/dtos/RemoteIdpDeliveryProps'
+import { GetRemoteIdpController } from '@sp-proxy/interface-adapters/delivery/GetRemoteIdpController'
+import { GetRemoteIdpPresenter } from '@sp-proxy/interface-adapters/delivery/GetRemoteIdpPresenter'
+import { GetRemoteIdpControllerMapper } from '@sp-proxy/interface-adapters/delivery/mappers/GetRemoteIdpControllerMapper'
+import { GetRemoteIdpPresenterMapper } from '@sp-proxy/interface-adapters/delivery/mappers/GetRemoteIdpPresenterMapper'
+import { GetByIdValidator } from '@sp-proxy/interface-adapters/delivery/validators/GetByIdValidator'
+import { IService } from '@sp-proxy/interface-adapters/protocols/IService'
 import { GetRemoteIdpInteractor } from '@sp-proxy/use-cases/GetRemoteIdpInteractor'
 import { GetRemoteIdpUseCaseMapper } from '@sp-proxy/use-cases/mappers/GetRemoteIdpUseCaseMapper'
-import { GetRemoteIdpController } from '@sp-proxy/interface-adapters/delivery/GetRemoteIdpController'
-import { GetByIdValidator } from '@sp-proxy/interface-adapters/delivery/validators/GetByIdValidator'
-import { GetRemoteIdpControllerMapper } from '@sp-proxy/interface-adapters/delivery/mappers/GetRemoteIdpControllerMapper'
-import { GetRemoteIdpFacade } from '@sp-proxy/interface-adapters/api/GetRemoteIdpFacade'
-import { makeRemoteIdpStub } from '@sp-proxy/interface-adapters/data/mocks/makeRemoteIdpStub.mock'
-import { IService } from '@sp-proxy/interface-adapters/protocols/IService'
-import { RemoteIdp } from '@sp-proxy/entities/RemoteIdp'
-import { RemoteIdpDeliveryProps } from '@sp-proxy/interface-adapters/delivery/dtos/RemoteIdpDeliveryProps'
+import { Collection, Document as MongoDocument, MongoClient } from 'mongodb'
+import { EventEmitter } from 'stream'
+import config from '../config/env'
 
 const getSsoServices = (remoteIdp: RemoteIdp): IService[] => {
   const ssoServices: IService[] = []
@@ -75,6 +75,7 @@ describe('GetRemoteIdpFacade - integration', () => {
     const expected: RemoteIdpDeliveryProps = {
       id: remoteIdp.id,
       name: remoteIdp.props.name,
+      host: remoteIdp.props.host,
       singleSignOnService: getSsoServices(remoteIdp),
       signingCertificates: remoteIdp.props.signingCertificates
     }

@@ -27,6 +27,7 @@ describe('GetTrByHostMongoMapper.spec.ts', () => {
             _id: '94a88726-eae0-4651-b972-2d71adc73309',
             props: {
               name: 'valid name',
+              host: 'valid host',
               supportedSingleSignOnServices: [
                 {
                   props: {
@@ -53,6 +54,7 @@ describe('GetTrByHostMongoMapper.spec.ts', () => {
 
     const expectedRemoteIdpProps: IRemoteIdpProps = {
       name: documentSample.trustRelation.props.remoteIdp.props.name,
+      host: documentSample.trustRelation.props.remoteIdp.props.host,
       supportedSingleSignOnServices: makeSingleSignOnServices(
         getCollectionSsoServices(documentSample)
       ),

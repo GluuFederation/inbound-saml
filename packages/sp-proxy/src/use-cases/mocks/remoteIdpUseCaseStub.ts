@@ -4,6 +4,7 @@ import { makeSingleSignOnServices } from '@sp-proxy/use-cases/factories/makeSing
 
 const props: IRemoteIdpProps = {
   name: 'valid name',
+  host: 'valid host',
   supportedSingleSignOnServices: makeSingleSignOnServices([
     { binding: 'valid binding', location: 'valid location' }
   ]),

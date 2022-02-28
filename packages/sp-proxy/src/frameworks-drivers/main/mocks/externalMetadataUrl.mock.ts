@@ -1,5 +1,5 @@
-import nock from 'nock'
 import fs from 'fs'
+import nock from 'nock'
 
 const validXmlData = fs
   .readFileSync(process.cwd() + '/packages/testdata/shibIdpMetadata.xml')
@@ -13,7 +13,6 @@ export const mockValidXmlDataEndpoint = (): void => {
     })
     .persist()
 }
-
 /**
  * Metadata to be used in tests integration, initially to test callback endpoint
  */

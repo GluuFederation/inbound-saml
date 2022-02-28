@@ -14,6 +14,7 @@ export class GetRemoteIdpUseCaseMapper
     return {
       id: remoteIdp.id,
       name: remoteIdp.props.name,
+      host: remoteIdp.props.host,
       signingCertificates: remoteIdp.props.signingCertificates,
       singleSignOnService: ssoServices
     }

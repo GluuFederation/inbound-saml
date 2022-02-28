@@ -9,6 +9,7 @@ export interface IDeliveryService {
 export interface RemoteIdpDeliveryProps {
   id: string
   name: string
+  host: string
   metadataEndpoint?: string
   singleSignOnService: IDeliveryService[]
   signingCertificates: string[]
