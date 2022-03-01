@@ -2,8 +2,8 @@
 // calls GET endpoint
 // throw if axios throw
 // call mapper with datamodel
-// map respond w/ entity
 // throw if mapper throws
+// map respond w/ entity
 // return entity
 
 import { TrustRelation } from '@sp-proxy/entities/TrustRelation'
@@ -83,5 +83,23 @@ describe('OxTrustGetTrByHost', () => {
     const mapSpy = jest.spyOn(dataMapperStub, 'map')
     await sut.findByHost('valid host')
     expect(mapSpy).toHaveBeenCalledWith('valid TR data model')
+  })
+  it('should throw if mapper throws', async () => {
+    jest
+      .spyOn(axios, 'get')
+      .mockResolvedValueOnce({ data: 'any resolved response' })
+    const { sut, dataMapperStub } = makeSut()
+    jest.spyOn(dataMapperStub, 'map').mockRejectedValueOnce(new Error())
+    await expect(sut.findByHost('valid host')).rejects.toThrow()
+  })
+  it('should return mapped entity', async () => {
+    jest
+      .spyOn(axios, 'get')
+      .mockResolvedValueOnce({ data: 'any resolved response' })
+    const { sut, dataMapperStub } = makeSut()
+    jest
+      .spyOn(dataMapperStub, 'map')
+      .mockResolvedValueOnce('mapped TR entity' as any)
+    expect(await sut.findByHost('valid host')).toEqual('mapped TR entity')
   })
 })

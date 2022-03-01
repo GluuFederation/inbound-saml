@@ -23,7 +23,7 @@ export class OxTrustGetTrByHost implements IGetTrByHostGateway {
       urlWithHost
     )
     const trustRelationDataModel: TrustRelationDataModel = response.data
-    await this.dataMapper.map(trustRelationDataModel)
-    return '' as any
+    const trustRelation = await this.dataMapper.map(trustRelationDataModel)
+    return trustRelation
   }
 }
