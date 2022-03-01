@@ -69,4 +69,9 @@ describe('OxTrustGetTrByHost', () => {
     await sut.findByHost('valid-host')
     expect(getSpy).toHaveBeenCalledWith(expectedUrlParam)
   })
+  it('should throw if axios throw', async () => {
+    jest.spyOn(axios, 'get').mockRejectedValueOnce(new Error())
+    const { sut } = makeSut()
+    await expect(sut.findByHost('valid-host')).rejects.toThrow()
+  })
 })
