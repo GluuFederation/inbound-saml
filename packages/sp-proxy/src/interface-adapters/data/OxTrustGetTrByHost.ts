@@ -1,6 +1,6 @@
 import { TrustRelation } from '@sp-proxy/entities/TrustRelation'
 import { IGetTrByHostGateway } from '@sp-proxy/use-cases/ports/IGetTrByHostGateway'
-import axios from 'axios'
+import axios, { AxiosResponse } from 'axios'
 import { IDataMapper } from '../protocols/IDataMapper'
 import { TrustRelationDataModel } from './models/TrustRelationDataModel'
 import { IOxTrustApiSettings } from './protocols/IOxTrustApiSettings'
@@ -19,7 +19,11 @@ export class OxTrustGetTrByHost implements IGetTrByHostGateway {
 
   async findByHost(host: string): Promise<TrustRelation> {
     const urlWithHost = `${this.getUrl}/${host}`
-    await axios.get(urlWithHost)
+    const response: AxiosResponse<TrustRelationDataModel> = await axios.get(
+      urlWithHost
+    )
+    const trustRelationDataModel: TrustRelationDataModel = response.data
+    await this.dataMapper.map(trustRelationDataModel)
     return '' as any
   }
 }

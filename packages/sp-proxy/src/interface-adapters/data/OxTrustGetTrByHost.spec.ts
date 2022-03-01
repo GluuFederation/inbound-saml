@@ -1,7 +1,8 @@
 // receives host
 // calls GET endpoint
 // throw if axios throw
-// map response to entity
+// call mapper with datamodel
+// map respond w/ entity
 // throw if mapper throws
 // return entity
 
@@ -73,5 +74,14 @@ describe('OxTrustGetTrByHost', () => {
     jest.spyOn(axios, 'get').mockRejectedValueOnce(new Error())
     const { sut } = makeSut()
     await expect(sut.findByHost('valid-host')).rejects.toThrow()
+  })
+  it('should call mapper with response data', async () => {
+    jest
+      .spyOn(axios, 'get')
+      .mockResolvedValueOnce({ data: 'valid TR data model' })
+    const { dataMapperStub, sut } = makeSut()
+    const mapSpy = jest.spyOn(dataMapperStub, 'map')
+    await sut.findByHost('valid host')
+    expect(mapSpy).toHaveBeenCalledWith('valid TR data model')
   })
 })
