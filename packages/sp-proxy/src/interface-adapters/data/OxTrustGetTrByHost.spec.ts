@@ -52,12 +52,21 @@ const makeSut = (): SutTypes => {
 }
 
 describe('OxTrustGetTrByHost', () => {
-  it('should call axios get correctly', async () => {
+  it('should call axios get', async () => {
     const getSpy = jest
       .spyOn(axios, 'get')
       .mockResolvedValueOnce('any resolved response')
     const { sut } = makeSut()
     await sut.findByHost('valid host')
     expect(getSpy).toBeCalled()
+  })
+  it('should call axios get with correct params', async () => {
+    const getSpy = jest
+      .spyOn(axios, 'get')
+      .mockResolvedValueOnce('any resolved response')
+    const { oxTrustApiSettingsStub, sut } = makeSut()
+    const expectedUrlParam = `https://${oxTrustApiSettingsStub.host}/${oxTrustApiSettingsStub.completePath}/trusted-idps/valid-host`
+    await sut.findByHost('valid-host')
+    expect(getSpy).toHaveBeenCalledWith(expectedUrlParam)
   })
 })
