@@ -30,7 +30,7 @@ const makeSettings = (): IOxTrustApiSettings => {
 
 const makeDataModelMapper = (): IDataMapper<
   TrustRelation,
-  TrustRelationDataModel
+  TrustRelationDataModel.Params
 > => {
   class DataModelMapperStub
     implements IDataMapper<TrustRelation, TrustRelationDataModel>

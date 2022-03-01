@@ -13,7 +13,7 @@ export class OxTrustAddTrustRelation implements IAddTrGateway {
     private readonly oxTrustApiSettings: IOxTrustApiSettings,
     private readonly addTrustRelationOxTrustMapper: IDataMapper<
       TrustRelation,
-      TrustRelationDataModel
+      TrustRelationDataModel.Params
     >,
     private readonly authenticator: IUmaAuthenticator
   ) {
