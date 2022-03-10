@@ -8,11 +8,12 @@
 
 import { TrustRelation } from '@sp-proxy/entities/TrustRelation'
 import { IGetTrByHostGateway } from '@sp-proxy/use-cases/ports/IGetTrByHostGateway'
-import axios from 'axios'
+import axios, { AxiosRequestConfig } from 'axios'
 import { IDataMapper } from '../protocols/IDataMapper'
 import { TrustRelationDataModel } from './models/TrustRelationDataModel'
 import { OxTrustGetTrByHost } from './OxTrustGetTrByHost'
 import { IOxTrustApiSettings } from './protocols/IOxTrustApiSettings'
+import { IUmaAuthenticator } from './protocols/IUmaAuthenticator'
 
 const makeDataMapper = (): IDataMapper<
   TrustRelationDataModel,
@@ -39,18 +40,36 @@ const makeOxTrustApiSettings = (): IOxTrustApiSettings => {
   }
 }
 
+const makeUmaAuthenticator = (): IUmaAuthenticator => {
+  class UmaAuthenticatorStub implements IUmaAuthenticator {
+    async authenticate(endpoint: string): Promise<string> {
+      return 'bearer token stub'
+    }
+  }
+  return new UmaAuthenticatorStub()
+}
+
 interface SutTypes {
   dataMapperStub: IDataMapper<TrustRelationDataModel, TrustRelation>
   oxTrustApiSettingsStub: IOxTrustApiSettings
+  umaAuthenticatorStub: IUmaAuthenticator
   sut: IGetTrByHostGateway
 }
 
 const makeSut = (): SutTypes => {
   const dataMapperStub = makeDataMapper()
   const oxTrustApiSettingsStub = makeOxTrustApiSettings()
-  const sut = new OxTrustGetTrByHost(dataMapperStub, oxTrustApiSettingsStub)
-  return { dataMapperStub, oxTrustApiSettingsStub, sut }
+  const umaAuthenticatorStub = makeUmaAuthenticator()
+  const sut = new OxTrustGetTrByHost(
+    dataMapperStub,
+    oxTrustApiSettingsStub,
+    umaAuthenticatorStub
+  )
+  return { dataMapperStub, oxTrustApiSettingsStub, umaAuthenticatorStub, sut }
 }
+
+// axios.get stub
+jest.spyOn(axios, 'get').mockResolvedValue({ data: 'valid TR data model' })
 
 describe('OxTrustGetTrByHost', () => {
   it('should call axios get', async () => {
@@ -61,14 +80,14 @@ describe('OxTrustGetTrByHost', () => {
     await sut.findByHost('valid host')
     expect(getSpy).toBeCalled()
   })
-  it('should call axios get with correct params', async () => {
+  it('should call axios get with correct url param', async () => {
     const getSpy = jest
       .spyOn(axios, 'get')
       .mockResolvedValueOnce('any resolved response')
     const { oxTrustApiSettingsStub, sut } = makeSut()
     const expectedUrlParam = `https://${oxTrustApiSettingsStub.host}/${oxTrustApiSettingsStub.completePath}/trusted-idps/valid-host`
     await sut.findByHost('valid-host')
-    expect(getSpy).toHaveBeenCalledWith(expectedUrlParam)
+    expect(getSpy).toHaveBeenCalledWith(expectedUrlParam, expect.anything())
   })
   it('should throw if axios throw', async () => {
     jest.spyOn(axios, 'get').mockRejectedValueOnce(new Error())
@@ -101,5 +120,27 @@ describe('OxTrustGetTrByHost', () => {
       .spyOn(dataMapperStub, 'map')
       .mockResolvedValueOnce('mapped TR entity' as any)
     expect(await sut.findByHost('valid host')).toEqual('mapped TR entity')
+  })
+  it('should have token on request', async () => {
+    const getSpy = jest
+      .spyOn(axios, 'get')
+      .mockResolvedValueOnce({ data: 'any resolved response' })
+    const { sut, umaAuthenticatorStub } = makeSut()
+    jest
+      .spyOn(umaAuthenticatorStub, 'authenticate')
+      .mockResolvedValueOnce('validBearerToken')
+    await sut.findByHost('valid endpoint')
+    const expectedConfig: AxiosRequestConfig = {
+      headers: {
+        Authorization: 'Bearer validBearerToken'
+      }
+    }
+    expect(getSpy).toHaveBeenCalledWith(expect.anything(), expectedConfig)
+  })
+  it('should call authenticator once', async () => {
+    const { sut, umaAuthenticatorStub } = makeSut()
+    const authenticateSpy = jest.spyOn(umaAuthenticatorStub, 'authenticate')
+    await sut.findByHost('valid host')
+    expect(authenticateSpy).toHaveBeenCalled()
   })
 })
