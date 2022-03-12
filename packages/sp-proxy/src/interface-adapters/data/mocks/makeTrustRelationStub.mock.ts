@@ -3,6 +3,9 @@ import { ITrustRelationProps } from '@sp-proxy/entities/protocols/ITrustRelation
 import { TrustRelation } from '@sp-proxy/entities/TrustRelation'
 import { makeRemoteIdpStub } from '@sp-proxy/interface-adapters/data/mocks/makeRemoteIdpStub.mock'
 
+/**
+ * Create Trust Relatione entity stub
+ */
 export const fakeTrustRelationProps: ITrustRelationProps = {
   remoteIdp: makeRemoteIdpStub(),
   singleSignOnService: makeSingleSignOnService(
