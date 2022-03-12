@@ -1,4 +1,4 @@
-import { SingleSignOnServicesDataModel } from './SingleSignOnServicesDataModel';
+import { SingleSignOnServicesDataModel } from './SingleSignOnServicesDataModel'
 
 export interface TrustRelationDataModel {
   remoteIdp: {
@@ -9,4 +9,9 @@ export interface TrustRelationDataModel {
     id: string
   }
   selectedSingleSignOnService: SingleSignOnServicesDataModel
+}
+
+// eslint-disable-next-line @typescript-eslint/no-namespace
+export namespace TrustRelationDataModel {
+  export type Params = Omit<TrustRelationDataModel, 'id'>
 }

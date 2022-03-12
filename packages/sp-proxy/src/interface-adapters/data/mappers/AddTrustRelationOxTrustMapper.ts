@@ -17,8 +17,8 @@ export class AddTrustRelationOxTrustMapper
 
   async map(
     trustRelationEntity: TrustRelation
-  ): Promise<TrustRelationDataModel> {
-    const dataModel: TrustRelationDataModel = {
+  ): Promise<TrustRelationDataModel.Params> {
+    const dataModel: TrustRelationDataModel.Params = {
       remoteIdp: {
         name: trustRelationEntity.props.remoteIdp.props.name,
         host: trustRelationEntity.props.remoteIdp.props.host,

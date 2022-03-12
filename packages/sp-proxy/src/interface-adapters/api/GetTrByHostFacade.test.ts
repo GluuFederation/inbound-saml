@@ -1,81 +1,79 @@
-import { makeSingleSignOnService } from '@sp-proxy/entities/factories/makeSingleSignOnService'
-import { ITrustRelationProps } from '@sp-proxy/entities/protocols/ITrustRelationProps'
-import { RemoteIdp } from '@sp-proxy/entities/RemoteIdp'
-import { TrustRelation } from '@sp-proxy/entities/TrustRelation'
 import { makeGetTrByHostComposite } from '@sp-proxy/interface-adapters/api/factories/makeGetTrByHostComposite'
 import { GetTrByHostFacade } from '@sp-proxy/interface-adapters/api/GetTrByHostFacade'
-import { makeRemoteIdpStub } from '@sp-proxy/interface-adapters/data/mocks/makeRemoteIdpStub.mock'
-import { IGetTrByHostResponse } from '@sp-proxy/interface-adapters/delivery/dtos/IGetTrByHostResponse'
 import { InvalidRequestError } from '@sp-proxy/interface-adapters/delivery/errors/InvalidRequestError'
-import { IService } from '@sp-proxy/interface-adapters/protocols/IService'
-import { Collection, Document as MongoDocument, MongoClient } from 'mongodb'
+import nock from 'nock'
 import { EventEmitter } from 'stream'
-import config from '../config/env'
+import { mockTokenEndpoint } from '../data/mocks/mockTokenEndpoint.mock'
+import { mockUmaEndpoint } from '../data/mocks/mockUmaEndpoint.mock'
+import { TrustRelationDataModel } from '../data/models/TrustRelationDataModel'
+import { IGetTrByHostResponse } from '../delivery/dtos/IGetTrByHostResponse'
 
-const getSsoServices = (remoteIdp: RemoteIdp): IService[] => {
-  const ssoServices: IService[] = []
-  for (const ssoService of remoteIdp.props.supportedSingleSignOnServices) {
-    ssoServices.push(ssoService.props)
+const trustedIdpsEndpoint = 'trusted-idps/valid.host.com'
+
+const mockedResponseData: TrustRelationDataModel = {
+  remoteIdp: {
+    name: 'valid name',
+    host: 'valid host',
+    supportedSingleSignOnServices: [
+      { binding: 'valid binding', location: 'valid location' }
+    ],
+    signingCertificates: ['cert1', 'cert2'],
+    id: 'valid id'
+  },
+  selectedSingleSignOnService: {
+    binding: 'any binding',
+    location: 'https://valid.host.com/any-path'
   }
-  return ssoServices
 }
 
 describe('GetTrByHostFacade - integration', () => {
-  const client = new MongoClient(config.database.mongo.uri)
-  let connection: MongoClient
-  let collection: Collection<MongoDocument>
   beforeAll(async () => {
-    connection = await client.connect()
-    collection = client
-      .db(config.database.mongo.dbName)
-      .collection(config.database.mongo.collections.trustRelations)
+    mockTokenEndpoint()
+    mockUmaEndpoint(trustedIdpsEndpoint, mockedResponseData)
+    // const urlInstance = new URL(config.oxTrustApi.tokenUrl)
+    // const fullFromInstance = `${urlInstance.origin}${urlInstance.pathname}`
+    // expect(fullFromInstance).toEqual(config.oxTrustApi.tokenUrl)
+
+    // nock(mockedBasePath)
+    //   .get(`/${trustedIdpsEndpoint}`)
+    //   .reply(401, {}, unauthorizedUmaResponse.headers)
+    // nock(mockedBasePath)
+    //   .get(`/${trustedIdpsEndpoint}`)
+    //   .reply(200, mockedResponseData)
   })
   afterAll(async () => {
-    await collection.drop()
-    await connection.close()
+    nock.cleanAll()
   })
   it('should return expected trust relation props', async () => {
     const eventBus = new EventEmitter()
-    const controller = makeGetTrByHostComposite(collection, eventBus)
+    const controller = makeGetTrByHostComposite(eventBus)
 
-    // create data to be fetched in the database
-    const trustRelationProps: ITrustRelationProps = {
-      remoteIdp: makeRemoteIdpStub(),
-      singleSignOnService: makeSingleSignOnService({
-        binding: 'any binding',
-        location: 'https://valid.host.com/any-path'
-      })
-    }
-
-    const trustRelation = new TrustRelation(trustRelationProps)
-    await collection.insertOne({ trustRelation })
-
-    // assertions
     const sut = new GetTrByHostFacade(controller, eventBus)
-    // const expectedRemoteIdp = makeRemoteIdpStub()
     const expected: IGetTrByHostResponse = {
-      id: trustRelation.id,
-      selectedSsoService: trustRelation.props.singleSignOnService.props,
+      id: mockedResponseData.remoteIdp.id,
+      selectedSsoService: mockedResponseData.selectedSingleSignOnService,
       remoteIdp: {
-        id: trustRelation.props.remoteIdp.id,
-        name: trustRelation.props.remoteIdp.props.name,
-        host: trustRelation.props.remoteIdp.props.host,
-        singleSignOnService: getSsoServices(trustRelation.props.remoteIdp),
-        signingCertificates:
-          trustRelation.props.remoteIdp.props.signingCertificates
+        id: mockedResponseData.remoteIdp.id,
+        name: mockedResponseData.remoteIdp.name,
+        host: mockedResponseData.remoteIdp.host,
+        singleSignOnService:
+          mockedResponseData.remoteIdp.supportedSingleSignOnServices,
+        signingCertificates: mockedResponseData.remoteIdp.signingCertificates
       }
     }
-    expect(await sut.getTrByHost('valid.host.com')).toStrictEqual(expected)
+    const response = await sut.getTrByHost('valid.host.com')
+    expect(response.remoteIdp).toEqual(expected.remoteIdp)
+    expect(response.selectedSsoService).toEqual(expected.selectedSsoService)
   })
   it('should throw for unexistant host', async () => {
     const eventBus = new EventEmitter()
-    const controller = makeGetTrByHostComposite(collection, eventBus)
+    const controller = makeGetTrByHostComposite(eventBus)
     const sut = new GetTrByHostFacade(controller, eventBus)
     await expect(sut.getTrByHost('notexistant.co.uk')).rejects.toThrow()
   })
   it('should throw InvalidRequestError for invalid host', async () => {
     const eventBus = new EventEmitter()
-    const controller = makeGetTrByHostComposite(collection, eventBus)
+    const controller = makeGetTrByHostComposite(eventBus)
     const sut = new GetTrByHostFacade(controller, eventBus)
     await expect(sut.getTrByHost('')).rejects.toThrow(InvalidRequestError)
   })

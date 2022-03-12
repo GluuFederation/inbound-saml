@@ -1,5 +1,7 @@
-import { GetTrByHostMongoMapper } from '@sp-proxy/interface-adapters/data/mappers/GetTrByHostMongoMapper'
-import { MongoGetTrByHost } from '@sp-proxy/interface-adapters/data/MongoGetTrByHost'
+import config from '@sp-proxy/interface-adapters/config/env'
+import { makeUmaAuthenticator } from '@sp-proxy/interface-adapters/data/factories/makeUmaAuthenticator'
+import { GetTrByHostOxtrustMapper } from '@sp-proxy/interface-adapters/data/mappers/GetTrByHostOxTrustMapper'
+import { OxTrustGetTrByHost } from '@sp-proxy/interface-adapters/data/OxTrustGetTrByHost'
 import { GetTrByHostController } from '@sp-proxy/interface-adapters/delivery/GetTrByHostController'
 import { GetTrByHostPresenter } from '@sp-proxy/interface-adapters/delivery/GetTrByHostPresenter'
 import { GetTrByHostControllerMapper } from '@sp-proxy/interface-adapters/delivery/mappers/GetTrByHostControllerMapper'
@@ -8,17 +10,14 @@ import { GetTrByHostValidator } from '@sp-proxy/interface-adapters/delivery/vali
 import { IController } from '@sp-proxy/interface-adapters/protocols/IController'
 import { GetTrByHostInteractor } from '@sp-proxy/use-cases/GetTrByHostInteractor'
 import { GetTrByHostUseCaseMapper } from '@sp-proxy/use-cases/mappers/GetTrByHostUseCaseMapper'
-import { Collection } from 'mongodb'
 import { EventEmitter } from 'stream'
 
 /**
- * for now it creates a GetTrByHostController to be used for mongo adapter
- * @param collection Mongo Collection
+ * for now it creates a GetTrByHostController to be used for oxTrust adapter
  * @param eventBus
  * @returns Controller
  */
 export const makeGetTrByHostComposite = (
-  collection: Collection,
   eventBus: EventEmitter
 ): IController => {
   // presenter...
@@ -26,8 +25,12 @@ export const makeGetTrByHostComposite = (
   const presenter = new GetTrByHostPresenter(presenterMapper, eventBus)
 
   // interactor...
-  const dataMapper = new GetTrByHostMongoMapper()
-  const gateway = new MongoGetTrByHost(collection, dataMapper)
+  const dataMapper = new GetTrByHostOxtrustMapper()
+  const gateway = new OxTrustGetTrByHost(
+    dataMapper,
+    config.oxTrustApi,
+    makeUmaAuthenticator()
+  )
   const entityMapper = new GetTrByHostUseCaseMapper()
   const interactor = new GetTrByHostInteractor(gateway, entityMapper, presenter)
 
