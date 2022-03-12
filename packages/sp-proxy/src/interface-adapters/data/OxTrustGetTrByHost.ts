@@ -21,7 +21,7 @@ export class OxTrustGetTrByHost implements IGetTrByHostGateway {
 
   async findByHost(host: string): Promise<TrustRelation> {
     const urlWithHost = `${this.getUrl}/${host}`
-    const token = await this.authenticator.authenticate(host)
+    const token = await this.authenticator.authenticate(urlWithHost)
     const config: AxiosRequestConfig = {
       headers: {
         Authorization: `Bearer ${token}`
