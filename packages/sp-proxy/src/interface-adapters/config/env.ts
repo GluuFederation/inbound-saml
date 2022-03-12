@@ -20,9 +20,13 @@ const oxTrustApiSettings: IOxTrustApiSettings = {
   completePath:
     process.env.INBOUND_SAML_OXTRUST_API_COMPLETE_PATH ??
     'identity/restv1/api/v1',
-  tokenUrl: process.env.INBOUND_SAML_OXTRUST_API_TOKEN_URL ?? 'valid token url',
+  tokenUrl:
+    process.env.INBOUND_SAML_OXTRUST_API_TOKEN_URL ??
+    'https://valid.host.com/valid/token',
   kid: process.env.INBOUND_SAML_OXTRUST_API_KID ?? 'valid pvk kid',
-  pvkPath: process.env.INBOUND_SAML_OXTRUST_API_PVK_PATH ?? 'valid path'
+  pvkPath:
+    process.env.INBOUND_SAML_OXTRUST_API_PVK_PATH ??
+    'packages/testdata/rs256pvk.pem'
 }
 
 export default {
