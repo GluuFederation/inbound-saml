@@ -1,9 +1,7 @@
-import { makeMongoGetTrByHostFacade } from '@sp-proxy/frameworks-drivers/main/factories/makeGetTrByHostFacade'
 import { makeReadSpProxyConfigFacade } from '@sp-proxy/frameworks-drivers/main/factories/makeReadSpProxyConfigFacade'
 import { IGetTrByHostResponse } from '@sp-proxy/interface-adapters/delivery/dtos/IGetTrByHostResponse'
 import { IReadSpProxyConfigResponse } from '@sp-proxy/interface-adapters/delivery/dtos/IReadSpProxyConfigResponse'
 import { Request } from 'express'
-import { MongoClient } from 'mongodb'
 import passport from 'passport'
 import {
   MultiSamlStrategy,
@@ -12,8 +10,8 @@ import {
   VerifiedCallback,
   VerifyWithRequest
 } from 'passport-saml/lib/passport-saml'
-import cfg from '@sp-proxy/interface-adapters/config/env'
 import { SamlOptionsCallback } from 'passport-saml/lib/passport-saml/types'
+import { makeOxTrustGetTrByHostFacade } from '../factories/makeGetTrByHostFacade'
 import { WinstonLogger } from '../logger/WinstonLogger'
 
 const logger = WinstonLogger.getInstance()
@@ -54,37 +52,28 @@ export const getSamlConfig = (): any => {
   logger.debug('Entered getSamlConfig')
   return async (request: Request, done: SamlOptionsCallback) => {
     try {
-      const mongoClient = new MongoClient(cfg.database.mongo.uri)
-      const connected = await mongoClient.connect()
-      const collection = connected
-        .db(cfg.database.mongo.dbName)
-        .collection(cfg.database.mongo.collections.trustRelations)
-      try {
-        const proxyConfigReader = makeReadSpProxyConfigFacade()
-        const proxyConfig = await proxyConfigReader.do(null)
-        const trGetter = makeMongoGetTrByHostFacade(collection)
-        let providerHost: string
-        if (
-          request.query.providerHost != null &&
-          typeof request.query.providerHost === 'string'
-        ) {
-          providerHost = request.query.providerHost
-        } else if (request.headers.origin != null) {
-          providerHost = request.headers.origin
-        } else {
-          throw new Error('Provider Not Found in QS')
-        }
-        const trustRelation = await trGetter.getTrByHost(providerHost)
-
-        const passportConfig = makePassportConfig(proxyConfig, trustRelation)
-        logger.debug(
-          `passportConfig = ${JSON.stringify(passportConfig, null, 4)}`
-        )
-        // return done?
-        done(null, makePassportConfig(proxyConfig, trustRelation))
-      } finally {
-        await connected.close()
+      const proxyConfigReader = makeReadSpProxyConfigFacade()
+      const proxyConfig = await proxyConfigReader.do(null)
+      const trGetter = makeOxTrustGetTrByHostFacade()
+      let providerHost: string
+      if (
+        request.query.providerHost != null &&
+        typeof request.query.providerHost === 'string'
+      ) {
+        providerHost = request.query.providerHost
+      } else if (request.headers.origin != null) {
+        providerHost = request.headers.origin
+      } else {
+        throw new Error('Provider Not Found in QS')
       }
+      const trustRelation = await trGetter.getTrByHost(providerHost)
+
+      const passportConfig = makePassportConfig(proxyConfig, trustRelation)
+      logger.debug(
+        `passportConfig = ${JSON.stringify(passportConfig, null, 4)}`
+      )
+      // return done?
+      done(null, makePassportConfig(proxyConfig, trustRelation))
     } catch (err) {
       const error = err as Error
       logger.error(error.message)
