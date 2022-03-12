@@ -7,6 +7,7 @@ import { mockUmaEndpoint } from '@sp-proxy/interface-adapters/data/mocks/mockUma
 import { TrustRelationDataModel } from '@sp-proxy/interface-adapters/data/models/TrustRelationDataModel'
 import express from 'express'
 import { readFileSync } from 'fs'
+import nock from 'nock'
 import { signXmlResponse } from 'passport-saml/lib/node-saml/utility'
 import request from 'supertest'
 import { mockAddTrEndpoint } from '../mocks/mockAddTrEndpoint'
@@ -157,6 +158,7 @@ describe('authenticateCallbackRouter', () => {
   })
   afterAll(async () => {
     jest.clearAllMocks()
+    nock.cleanAll()
   })
   it('should return error if no origin header', async () => {
     const res = await request(app)
