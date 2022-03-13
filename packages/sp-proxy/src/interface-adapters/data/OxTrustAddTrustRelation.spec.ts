@@ -2,7 +2,7 @@
 
 import { TrustRelation } from '@sp-proxy/entities/TrustRelation'
 import { IAddTrGateway } from '@sp-proxy/use-cases/ports/IAddTrGateway'
-import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
 import { IDataMapper } from '../protocols/IDataMapper'
 import { TrustRelationDataModel } from './models/TrustRelationDataModel'
 import { OxTrustAddTrustRelation } from './OxTrustAddTrustRelation'
@@ -113,39 +113,13 @@ describe('OxTrustAddTrustRelation', () => {
     expect(postSpy.mock.calls[0][1]).toEqual('valid mapped data model')
   })
   it('should throw if axios throws', async () => {
-    const axiosError: AxiosError = {
-      config: {},
-      isAxiosError: true,
-      toJSON: function (): object {
-        throw new Error('Function not implemented.')
-      },
-      name: '',
-      message: ''
-    }
-    jest.spyOn(axios, 'post').mockRejectedValueOnce(axiosError)
+    jest.spyOn(axios, 'post').mockImplementationOnce(() => {
+      throw new Error()
+    })
     const { sut } = makeSut()
     await expect(sut.add('valid tr entity' as any)).rejects.toThrow()
   })
-  it('should call authenticator if 401', async () => {
-    const config: AxiosRequestConfig = {}
-    const unauthorizeedResponse: AxiosResponse = {
-      data: {},
-      status: 401,
-      statusText: 'Unauthrorized',
-      headers: {},
-      config: {}
-    }
-    const error: AxiosError = {
-      response: unauthorizeedResponse,
-      config: config,
-      isAxiosError: true,
-      toJSON: function (): object {
-        throw new Error('Function not implemented.')
-      },
-      name: 'AxiosError',
-      message: 'Request failed with status code 401'
-    }
-    jest.spyOn(axios, 'post').mockRejectedValueOnce(error)
+  it('should call authenticator once', async () => {
     const { sut, authenticatorStub } = makeSut()
     const authenticateSpy = jest.spyOn(authenticatorStub, 'authenticate')
     await sut.add('valid tr' as any)
@@ -161,6 +135,74 @@ describe('OxTrustAddTrustRelation', () => {
     }
     jest.spyOn(axios, 'post').mockResolvedValueOnce(mockedResponse)
     const { sut } = makeSut()
+    await expect(sut.add('valid trust relation' as any)).rejects.toThrow()
+  })
+  it('should have token in request', async () => {
+    const mockedResponse: AxiosResponse = {
+      data: undefined,
+      status: 201,
+      statusText: 'OK',
+      headers: {},
+      config: {}
+    }
+    const postSpy = jest
+      .spyOn(axios, 'post')
+      .mockResolvedValueOnce(mockedResponse)
+    const { sut, authenticatorStub } = makeSut()
+    jest
+      .spyOn(authenticatorStub, 'authenticate')
+      .mockResolvedValueOnce('validBearerToken')
+    await sut.add('valid trust relation' as any)
+    const expectedConfig: AxiosRequestConfig = {
+      headers: {
+        Authorization: 'Bearer validBearerToken'
+      }
+    }
+    expect(postSpy).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.anything(),
+      expectedConfig
+    )
+  })
+  it('should have authenticators token in request', async () => {
+    const mockedResponse: AxiosResponse = {
+      data: undefined,
+      status: 201,
+      statusText: 'OK',
+      headers: {},
+      config: {}
+    }
+    const postSpy = jest
+      .spyOn(axios, 'post')
+      .mockResolvedValueOnce(mockedResponse)
+    const { sut, authenticatorStub } = makeSut()
+    jest
+      .spyOn(authenticatorStub, 'authenticate')
+      .mockResolvedValueOnce('authenticatorsToken')
+    await sut.add('valid trust relation' as any)
+    const expectedConfig: AxiosRequestConfig = {
+      headers: {
+        Authorization: 'Bearer authenticatorsToken'
+      }
+    }
+    expect(postSpy).toHaveBeenCalledWith(
+      expect.anything(),
+      expect.anything(),
+      expectedConfig
+    )
+  })
+  it('should throw if mapper throws', async () => {
+    const { sut, dataModelMapperStub } = makeSut()
+    jest.spyOn(dataModelMapperStub, 'map').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    await expect(sut.add('valid trust relation' as any)).rejects.toThrow()
+  })
+  it('should throw if authenticator throws', async () => {
+    const { sut, authenticatorStub } = makeSut()
+    jest.spyOn(authenticatorStub, 'authenticate').mockImplementationOnce(() => {
+      throw new Error()
+    })
     await expect(sut.add('valid trust relation' as any)).rejects.toThrow()
   })
 })
