@@ -151,13 +151,11 @@ describe('authenticateCallbackRouter', () => {
       }
     }
     mockUmaEndpoint('trusted-idps/samltest.id', mockedResponseData)
-  })
-  beforeAll(async () => {
+    mockUmaEndpoint('trusted-idp', {})
     mockAddTrEndpoint()
     await createTrustRelationMock()
   })
-  afterAll(async () => {
-    jest.clearAllMocks()
+  afterEach(async () => {
     nock.cleanAll()
   })
   it('should return error if no origin header', async () => {
@@ -168,8 +166,6 @@ describe('authenticateCallbackRouter', () => {
     expect(res.statusCode).toBeGreaterThanOrEqual(400)
   })
   it('should not return error for signed response', async () => {
-    // lets add a mocked TR
-    await createTrustRelationMock()
     const signedXml = signXmlResponse(xml, {
       privateKey: idpPrivateSigningKey
     })
@@ -194,7 +190,6 @@ describe('authenticateCallbackRouter', () => {
     expect(res.statusCode).toBeGreaterThanOrEqual(400)
   })
   it('should return auto-submit form', async () => {
-    await createTrustRelationMock()
     const signedXml = signXmlResponse(xml, {
       privateKey: idpPrivateSigningKey
     })

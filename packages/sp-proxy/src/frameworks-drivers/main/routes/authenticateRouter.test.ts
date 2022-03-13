@@ -55,7 +55,6 @@ describe('authenticateRouter', () => {
       }
     }
     const endpoint = `trusted-idps/${responseData.remoteIdp.host}`
-    console.log(`mocking endpoint ${endpoint}`)
     mockUmaEndpoint(endpoint, responseData)
     app.use(routes)
   })
