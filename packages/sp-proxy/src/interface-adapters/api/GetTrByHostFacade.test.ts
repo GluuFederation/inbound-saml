@@ -30,16 +30,6 @@ describe('GetTrByHostFacade - integration', () => {
   beforeAll(async () => {
     mockTokenEndpoint()
     mockUmaEndpoint(trustedIdpsEndpoint, mockedResponseData)
-    // const urlInstance = new URL(config.oxTrustApi.tokenUrl)
-    // const fullFromInstance = `${urlInstance.origin}${urlInstance.pathname}`
-    // expect(fullFromInstance).toEqual(config.oxTrustApi.tokenUrl)
-
-    // nock(mockedBasePath)
-    //   .get(`/${trustedIdpsEndpoint}`)
-    //   .reply(401, {}, unauthorizedUmaResponse.headers)
-    // nock(mockedBasePath)
-    //   .get(`/${trustedIdpsEndpoint}`)
-    //   .reply(200, mockedResponseData)
   })
   afterAll(async () => {
     nock.cleanAll()
