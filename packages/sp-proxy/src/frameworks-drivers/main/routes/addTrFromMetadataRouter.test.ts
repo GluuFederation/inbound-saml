@@ -2,6 +2,7 @@ import serverConfig from '@sp-proxy/frameworks-drivers/main/config/env'
 import { mockValidXmlDataEndpoint } from '@sp-proxy/frameworks-drivers/main/mocks/externalMetadataUrl.mock'
 import { mockSpProxyConfig } from '@sp-proxy/frameworks-drivers/main/mocks/mockSpProxyConfig.mock'
 import routes from '@sp-proxy/frameworks-drivers/main/routes'
+import { mockUmaEndpoint } from '@sp-proxy/interface-adapters/data/mocks/mockUmaEndpoint.mock'
 import { AddTrFromMetadataController } from '@sp-proxy/interface-adapters/delivery/AddTrFromMetadataController'
 import { InvalidRequestError } from '@sp-proxy/interface-adapters/delivery/errors/InvalidRequestError'
 import express from 'express'
@@ -23,12 +24,12 @@ const validCredentials = encodeCredentials(
 app.use(express.json())
 
 describe('addTrFromMetadataRouter', () => {
-  beforeAll(async () => {
+  beforeEach(async () => {
     // setup app and db for testing this route
     app.use(routes)
     mockSpProxyConfig()
   })
-  afterAll(async () => {
+  afterEach(async () => {
     jest.clearAllMocks()
     nock.cleanAll()
   })
@@ -84,6 +85,7 @@ describe('addTrFromMetadataRouter', () => {
   })
   it('should return 201 if success', async () => {
     mockValidXmlDataEndpoint()
+    mockUmaEndpoint('trusted-idp', {})
     mockAddTrEndpoint()
     await request(app)
       .post(endpoint)
@@ -94,21 +96,10 @@ describe('addTrFromMetadataRouter', () => {
       })
       .expect(201)
   })
-  it('should return json content type', async () => {
-    mockAddTrEndpoint()
-    mockValidXmlDataEndpoint()
-    await request(app)
-      .post(endpoint)
-      .set('authorization', validCredentials)
-      .send({
-        name: 'valid name integration',
-        url: 'https://remoteIdp.com/metadata'
-      })
-      .expect('Content-Type', /json/)
-  })
   it('should return success message', async () => {
     mockAddTrEndpoint()
     mockValidXmlDataEndpoint()
+    mockUmaEndpoint('trusted-idp', {})
     await request(app)
       .post(endpoint)
       .set('authorization', validCredentials)
@@ -154,5 +145,18 @@ describe('addTrFromMetadataRouter', () => {
         url: 'https://remoteIdp.com/metadata'
       })
       .expect(401)
+  })
+  it('should return json content type', async () => {
+    mockAddTrEndpoint()
+    mockValidXmlDataEndpoint()
+    mockUmaEndpoint('trusted-idp', {})
+    await request(app)
+      .post(endpoint)
+      .set('authorization', validCredentials)
+      .send({
+        name: 'valid name integration',
+        url: 'https://remoteIdp.com/metadata'
+      })
+      .expect('Content-Type', /json/)
   })
 })
