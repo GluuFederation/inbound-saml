@@ -17,6 +17,7 @@ import { TokenRequestFactory } from '../data/helpers/TokenRequestFactory'
 import { UmaAuthenticator } from '../data/helpers/UmaAuthenticator'
 import { UmaHeaderParser } from '../data/helpers/UmaHeaderParser'
 import { AddTrustRelationOxTrustMapper } from '../data/mappers/AddTrustRelationOxTrustMapper'
+import { mockUmaEndpoint } from '../data/mocks/mockUmaEndpoint.mock'
 import { OxTrustAddTrustRelation } from '../data/OxTrustAddTrustRelation'
 
 const mockAddTrEndpoint = (): void => {
@@ -29,6 +30,7 @@ describe('AddTrFromMetadataFacade - integration', () => {
   beforeAll(async () => {
     mockAddTrEndpoint()
     mockXmlEndpoints()
+    mockUmaEndpoint('trusted-idp', {})
   })
   afterAll(async () => {
     nock.cleanAll()

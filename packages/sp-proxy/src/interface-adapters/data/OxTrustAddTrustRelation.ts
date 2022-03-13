@@ -1,6 +1,6 @@
 import { TrustRelation } from '@sp-proxy/entities/TrustRelation'
 import { IAddTrGateway } from '@sp-proxy/use-cases/ports/IAddTrGateway'
-import axios from 'axios'
+import axios, { AxiosRequestConfig } from 'axios'
 import { IDataMapper } from '../protocols/IDataMapper'
 import { TrustRelationDataModel } from './models/TrustRelationDataModel'
 import { IOxTrustApiSettings } from './protocols/IOxTrustApiSettings'
@@ -25,26 +25,21 @@ export class OxTrustAddTrustRelation implements IAddTrGateway {
     const trustRelationDataModel = await this.addTrustRelationOxTrustMapper.map(
       trustRelation
     )
-    try {
-      const response = await axios.post(this.postUrl, trustRelationDataModel)
-      if (response.status !== 201) {
-        throw new Error(
-          `Trust relation creation emndpoind responded with ${response.status}`
-        )
+    const token = await this.authenticator.authenticate(this.postUrl)
+    const config: AxiosRequestConfig = {
+      headers: {
+        Authorization: `Bearer ${token}`
       }
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        if (error.response?.status === 401) {
-          await this.authenticator.authenticate(this.postUrl)
-          return true
-        } else {
-          throw new Error(error.message)
-        }
-      } else {
-        if (error instanceof Error) {
-          throw new Error(error.message)
-        }
-      }
+    }
+    const response = await axios.post(
+      this.postUrl,
+      trustRelationDataModel,
+      config
+    )
+    if (response.status !== 201) {
+      throw new Error(
+        `Received unexpected response status code ${response.status}`
+      )
     }
     return true
   }
