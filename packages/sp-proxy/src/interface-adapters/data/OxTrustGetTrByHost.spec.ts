@@ -85,7 +85,7 @@ describe('OxTrustGetTrByHost', () => {
       .spyOn(axios, 'get')
       .mockResolvedValueOnce('any resolved response')
     const { oxTrustApiSettingsStub, sut } = makeSut()
-    const expectedUrlParam = `https://${oxTrustApiSettingsStub.host}/${oxTrustApiSettingsStub.completePath}/trusted-idps/valid-host`
+    const expectedUrlParam = `https://${oxTrustApiSettingsStub.host}/${oxTrustApiSettingsStub.completePath}/trusted-idp/valid-host`
     await sut.findByHost('valid-host')
     expect(getSpy).toHaveBeenCalledWith(expectedUrlParam, expect.anything())
   })

@@ -4,11 +4,11 @@ import { InvalidRequestError } from '@sp-proxy/interface-adapters/delivery/error
 import nock from 'nock'
 import { EventEmitter } from 'stream'
 import { mockTokenEndpoint } from '../data/mocks/mockTokenEndpoint.mock'
-import { mockUmaEndpoint } from '../data/mocks/mockUmaEndpoint.mock'
+import { mockGetUmaEndpoint } from '../data/mocks/mockUmaEndpoint.mock'
 import { TrustRelationDataModel } from '../data/models/TrustRelationDataModel'
 import { IGetTrByHostResponse } from '../delivery/dtos/IGetTrByHostResponse'
 
-const trustedIdpsEndpoint = 'trusted-idps/valid.host.com'
+const trustedIdpsEndpoint = 'trusted-idp/valid.host.com'
 
 const mockedResponseData: TrustRelationDataModel = {
   remoteIdp: {
@@ -29,7 +29,7 @@ const mockedResponseData: TrustRelationDataModel = {
 describe('GetTrByHostFacade - integration', () => {
   beforeAll(async () => {
     mockTokenEndpoint()
-    mockUmaEndpoint(trustedIdpsEndpoint, mockedResponseData)
+    mockGetUmaEndpoint(trustedIdpsEndpoint, mockedResponseData)
   })
   afterAll(async () => {
     nock.cleanAll()

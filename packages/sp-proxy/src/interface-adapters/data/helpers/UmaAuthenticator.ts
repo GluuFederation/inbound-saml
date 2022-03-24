@@ -3,6 +3,7 @@ import { randomUUID } from 'crypto'
 import { readFileSync } from 'fs'
 import { Agent } from 'https'
 import { stringify } from 'querystring'
+import { IHttpMethod } from '../protocols/IHttpMethod'
 import { IJwtHeader } from '../protocols/IJwtHeader'
 import { IJwtPayload } from '../protocols/IJwtPayload'
 import { IJwtSigner } from '../protocols/IJwtSigner'
@@ -28,15 +29,16 @@ export class UmaAuthenticator implements IUmaAuthenticator {
     private readonly requestFactory: ITokenRequestFactory
   ) {}
 
-  async authenticate(endpoint: string): Promise<string> {
+  async authenticate(endpoint: string, method: IHttpMethod): Promise<string> {
     // const endpointResponse = await axios.get(endpoint, this.AXIOS_CONFIG)
     const endpointResponse = await axios.request({
       url: endpoint,
       ...this.AXIOS_CONFIG,
-      method: 'GET'
+      method
     })
     if (endpointResponse.status !== 401) {
-      throw new Error()
+      console.log(`endpointResponse.status = ${endpointResponse.status}`)
+      throw new Error(endpointResponse.data)
     } else {
       const wwwAuthenticate = this.umaHeaderParser.parse(
         endpointResponse.headers['www-authenticate']

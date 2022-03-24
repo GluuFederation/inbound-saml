@@ -140,7 +140,7 @@ describe('UmaAuthenticator', () => {
       .spyOn(axios, 'request')
       .mockResolvedValueOnce(valid401Response)
     const { sut } = makeSut()
-    await sut.authenticate('valid endpoint')
+    await sut.authenticate('valid endpoint', 'GET')
     expect(requestSpy).toHaveBeenCalledWith(
       expect.objectContaining({ url: 'valid endpoint' })
     )
@@ -150,12 +150,12 @@ describe('UmaAuthenticator', () => {
       status: 402
     })
     const { sut } = makeSut()
-    await expect(sut.authenticate('valid endpoint')).rejects.toThrow()
+    await expect(sut.authenticate('valid endpoint', 'GET')).rejects.toThrow()
   })
   it('should call umaHeaderParser with wwwwAuthenticate value', async () => {
     const { sut, umaHeaderParser } = makeSut()
     const parserSpy = jest.spyOn(umaHeaderParser, 'parse')
-    await sut.authenticate('valid endpoint')
+    await sut.authenticate('valid endpoint', 'GET')
     expect(parserSpy).toHaveBeenCalledWith(
       'UMA realm="Authorization required", host_id=apitest.techno24x7.com, as_uri=https://apitest.techno24x7.com/.well-known/uma2-configuration, ticket=e72ae32f-ad6d-458d-bf18-d34cd5081fb3'
     )
@@ -165,12 +165,12 @@ describe('UmaAuthenticator', () => {
     jest.spyOn(umaHeaderParser, 'parse').mockImplementationOnce(() => {
       throw new UmaHeaderError('any error')
     })
-    await expect(sut.authenticate('valid endpoint')).rejects.toThrow()
+    await expect(sut.authenticate('valid endpoint', 'GET')).rejects.toThrow()
   })
   it('should call readFileSync with pvkPath', async () => {
     const { sut, oxTrustApiSettings } = makeSut()
     const readFileSyncSpy = jest.spyOn(fs, 'readFileSync')
-    await sut.authenticate('valid endpoint')
+    await sut.authenticate('valid endpoint', 'GET')
     expect(readFileSyncSpy).toHaveBeenCalled()
     expect(readFileSyncSpy).toHaveBeenCalledWith(
       oxTrustApiSettings.pvkPath,
@@ -197,7 +197,7 @@ describe('UmaAuthenticator', () => {
     }
     const expectedSecret = 'pvk loaded from file'
 
-    await sut.authenticate('valid endpoint')
+    await sut.authenticate('valid endpoint', 'GET')
     expect(signSpy).toHaveBeenCalledWith(
       expectedHeader,
       expectedPayload,
@@ -207,7 +207,7 @@ describe('UmaAuthenticator', () => {
   it('should call TokenRequestFactory with correct params', async () => {
     const { sut, tokenRequestFactory } = makeSut()
     const makeSpy = jest.spyOn(tokenRequestFactory, 'make')
-    await sut.authenticate('valid endpoint')
+    await sut.authenticate('valid endpoint', 'GET')
     expect(makeSpy).toHaveBeenCalledWith(
       'valid parsed ticket # stub',
       'valid client id',
@@ -220,7 +220,7 @@ describe('UmaAuthenticator', () => {
     const expectedUrl = oxTrustApiSettings.tokenUrl
     const expectedBody = stringify(requestBodyStub)
     const postSpy = jest.spyOn(axios, 'post')
-    await sut.authenticate('valid endpoint')
+    await sut.authenticate('valid endpoint', 'GET')
     expect(postSpy.mock.calls[0][2]).toEqual({
       httpsAgent: expect.any(Agent),
       validateStatus: expect.any(Function)
@@ -234,21 +234,29 @@ describe('UmaAuthenticator', () => {
   it('should call https Agent once with correct params', async () => {
     const agentSpy = jest.spyOn(https, 'Agent')
     const { sut } = makeSut()
-    await sut.authenticate('valid endpoint')
+    await sut.authenticate('valid endpoint', 'GET')
     expect(agentSpy).toHaveBeenCalledWith({ rejectUnauthorized: false })
   })
   it('should return bearer token', async () => {
     const { sut } = makeSut()
-    expect(await sut.authenticate('valid endpoint')).toEqual(
+    expect(await sut.authenticate('valid endpoint', 'GET')).toEqual(
       validPostResponse.data.access_token
     )
   })
   it('should call request with GET method', async () => {
     const { sut } = makeSut()
     const requestSpy = jest.spyOn(axios, 'request')
-    await sut.authenticate('valid endpoint')
+    await sut.authenticate('valid endpoint', 'GET')
     expect(requestSpy).toHaveBeenCalledWith(
       expect.objectContaining({ method: 'GET' })
+    )
+  })
+  it('should call request with POST method', async () => {
+    const { sut } = makeSut()
+    const requestSpy = jest.spyOn(axios, 'request')
+    await sut.authenticate('valid endpoint', 'POST')
+    expect(requestSpy).toHaveBeenCalledWith(
+      expect.objectContaining({ method: 'POST' })
     )
   })
 })

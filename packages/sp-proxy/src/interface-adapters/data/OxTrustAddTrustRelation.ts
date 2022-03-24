@@ -25,7 +25,7 @@ export class OxTrustAddTrustRelation implements IAddTrGateway {
     const trustRelationDataModel = await this.addTrustRelationOxTrustMapper.map(
       trustRelation
     )
-    const token = await this.authenticator.authenticate(this.postUrl)
+    const token = await this.authenticator.authenticate(this.postUrl, 'POST')
     const config: AxiosRequestConfig = {
       headers: {
         Authorization: `Bearer ${token}`

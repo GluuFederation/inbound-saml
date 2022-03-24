@@ -16,12 +16,12 @@ export class OxTrustGetTrByHost implements IGetTrByHostGateway {
     private readonly oxTrustApiSettings: IOxTrustApiSettings,
     private readonly authenticator: IUmaAuthenticator
   ) {
-    this.getUrl = `https://${oxTrustApiSettings.host}/${oxTrustApiSettings.completePath}/trusted-idps`
+    this.getUrl = `https://${oxTrustApiSettings.host}/${oxTrustApiSettings.completePath}/trusted-idp`
   }
 
   async findByHost(host: string): Promise<TrustRelation> {
     const urlWithHost = `${this.getUrl}/${host}`
-    const token = await this.authenticator.authenticate(urlWithHost)
+    const token = await this.authenticator.authenticate(urlWithHost, 'GET')
     const config: AxiosRequestConfig = {
       headers: {
         Authorization: `Bearer ${token}`
