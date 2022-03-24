@@ -21,14 +21,13 @@ export class OxTrustGetTrByHost implements IGetTrByHostGateway {
   }
 
   async findByHost(host: string): Promise<TrustRelation> {
-    const httpsAgent = new Agent({ rejectUnauthorized: false })
     const urlWithHost = `${this.getUrl}/${host}`
     const token = await this.authenticator.authenticate(urlWithHost, 'GET')
     const config: AxiosRequestConfig = {
       headers: {
         Authorization: `Bearer ${token}`
       },
-      httpsAgent
+      httpsAgent: new Agent({ rejectUnauthorized: false })
     }
     const response: AxiosResponse<TrustRelationDataModel> = await axios.get(
       urlWithHost,
