@@ -1,6 +1,7 @@
 import { TrustRelation } from '@sp-proxy/entities/TrustRelation'
 import { IAddTrGateway } from '@sp-proxy/use-cases/ports/IAddTrGateway'
 import axios, { AxiosRequestConfig } from 'axios'
+import { Agent } from 'https'
 import { IDataMapper } from '../protocols/IDataMapper'
 import { TrustRelationDataModel } from './models/TrustRelationDataModel'
 import { IOxTrustApiSettings } from './protocols/IOxTrustApiSettings'
@@ -25,11 +26,12 @@ export class OxTrustAddTrustRelation implements IAddTrGateway {
     const trustRelationDataModel = await this.addTrustRelationOxTrustMapper.map(
       trustRelation
     )
-    const token = await this.authenticator.authenticate(this.postUrl)
+    const token = await this.authenticator.authenticate(this.postUrl, 'POST')
     const config: AxiosRequestConfig = {
       headers: {
         Authorization: `Bearer ${token}`
-      }
+      },
+      httpsAgent: new Agent({ rejectUnauthorized: false })
     }
     const response = await axios.post(
       this.postUrl,

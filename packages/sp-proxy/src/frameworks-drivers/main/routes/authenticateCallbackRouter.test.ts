@@ -3,7 +3,10 @@ import serverConfig from '@sp-proxy/frameworks-drivers/main/config/env'
 import * as generator from '@sp-proxy/frameworks-drivers/main/helpers/generatePostProfileForm'
 import { mockAuthXmlEndpoint } from '@sp-proxy/frameworks-drivers/main/mocks/externalMetadataUrl.mock'
 import routes from '@sp-proxy/frameworks-drivers/main/routes'
-import { mockUmaEndpoint } from '@sp-proxy/interface-adapters/data/mocks/mockUmaEndpoint.mock'
+import {
+  mockGetUmaEndpoint,
+  mockPostUmaEndpoint
+} from '@sp-proxy/interface-adapters/data/mocks/mockUmaEndpoint.mock'
 import { TrustRelationDataModel } from '@sp-proxy/interface-adapters/data/models/TrustRelationDataModel'
 import express from 'express'
 import { readFileSync } from 'fs'
@@ -135,7 +138,7 @@ describe('authenticateCallbackRouter', () => {
   beforeEach(async () => {
     const mockedResponseData: TrustRelationDataModel = {
       remoteIdp: {
-        name: '"any name',
+        name: 'any name',
         host: 'samltest.id',
         supportedSingleSignOnServices: [
           { binding: 'valid binding', location: 'valid location' }
@@ -150,8 +153,8 @@ describe('authenticateCallbackRouter', () => {
         location: 'https://samltest.id/any-path'
       }
     }
-    mockUmaEndpoint('trusted-idps/samltest.id', mockedResponseData)
-    mockUmaEndpoint('trusted-idp', {})
+    mockGetUmaEndpoint('trusted-idp/samltest.id', mockedResponseData)
+    mockPostUmaEndpoint('trusted-idp', {})
     mockAddTrEndpoint()
     await createTrustRelationMock()
   })

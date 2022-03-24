@@ -3,6 +3,7 @@
 import { TrustRelation } from '@sp-proxy/entities/TrustRelation'
 import { IAddTrGateway } from '@sp-proxy/use-cases/ports/IAddTrGateway'
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios'
+import https from 'https'
 import { IDataMapper } from '../protocols/IDataMapper'
 import { TrustRelationDataModel } from './models/TrustRelationDataModel'
 import { OxTrustAddTrustRelation } from './OxTrustAddTrustRelation'
@@ -158,10 +159,8 @@ describe('OxTrustAddTrustRelation', () => {
         Authorization: 'Bearer validBearerToken'
       }
     }
-    expect(postSpy).toHaveBeenCalledWith(
-      expect.anything(),
-      expect.anything(),
-      expectedConfig
+    expect(postSpy.mock.calls[0][2]?.headers).toMatchObject(
+      expectedConfig.headers
     )
   })
   it('should have authenticators token in request', async () => {
@@ -185,10 +184,8 @@ describe('OxTrustAddTrustRelation', () => {
         Authorization: 'Bearer authenticatorsToken'
       }
     }
-    expect(postSpy).toHaveBeenCalledWith(
-      expect.anything(),
-      expect.anything(),
-      expectedConfig
+    expect(postSpy.mock.calls[0][2]?.headers).toMatchObject(
+      expectedConfig.headers
     )
   })
   it('should throw if mapper throws', async () => {
@@ -204,5 +201,19 @@ describe('OxTrustAddTrustRelation', () => {
       throw new Error()
     })
     await expect(sut.add('valid trust relation' as any)).rejects.toThrow()
+  })
+  it('should call https Agent once with correct params', async () => {
+    const agentSpy = jest.spyOn(https, 'Agent')
+    const { sut } = makeSut()
+    await sut.add('valid trust relation' as any)
+    expect(agentSpy).toHaveBeenCalledWith({ rejectUnauthorized: false })
+  })
+  it('shoulld call get with https agent', async () => {
+    const postSpy = jest.spyOn(axios, 'post')
+    const { sut } = makeSut()
+    await sut.add('valid trust relation' as any)
+    expect(postSpy.mock.calls[0][2]?.httpsAgent.options).toMatchObject({
+      rejectUnauthorized: false
+    })
   })
 })
