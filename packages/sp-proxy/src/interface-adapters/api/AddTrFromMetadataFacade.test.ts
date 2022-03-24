@@ -17,20 +17,13 @@ import { TokenRequestFactory } from '../data/helpers/TokenRequestFactory'
 import { UmaAuthenticator } from '../data/helpers/UmaAuthenticator'
 import { UmaHeaderParser } from '../data/helpers/UmaHeaderParser'
 import { AddTrustRelationOxTrustMapper } from '../data/mappers/AddTrustRelationOxTrustMapper'
-import { mockUmaEndpoint } from '../data/mocks/mockUmaEndpoint.mock'
+import { mockPostUmaEndpoint } from '../data/mocks/mockUmaEndpoint.mock'
 import { OxTrustAddTrustRelation } from '../data/OxTrustAddTrustRelation'
-
-const mockAddTrEndpoint = (): void => {
-  nock(`https://${config.oxTrustApi.host}`)
-    .post(`/${config.oxTrustApi.completePath}/trusted-idp`)
-    .reply(201, 'created')
-}
 
 describe('AddTrFromMetadataFacade - integration', () => {
   beforeAll(async () => {
-    mockAddTrEndpoint()
     mockXmlEndpoints()
-    mockUmaEndpoint('trusted-idp', {})
+    mockPostUmaEndpoint('trusted-idp', {})
   })
   afterAll(async () => {
     nock.cleanAll()
@@ -55,7 +48,6 @@ describe('AddTrFromMetadataFacade - integration', () => {
       dataMapper,
       umaAuthenticator
     )
-    // const addTrGateway = new MongoAddTrustRelation(trustRelationsCollection)
     const interactor = new AddTrFromMetadataInteractor(
       externalDataGateway,
       remoteIdpFromExtDataFactory,

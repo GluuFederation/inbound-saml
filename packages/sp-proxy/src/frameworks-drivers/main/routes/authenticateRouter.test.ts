@@ -4,7 +4,7 @@
 // should return 302 redirect or POST form
 import { mockSpProxyConfig } from '@sp-proxy/frameworks-drivers/main/mocks/mockSpProxyConfig.mock'
 import routes from '@sp-proxy/frameworks-drivers/main/routes'
-import { mockUmaEndpoint } from '@sp-proxy/interface-adapters/data/mocks/mockUmaEndpoint.mock'
+import { mockGetUmaEndpoint } from '@sp-proxy/interface-adapters/data/mocks/mockUmaEndpoint.mock'
 import { TrustRelationDataModel } from '@sp-proxy/interface-adapters/data/models/TrustRelationDataModel'
 import express from 'express'
 import nock from 'nock'
@@ -18,7 +18,7 @@ describe('authenticateRouter', () => {
     mockSpProxyConfig()
 
     // setup mock for returning valid host from getTrByHost endpoint
-    // trusted-idps/{host}
+    // trusted-idp/{host}
 
     const responseData: TrustRelationDataModel = {
       remoteIdp: {
@@ -54,8 +54,8 @@ describe('authenticateRouter', () => {
         location: 'https://pocidp.techno24x7.com/idp/profile/SAML2/POST/SSO'
       }
     }
-    const endpoint = `trusted-idps/${responseData.remoteIdp.host}`
-    mockUmaEndpoint(endpoint, responseData)
+    const endpoint = `trusted-idp/${responseData.remoteIdp.host}`
+    mockGetUmaEndpoint(endpoint, responseData)
     app.use(routes)
   })
   afterAll(async () => {

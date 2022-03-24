@@ -55,7 +55,7 @@ describe('UmaAuthenticator', () => {
     mockUnauthorizedEndpoint()
     mockTokenEndpoint()
     await expect(
-      sut.authenticate('https://mock.com' + unauthorizedEndpoint)
+      sut.authenticate('https://mock.com' + unauthorizedEndpoint, 'GET')
     ).resolves.not.toThrow()
   })
 })
