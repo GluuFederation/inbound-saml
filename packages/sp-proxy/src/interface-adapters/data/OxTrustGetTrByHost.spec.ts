@@ -9,6 +9,7 @@
 import { TrustRelation } from '@sp-proxy/entities/TrustRelation'
 import { IGetTrByHostGateway } from '@sp-proxy/use-cases/ports/IGetTrByHostGateway'
 import axios, { AxiosRequestConfig } from 'axios'
+import https from 'https'
 import { IDataMapper } from '../protocols/IDataMapper'
 import { TrustRelationDataModel } from './models/TrustRelationDataModel'
 import { OxTrustGetTrByHost } from './OxTrustGetTrByHost'
@@ -135,12 +136,28 @@ describe('OxTrustGetTrByHost', () => {
         Authorization: 'Bearer validBearerToken'
       }
     }
-    expect(getSpy).toHaveBeenCalledWith(expect.anything(), expectedConfig)
+    expect(getSpy.mock.calls[0][1]?.headers).toMatchObject(
+      expectedConfig.headers
+    )
   })
   it('should call authenticator once', async () => {
     const { sut, umaAuthenticatorStub } = makeSut()
     const authenticateSpy = jest.spyOn(umaAuthenticatorStub, 'authenticate')
     await sut.findByHost('valid host')
     expect(authenticateSpy).toHaveBeenCalled()
+  })
+  it('should call https Agent once with correct params', async () => {
+    const agentSpy = jest.spyOn(https, 'Agent')
+    const { sut } = makeSut()
+    await sut.findByHost('valid host')
+    expect(agentSpy).toHaveBeenCalledWith({ rejectUnauthorized: false })
+  })
+  it('shoulld call get with https agent', async () => {
+    const getSpy = jest.spyOn(axios, 'get')
+    const { sut } = makeSut()
+    await sut.findByHost('valid host')
+    expect(getSpy.mock.calls[0][1]?.httpsAgent.options).toMatchObject({
+      rejectUnauthorized: false
+    })
   })
 })
