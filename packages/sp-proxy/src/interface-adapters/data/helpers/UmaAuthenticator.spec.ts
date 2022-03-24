@@ -131,20 +131,22 @@ const validPostResponse: AxiosResponse = {
 }
 
 // mock default stub answer for axios.get and post to token endpoint
-jest.spyOn(axios, 'get').mockResolvedValue(valid401Response)
+jest.spyOn(axios, 'request').mockResolvedValue(valid401Response)
 jest.spyOn(axios, 'post').mockResolvedValue(validPostResponse)
 jest.spyOn(fs, 'readFileSync').mockReturnValue('pvk loaded from file')
 describe('UmaAuthenticator', () => {
   it('should request a valid endpoint', async () => {
-    const getSpy = jest
-      .spyOn(axios, 'get')
+    const requestSpy = jest
+      .spyOn(axios, 'request')
       .mockResolvedValueOnce(valid401Response)
     const { sut } = makeSut()
     await sut.authenticate('valid endpoint')
-    expect(getSpy).toHaveBeenCalledWith('valid endpoint', expect.anything())
+    expect(requestSpy).toHaveBeenCalledWith(
+      expect.objectContaining({ url: 'valid endpoint' })
+    )
   })
   it('should throw if status code is not 401', async () => {
-    jest.spyOn(axios, 'get').mockResolvedValueOnce({
+    jest.spyOn(axios, 'request').mockResolvedValueOnce({
       status: 402
     })
     const { sut } = makeSut()

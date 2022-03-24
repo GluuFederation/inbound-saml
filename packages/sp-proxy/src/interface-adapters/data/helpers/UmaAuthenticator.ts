@@ -29,7 +29,12 @@ export class UmaAuthenticator implements IUmaAuthenticator {
   ) {}
 
   async authenticate(endpoint: string): Promise<string> {
-    const endpointResponse = await axios.get(endpoint, this.AXIOS_CONFIG)
+    // const endpointResponse = await axios.get(endpoint, this.AXIOS_CONFIG)
+    const endpointResponse = await axios.request({
+      url: endpoint,
+      ...this.AXIOS_CONFIG,
+      method: 'GET'
+    })
     if (endpointResponse.status !== 401) {
       throw new Error()
     } else {
