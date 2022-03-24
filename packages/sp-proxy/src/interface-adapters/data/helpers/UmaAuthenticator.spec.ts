@@ -243,4 +243,12 @@ describe('UmaAuthenticator', () => {
       validPostResponse.data.access_token
     )
   })
+  it('should call request with GET method', async () => {
+    const { sut } = makeSut()
+    const requestSpy = jest.spyOn(axios, 'request')
+    await sut.authenticate('valid endpoint')
+    expect(requestSpy).toHaveBeenCalledWith(
+      expect.objectContaining({ method: 'GET' })
+    )
+  })
 })
