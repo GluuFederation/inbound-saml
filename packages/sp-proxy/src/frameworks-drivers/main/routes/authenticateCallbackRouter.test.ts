@@ -178,7 +178,7 @@ describe('authenticateCallbackRouter', () => {
 
     const res = await request(app)
       .post(eut)
-      .set('origin', 'samltest.id')
+      .set('origin', 'https://samltest.id')
       .set('content-type', 'application/x-www-form-urlencoded')
       .send(body)
 
@@ -187,7 +187,7 @@ describe('authenticateCallbackRouter', () => {
   it('should return error if invalid SAMLResponse', async () => {
     const res = await request(app)
       .post(eut)
-      .set('origin', 'samltest.id')
+      .set('origin', 'https://samltest.id')
       .set('content-type', 'application/x-www-form-urlencoded')
       .send({ SAMLResponse: 'a very invalid samlresponse' })
     expect(res.statusCode).toBeGreaterThanOrEqual(400)
@@ -205,7 +205,7 @@ describe('authenticateCallbackRouter', () => {
       .mockReturnValueOnce('auto-submit form')
     const res = await request(app)
       .post(eut)
-      .set('origin', 'samltest.id')
+      .set('origin', 'https://samltest.id')
       .set('content-type', 'application/x-www-form-urlencoded')
       .send(body)
     // console.log(res)

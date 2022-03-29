@@ -62,11 +62,14 @@ export const getSamlConfig = (): any => {
       ) {
         providerHost = request.query.providerHost
       } else if (request.headers.origin != null) {
-        providerHost = request.headers.origin
+
+        const origin = new URL(request.headers.origin)
+        providerHost = origin.hostname
       } else {
         throw new Error('Provider Not Found in QS')
       }
       const trustRelation = await trGetter.getTrByHost(providerHost)
+      logger.debug('found trustRelation ' + JSON.stringify(trustRelation))
 
       const passportConfig = makePassportConfig(proxyConfig, trustRelation)
       logger.debug(
