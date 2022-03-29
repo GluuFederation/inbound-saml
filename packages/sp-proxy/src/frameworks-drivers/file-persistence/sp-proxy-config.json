@@ -10,5 +10,6 @@
   "signing": {
     "publicCertPath": "cert/signing.crt",
     "privateKeyPath": "cert/signing.p12"
-  }
+  },
+  "postProfileUrl": "https://valid.url/path"
 }
