@@ -31,7 +31,7 @@ It's initially intended to be used by [gluu-server](https://gluu.org):
   - [ ] Automatic remote idp key rotation handling
   - ✅ Expose single metadata to be consumed by all remote IDPs
   - ✅ Create (register) Trust Relation and remote IDP provider providing metadata url
-  - [ ] SP initiated authentication
+  - ✅ SP initiated authentication
   - [ ] IDP initiated authentication
 
 ## Developing
