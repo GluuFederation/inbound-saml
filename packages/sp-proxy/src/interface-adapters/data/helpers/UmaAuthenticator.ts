@@ -37,8 +37,9 @@ export class UmaAuthenticator implements IUmaAuthenticator {
       method
     })
     if (endpointResponse.status !== 401) {
-      console.log(`endpointResponse.status = ${endpointResponse.status}`)
-      throw new Error(endpointResponse.data)
+      throw new Error(
+        `Expected 401 from ${endpoint}, got ${endpointResponse.status}`
+      )
     } else {
       const wwwAuthenticate = this.umaHeaderParser.parse(
         endpointResponse.headers['www-authenticate']
