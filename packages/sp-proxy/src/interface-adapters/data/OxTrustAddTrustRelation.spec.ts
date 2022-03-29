@@ -79,7 +79,7 @@ const validResponseStub: AxiosResponse = {
   data: {},
   status: 201,
   statusText: 'Created',
-  headers: undefined,
+  headers: {},
   config: {}
 }
 
@@ -160,7 +160,7 @@ describe('OxTrustAddTrustRelation', () => {
       }
     }
     expect(postSpy.mock.calls[0][2]?.headers).toMatchObject(
-      expectedConfig.headers
+      expectedConfig.headers as any
     )
   })
   it('should have authenticators token in request', async () => {
@@ -185,7 +185,7 @@ describe('OxTrustAddTrustRelation', () => {
       }
     }
     expect(postSpy.mock.calls[0][2]?.headers).toMatchObject(
-      expectedConfig.headers
+      expectedConfig.headers as any
     )
   })
   it('should throw if mapper throws', async () => {

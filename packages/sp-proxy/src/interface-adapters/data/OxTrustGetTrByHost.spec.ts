@@ -137,7 +137,7 @@ describe('OxTrustGetTrByHost', () => {
       }
     }
     expect(getSpy.mock.calls[0][1]?.headers).toMatchObject(
-      expectedConfig.headers
+      expectedConfig.headers as any
     )
   })
   it('should call authenticator once', async () => {
