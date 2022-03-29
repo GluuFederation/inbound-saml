@@ -62,6 +62,7 @@ export const getSamlConfig = (): any => {
       ) {
         providerHost = request.query.providerHost
       } else if (request.headers.origin != null) {
+
         const origin = new URL(request.headers.origin)
         providerHost = origin.hostname
       } else {
@@ -69,6 +70,7 @@ export const getSamlConfig = (): any => {
       }
       const trustRelation = await trGetter.getTrByHost(providerHost)
       logger.debug('found trustRelation ' + JSON.stringify(trustRelation))
+
       const passportConfig = makePassportConfig(proxyConfig, trustRelation)
       logger.debug(
         `passportConfig = ${JSON.stringify(passportConfig, null, 4)}`
