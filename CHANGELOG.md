@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.12.0](https://www.github.com/GluuFederation/inbound-saml/compare/v0.11.0...v0.12.0) (2022-03-29)
+
+
+### Features
+
+* **authenticator:** add propper message to error ([d23ca1c](https://www.github.com/GluuFederation/inbound-saml/commit/d23ca1c6ba9b980a0a9d867494798f2fe63172fa))
+* **getTrByHost:** use oxTrust api to get trust relation ([#114](https://www.github.com/GluuFederation/inbound-saml/issues/114)) ([5383ff5](https://www.github.com/GluuFederation/inbound-saml/commit/5383ff5970a1d9a91e33601ea00a6e321d6d42e3))
+* **oxTrustApi:** add `UMA` auth flow to client ([#113](https://www.github.com/GluuFederation/inbound-saml/issues/113)) ([375e96a](https://www.github.com/GluuFederation/inbound-saml/commit/375e96aea5d9cf3688397842897612f714f0e3af))
+* **oxTrustCreateTr:** create TR using persistence api ([#112](https://www.github.com/GluuFederation/inbound-saml/issues/112)) ([45b039e](https://www.github.com/GluuFederation/inbound-saml/commit/45b039e4e5c74aed8e9b0431c39deda0da39f156))
+
+
+### Bug Fixes
+
+* **authenticator:** parse hostname from origin ([576bce4](https://www.github.com/GluuFederation/inbound-saml/commit/576bce475dfb7c0e0604e9d072dc89f7fa0bc387))
+* remove mongoDB ([#115](https://www.github.com/GluuFederation/inbound-saml/issues/115)) ([4e88f61](https://www.github.com/GluuFederation/inbound-saml/commit/4e88f61d35952670b7792b9cc7483292110c021f))
+* UMA token handling in `AddTrustRelation` ([#117](https://www.github.com/GluuFederation/inbound-saml/issues/117)) ([798b763](https://www.github.com/GluuFederation/inbound-saml/commit/798b763560f3e709aa02fb9bf669ded819a223f3))
+* **UmaAuthenticator:** use correct methods to request ticket # ([#122](https://www.github.com/GluuFederation/inbound-saml/issues/122)) ([d7a7b5d](https://www.github.com/GluuFederation/inbound-saml/commit/d7a7b5dd68d560860592f77c72064b8a3153dcc7))
+
 ## [0.11.0](https://www.github.com/GluuFederation/inbound-saml/compare/v0.10.0...v0.11.0) (2021-10-12)
 
 
