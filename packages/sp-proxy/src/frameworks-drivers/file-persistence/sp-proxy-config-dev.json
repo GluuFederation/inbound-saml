@@ -2,9 +2,10 @@
   "host": "devtemp.techno24x7.com:5000",
   "requestedIdentifierFormat": "urn:oasis:names:tc:SAML:2.0:nameid-format:transient",
   "authnContextIdentifierFormat": "",
-  "skipRequestCompression" : true,
+  "skipRequestCompression" : false,
   "decryption" : {
     "publicCertPath": "packages/testdata/decryptionCert.pem",
     "privateKeyPath": "packages/testdata/decryptionPvk.key"
-  }
+  },
+  "postProfileUrl": "https://apitest.techno24x7.com/oxauth/postlogin.htm"
 }
