@@ -1,12 +1,13 @@
 export default {
-  adminUser: process.env.ADMIN_USER ?? 'admin',
-  adminPassword: process.env.ADMIN_PWD ?? 'admin',
-  logLevel: process.env.LOG_LEVEL ?? 'debug',
-  port: process.env.PORT ?? '5000',
+  adminUser: process.env.INBOUND_SAML_ADMIN_USER ?? 'admin',
+  adminPassword: process.env.INBOUND_SAML_ADMIN_PWD ?? 'admin',
+  logLevel: process.env.INBOUND_SAML_LOG_LEVEL ?? 'debug',
+  port: process.env.INBOUND_SAML_PORT ?? '5000',
+  useTls: process.env.INBOUND_SAML_USE_TLS ?? false,
   tlsCertPath:
-    process.env.TLS_CERT_PATH ??
+    process.env.INBOUND_SAML_TLS_CERT_PATH ??
     `${process.cwd()}/packages/sp-proxy/src/frameworks-drivers/main/cert/cert.pem`,
   tlsKeyPath:
-    process.env.TLS_KEY_PATH ??
+    process.env.INBOUND_SAML_TLS_KEY_PATH ??
     `${process.cwd()}/packages/sp-proxy/src/frameworks-drivers/main/cert/key.pem`
 }
