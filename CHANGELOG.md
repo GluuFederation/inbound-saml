@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.13.0](https://www.github.com/GluuFederation/inbound-saml/compare/v0.12.0...v0.13.0) (2022-05-11)
+
+
+### Features
+
+* **server:** turn ssl into optional ([#127](https://www.github.com/GluuFederation/inbound-saml/issues/127)) ([5428ea2](https://www.github.com/GluuFederation/inbound-saml/commit/5428ea2c06c33eeab3b082c8c139b78fcfa36a8e))
+
 ## [0.12.0](https://www.github.com/GluuFederation/inbound-saml/compare/v0.11.0...v0.12.0) (2022-03-29)
 
 
