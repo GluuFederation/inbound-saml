@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.13.1](https://www.github.com/GluuFederation/inbound-saml/compare/v0.13.0...v0.13.1) (2022-06-11)
+
+
+### Bug Fixes
+
+* **UmaAuthenticator:** add needed content-type headers ([92a25e7](https://www.github.com/GluuFederation/inbound-saml/commit/92a25e7a83f3a96f15d69fc520607fea54ce306e))
+
 ## [0.13.0](https://www.github.com/GluuFederation/inbound-saml/compare/v0.12.0...v0.13.0) (2022-05-11)
 
 
