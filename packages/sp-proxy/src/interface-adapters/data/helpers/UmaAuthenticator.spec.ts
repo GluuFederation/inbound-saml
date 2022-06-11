@@ -259,4 +259,16 @@ describe('UmaAuthenticator', () => {
       expect.objectContaining({ method: 'POST' })
     )
   })
+  it('should call request with application/json content-type', async () => {
+    const { sut } = makeSut()
+    const requestSpy = jest.spyOn(axios, 'request')
+    await sut.authenticate('valid endpoint', 'POST')
+    expect(requestSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+    )
+  })
 })
