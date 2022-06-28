@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.13.2](https://www.github.com/GluuFederation/inbound-saml/compare/v0.13.1...v0.13.2) (2022-06-28)
+
+
+### Bug Fixes
+
+* **CreateRemoteIdp:** throws if no host param ([#133](https://www.github.com/GluuFederation/inbound-saml/issues/133)) ([e1c969f](https://www.github.com/GluuFederation/inbound-saml/commit/e1c969f172414b06fd44467eacfd769ddcca5d4b))
+
 ### [0.13.1](https://www.github.com/GluuFederation/inbound-saml/compare/v0.13.0...v0.13.1) (2022-06-11)
 
 
