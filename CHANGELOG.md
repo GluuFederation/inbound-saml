@@ -1,5 +1,14 @@
 # Changelog
 
+### [0.13.3](https://www.github.com/GluuFederation/inbound-saml/compare/v0.13.2...v0.13.3) (2022-06-29)
+
+
+### Bug Fixes
+
+* **config:** correct env var name for `proxyConfigPath` ([2aaa2d9](https://www.github.com/GluuFederation/inbound-saml/commit/2aaa2d931be505ef2930ce49f00eb7eeada0d3d9))
+* **config:** update configuration env variables names  ([#135](https://www.github.com/GluuFederation/inbound-saml/issues/135)) ([2aaa2d9](https://www.github.com/GluuFederation/inbound-saml/commit/2aaa2d931be505ef2930ce49f00eb7eeada0d3d9))
+* remove old unused persistence configuration ([2aaa2d9](https://www.github.com/GluuFederation/inbound-saml/commit/2aaa2d931be505ef2930ce49f00eb7eeada0d3d9))
+
 ### [0.13.2](https://www.github.com/GluuFederation/inbound-saml/compare/v0.13.1...v0.13.2) (2022-06-28)
 
 
