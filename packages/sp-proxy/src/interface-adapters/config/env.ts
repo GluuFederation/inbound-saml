@@ -33,7 +33,8 @@ export default {
   oxTrustApi: oxTrustApiSettings,
   database: {
     file: {
-      proxyConfigPath: process.env.PROXY_CFG_PATH ?? getConfigFilePath()
+      proxyConfigPath:
+        process.env.INBOUND_SAML_PROXY_CFG_PATH ?? getConfigFilePath()
     }
   }
 }
