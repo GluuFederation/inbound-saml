@@ -15,9 +15,19 @@ export class StringParser implements IStringParser {
    * @throw { PersistenceError }
    */
   stringToBool(booleanAsString: BooleanStringType): boolean {
+    const validParams: BooleanStringType[] = [
+      'TRUE',
+      'true',
+      'True',
+      'FALSE',
+      'false',
+      'False'
+    ]
+    if (validParams.includes(booleanAsString)) {
+      return true
+    }
     throw new PersistenceError(
       `Error parsing string ${booleanAsString} to boolean`
     )
-    // return true
   }
 }

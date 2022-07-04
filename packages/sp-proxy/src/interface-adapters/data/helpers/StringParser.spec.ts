@@ -1,4 +1,5 @@
 import { PersistenceError } from '../errors/PersistenceError'
+import { BooleanStringType } from '../protocols/BooleanStringType'
 import { StringParser } from './StringParser'
 
 describe('StringParser', () => {
@@ -21,6 +22,22 @@ describe('StringParser', () => {
       expect(() => sut.stringToBool('notABoolean' as any)).toThrow(
         new PersistenceError('Error parsing string notABoolean to boolean')
       )
+    })
+    it('should not throw if valid', () => {
+      const validParams: BooleanStringType[] = [
+        'TRUE',
+        'true',
+        'True',
+        'FALSE',
+        'false',
+        'False'
+      ]
+      for (const validParam of validParams) {
+        const sut = new StringParser()
+        expect(() => sut.stringToBool(validParam)).not.toThrow(
+          new PersistenceError(`Error parsing string ${validParam} to boolean`)
+        )
+      }
     })
   })
 })
