@@ -24,6 +24,9 @@ export class StringParser implements IStringParser {
       'False'
     ]
     if (validParams.includes(booleanAsString)) {
+      if (['FALSE', 'false', 'False'].includes(booleanAsString)) {
+        return false
+      }
       return true
     }
     throw new PersistenceError(

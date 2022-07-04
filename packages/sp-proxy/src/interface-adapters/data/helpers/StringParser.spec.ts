@@ -46,5 +46,12 @@ describe('StringParser', () => {
       expect(sut.stringToBool('true')).toBeTruthy()
       expect(sut.stringToBool('True')).toBeTruthy()
     })
+    it('should return false when false string values', () => {
+      // FALSE, false, False
+      const sut = new StringParser()
+      expect(sut.stringToBool('FALSE')).toBeFalsy()
+      expect(sut.stringToBool('false')).toBeFalsy()
+      expect(sut.stringToBool('False')).toBeFalsy()
+    })
   })
 })
