@@ -1,3 +1,5 @@
+import { PersistenceError } from '../errors/PersistenceError'
+import { BooleanStringType } from '../protocols/BooleanStringType'
 import { IStringParser } from '../protocols/IStringParser'
 
 export class StringParser implements IStringParser {
@@ -6,7 +8,16 @@ export class StringParser implements IStringParser {
     return parsed
   }
 
-  stringToBool(str: string): boolean {
-    return true
+  /**
+   * Convert boolean as String to boolean
+   * @param booleanString Accepts 'TRUE', 'true', 'True', 'FALSE', 'false', 'False'
+   * @returns true or false
+   * @throw { PersistenceError }
+   */
+  stringToBool(booleanAsString: BooleanStringType): boolean {
+    throw new PersistenceError(
+      `Error parsing string ${booleanAsString} to boolean`
+    )
+    // return true
   }
 }

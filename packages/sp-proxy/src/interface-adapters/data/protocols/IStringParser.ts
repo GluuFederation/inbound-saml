@@ -1,4 +1,6 @@
+import { BooleanStringType } from './BooleanStringType'
+
 export interface IStringParser {
   stringToInt: (str: string) => number
-  stringToBool: (str: string) => boolean
+  stringToBool: (booleanString: BooleanStringType) => boolean
 }
