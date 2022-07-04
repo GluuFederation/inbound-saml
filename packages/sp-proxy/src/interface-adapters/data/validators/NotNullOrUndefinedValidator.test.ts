@@ -1,3 +1,4 @@
+import { datatype } from 'faker'
 import { NotNullOrUndefinedValidator } from './NotNullOrUndefinedValidator'
 
 describe('NotNullOrUndefinedValidator', () => {
@@ -12,5 +13,10 @@ describe('NotNullOrUndefinedValidator', () => {
     expect(() => sut.isValid(null)).toThrow(
       'InvalidData: Value cannot be null or undefined'
     )
+  })
+  it('should return true if not undefined or null', () => {
+    const sut = new NotNullOrUndefinedValidator()
+    expect(sut.isValid(datatype.string())).toBeTruthy()
+    expect(sut.isValid(datatype.number())).toBeTruthy()
   })
 })
