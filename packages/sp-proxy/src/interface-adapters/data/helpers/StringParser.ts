@@ -5,6 +5,9 @@ import { IStringParser } from '../protocols/IStringParser'
 export class StringParser implements IStringParser {
   stringToInt(str: string): number {
     const parsed = parseInt(str, 10)
+    if (Number.isNaN(parsed)) {
+      throw new PersistenceError(`Error parsing string ${str} to integer`)
+    }
     return parsed
   }
 
