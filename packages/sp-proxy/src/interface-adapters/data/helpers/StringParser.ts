@@ -23,14 +23,16 @@ export class StringParser implements IStringParser {
       'false',
       'False'
     ]
-    if (validParams.includes(booleanAsString)) {
-      if (['FALSE', 'false', 'False'].includes(booleanAsString)) {
-        return false
-      }
+    if (!validParams.includes(booleanAsString)) {
+      throw new PersistenceError(
+        `Error parsing string ${booleanAsString} to boolean`
+      )
+    }
+
+    if (['FALSE', 'false', 'False'].includes(booleanAsString)) {
+      return false
+    } else {
       return true
     }
-    throw new PersistenceError(
-      `Error parsing string ${booleanAsString} to boolean`
-    )
   }
 }
