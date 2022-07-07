@@ -6,7 +6,7 @@ import { PersistenceError } from '../errors/PersistenceError'
 import { IValidator } from '../protocols/IValidator'
 import { NotNullOrUndefinedValidator } from './NotNullOrUndefinedValidator'
 import { OxTrustApiSettingsValidator } from './OxTrustApiSettingsValidator'
-jest.mock('./NotNullOrUndefinedValidator')
+
 // export interface IOxTrustApiSettings {
 //   host: string
 //   clientId: string
@@ -16,7 +16,16 @@ jest.mock('./NotNullOrUndefinedValidator')
 //   pvkPath: string
 // }
 
-const validSettingsFromEnv = {
+interface IValidSettingsFromEnv {
+  host: any | undefined
+  clientId: any | undefined
+  completePath: any | undefined
+  tokenUrl: any | undefined
+  kid: any | undefined
+  pvkPath: any | undefined
+}
+
+const validSettingsFromEnv: IValidSettingsFromEnv = {
   host: 'valid host',
   clientId: 'valid client Id',
   completePath: 'valid complete path',
@@ -68,5 +77,11 @@ describe('OxTrustApiSettingsValidator', () => {
     const isValidSpy = jest.spyOn(nullOrUndefinedValidator, 'isValid')
     sut.isValid(validSettingsFromEnv)
     expect(isValidSpy).toHaveBeenCalledTimes(6)
+  })
+  it('should throw if one or more undefined values', () => {
+    const { sut } = makeSut()
+    const invalidSettings = Object.assign({}, validSettingsFromEnv)
+    invalidSettings.tokenUrl = undefined
+    expect(() => sut.isValid(invalidSettings)).toThrow()
   })
 })
