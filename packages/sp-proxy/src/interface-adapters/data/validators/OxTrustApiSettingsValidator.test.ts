@@ -3,8 +3,10 @@
 // 2. throws if null or undefined
 
 import { PersistenceError } from '../errors/PersistenceError'
+import { IValidator } from '../protocols/IValidator'
+import { NotNullOrUndefinedValidator } from './NotNullOrUndefinedValidator'
 import { OxTrustApiSettingsValidator } from './OxTrustApiSettingsValidator'
-
+jest.mock('./NotNullOrUndefinedValidator')
 // export interface IOxTrustApiSettings {
 //   host: string
 //   clientId: string
@@ -14,26 +16,57 @@ import { OxTrustApiSettingsValidator } from './OxTrustApiSettingsValidator'
 //   pvkPath: string
 // }
 
-// const validSettingsFromEnv = {
-//   host: 'valid host',
-//   clientId: 'valid client Id',
-//   completePath: 'valid complete path',
-//   tokenUrl: 'valid token url',
-//   kid: 'valid kid',
-//   pvkPath: 'valid pvkPath'
-// }
+const validSettingsFromEnv = {
+  host: 'valid host',
+  clientId: 'valid client Id',
+  completePath: 'valid complete path',
+  tokenUrl: 'valid token url',
+  kid: 'valid kid',
+  pvkPath: 'valid pvkPath'
+}
 
+// const requiredKeys = [
+//   'host',
+//   'clientId',
+//   'completePath',
+//   'tokenUrl',
+//   'kid',
+//   'pkvPath'
+// ]
+
+const makeNullOrUndefinedValidator = (): IValidator => {
+  return new NotNullOrUndefinedValidator()
+}
+
+interface SutTypes {
+  nullOrUndefinedValidator: IValidator
+  sut: IValidator
+}
+const makeSut = (): SutTypes => {
+  const nullOrUndefinedValidator = makeNullOrUndefinedValidator()
+  const sut = new OxTrustApiSettingsValidator(nullOrUndefinedValidator)
+  return {
+    nullOrUndefinedValidator,
+    sut
+  }
+}
 describe('OxTrustApiSettingsValidator', () => {
   it('should throw if required fields are missing', () => {
     const mockedInvalidSettingsFromEnv = {
       host: 'valid host',
       clientId: 'valid client Id'
     }
-    const sut = new OxTrustApiSettingsValidator()
+    const { sut } = makeSut()
     expect(() => sut.isValid(mockedInvalidSettingsFromEnv)).toThrow(
       new PersistenceError(
         'Error validating OxTrustApiSettings loaded from env. Required key is missing.'
       )
     )
+  })
+  it('should call notNullOrUndefinedValidator', () => {
+    const { sut, nullOrUndefinedValidator } = makeSut()
+    const isValidSpy = jest.spyOn(nullOrUndefinedValidator, 'isValid')
+    sut.isValid(validSettingsFromEnv)
+    expect(isValidSpy).toHaveBeenCalledTimes(6)
   })
 })
