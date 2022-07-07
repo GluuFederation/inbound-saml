@@ -84,4 +84,8 @@ describe('OxTrustApiSettingsValidator', () => {
     invalidSettings.tokenUrl = undefined
     expect(() => sut.isValid(invalidSettings)).toThrow()
   })
+  it('should return true if valid', () => {
+    const { sut } = makeSut()
+    expect(sut.isValid(validSettingsFromEnv)).toBeTruthy()
+  })
 })
