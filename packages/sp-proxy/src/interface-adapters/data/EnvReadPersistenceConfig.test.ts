@@ -65,4 +65,9 @@ describe('EnvReadPersistenceConfig', () => {
     }
     expect(sut.load()).toEqual(expectedResult)
   })
+  it('should throw if required env missing', () => {
+    delete process.env.INBOUND_SAML_OXTRUST_API_TOKEN_URL // missing
+    const { sut } = makeSut()
+    expect(() => sut.load()).toThrow()
+  })
 })
