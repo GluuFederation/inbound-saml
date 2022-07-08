@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.14.0](https://www.github.com/GluuFederation/inbound-saml/compare/v0.13.3...v0.14.0) (2022-07-08)
+
+
+### Features
+
+* **config:** validate config loaded from env ([#138](https://www.github.com/GluuFederation/inbound-saml/issues/138)) ([0c62053](https://www.github.com/GluuFederation/inbound-saml/commit/0c62053c8e485eaf2ae4d8e9835831bea05fde41))
+
 ### [0.13.3](https://www.github.com/GluuFederation/inbound-saml/compare/v0.13.2...v0.13.3) (2022-06-29)
 
 
