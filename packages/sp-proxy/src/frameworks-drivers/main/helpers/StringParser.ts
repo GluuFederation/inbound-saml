@@ -1,4 +1,3 @@
-import { PersistenceError } from '../errors/PersistenceError'
 import { BooleanStringType } from '../protocols/BooleanStringType'
 import { IStringParser } from '../protocols/IStringParser'
 
@@ -6,7 +5,7 @@ export class StringParser implements IStringParser {
   stringToInt(str: string): number {
     const parsed = parseInt(str, 10)
     if (Number.isNaN(parsed)) {
-      throw new PersistenceError(`Error parsing string ${str} to integer`)
+      throw new Error(`Error parsing string ${str} to integer`)
     }
     return parsed
   }
@@ -27,9 +26,7 @@ export class StringParser implements IStringParser {
       'False'
     ]
     if (!validParams.includes(booleanAsString)) {
-      throw new PersistenceError(
-        `Error parsing string ${booleanAsString} to boolean`
-      )
+      throw new Error(`Error parsing string ${booleanAsString} to boolean`)
     }
 
     if (['FALSE', 'false', 'False'].includes(booleanAsString)) {
