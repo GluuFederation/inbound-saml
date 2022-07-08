@@ -67,4 +67,11 @@ describe('EnvReadPersistenceConfig', () => {
       })
     )
   })
+  it('throw if validator throws', () => {
+    const { sut, validatorStub } = makeSut()
+    jest.spyOn(validatorStub, 'isValid').mockImplementationOnce(() => {
+      throw new Error()
+    })
+    expect(() => sut.load()).toThrow()
+  })
 })
