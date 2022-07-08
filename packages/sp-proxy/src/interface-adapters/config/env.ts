@@ -1,3 +1,4 @@
+import { makeApiSettingsFromEnvLoader } from '../data/factories/makeApiSettingsFromEnvLoader'
 import { IOxTrustApiSettings } from '../data/protocols/IOxTrustApiSettings'
 
 const getConfigFilePath = (): any => {
@@ -14,20 +15,27 @@ const getConfigFilePath = (): any => {
   }
 }
 
-const oxTrustApiSettings: IOxTrustApiSettings = {
-  host: process.env.INBOUND_SAML_OXTRUST_API_HOST ?? 'myhosta.com',
+const oxTrustApiSettingsFromEnvLoader = makeApiSettingsFromEnvLoader()
+
+const developmentOxTrustApiSettings: IOxTrustApiSettings = {
+  host: process.env.INBOUND_SAML_OXTRUST_API_HOST ?? 'localhost',
   clientId: process.env.INBOUND_SAML_OXTRUST_CLIENT_ID ?? 'valid client id',
   completePath:
     process.env.INBOUND_SAML_OXTRUST_API_COMPLETE_PATH ??
     'identity/restv1/api/v1',
   tokenUrl:
     process.env.INBOUND_SAML_OXTRUST_API_TOKEN_URL ??
-    'https://valid.host.com/valid/token',
-  kid: process.env.INBOUND_SAML_OXTRUST_API_KID ?? 'valid pvk kid',
+    `https://localhost/oxauth/restv1/token`,
+  kid: process.env.INBOUND_SAML_OXTRUST_API_KID ?? 'valid pvk',
   pvkPath:
     process.env.INBOUND_SAML_OXTRUST_API_PVK_PATH ??
     'packages/testdata/rs256pvk.pem'
 }
+
+const oxTrustApiSettings: IOxTrustApiSettings =
+  process.env.NODE_ENV === 'production'
+    ? oxTrustApiSettingsFromEnvLoader.load()
+    : developmentOxTrustApiSettings
 
 export default {
   oxTrustApi: oxTrustApiSettings,
