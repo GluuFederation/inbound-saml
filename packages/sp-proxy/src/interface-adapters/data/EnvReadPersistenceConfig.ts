@@ -21,20 +21,17 @@ export class EnvReadPersistenceConfig implements IPersistenceConfigLoader {
   ) {}
 
   load(): IOxTrustApiSettings {
-    this.envLoader.load('INBOUND_SAML_OXTRUST_API_HOST')
-    this.envLoader.load('INBOUND_SAML_OXTRUST_CLIENT_ID')
-    this.envLoader.load('INBOUND_SAML_OXTRUST_API_COMPLETE_PATH')
-    this.envLoader.load('INBOUND_SAML_OXTRUST_API_TOKEN_URL')
-    this.envLoader.load('INBOUND_SAML_OXTRUST_API_KID')
-    this.envLoader.load('INBOUND_SAML_OXTRUST_API_PVK_PATH')
-    // const settingsFromEnv = {
-    //   host: INBOUND_SAML_OXTRUST_API_HOST,
-    //   clientId: process.env.INBOUND_SAML_OXTRUST_CLIENT_ID,
-    //   completePath: process.env.INBOUND_SAML_OXTRUST_API_COMPLETE_PATH,
-    //   tokenUrl: process.env.INBOUND_SAML_OXTRUST_API_TOKEN_URL,
-    //   kid: process.env.INBOUND_SAML_OXTRUST_API_KID,
-    //   pvkPath: process.env.INBOUND_SAML_OXTRUST_API_PVK_PATH
-    // }
-    return 'settingsFromEnv' as unknown as IOxTrustApiSettings
+    const configFromEnv = {
+      host: this.envLoader.load('INBOUND_SAML_OXTRUST_API_HOST'),
+      clientId: this.envLoader.load('INBOUND_SAML_OXTRUST_CLIENT_ID'),
+      completePath: this.envLoader.load(
+        'INBOUND_SAML_OXTRUST_API_COMPLETE_PATH'
+      ),
+      tokenUrl: this.envLoader.load('INBOUND_SAML_OXTRUST_API_TOKEN_URL'),
+      kid: this.envLoader.load('INBOUND_SAML_OXTRUST_API_KID'),
+      pvkPath: this.envLoader.load('INBOUND_SAML_OXTRUST_API_PVK_PATH')
+    }
+    this.validator.isValid(configFromEnv)
+    return configFromEnv as IOxTrustApiSettings
   }
 }

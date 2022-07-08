@@ -9,7 +9,7 @@ import { IValidator } from './protocols/IValidator'
 
 const makeValidator = (): IValidator => {
   class ValidatorStub implements IValidator {
-    isValid(value: any): boolean {
+    isValid(loadedFromEnv: { [key: string]: any }): boolean {
       return true
     }
   }
@@ -51,5 +51,20 @@ describe('EnvReadPersistenceConfig', () => {
     expect(loadSpy).toHaveBeenCalledWith('INBOUND_SAML_OXTRUST_API_TOKEN_URL')
     expect(loadSpy).toHaveBeenCalledWith('INBOUND_SAML_OXTRUST_API_KID')
     expect(loadSpy).toHaveBeenCalledWith('INBOUND_SAML_OXTRUST_API_PVK_PATH')
+  })
+  it('should call validator with correct keys', () => {
+    const { sut, validatorStub } = makeSut()
+    const isValidSpy = jest.spyOn(validatorStub, 'isValid')
+    sut.load()
+    expect(isValidSpy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        host: expect.anything(),
+        clientId: expect.anything(),
+        completePath: expect.anything(),
+        tokenUrl: expect.anything(),
+        kid: expect.anything(),
+        pvkPath: expect.anything()
+      })
+    )
   })
 })
