@@ -89,6 +89,7 @@
     "passport-saml": "^3.1.2",
     "uuid": "^8.3.2",
     "winston": "^3.3.3",
+    "winston-daily-rotate-file": "^4.7.1",
     "xml2js": "^0.4.23"
   }
 }
