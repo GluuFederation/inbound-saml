@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.15.0](https://www.github.com/GluuFederation/inbound-saml/compare/v0.14.0...v0.15.0) (2022-07-11)
+
+
+### Features
+
+* **logger:** setup daily rotation ([80f4591](https://www.github.com/GluuFederation/inbound-saml/commit/80f4591de7260e020bda90f3fb859f42a0876741))
+* **logging:** setup according to gluu-server patterns ([a93b141](https://www.github.com/GluuFederation/inbound-saml/commit/a93b141c22f5970b0db6096b88ecfe876097044d))
+* **serverConfig:** parse int and bool from env ([a56f969](https://www.github.com/GluuFederation/inbound-saml/commit/a56f96972c76eccfc6c01911ae9256b03de606e5))
+* **server:** log start info ([bd4c429](https://www.github.com/GluuFederation/inbound-saml/commit/bd4c429b55d29cd83b94f4ca0fa455b1ffad58b6))
+
 ## [0.14.0](https://www.github.com/GluuFederation/inbound-saml/compare/v0.13.3...v0.14.0) (2022-07-08)
 
 
