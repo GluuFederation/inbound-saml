@@ -1,5 +1,15 @@
 # Changelog
 
+## [0.16.0](https://www.github.com/GluuFederation/inbound-saml/compare/v0.15.0...v0.16.0) (2022-07-11)
+
+
+### Features
+
+* **loggerDecorator:** call add with trustRelation ([6cf18d7](https://www.github.com/GluuFederation/inbound-saml/commit/6cf18d77154a20214f355ef51bad7ce422c3a080))
+* **loggerDecorator:** call debug with expected params ([6cf18d7](https://www.github.com/GluuFederation/inbound-saml/commit/6cf18d77154a20214f355ef51bad7ce422c3a080))
+* **loggerDecorator:** call info with expected params ([6cf18d7](https://www.github.com/GluuFederation/inbound-saml/commit/6cf18d77154a20214f355ef51bad7ce422c3a080))
+* **logging:** add logger decorator to add tr composite ([93c7a93](https://www.github.com/GluuFederation/inbound-saml/commit/93c7a93e31738e193e2d41cb9edbaa7c305104f7))
+
 ## [0.15.0](https://www.github.com/GluuFederation/inbound-saml/compare/v0.14.0...v0.15.0) (2022-07-11)
 
 
