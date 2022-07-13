@@ -1,3 +1,4 @@
+import { WinstonLogger } from '@sp-proxy/frameworks-drivers/main/logger/WinstonLogger'
 import { AddTrFromMetadataFacade } from '@sp-proxy/interface-adapters/api/AddTrFromMetadataFacade'
 import { GetSamlFetchExternalData } from '@sp-proxy/interface-adapters/data/GetSamlFetchExternalData'
 import { AddTrFromMetadataController } from '@sp-proxy/interface-adapters/delivery/AddTrFromMetadataController'
@@ -12,6 +13,7 @@ import { TrustRelationWithDefaultFactory } from '@sp-proxy/use-cases/factories/T
 import nock from 'nock'
 import { EventEmitter } from 'stream'
 import config from '../config/env'
+import { LogAddTrGatewayDecorator } from '../data/decorators/LogAddTrGatewayDecorator'
 import { JwtSigner } from '../data/helpers/JwtSigner'
 import { TokenRequestFactory } from '../data/helpers/TokenRequestFactory'
 import { UmaAuthenticator } from '../data/helpers/UmaAuthenticator'
@@ -43,10 +45,14 @@ describe('AddTrFromMetadataFacade - integration', () => {
       config.oxTrustApi,
       new TokenRequestFactory()
     )
-    const addTrGateway = new OxTrustAddTrustRelation(
+    const oxTrustAddTrGateway = new OxTrustAddTrustRelation(
       config.oxTrustApi,
       dataMapper,
       umaAuthenticator
+    )
+    const addTrGateway = new LogAddTrGatewayDecorator(
+      WinstonLogger.getInstance(),
+      oxTrustAddTrGateway
     )
     const interactor = new AddTrFromMetadataInteractor(
       externalDataGateway,
