@@ -1,0 +1,59 @@
+openapi: 3.0.0
+info:
+  title: inbound-saml
+  version: 1.0.0
+  license:
+    name: Apache-2.0
+  description: |-
+    Gluu inbound-saml module API to provide public metadata and feature to add Trusted IDP from metadata url
+servers:
+  - url: /inbound-saml
+paths:
+  /sp/metadata:
+    get:
+      summary: /sp/metadata
+      responses:
+        '200':
+          description: xml metadata
+        '304':
+          description: not modified
+      tags:
+        - Metadata
+
+  /trust-relation/metadata:
+    post:
+      summary: /trust-relation/metadata
+      description: Creates a new trust-relation from metadata URL
+      requestBody:
+        required: true
+        content: 
+          application/json:
+            schema:
+              $ref: '#/components/schemas/trustedIdpFromUrlProps'
+      responses:
+        '201':
+          description: created
+      tags:
+        - TrustedIdp
+tags: []
+
+components:
+  schemas:
+    trustedIdpFromUrlProps:
+      type: object
+      required:
+        - name
+        - host
+        - url
+      properties:
+        name:
+          type: string
+          example: 'SuperCustomer Remote IDP'
+        host:
+          type: string
+          description: hostname including any subdomain
+          example: 'idp.supercustomer.org'
+        url:
+          type: string
+          description: metadata public url
+          example: 'https://idp.supercustomer.org/idp/metadata'
