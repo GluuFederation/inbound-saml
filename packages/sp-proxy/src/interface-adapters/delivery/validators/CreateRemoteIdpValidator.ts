@@ -14,6 +14,8 @@ export class CreateRemoteIdpValidator implements IValidator {
       throw new InvalidRequestError('Missing param: singleSignOnService.')
     } else if (!('signingCertificates' in request.body)) {
       throw new InvalidRequestError('Missing param: signingCertificates.')
+    } else if (!('host' in request.body)) {
+      throw new InvalidRequestError('Missing param: host.')
     }
     return true
   }

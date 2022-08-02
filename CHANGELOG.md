@@ -1,5 +1,62 @@
 # Changelog
 
+## [0.16.0](https://www.github.com/GluuFederation/inbound-saml/compare/v0.15.0...v0.16.0) (2022-07-11)
+
+
+### Features
+
+* **loggerDecorator:** call add with trustRelation ([6cf18d7](https://www.github.com/GluuFederation/inbound-saml/commit/6cf18d77154a20214f355ef51bad7ce422c3a080))
+* **loggerDecorator:** call debug with expected params ([6cf18d7](https://www.github.com/GluuFederation/inbound-saml/commit/6cf18d77154a20214f355ef51bad7ce422c3a080))
+* **loggerDecorator:** call info with expected params ([6cf18d7](https://www.github.com/GluuFederation/inbound-saml/commit/6cf18d77154a20214f355ef51bad7ce422c3a080))
+* **logging:** add logger decorator to add tr composite ([93c7a93](https://www.github.com/GluuFederation/inbound-saml/commit/93c7a93e31738e193e2d41cb9edbaa7c305104f7))
+
+## [0.15.0](https://www.github.com/GluuFederation/inbound-saml/compare/v0.14.0...v0.15.0) (2022-07-11)
+
+
+### Features
+
+* **logger:** setup daily rotation ([80f4591](https://www.github.com/GluuFederation/inbound-saml/commit/80f4591de7260e020bda90f3fb859f42a0876741))
+* **logging:** setup according to gluu-server patterns ([a93b141](https://www.github.com/GluuFederation/inbound-saml/commit/a93b141c22f5970b0db6096b88ecfe876097044d))
+* **serverConfig:** parse int and bool from env ([a56f969](https://www.github.com/GluuFederation/inbound-saml/commit/a56f96972c76eccfc6c01911ae9256b03de606e5))
+* **server:** log start info ([bd4c429](https://www.github.com/GluuFederation/inbound-saml/commit/bd4c429b55d29cd83b94f4ca0fa455b1ffad58b6))
+
+## [0.14.0](https://www.github.com/GluuFederation/inbound-saml/compare/v0.13.3...v0.14.0) (2022-07-08)
+
+
+### Features
+
+* **config:** validate config loaded from env ([#138](https://www.github.com/GluuFederation/inbound-saml/issues/138)) ([0c62053](https://www.github.com/GluuFederation/inbound-saml/commit/0c62053c8e485eaf2ae4d8e9835831bea05fde41))
+
+### [0.13.3](https://www.github.com/GluuFederation/inbound-saml/compare/v0.13.2...v0.13.3) (2022-06-29)
+
+
+### Bug Fixes
+
+* **config:** correct env var name for `proxyConfigPath` ([2aaa2d9](https://www.github.com/GluuFederation/inbound-saml/commit/2aaa2d931be505ef2930ce49f00eb7eeada0d3d9))
+* **config:** update configuration env variables names  ([#135](https://www.github.com/GluuFederation/inbound-saml/issues/135)) ([2aaa2d9](https://www.github.com/GluuFederation/inbound-saml/commit/2aaa2d931be505ef2930ce49f00eb7eeada0d3d9))
+* remove old unused persistence configuration ([2aaa2d9](https://www.github.com/GluuFederation/inbound-saml/commit/2aaa2d931be505ef2930ce49f00eb7eeada0d3d9))
+
+### [0.13.2](https://www.github.com/GluuFederation/inbound-saml/compare/v0.13.1...v0.13.2) (2022-06-28)
+
+
+### Bug Fixes
+
+* **CreateRemoteIdp:** throws if no host param ([#133](https://www.github.com/GluuFederation/inbound-saml/issues/133)) ([e1c969f](https://www.github.com/GluuFederation/inbound-saml/commit/e1c969f172414b06fd44467eacfd769ddcca5d4b))
+
+### [0.13.1](https://www.github.com/GluuFederation/inbound-saml/compare/v0.13.0...v0.13.1) (2022-06-11)
+
+
+### Bug Fixes
+
+* **UmaAuthenticator:** add needed content-type headers ([92a25e7](https://www.github.com/GluuFederation/inbound-saml/commit/92a25e7a83f3a96f15d69fc520607fea54ce306e))
+
+## [0.13.0](https://www.github.com/GluuFederation/inbound-saml/compare/v0.12.0...v0.13.0) (2022-05-11)
+
+
+### Features
+
+* **server:** turn ssl into optional ([#127](https://www.github.com/GluuFederation/inbound-saml/issues/127)) ([5428ea2](https://www.github.com/GluuFederation/inbound-saml/commit/5428ea2c06c33eeab3b082c8c139b78fcfa36a8e))
+
 ## [0.12.0](https://www.github.com/GluuFederation/inbound-saml/compare/v0.11.0...v0.12.0) (2022-03-29)
 
 

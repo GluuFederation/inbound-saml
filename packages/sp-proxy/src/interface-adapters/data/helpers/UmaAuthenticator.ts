@@ -33,6 +33,9 @@ export class UmaAuthenticator implements IUmaAuthenticator {
     // const endpointResponse = await axios.get(endpoint, this.AXIOS_CONFIG)
     const endpointResponse = await axios.request({
       url: endpoint,
+      headers: {
+        'Content-Type': 'application/json'
+      },
       ...this.AXIOS_CONFIG,
       method
     })

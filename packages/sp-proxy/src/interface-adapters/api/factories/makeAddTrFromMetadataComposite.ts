@@ -1,4 +1,6 @@
+import { WinstonLogger } from '@sp-proxy/frameworks-drivers/main/logger/WinstonLogger'
 import config from '@sp-proxy/interface-adapters/config/env'
+import { LogAddTrGatewayDecorator } from '@sp-proxy/interface-adapters/data/decorators/LogAddTrGatewayDecorator'
 import { GetSamlFetchExternalData } from '@sp-proxy/interface-adapters/data/GetSamlFetchExternalData'
 import { JwtSigner } from '@sp-proxy/interface-adapters/data/helpers/JwtSigner'
 import { TokenRequestFactory } from '@sp-proxy/interface-adapters/data/helpers/TokenRequestFactory'
@@ -27,14 +29,18 @@ export const makeAddTrFromMetadataComposite = (
   const remoteIdpFromExtDataFactory = new RemoteIdpFromExternalDataFactory()
 
   const trWithDefaultFactory = new TrustRelationWithDefaultFactory()
-  const addTrGateway = new OxTrustAddTrustRelation(
-    config.oxTrustApi,
-    new AddTrustRelationOxTrustMapper(),
-    new UmaAuthenticator(
-      new UmaHeaderParser(),
-      new JwtSigner(),
+
+  const addTrGateway = new LogAddTrGatewayDecorator(
+    WinstonLogger.getInstance(),
+    new OxTrustAddTrustRelation(
       config.oxTrustApi,
-      new TokenRequestFactory()
+      new AddTrustRelationOxTrustMapper(),
+      new UmaAuthenticator(
+        new UmaHeaderParser(),
+        new JwtSigner(),
+        config.oxTrustApi,
+        new TokenRequestFactory()
+      )
     )
   )
   const interactor = new AddTrFromMetadataInteractor(

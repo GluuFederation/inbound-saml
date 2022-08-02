@@ -1,6 +1,6 @@
 {
   "name": "inbound-saml",
-  "version": "0.12.0",
+  "version": "0.16.0",
   "description": "Gluu inbound-saml module",
   "repository": {
     "type": "git",
@@ -19,7 +19,7 @@
     "test:all": "yarn test:unit && yarn test:integration",
     "test:integration:docker": "docker-compose -f docker-compose-test.yml up -d && yarn test:integration && docker-compose -f docker-compose-test.yml down",
     "test:coverage": "jest --ci --coverage",
-    "test:behaviour": "NODE_ENV=test cucumber-js packages/get-saml-metadata packages/sp-proxy -p default --exit",
+    "test:behaviour": "NODE_ENV=test INBOUND_SAML_USE_TLS=true cucumber-js packages/get-saml-metadata packages/sp-proxy -p default --exit",
     "test:staged": "yarn test:all --no-cache --findRelatedTests",
     "prepare": "husky install",
     "build": "tsc && tsc-alias",
@@ -38,6 +38,7 @@
     "@commitlint/cli": "^13.1.0",
     "@commitlint/config-conventional": "^13.1.0",
     "@cucumber/cucumber": "^7.2.1",
+    "@faker-js/faker": "^7.3.0",
     "@types/chai": "^4.2.21",
     "@types/express": "^4.17.13",
     "@types/faker": "^5.5.8",
@@ -88,6 +89,7 @@
     "passport-saml": "^3.1.2",
     "uuid": "^8.3.2",
     "winston": "^3.3.3",
+    "winston-daily-rotate-file": "^4.7.1",
     "xml2js": "^0.4.23"
   }
 }

@@ -43,10 +43,24 @@ describe('CreateRemoteIdpValidator', () => {
     const validRequest = {
       body: {
         name: 'valid name',
+        host: 'valid host',
         signingCertificates: ['valid cert 1', 'valid cert 2'],
         singleSignOnService: ['valid ssoService']
       }
     }
     expect(await sut.isValid(validRequest as any)).toBeTruthy()
+  })
+  it('should throw InvalidRequestError if no host', async () => {
+    const sut = new CreateRemoteIdpValidator()
+    const invalidRequest = {
+      body: {
+        name: 'valid name',
+        signingCertificates: ['valid cert 1', 'valid cert 2'],
+        singleSignOnService: ['valid ssoService']
+      }
+    }
+    await expect(sut.isValid(invalidRequest as any)).rejects.toThrow(
+      new InvalidRequestError('Missing param: host.')
+    )
   })
 })
