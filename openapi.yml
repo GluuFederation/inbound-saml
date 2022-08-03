@@ -15,7 +15,7 @@ paths:
       summary: /sp/metadata
       responses:
         '200':
-          description: xml metadata
+          description: SP Proxy xml metadata
         '304':
           description: not modified
       tags:
