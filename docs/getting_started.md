@@ -6,11 +6,11 @@
 2. [Extract and save the required UMA Api RP Key](docs/md/extract_private_key.md)
 3. Enable `oxtrust_api_access_policy`. Navigate to  `Configuration`  >  `Manage Custom Scripts` > `UMA RPT Policies`
 4. Go to **JSON Configuration** > **OxAuth** and look for `authorizationRequestCustomAllowedParameters`. Add the parameter `providerHost`.
-5. Add `inbound_saml` interception script to **Person Authentication Scripts** and enable it.
+5. Add [`inbound_saml` interception script](https://gist.github.com/christian-hawk/3c9b982cd2e226fb27537665a770036b) to **Person Authentication Scripts** and enable it.
 6. Download and extract latest `inbound-saml` release.
 7. Go to `inbound-saml` folder and run `yarn`, then `yarn build`
 8. Configure according to **Production Settings** above
-9. Start in production mode using `yarn start`
+9. Start in production mode using `yarn start` (change to `systemctl` service)
 
 ## Production Settings
 
