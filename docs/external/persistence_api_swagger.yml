@@ -1,0 +1,282 @@
+openapi: 3.0.0
+info:
+  version: 1.0.1
+  title: InboundSaml Trusted Idps API
+  description: API to CRUD Trust Relation Operations
+
+tags:
+  - name: trustedIdp
+
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/chris-hawk/inbound-saml/1.0.1
+  - url: https://example.io/v1/inbound-saml
+
+# Basic authentication?
+security:
+  - BasicAuth: []
+
+paths:
+  /trusted-idp:
+    get:
+      tags:
+        - trustedIdp
+      description: Returns a list of trusted-idps
+     
+  
+      responses:
+        '200':
+          description: Sucesssfully returned a list of trusted-idps
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/trustedIdp'      
+        '400':
+          $ref: '#/components/responses/400Error'
+        
+        '500': 
+          $ref: '#/components/responses/500Error'
+         
+    post:
+      tags:
+          - trustedIdp
+      description: Create a new trust relation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/trustedIdpProps'
+      responses:
+        '201':
+          description: Sucessfully created trust relation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'Created'
+        '403':
+          description: Trust Relation already exists
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'A Trust relation with remote idp host samltest.id already exists'
+        
+        '400':
+          $ref: '#/components/responses/400Error'
+        
+        '500': 
+          $ref: '#/components/responses/500Error'
+        
+
+  /trusted-idp/{remoteIdpHost}:
+    parameters:
+      - name: remoteIdpHost
+        in: path
+        required: true
+        description: existing trust relation's remote idp host to perform action
+        schema:
+          type: string
+        example: samltest.id
+
+    get:
+      tags:
+        - trustedIdp
+      description: Retrieve trust relation by host
+      responses:
+        '200':
+          description: Sucessfully returned the Trust Relation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/trustedIdp'
+        
+        '404':
+          $ref: '#/components/responses/404Error'
+        
+        '500': 
+          $ref: '#/components/responses/500Error'
+  
+    put:
+      tags:
+        - trustedIdp
+      description: Replace or update an existing trust relation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/trustedIdpProps'
+
+      responses:
+        '204':
+          description: Sucessfully updated trust relation
+
+        '404':
+          $ref: '#/components/responses/404Error'
+                  
+        '400':
+          $ref: '#/components/responses/400Error'
+        
+        '500': 
+          $ref: '#/components/responses/500Error'
+
+    delete:
+      tags:
+        - trustedIdp
+      description: Delete an existing Trust Relation
+      responses:
+        '200':
+          description: Sucessfully deleted trust relation
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: 'OK'
+        '404':
+          $ref: '#/components/responses/404Error'
+        
+        '500': 
+          $ref: '#/components/responses/500Error'
+
+    
+components:
+
+  responses:
+
+    400Error:
+      description: Invalid request
+      content:
+        application/json:
+          schema:
+            type: object 
+            properties:
+              message:
+                type: string
+                example: 'Invalid request error'
+
+    500Error:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            type: object 
+            properties:
+              message:
+                type: string
+                example: 'Internal Server Error, please contact admin'
+
+    404Error:
+      description: Not found
+      content:
+        application/json:
+          schema:
+            type: object 
+            properties:
+              message:
+                type: string
+                example: 'The requested ressource was not found'
+
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+
+  schemas:
+
+    trustedIdpProps:
+      type: object
+      required:
+        - remoteIdp
+        - selectedSingleSignOnService
+      properties:
+        remoteIdp:
+          $ref: '#/components/schemas/RemoteIdpProps'
+        selectedSingleSignOnService:
+          $ref: '#/components/schemas/SingleSignOnService'
+
+    trustedIdp:
+      type: object
+      required:
+        - remoteIdp
+        - selectedSingleSignOnService
+      properties:
+        remoteIdp:
+          $ref: '#/components/schemas/RemoteIdp'
+        selectedSingleSignOnService:
+          $ref: '#/components/schemas/SingleSignOnService'
+
+    RemoteIdp:
+      allOf:
+        - $ref: '#/components/schemas/RemoteIdpProps'
+        - type: object
+          required:
+            - id
+          properties:
+           id:
+            type: string
+            format: uuid
+
+    RemoteIdpProps:
+      type: object
+      required: 
+        - name
+        - host
+        - supportedSingleSignOnServices
+        - signingCertificates
+      properties:
+        name:
+          type: string
+          example: 'Super Cool Customer IDP'
+        host:
+          type: string
+          example: samltest.id
+          description: works as an unique identifier to the remote idp
+        supportedSingleSignOnServices:
+          $ref: '#/components/schemas/ArrayOfSingleSignOnServices'
+        signingCertificates:
+          description: Remote IDP signing certificates, maximum 2
+          type: array
+          maxLength: 2
+          items:
+            type: string
+            example: ADFALFKFSLAKCXAC!=safaFLKWR@KLSFAFALASÇFLASÇFLFSÇLSAFÇL<#Ç$L$!Ç$L!#
+    
+
+    ArrayOfSingleSignOnServices:
+      type: array
+      items:
+        $ref: '#/components/schemas/SingleSignOnService'
+      example:
+        - binding: 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST'
+          location: 'https://samltest.id/idp/profile/SAML2/POST/SSO'
+        - binding: 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect'
+          location: 'https://samltest.id/idp/profile/SAML2/Redirect/SSO'
+        - binding: 'urn:mace:shibboleth:1.0:profiles:AuthnRequest'
+          location: 'https://samltest.id/idp/profile/Shibboleth/SSO'
+        - binding: 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST-SimpleSign'
+          location: 'https://samltest.id/idp/profile/SAML2/POST-SimpleSign/SSO'
+
+
+    SingleSignOnService:
+      type: object
+      properties:
+        binding:
+          type: string
+          example: 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST'
+        location:
+          type: string
+          example: 'https://samltest.id/idp/profile/SAML2/POST/SSO'
