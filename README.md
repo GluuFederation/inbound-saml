@@ -1,10 +1,11 @@
 # Inbound Saml
+
 [![codecov](https://codecov.io/gh/GluuFederation/inbound-saml/branch/master/graph/badge.svg?token=IIN1I5XAUG)](https://codecov.io/gh/GluuFederation/inbound-saml)
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/8efe7bd74a5d45e3b7c0a2be25d7ac8e)](https://www.codacy.com/gh/GluuFederation/inbound-saml/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=GluuFederation/inbound-saml&amp;utm_campaign=Badge_Grade)
 [![Actions Status](https://github.com/GluuFederation/inbound-saml/workflows/BDD/badge.svg)](https://github.com/GluuFederation/inbound-saml/actions)
 [![Actions Status](https://github.com/GluuFederation/inbound-saml/workflows/Test/badge.svg)](https://github.com/GluuFederation/inbound-saml/actions)
 
-```ascii                                                
+```ascii
              -/:`                         
              sss-                         
              sss-                         
@@ -27,12 +28,12 @@ It's initially intended to be used by [gluu-server](https://gluu.org):
 
 ## Features
 
-  - ✅ Automatic fetch remote IDP data from metadata
-  - [ ] Automatic remote idp key rotation handling
-  - ✅ Expose single metadata to be consumed by all remote IDPs
-  - ✅ Create (register) Trust Relation and remote IDP provider providing metadata url
-  - ✅ SP initiated authentication
-  - [ ] IDP initiated authentication
+- ✅ Automatic fetch remote IDP data from metadata
+- [ ] Automatic remote idp key rotation handling
+- ✅ Expose single metadata to be consumed by all remote IDPs
+- ✅ Create (register) Trust Relation and remote IDP provider providing metadata url
+- ✅ SP initiated authentication
+- [ ] IDP initiated authentication
 
 ## Developing
 
@@ -42,7 +43,11 @@ Please check [`CONTRIBUTING.md`](CONTRIBUTING.md)
 
   Independent modules:
   
-  - [`@get-saml-metadata`](src/get-saml-metadata)
+- [`@get-saml-metadata`](src/get-saml-metadata)
+
+## Docs
+
+- [Getting Started](docs/getting_started.md)
 
 ## Support
 
