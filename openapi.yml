@@ -11,6 +11,7 @@ servers:
 paths:
   /sp/metadata:
     get:
+      security: []
       summary: /sp/metadata
       responses:
         '200':
@@ -24,6 +25,9 @@ paths:
     post:
       summary: /trust-relation/metadata
       description: Creates a new trust-relation from metadata URL
+      security:
+        - basicAuth: []
+      
       requestBody:
         required: true
         content: 
@@ -57,3 +61,8 @@ components:
           type: string
           description: metadata public url
           example: 'https://idp.supercustomer.org/idp/metadata'
+  
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
