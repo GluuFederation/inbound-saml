@@ -2,8 +2,8 @@
 
 ## Side Install to Gluu Server 4.4.x
 
-1. Download and Add Persistence API jar
-2. Extract and save the required UMA Api RP Key
+1. [Download and Add Persistence API jar](docs/md/persistence_api.md)
+2. [Extract and save the required UMA Api RP Key](docs/md/extract_private_key.md)
 3. Enable `oxtrust_api_access_policy`. Navigate to  `Configuration`  >  `Manage Custom Scripts` > `UMA RPT Policies`
 4. Download and extract latest `inbound-saml` release
 5. Go to `inbound-saml` folder and run `yarn build`.
