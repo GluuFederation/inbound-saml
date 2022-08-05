@@ -10,7 +10,8 @@
 6. Download and extract latest `inbound-saml` release.
 7. Go to `inbound-saml` folder and run `yarn`, then `yarn build`
 8. Configure according to **Production Settings** above
-9. Start in production mode using `yarn start` (change to `systemctl` service)
+9. Edit apache configuration file and add `ProxyPass` from `/inbound-saml` to port `5000`.
+10. Start in production mode using `yarn start` (change to `systemctl` service)
 
 ## Production Settings
 
