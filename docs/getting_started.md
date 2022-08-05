@@ -10,7 +10,16 @@
 6. Download and extract latest `inbound-saml` release.
 7. Go to `inbound-saml` folder and run `yarn`, then `yarn build`
 8. Configure according to **Production Settings** above
-9. Edit apache configuration file and add `ProxyPass` from `/inbound-saml` to port `5000`.
+9. Edit apache configuration file (`gluu_https.conf`) and add `Location` from `/inbound-saml` to port `5000`, example:
+
+```conf
+<Location /inbound-saml>
+        ProxyPass http://localhost:5000/inbound-saml retry=5 connectiontimeout=60 timeout=60
+        Order deny,allow
+        Allow from all
+</Location>
+```
+
 10. Start in production mode using `yarn start` (change to `systemctl` service)
 
 ## Production Settings
