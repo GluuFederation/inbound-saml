@@ -10,7 +10,7 @@
 6. Ensure you have [**node**](https://nodejs.org/en/download/) and [**yarn**](https://yarnpkg.com/getting-started/install) installed in your environment (outside chroot).
 7. Download and extract latest `inbound-saml` release **outside** the chroot container
 8. Go to `inbound-saml` folder and run `yarn`, then `yarn build`
-9. Configure according to **Production Settings** above
+9. Configure according to [**Production Settings**](#production-settings) bellow
 10. Edit apache configuration file (`gluu_https.conf`) and add `Location` from `/inbound-saml` to port `5000`, example:
 
 ```conf
