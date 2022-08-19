@@ -2,16 +2,16 @@
 
 ## Side Install to Gluu Server 4.4.x
 
-1. [Download and Add Persistence API jar](/docs/md/persistence_api.md)
-2. [Extract and save the required UMA Api RP Key](/docs/md/extract_private_key.md)
-3. Enable `oxtrust_api_access_policy`. Navigate to  `Configuration`  >  `Manage Custom Scripts` > `UMA RPT Policies`
-4. Go to **JSON Configuration** > **OxAuth** and look for `authorizationRequestCustomAllowedParameters`. Add the parameter `providerHost`.
-5. Add [`inbound_saml` interception script](https://gist.github.com/christian-hawk/3c9b982cd2e226fb27537665a770036b) to **Person Authentication Scripts** and enable it.
-6. Ensure you have [**node**](https://nodejs.org/en/download/) and [**yarn**](https://yarnpkg.com/getting-started/install) installed in your environment (outside chroot).
-7. Download and extract latest `inbound-saml` release **outside** the chroot container
-8. Go to `inbound-saml` folder and run `yarn`, then `yarn build`
-9. Configure according to [**Production Settings**](#production-settings) bellow
-10. Edit apache configuration file (`gluu_https.conf`) and add `Location` from `/inbound-saml` to port `5000`, example:
+1. [Download and add Persistence API jar](/docs/md/persistence_api.md).
+2. [Extract and save the required UMA API RP Key](/docs/md/extract_private_key.md).
+3. Navigate to  `Configuration` > `Manage Custom Scripts` > `UMA RPT Policies` and enable `oxtrust_api_access_policy`.
+4. Go to `JSON Configuration` > `oxAuth Configuration` and look for `authorizationRequestCustomAllowedParameters`. Add the parameter `providerHost`.
+5. Add [inbound_saml interception script](https://gist.github.com/christian-hawk/3c9b982cd2e226fb27537665a770036b) to `Configuration` > `Person Authentication Scripts` and enable it.
+6. Ensure you have [node](https://nodejs.org/en/download/) and [yarn](https://yarnpkg.com/getting-started/install) installed in your environment (outside chroot).
+7. Download and extract latest `inbound-saml` release **outside** the chroot container.
+8. Go to `inbound-saml` folder and run `yarn`, then `yarn build`.
+9. Configure according to either [Production Settings](#production-settings) or [Development Environment Settings](#development-environment-settings) below.
+10. Edit apache configuration file (`/etc/apache2/sites-available/https_gluu.conf` on Ubuntu Server) and add `Location` from `/inbound-saml` to port `5000`, example:
 
 ```conf
 <Location /inbound-saml>
@@ -21,7 +21,7 @@
 </Location>
 ```
 
-11. Start in production mode using `yarn start` (change to `systemctl` service)
+11. Start in production mode using `yarn start` (change to `systemctl` service).
 
 ## Production Settings
 
@@ -55,7 +55,7 @@ Proxy server is used to expose and address services through REST API.
 
 ### SP Proxy Service Settings
 
-The configuration about the SP Proxy Service itself (and not about the http server) is located at a json file that implements `SpProxyConfigProps`
+The configuration about the SP Proxy Service itself (and not about the http server) is located at a json file that implements `SpProxyConfigProps` (`inbound-saml/packages/sp-proxy/src/frameworks-drivers/file-persistence/sp-proxy-config-dev.json`).
 
 |key| description | default |
 |--|--|--|
@@ -70,7 +70,7 @@ The configuration about the SP Proxy Service itself (and not about the http serv
 
 When `NODE_ENV=dev`, development environment is activated.
 
-In the development settings, you can use the ENV variables or change/enter default values to files:
+In the development settings, you can use the environment variables or change/enter default values to files:
 
 - **Persistence API Settings** : `packages/sp-proxy/src/frameworks-drivers/main/config`
 - **SP Proxy Server Settings**: `packages/sp-proxy/src/interface-adapters/config/env.ts`
