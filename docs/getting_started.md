@@ -10,11 +10,13 @@
 6. Ensure you have [node](https://nodejs.org/en/download/) and [yarn](https://yarnpkg.com/getting-started/install) installed in your environment (outside chroot).
 7. Download and extract latest `inbound-saml` release **outside** the chroot container.
 8. Move `inbound-saml-v.X.Y.z` folder to `/opt/inbound-saml` folder
-9. Create `inboundsaml` user in linux. (i.e. `sudo adduser inboundsaml`)
-10. Change ownership from `/opt/inbound-saml` folder to `inboundsaml` user.
-11. Go to `inbound-saml` folder and run `yarn`, then `yarn build`.
-12. Configure according to either [Production Settings](#production-settings) or [Development Environment Settings](#development-environment-settings) below.
-13. Edit apache configuration file (`/etc/apache2/sites-available/https_gluu.conf` on Ubuntu Server) and add `Location` from `/inbound-saml` to port `5000`, example:
+9. Move systemd unit file to `/etc/systemd/system`. (i.e. `sudo mv /opt/inbound-saml/setup/inboundsaml.service /etc/systemd/system`)
+10. Change ownership from service to root user (`chown root:root /etc/systemd/system/inboundsaml.service`)
+11. Create `inboundsaml` user in linux. (i.e. `sudo adduser inboundsaml`) (required in production env only)
+12. Change ownership from `/opt/inbound-saml` folder to `inboundsaml` user. (required in production env only) (i.e. `sudo chown -R inboundsaml /opt/inbound-saml`)
+13. Go to `inbound-saml` folder and run `yarn`, then `yarn build`. (required in production env only)
+14. Configure according to either [Production Settings](#production-settings) or [Development Environment Settings](#development-environment-settings) below.
+15. Edit apache configuration file (`/etc/apache2/sites-available/https_gluu.conf` on Ubuntu Server) and add `Location` from `/inbound-saml` to port `5000`, example:
 
 ```conf
 <Location /inbound-saml>
@@ -27,11 +29,6 @@
 14. Start in production mode using `yarn start` (change to `systemctl` service).
 
 ## Production Settings
-
-### Service Script
-
-1. Create an user `inboundsaml` with no privileges
-2. Move extracted content to 
 
 ### Persistence API Settings
 
