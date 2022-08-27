@@ -1,0 +1,15 @@
+[Unit]
+Description=Inbound-Saml
+Documentation=https://gluu.org/docs
+After=network.target
+
+[Service]
+Type=simple
+User=inboundsaml
+Environment=NODE_ENV=prod
+WorkingDirectory= /opt/inbound-saml/dist/sp-proxy/src/frameworks-drivers/main
+ExecStart=/usr/bin/node server.js
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
