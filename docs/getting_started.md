@@ -2,6 +2,8 @@
 
 ## Side Install to Gluu Server 4.4.x
 
+Steps bellow should be used to development or production environment.
+
 1. [Download and add Persistence API jar](/docs/md/persistence_api.md).
 2. [Extract and save the required UMA API RP Key](/docs/md/extract_private_key.md).
 3. Navigate to  `Configuration` > `Manage Custom Scripts` > `UMA RPT Policies` and enable `oxtrust_api_access_policy`.
@@ -9,14 +11,25 @@
 5. Add [inbound_saml interception script](https://gist.github.com/christian-hawk/3c9b982cd2e226fb27537665a770036b) to `Configuration` > `Person Authentication Scripts` and enable it.
 6. Ensure you have [node](https://nodejs.org/en/download/) and [yarn](https://yarnpkg.com/getting-started/install) installed in your environment (outside chroot).
 7. Download and extract latest `inbound-saml` release **outside** the chroot container.
-8. Move `inbound-saml-v.X.Y.z` folder to `/opt/inbound-saml` folder
-9. Move systemd unit file to `/etc/systemd/system`. (i.e. `sudo mv /opt/inbound-saml/setup/inboundsaml.service /etc/systemd/system`)
-10. Change ownership from service to root user (`chown root:root /etc/systemd/system/inboundsaml.service`)
-11. Create `inboundsaml` user in linux. (i.e. `sudo adduser inboundsaml`) (required in production env only)
-12. Change ownership from `/opt/inbound-saml` folder to `inboundsaml` user. (required in production env only) (i.e. `sudo chown -R inboundsaml /opt/inbound-saml`)
-13. Go to `inbound-saml` folder and run `yarn`, then `yarn build`. (required in production env only)
-14. Configure according to either [Production Settings](#production-settings) or [Development Environment Settings](#development-environment-settings) below.
-15. Edit apache configuration file (`/etc/apache2/sites-available/https_gluu.conf` on Ubuntu Server) and add `Location` from `/inbound-saml` to port `5000`, example:
+8. Edit apache configuration file as explained in [Server ProxyPass Section](#server-proxypass)
+
+Next steps are required **only for production environment** (for development environment, proceed to [Development Environment Settings](#development-environment-settings)).
+
+1. Move `inbound-saml-v.X.Y.z` folder to `/opt/inbound-saml` folder
+2. Move systemd unit file to `/etc/systemd/system`. (i.e. `sudo mv /opt/inbound-saml/setup/inboundsaml.service /etc/systemd/system`)
+3. Change ownership from service to root user (`chown root:root /etc/systemd/system/inboundsaml.service`)
+4. Create `inboundsaml` user in linux. (i.e. `sudo adduser inboundsaml`) (required in production env only)
+5. Change ownership from `/opt/inbound-saml` folder to `inboundsaml` user. (required in production env only) (i.e. `sudo chown -R inboundsaml /opt/inbound-saml`)
+6. Go to `inbound-saml` folder and run `yarn`, then `yarn build`. (required in production env only)
+7. Configure [Production Settings](#production-settings)
+8. Start systemd service: `sudo systemctl start inboundsaml`
+9. Enable it to start automatically on boot: `sudo systemctl enable inboundsaml`
+
+## Server ProxyPass
+
+Edit server configuration to proxy `/inbound-saml` to `http://localhost:5000/inbound-saml`
+
+Bundled apache configuration file is named `https_gluu.conf`. File location changes according to linux distribution. In ubuntu, it's located in (`/etc/apache2/sites-available/https_gluu.conf`), add the following configuration:
 
 ```conf
 <Location /inbound-saml>
@@ -25,9 +38,6 @@
         Allow from all
 </Location>
 ```
-
-16. Start systemd service: `sudo systemctl start inboundsaml`
-17. Enable it to start automatically on boot: `sudo systemctl enable inboundsaml`
 
 ## Production Settings
 
