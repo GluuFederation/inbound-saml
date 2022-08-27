@@ -13,6 +13,7 @@ Steps bellow should be used to development or production environment.
 7. Download and extract latest `inbound-saml` release **outside** the chroot container.
 8. Edit apache configuration file as explained in [Server ProxyPass Section](#server-proxypass)
 
+### Production Only Steps
 Next steps are required **only for production environment** (for development environment, proceed to [Development Environment Settings](#development-environment-settings)).
 
 1. Move `inbound-saml-v.X.Y.z` folder to `/opt/inbound-saml` folder
