@@ -26,7 +26,8 @@
 </Location>
 ```
 
-14. Start in production mode using `yarn start` (change to `systemctl` service).
+14. Start systemd service: `sudo systemctl start inboundsaml`
+15. Enable it to start automatically on boot: `sudo systemctl enable inboundsaml`
 
 ## Production Settings
 
