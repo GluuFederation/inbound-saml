@@ -26,8 +26,8 @@
 </Location>
 ```
 
-14. Start systemd service: `sudo systemctl start inboundsaml`
-15. Enable it to start automatically on boot: `sudo systemctl enable inboundsaml`
+16. Start systemd service: `sudo systemctl start inboundsaml`
+17. Enable it to start automatically on boot: `sudo systemctl enable inboundsaml`
 
 ## Production Settings
 
