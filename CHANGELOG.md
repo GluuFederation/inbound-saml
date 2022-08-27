@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.17.0](https://www.github.com/GluuFederation/inbound-saml/compare/v0.16.0...v0.17.0) (2022-08-27)
+
+
+### Features
+
+* add start script to production env ([01f0768](https://www.github.com/GluuFederation/inbound-saml/commit/01f07689f100def880eaab751d5a71e5bdeea06e))
+* **service:** add systemd service script ([a00fef8](https://www.github.com/GluuFederation/inbound-saml/commit/a00fef8d95109f9afd9b8902d12d692767eb88b8))
+
+
+### Bug Fixes
+
+* **security:** upgrade passport-saml ([f06eadc](https://www.github.com/GluuFederation/inbound-saml/commit/f06eadcf0a496dc3bda807007a15f3f18a60e987))
+
 ## [0.16.0](https://www.github.com/GluuFederation/inbound-saml/compare/v0.15.0...v0.16.0) (2022-07-11)
 
 
