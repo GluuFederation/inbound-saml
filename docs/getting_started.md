@@ -51,7 +51,7 @@ Data layers calls oxTrust REST API that handles persistence to multiple backends
 | `INBOUND_SAML_OXTRUST_API_HOST`          | The oxTrust Api Host (i.e. `mysubdomain.mydomain.org`)                                | None                                  |
 | `INBOUND_SAML_OXTRUST_CLIENT_ID`         | OxTrust **API RP** client ID. Open ID Client ID for API Ressource Provider.           | None                                  |
 | `INBOUND_SAML_OXTRUST_API_COMPLETE_PATH` | OxTrust API Complete Path. (without the first forward slash)                          | `identity/restv1/api/v1/inbound-saml` |
-| `INBOUND_SAML_OXTRUST_API_TOKEN_URL`     | OxTrust API Token Url. URL to get token fro oxAuth for accessing the persistence api. | None                                  |
+| `INBOUND_SAML_OXTRUST_API_TOKEN_URL`     | OxTrust API Token Url. URL to get token fro oxAuth for accessing the persistence api. Should use secure protocol (`https`) according to Oauth2 specs | None                                  |
 | `INBOUND_SAML_OXTRUST_API_KID`           | Oxtrust **API RP** rs256 `kid` (extracted from jwks)                                  | None                                  |
 | `INBOUND_SAML_OXTRUST_API_PVK_PATH`      | Oxtrust **rs256 Private Key** extracted from api-rp jwks with above `kid`             | None                                  |
 
