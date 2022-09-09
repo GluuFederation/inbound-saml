@@ -3,10 +3,10 @@
 The Trusted IDP Persistence API is a rest service that handles Trusted IDP entity persistence.
 
 1. Inside the Gluu chroot, navigate to `/opt/gluu/jetty/identity/custom/libs`;
-2. In this folder, download the .jar file corresponding to the Gluu Server version currently installed: <https://jenkins.gluu.org/maven/org/gluu/api-rest/4.5.0-SNAPSHOT/api-rest-4.5.0-SNAPSHOT.jar> ;
+2. In this folder, download the .jar file **corresponding to the Gluu Server version currently installed**: <https://jenkins.gluu.org/maven/org/gluu/api-rest/4.5.0-SNAPSHOT/api-rest-4.5.0-SNAPSHOT.jar> ;
 3. Navigate to `/opt/gluu/jetty/identity/webapps/`;
 4. Create a file called `identity.xml` **if it does not already exist** ;
-5. Add the following to identity.xml as mentioned in doc [identity.xml](https://gluu.org/docs/gluu-server/4.3/api-guide/oxtrust-api/#vm-installation-instructions):
+5. Add the following to identity.xml as mentioned in doc [identity.xml](https://gluu.org/docs/gluu-server/4.4/api-guide/oxtrust-api/#vm-installation-instructions):
 
 ```xml
 <?xml version="1.0"  encoding="ISO-8859-1"?>
@@ -22,5 +22,7 @@ The Trusted IDP Persistence API is a rest service that handles Trusted IDP entit
 ```
 
 6. On the second to last line, replace `[jarName]` with the name of the .jar file downloaded in step 2.
-7. restart **identity** service by command mentioned in document [services](https://gluu.org/docs/gluu-server/4.4/operation/services/)
+7. restart `identity` service by command mentioned in document [services](https://gluu.org/docs/gluu-server/4.4/operation/services/)
 
+## Usage
+Please refer to the [Gluu oxTrust API swagger](https://gluu.org/swagger-ui/?operationsSorter=alpha&url=https://raw.githubusercontent.com/GluuFederation/oxTrust/version_4.4.1/api-server/src/main/resources/META-INF/openapi.yaml) documentation for usage guidelines.
