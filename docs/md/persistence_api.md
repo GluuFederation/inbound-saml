@@ -6,7 +6,7 @@ The Trusted IDP Persistence API is a rest service that handles Trusted IDP entit
 2. In this folder, download the .jar file **corresponding to the Gluu Server version currently installed**: <https://jenkins.gluu.org/maven/org/gluu/api-rest/4.5.0-SNAPSHOT/api-rest-4.5.0-SNAPSHOT.jar> ;
 3. Navigate to `/opt/gluu/jetty/identity/webapps/`;
 4. Create a file called `identity.xml` **if it does not already exist** ;
-5. Add the following to identity.xml as mentioned in doc [identity.xml](https://gluu.org/docs/gluu-server/4.4/api-guide/oxtrust-api/#vm-installation-instructions):
+5. Add the following to identity.xml as mentioned in [oxTrust API documentation](https://gluu.org/docs/gluu-server/4.4/api-guide/oxtrust-api/#vm-installation-instructions):
 
 ```xml
 <?xml version="1.0"  encoding="ISO-8859-1"?>
