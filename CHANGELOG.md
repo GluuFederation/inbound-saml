@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.17.1](https://www.github.com/GluuFederation/inbound-saml/compare/v0.17.0...v0.17.1) (2022-09-22)
+
+
+### Bug Fixes
+
+* **KeyCertFormatter:** return multi-line key or cert ([6c0e71d](https://www.github.com/GluuFederation/inbound-saml/commit/6c0e71dc2eccc1d2203aee151a50fd284b4ba0c2))
+
 ## [0.17.0](https://www.github.com/GluuFederation/inbound-saml/compare/v0.16.0...v0.17.0) (2022-08-27)
 
 
