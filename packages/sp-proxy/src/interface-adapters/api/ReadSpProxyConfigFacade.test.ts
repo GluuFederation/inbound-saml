@@ -1,6 +1,10 @@
+import { SpProxyConfigProps } from '@sp-proxy/entities/protocols/SpProxyConfigProps'
 import { SpProxyConfig } from '@sp-proxy/entities/SpProxyConfig'
 import { ReadSpProxyConfigFacade } from '@sp-proxy/interface-adapters/api/ReadSpProxyConfigFacade'
+import cfg from '@sp-proxy/interface-adapters/config/env'
+import * as configRepo from '@sp-proxy/interface-adapters/data/FileReadProxyConfig'
 import { FileReadProxyConfig } from '@sp-proxy/interface-adapters/data/FileReadProxyConfig'
+import { IReadSpProxyConfigResponse } from '@sp-proxy/interface-adapters/delivery/dtos/IReadSpProxyConfigResponse'
 import { ReadSpProxyConfigControllerMapper } from '@sp-proxy/interface-adapters/delivery/mappers/ReadSpProxyConfigControllerMapper'
 import { ReadSpProxyConfigPresenterMapper } from '@sp-proxy/interface-adapters/delivery/mappers/ReadSpProxyConfigPresenterMapper'
 import { ReadSpProxyConfigController } from '@sp-proxy/interface-adapters/delivery/ReadSpProxyConfigController'
@@ -9,24 +13,22 @@ import { KeyCertLoader } from '@sp-proxy/interface-adapters/external-services/Ke
 import { ReadSpProxyConfigFormatter } from '@sp-proxy/interface-adapters/utils/formatters/ReadSpProxyConfigFormatter'
 import { ReadSpProxyConfigTransformer } from '@sp-proxy/interface-adapters/utils/transformers/ReadSpProxyConfigTransformer'
 import { ReadSpProxyConfigInteractor } from '@sp-proxy/use-cases/ReadSpProxyConfigInteractor'
-import { EventEmitter } from 'stream'
-import * as configRepo from '@sp-proxy/interface-adapters/data/FileReadProxyConfig'
-import { SpProxyConfigProps } from '@sp-proxy/entities/protocols/SpProxyConfigProps'
-import cfg from '@sp-proxy/interface-adapters/config/env'
 import { readFileSync } from 'fs'
-import { IReadSpProxyConfigResponse } from '@sp-proxy/interface-adapters/delivery/dtos/IReadSpProxyConfigResponse'
+import { EventEmitter } from 'stream'
 jest.mock('@sp-proxy/interface-adapters/data/FileReadProxyConfig')
 
-const loadedCert = readFileSync(process.cwd() + '/packages/testdata/cert.pem')
-  .toString()
-  .replace(/(\r\n|\n|\r)/gm, '')
-  .replace('-----BEGIN CERTIFICATE-----', '')
-  .replace('-----END CERTIFICATE-----', '')
-const loadedPvk = readFileSync(process.cwd() + '/packages/testdata/key.pem')
-  .toString()
-  .replace(/(\r\n|\n|\r)/gm, '')
-  .replace('-----BEGIN ENCRYPTED PRIVATE KEY-----', '')
-  .replace('-----END ENCRYPTED PRIVATE KEY-----', '')
+const loadedCert = readFileSync(
+  process.cwd() + '/packages/testdata/cert.pem'
+).toString()
+// .replace(/(\r\n|\n|\r)/gm, '')
+// .replace('-----BEGIN CERTIFICATE-----', '')
+// .replace('-----END CERTIFICATE-----', '')
+const loadedPvk = readFileSync(
+  process.cwd() + '/packages/testdata/key.pem'
+).toString()
+// .replace(/(\r\n|\n|\r)/gm, '')
+// .replace('-----BEGIN ENCRYPTED PRIVATE KEY-----', '')
+// .replace('-----END ENCRYPTED PRIVATE KEY-----', '')
 
 const eventBus = new EventEmitter()
 const presenterMapper = new ReadSpProxyConfigPresenterMapper()
