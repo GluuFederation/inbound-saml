@@ -7,7 +7,7 @@
         "env": {"NODE_ENV": "dev"},
         "runtimeExecutable": "yarn",
         "runtimeArgs": ["dev"],
-        "outputCapture": "std",
+        "outputCapture": "std"
     },
       {
         "name": "Debug Jest Tests",
@@ -21,7 +21,7 @@
           "--no-cache"
         ],
         "console": "integratedTerminal",
-        "internalConsoleOptions": "neverOpen",
+        "internalConsoleOptions": "neverOpen"
       }
     ]
   }
