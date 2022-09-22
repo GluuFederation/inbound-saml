@@ -1,14 +1,14 @@
 {
     "version": "0.2.0",
     "configurations": [
-      {
-        "name": "Nodemon debug",
+      { "name": "New Nodemon Debug",
         "type": "node",
-        "request": "attach",
-        "processId": "${command:PickProcess}",
-        "restart": true,
-        "protocol": "inspector"
-      },
+        "request": "launch",
+        "env": {"NODE_ENV": "dev"},
+        "runtimeExecutable": "yarn",
+        "runtimeArgs": ["dev"],
+        "outputCapture": "std",
+    },
       {
         "name": "Debug Jest Tests",
         "type": "node",
@@ -22,7 +22,6 @@
         ],
         "console": "integratedTerminal",
         "internalConsoleOptions": "neverOpen",
-        "port": 9229
       }
     ]
   }
