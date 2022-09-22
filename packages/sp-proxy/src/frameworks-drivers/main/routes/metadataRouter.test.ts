@@ -1,9 +1,9 @@
+import { mockSpProxyConfig } from '@sp-proxy/frameworks-drivers/main/mocks/mockSpProxyConfig.mock'
 import routes from '@sp-proxy/frameworks-drivers/main/routes'
 import { InvalidRequestError } from '@sp-proxy/interface-adapters/delivery/errors/InvalidRequestError'
 import { GenerateMetadataController } from '@sp-proxy/interface-adapters/delivery/GenerateMetadataController'
 import express from 'express'
 import request from 'supertest'
-import { mockSpProxyConfig } from '@sp-proxy/frameworks-drivers/main/mocks/mockSpProxyConfig.mock'
 
 jest.mock('@sp-proxy/interface-adapters/data/FileReadProxyConfig')
 
@@ -53,7 +53,7 @@ describe('metadataRoute', () => {
     expect(res.text).toContain('KeyDescriptor use="encryption"')
     expect(res.text).toContain('KeyDescriptor use="signing"')
     expect(res.text).toContain(
-      'MIIFFjCCAv4CCQDFhyLx2QM/TTANBgkqhkiG9w0BAQsFADBNMQswCQYDVQQGEwJCUjELMAkGA1UECAwCU1AxCzAJBgNVBAcMAlNQMQ0wCwYDVQQKDARHbH'
+      '<ds:X509Certificate>MIIFFjCCAv4CCQDFhyLx2QM/TTANBgkqhkiG9w0BAQsFADBNMQswCQYDVQQGEwJC'
     )
   })
   it('should return 500 if exception as string is thrown', async () => {
