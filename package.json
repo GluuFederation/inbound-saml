@@ -7,7 +7,7 @@
     "url": "git@github.com:GluuFederation/inbound-saml.git"
   },
   "workspaces": [
-    "packages/*"
+    "packages/!(testdata)/**"
   ],
   "main": "index.js",
   "scripts": {

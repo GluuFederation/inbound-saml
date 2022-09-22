@@ -2250,11 +2250,11 @@ __metadata:
   linkType: hard
 
 "@types/express-session@npm:^1.17.4":
-  version: 1.17.4
-  resolution: "@types/express-session@npm:1.17.4"
+  version: 1.17.5
+  resolution: "@types/express-session@npm:1.17.5"
   dependencies:
     "@types/express": "*"
-  checksum: 3047c30e3eafec89a670445ca7162ff595e25d8baa9490a2e1a0dfcb41eb09d0fb680515b8ba9ab36abfe7303438833ef90f6cbbce319b5be0d80b09ae4f795f
+  checksum: f6995f7720a18546bcb10cc707cf8c9c92455eb4319c0c50c57e9b9b10ed20dc379d74d5e4c3323fe4e924238b75e13c97822c9d81a80fa064ddc71654c1059d
   languageName: node
   linkType: hard
 
@@ -4188,10 +4188,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cookie@npm:0.4.1":
-  version: 0.4.1
-  resolution: "cookie@npm:0.4.1"
-  checksum: bd7c47f5d94ab70ccdfe8210cde7d725880d2fcda06d8e375afbdd82de0c8d3b73541996e9ce57d35f67f672c4ee6d60208adec06b3c5fc94cebb85196084cf8
+"cookie@npm:0.4.2":
+  version: 0.4.2
+  resolution: "cookie@npm:0.4.2"
+  checksum: a00833c998bedf8e787b4c342defe5fa419abd96b32f4464f718b91022586b8f1bafbddd499288e75c037642493c83083da426c6a9080d309e3bd90fd11baa9b
   languageName: node
   linkType: hard
 
@@ -5284,10 +5284,10 @@ __metadata:
   linkType: hard
 
 "express-session@npm:^1.17.2":
-  version: 1.17.2
-  resolution: "express-session@npm:1.17.2"
+  version: 1.17.3
+  resolution: "express-session@npm:1.17.3"
   dependencies:
-    cookie: 0.4.1
+    cookie: 0.4.2
     cookie-signature: 1.0.6
     debug: 2.6.9
     depd: ~2.0.0
@@ -5295,7 +5295,7 @@ __metadata:
     parseurl: ~1.3.3
     safe-buffer: 5.2.1
     uid-safe: ~2.1.5
-  checksum: 9e05cff29865c039f2b3a623325a66707a6229598a33f6e6f082c1581b0afa0bf9196d93c70445883e610138a36698842ff9ddeccdafc9c3ef65ff2a6e237d83
+  checksum: 1021a793433cbc6a1b32c803fcb2daa1e03a8f50dd907e8745ae57994370315a5cfde5b6ef7b062d9a9a0754ff268844bda211c08240b3a0e01014dcf1073ec5
   languageName: node
   linkType: hard
 
