@@ -85,7 +85,7 @@
     "express": "^4.17.1",
     "fast-xml-parser": "^3.19.0",
     "jsonwebtoken": "^8.5.1",
-    "passport": "^0.4.1",
+    "passport": "^0.6.0",
     "passport-saml": "^3.2.1",
     "uuid": "^8.3.2",
     "winston": "^3.3.3",
