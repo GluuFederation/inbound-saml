@@ -1,5 +1,13 @@
 # Changelog
 
+### [0.17.2](https://www.github.com/GluuFederation/inbound-saml/compare/v0.17.1...v0.17.2) (2022-09-26)
+
+
+### Bug Fixes
+
+* **config:** return default completePath ([#164](https://www.github.com/GluuFederation/inbound-saml/issues/164)) ([b20d813](https://www.github.com/GluuFederation/inbound-saml/commit/b20d813025558ae3a920a0cfde641605ab2898ee))
+* **security:** update vulnerable passport ([45db57d](https://www.github.com/GluuFederation/inbound-saml/commit/45db57db6edae434fe1faa45b044ddad168fbabd))
+
 ### [0.17.1](https://www.github.com/GluuFederation/inbound-saml/compare/v0.17.0...v0.17.1) (2022-09-22)
 
 
