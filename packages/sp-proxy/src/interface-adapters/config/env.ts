@@ -22,7 +22,7 @@ const developmentOxTrustApiSettings: IOxTrustApiSettings = {
   clientId: process.env.INBOUND_SAML_OXTRUST_CLIENT_ID ?? 'valid client id',
   completePath:
     process.env.INBOUND_SAML_OXTRUST_API_COMPLETE_PATH ??
-    'identity/restv1/api/v1',
+    'identity/restv1/api/v1/inbound-saml',
   tokenUrl:
     process.env.INBOUND_SAML_OXTRUST_API_TOKEN_URL ??
     `https://localhost/oxauth/restv1/token`,
