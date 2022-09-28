@@ -8,7 +8,7 @@
 
 import { TrustRelation } from '@sp-proxy/entities/TrustRelation'
 import { IGetTrByHostGateway } from '@sp-proxy/use-cases/ports/IGetTrByHostGateway'
-import axios, { AxiosRequestConfig } from 'axios'
+import axios, { AxiosRequestConfig, AxiosRequestHeaders } from 'axios'
 import https from 'https'
 import { IDataMapper } from '../protocols/IDataMapper'
 import { TrustRelationDataModel } from './models/TrustRelationDataModel'
@@ -122,6 +122,7 @@ describe('OxTrustGetTrByHost', () => {
       .mockResolvedValueOnce('mapped TR entity' as any)
     expect(await sut.findByHost('valid host')).toEqual('mapped TR entity')
   })
+
   it('should have token on request', async () => {
     const getSpy = jest
       .spyOn(axios, 'get')
@@ -136,10 +137,12 @@ describe('OxTrustGetTrByHost', () => {
         Authorization: 'Bearer validBearerToken'
       }
     }
-    expect(getSpy.mock.calls[0][1]?.headers).toMatchObject(
-      expectedConfig.headers
+    expect(getSpy.mock.calls[0][1]?.headers).not.toBeUndefined()
+    expect(getSpy.mock.calls[0][1]?.headers).toMatchObject<AxiosRequestHeaders>(
+      expectedConfig.headers as AxiosRequestHeaders
     )
   })
+
   it('should call authenticator once', async () => {
     const { sut, umaAuthenticatorStub } = makeSut()
     const authenticateSpy = jest.spyOn(umaAuthenticatorStub, 'authenticate')
