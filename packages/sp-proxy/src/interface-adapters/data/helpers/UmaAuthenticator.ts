@@ -30,7 +30,6 @@ export class UmaAuthenticator implements IUmaAuthenticator {
   ) {}
 
   async authenticate(endpoint: string, method: IHttpMethod): Promise<string> {
-    // const endpointResponse = await axios.get(endpoint, this.AXIOS_CONFIG)
     const endpointResponse = await axios.request({
       url: endpoint,
       headers: {
