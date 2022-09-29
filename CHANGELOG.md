@@ -1,5 +1,13 @@
 # Changelog
 
+### [0.17.3](https://www.github.com/GluuFederation/inbound-saml/compare/v0.17.2...v0.17.3) (2022-09-29)
+
+
+### Bug Fixes
+
+* **security:** update axios ([#165](https://www.github.com/GluuFederation/inbound-saml/issues/165)) ([eaeab69](https://www.github.com/GluuFederation/inbound-saml/commit/eaeab698190fc97d0f02cd9d09ee721c72acc412))
+* **security:** update winston ([8b3c934](https://www.github.com/GluuFederation/inbound-saml/commit/8b3c93416c6e5f6ca7608020fa7ecde6b7354014))
+
 ### [0.17.2](https://www.github.com/GluuFederation/inbound-saml/compare/v0.17.1...v0.17.2) (2022-09-26)
 
 
