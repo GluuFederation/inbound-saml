@@ -1,6 +1,10 @@
-{
-  "*.ts": [
-    "eslint --cache --fix",
-    "npm run test:staged"
+{ "*.ts": [
+    "eslint --cache --fix"
+  ],
+  "*.spec.ts": [
+    "npm run test:staged:unit"
+  ],
+  "*.test.ts": [
+    "npm run test:staged:integration"
   ]
 }
