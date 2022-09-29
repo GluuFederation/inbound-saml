@@ -1,5 +1,5 @@
+import { faker } from '@faker-js/faker'
 import { generateFormInputsBlock } from '@sp-proxy/frameworks-drivers/main/helpers/generateFormInputsBlock'
-import faker from 'faker'
 import { IFormInput } from '@sp-proxy/frameworks-drivers/main/protocols/IFormInput'
 
 const getLineCount = (str: string): number => {
