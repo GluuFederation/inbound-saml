@@ -42,7 +42,7 @@ describe('XmlValidatorAdapter', () => {
   })
   it('should throw if validate returns ValidationError', () => {
     interface ValidationError {
-      err: { code: string; msg: string; line: number }
+      err: { code: string; msg: string; line: number; col: number }
     }
     /**
      * @implements private ValidationError
@@ -51,7 +51,8 @@ describe('XmlValidatorAdapter', () => {
       err: {
         code: 'code1',
         msg: 'error message',
-        line: 9
+        line: 9,
+        col: 9
       }
     }
     jest.spyOn(parser, 'validate').mockReturnValueOnce(validationError)
@@ -76,7 +77,8 @@ describe('XmlValidatorAdapter', () => {
       err: {
         code: 'any code',
         msg: 'any message',
-        line: 1
+        line: 1,
+        col: 1
       }
     })
     const sut = new XmlValidatorAdapter()
