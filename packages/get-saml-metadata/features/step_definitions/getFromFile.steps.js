@@ -84,7 +84,7 @@ Given('XML data is invalid', function (done) {
   if (this.filePath) {
     isValid = parser.validate(this.xmlData)
   }
-  assert.strictEqual(isValid.err.code, 'InvalidXml')
+  assert.strictEqual(isValid.err.code, 'InvalidTag')
   done()
 })
 
