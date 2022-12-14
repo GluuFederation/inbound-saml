@@ -62,7 +62,6 @@ export const getSamlConfig = (): any => {
       ) {
         providerHost = request.query.providerHost
       } else if (request.headers.origin != null) {
-
         const origin = new URL(request.headers.origin)
         providerHost = origin.hostname
       } else {
@@ -72,8 +71,14 @@ export const getSamlConfig = (): any => {
       logger.debug('found trustRelation ' + JSON.stringify(trustRelation))
 
       const passportConfig = makePassportConfig(proxyConfig, trustRelation)
+
+      // remove sensitive data to present on logger
+      const passportConfig4Logging = { ...passportConfig }
+      passportConfig4Logging.decryptionPvk = 'HIDDEN'
+      passportConfig4Logging.privateKey = 'HIDDEN'
+
       logger.debug(
-        `passportConfig = ${JSON.stringify(passportConfig, null, 4)}`
+        `passportConfig = ${JSON.stringify(passportConfig4Logging, null, 4)}`
       )
       // return done?
       done(null, makePassportConfig(proxyConfig, trustRelation))
