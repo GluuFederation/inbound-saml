@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.17.4](https://www.github.com/GluuFederation/inbound-saml/compare/v0.17.3...v0.17.4) (2022-12-14)
+
+
+### Bug Fixes
+
+* log sensitive keys ([74eedaf](https://www.github.com/GluuFederation/inbound-saml/commit/74eedaff267fac715d4c45a8511b76c39f8ee191)), closes [#196](https://www.github.com/GluuFederation/inbound-saml/issues/196)
+
 ### [0.17.3](https://www.github.com/GluuFederation/inbound-saml/compare/v0.17.2...v0.17.3) (2022-09-29)
 
 
