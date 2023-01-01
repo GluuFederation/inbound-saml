@@ -1,5 +1,5 @@
 import { randomUUID } from 'crypto'
-import * as jwt from 'jsonwebtoken'
+import { decode } from 'jsonwebtoken'
 import { IJwtHeader } from '../protocols/IJwtHeader'
 import { IJwtPayload } from '../protocols/IJwtPayload'
 import { JwtSigner } from './JwtSigner'
@@ -74,7 +74,8 @@ describe('JwtSigner', () => {
         kid
       }
       const signed = sut.sign(header, payload, validPrivateKey)
-      console.log(jwt.decode(signed))
+      const decoded = decode(signed)
+      console.log(decoded)
     })
   })
 })
