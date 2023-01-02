@@ -1,5 +1,13 @@
 # Changelog
 
+### [0.17.5](https://www.github.com/GluuFederation/inbound-saml/compare/v0.17.4...v0.17.5) (2023-01-02)
+
+
+### Bug Fixes
+
+* **security:** bump jsonwebtoken to 9.0.0 ([#205](https://www.github.com/GluuFederation/inbound-saml/issues/205)) ([d8e76db](https://www.github.com/GluuFederation/inbound-saml/commit/d8e76db352d832a3c0449d024897abded000aab8))
+* **security:** bump passport-saml to 3.2.4 ([708aed7](https://www.github.com/GluuFederation/inbound-saml/commit/708aed72f6068832d920e2eca4ae14accaf019ba))
+
 ### [0.17.4](https://www.github.com/GluuFederation/inbound-saml/compare/v0.17.3...v0.17.4) (2022-12-14)
 
 
