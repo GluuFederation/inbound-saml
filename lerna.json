@@ -1,8 +1,9 @@
 {
   "packages": [
-    "packages/!(testdata)/*"
+    "packages/!(testdata)/**"
   ],
   "version": "0.8.0",
   "npmClient": "yarn",
-  "useWorkspaces": true
+  "useWorkspaces": true,
+  "$schema": "node_modules/lerna/schemas/lerna-schema.json"
 }
