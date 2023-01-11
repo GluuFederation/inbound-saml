@@ -82,9 +82,9 @@ const makeSut = (): SutTypes => {
     validatorStub
   )
   return {
-    sut: sut,
-    mapperStub: mapperStub,
-    interactorStub: interactorStub,
+    sut,
+    mapperStub,
+    interactorStub,
     validatorStub
   }
 }

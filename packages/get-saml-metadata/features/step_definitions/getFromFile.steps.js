@@ -48,8 +48,8 @@ const parseMetadata = (xmlData) => {
   )
 
   const data = {
-    idpSigningCert: idpSigningCert,
-    singleSignOnServices: singleSignOnServices
+    idpSigningCert,
+    singleSignOnServices
   }
 
   return data

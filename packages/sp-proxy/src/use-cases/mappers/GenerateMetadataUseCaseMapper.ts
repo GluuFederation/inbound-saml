@@ -7,7 +7,7 @@ export class GenerateMetadataUseCaseMapper
 {
   map(xmldata: string): GenerateMetadataResponseUseCaseParams {
     return {
-      xmldata: xmldata
+      xmldata
     }
   }
 }
