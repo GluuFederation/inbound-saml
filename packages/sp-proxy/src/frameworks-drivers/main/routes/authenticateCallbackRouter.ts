@@ -43,6 +43,7 @@ function callbackAction() {
 authenticateCallbackRouter.post(
   '/callback',
   authenticateCallback,
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
   callbackAction()
 )
 
