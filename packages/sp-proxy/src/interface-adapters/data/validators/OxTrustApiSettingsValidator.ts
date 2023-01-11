@@ -12,7 +12,7 @@ export class OxTrustApiSettingsValidator implements IValidator {
     'pvkPath'
   ]
 
-  isValid(loadedFromEnv: { [key: string]: any }): boolean {
+  isValid(loadedFromEnv: Record<string, any>): boolean {
     for (const requiredKey of this.requiredKeys) {
       if (!(requiredKey in loadedFromEnv)) {
         throw new PersistenceError(

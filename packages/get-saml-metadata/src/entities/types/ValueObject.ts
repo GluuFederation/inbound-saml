@@ -1,8 +1,6 @@
 import { deeplyEqual } from '@get-saml-metadata/entities/helpers/deeplyEqual'
 
-export interface ValueObjectProps {
-  [index: string]: any
-}
+export type ValueObjectProps = Record<string, any>
 
 export abstract class ValueObject<T extends ValueObjectProps> {
   public readonly props: T

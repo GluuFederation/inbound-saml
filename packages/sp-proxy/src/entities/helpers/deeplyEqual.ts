@@ -1,7 +1,5 @@
 /* eslint-disable no-mixed-operators */
-export interface comparableObject {
-  [index: string]: any
-}
+export type comparableObject = Record<string, any>
 export function deeplyEqual(
   objectOne: comparableObject,
   objectTwo: comparableObject
