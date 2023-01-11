@@ -9,7 +9,7 @@ import { IValidator } from './protocols/IValidator'
 
 const makeValidator = (): IValidator => {
   class ValidatorStub implements IValidator {
-    isValid(loadedFromEnv: { [key: string]: any }): boolean {
+    isValid(loadedFromEnv: Record<string, any>): boolean {
       return true
     }
   }
