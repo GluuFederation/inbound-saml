@@ -14,7 +14,7 @@ const makeSut = (): SutTypes => {
   const eventBus = new EventEmitter()
   const sut = new CreateRemoteIdpPresenter(eventBus)
   return {
-    sut: sut,
+    sut,
     eventBusStub: eventBus
   }
 }

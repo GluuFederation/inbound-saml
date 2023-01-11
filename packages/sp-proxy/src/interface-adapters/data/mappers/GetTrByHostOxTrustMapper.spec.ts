@@ -41,7 +41,7 @@ describe('GetTrByHostOxTrustMapper', () => {
 
     const remoteIdp = new RemoteIdp(remoteIdpProps, dataModel.remoteIdp.id)
     const trustRelationProps: ITrustRelationProps = {
-      remoteIdp: remoteIdp,
+      remoteIdp,
       singleSignOnService: makeSingleSignOnService(
         dataModel.selectedSingleSignOnService
       )

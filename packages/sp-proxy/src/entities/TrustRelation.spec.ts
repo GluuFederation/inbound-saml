@@ -15,7 +15,7 @@ describe('TrustRelation', () => {
       })
       const sut = new TrustRelation(
         {
-          remoteIdp: remoteIdp,
+          remoteIdp,
           singleSignOnService: makeSingleSignOnService({
             binding: 'bindinbg',
             location: 'location'

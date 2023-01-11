@@ -27,7 +27,7 @@ describe('AddTrustRelationOxTrustMapper', () => {
     }
     const trustRelationProps: ITrustRelationProps = {
       remoteIdp: new RemoteIdp(remoteIdpProps),
-      singleSignOnService: singleSignOnService
+      singleSignOnService
     }
     const trustRelationEntity = new TrustRelation(trustRelationProps)
     const dataModel = await sut.map(trustRelationEntity)

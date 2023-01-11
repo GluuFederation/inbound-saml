@@ -52,13 +52,13 @@ export class AddTrFromMetadataInteractor
       request.request.url
     )
     const remoteIdp = await this.remoteIdpFromExtDataFactory.make({
-      externalData: externalData,
+      externalData,
       name: request.request.name,
       host: request.request.host
     })
 
     const trustRelation = await this.trWithDefaultFactory.make({
-      remoteIdp: remoteIdp
+      remoteIdp
     })
     await this.addTrGateeay.add(trustRelation)
     await this.outputChannel.present({

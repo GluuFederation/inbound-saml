@@ -28,7 +28,7 @@ export class GetSamlMetadataFacade implements IGetter {
       id: requestId,
       request: {
         source: 'file',
-        urlOrPath: urlOrPath
+        urlOrPath
       }
     }
     await this.getExternalDataController.handle(request)

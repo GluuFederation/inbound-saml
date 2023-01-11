@@ -19,7 +19,7 @@ export class GetTrByHostFacade implements IGetTrByHostFacade {
     await this.controller.handle({
       id: requestId,
       body: {
-        host: host
+        host
       }
     })
     return result[0]
