@@ -43,7 +43,7 @@ const makePassportConfig = (
     // remote idp
     cert: trustRelation.remoteIdp.signingCertificates,
     decryptionPvk: proxyConfig.decryption.privateKey,
-    authnRequestBinding: authnRequestBinding,
+    authnRequestBinding,
     entryPoint: trustRelation.selectedSsoService.location
   }
 }
@@ -102,9 +102,9 @@ export const verifyCallback: VerifyWithRequest = (
   // if error, call done(err)
   if (profile != null) {
     logger.debug(`profile = ${JSON.stringify(profile, null, 4)}`)
-    return done(null, profile)
+    done(null, profile)
   } else {
-    return done(new Error('profile not found'))
+    done(new Error('profile not found'))
   }
 }
 
