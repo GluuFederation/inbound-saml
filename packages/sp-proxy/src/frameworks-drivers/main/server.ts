@@ -12,16 +12,16 @@ app.use(routes)
 app.use(express.urlencoded({ extended: false }))
 if (!cfg.useTls) {
   const server = http.createServer(app)
-  server.listen(cfg.port, () =>
+  server.listen(cfg.port, () => {
     logger.info('Inbound Saml SP Proxy Started in non TLS mode')
-  )
+  })
 } else {
   const cert = readFileSync(cfg.tlsCertPath).toString()
   const key = readFileSync(cfg.tlsKeyPath).toString()
-  const server = https.createServer({ key: key, cert: cert }, app)
-  server.listen(cfg.port, () =>
+  const server = https.createServer({ key, cert }, app)
+  server.listen(cfg.port, () => {
     logger.info('Inbound Saml SP Proxy Started in TLS mode')
-  )
+  })
 }
 
 export default app
