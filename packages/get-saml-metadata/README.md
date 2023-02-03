@@ -3,9 +3,10 @@
 Get Saml Metadata is a module used to fetch XML metadata from file or http, parse and map to usable js object.
 
 ```
-import { getFromFile } from 'get-saml-data'
+import { getFromFile, getFromUrl } from 'get-saml-data'
 
-const data = getFromFile('/uploaded/idp-metadata.xml')
+const dataFromFile = getFromFile('/uploaded/idp-metadata.xml')
+const dataFromUrl = getFromUrl('https://foo.bar/metadata')
 
 ```
 
